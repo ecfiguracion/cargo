@@ -1,0 +1,40 @@
+﻿<mui:ModernDialog x:Class="Bitz.Views.Security.LoginView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  mc:Ignorable="d"  MinHeight="300" MinWidth="500"
+                  d:DesignHeight="300" d:DesignWidth="500" 
+                  Title="Login" WindowStartupLocation="CenterScreen">
+  <Grid Margin="0,3">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <TextBlock Text="Plase nter your credentials here..." FontSize="14" FontWeight="Bold"/>
+    
+    <Grid Grid.Row="1" VerticalAlignment="Center">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="Username" VerticalAlignment="Center" FontSize="16"/>
+      <TextBlock Grid.Row="1" Grid.Column="0" Text="Password" VerticalAlignment="Center" FontSize="16"/>
+
+      <TextBox Grid.Row="0" Grid.Column="1" Width="300" Margin="10,5" FontSize="16" x:Name="xUsername"/>
+      <TextBox Grid.Row="1" Grid.Column="1" Width="300" Margin="10,5" FontSize="16" x:Name="xPassword"/>
+      
+      <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,20,0,0">
+        <Button Width="100" Height="35" x:Name="xLoginButton" Click="xLoginButton_Click">Login</Button>
+        <Button Width="100" Height="35" Margin="5,0" x:Name="xCancelButton" Click="xCancelButton_Click">Cancel</Button>
+      </StackPanel>
+    </Grid>
+  </Grid>    
+</mui:ModernDialog>

@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Bitz.Dashboard.Views.CargoDashBoardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"              
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:vm="clr-namespace:Bitz.Dashboard.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <vm:CargoDashBoardVM x:Key="ViewModel"/>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <chart:ClusteredColumnChart ChartTitle="Billing Statistics" ChartSubTitle="Year 2015"
+        Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="4">
+      <chart:ClusteredColumnChart.Series>
+        <chart:ChartSeries ItemsSource="{Binding PresentLoanHistory}"
+                                DisplayMember="Month"                                           
+                                ValueMember="Count" Caption="Series by Month" />
+      </chart:ClusteredColumnChart.Series>
+    </chart:ClusteredColumnChart>
+
+    <chart:PieChart ChartTitle="Billing Quick Info" ChartSubTitle="Year 2015"
+        Grid.Row="0" Grid.Column="2" Margin="0,4,4,4">
+      <chart:PieChart.Series>
+        <chart:ChartSeries ItemsSource="{Binding LoanQuickInfos}"
+                                DisplayMember="Name"                                           
+                                ValueMember="Count"/>
+      </chart:PieChart.Series>
+    </chart:PieChart>
+
+
+    <DataGrid Grid.Row="1" Grid.ColumnSpan="3" Margin="4"></DataGrid>
+
+  </Grid>
+</UserControl>

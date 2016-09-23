@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="Bitz.Cargo.Views.Billings.DomesticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:vm="clr-namespace:Bitz.Cargo.ViewModels.Billings"   
+             xmlns:controls="clr-namespace:Bitz.Core.Controls;assembly=Bitz.Core"             
+             xmlns:toolbar="clr-namespace:Bitz.Core.Controls.Toolbars;assembly=Bitz.Core"             
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <vm:DomesticsVM x:Key="ViewModel"/>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <Grid Style="{StaticResource ContentRoot}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Bottom">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="Search" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
+        <TextBox Text="{Binding Criteria.SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="150" Margin="8,4">
+          <TextBox.InputBindings>
+            <KeyBinding Gesture="Enter" Command="{Binding CommandRefresh}"/>
+          </TextBox.InputBindings>
+        </TextBox>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+        <TextBlock Text="Consignee" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
+        <ComboBox  Width="180" Margin="8,4"/>
+      </StackPanel>
+    </StackPanel>
+
+    <toolbar:ListToolbar Grid.Row="0" HorizontalAlignment="Right"/>
+
+    <DataGrid Name="DG1"
+              RowHeaderWidth="0"
+              IsReadOnly="True"
+              Grid.Row="2"
+              ItemsSource="{Binding Model}"
+              AutoGenerateColumns="False"
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+      <DataGrid.InputBindings>
+        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding CommandOpen}"/>
+      </DataGrid.InputBindings>
+      <DataGrid.Columns>
+        <mui:DataGridTextColumn Header="SOA Number"
+                                Width="Auto"
+                                Binding="{Binding ReferenceNo}" />
+        <mui:DataGridCheckBoxColumn Header="W/H Tax"
+                                    Width="Auto"
+                                    Binding="{Binding IsWithTax, Mode=OneWay}" />
+        <mui:DataGridTextColumn Header="Date"
+                                Width="Auto"
+                                Binding="{Binding BillingDate}" />
+        <mui:DataGridTextColumn Header="Bill of Lading No."
+                                Width="Auto"
+                                Binding="{Binding BillLadingNo}" />
+        <mui:DataGridTextColumn Header="Consignee"
+                                Width="Auto"
+                                Binding="{Binding ConsigneeName}" />
+        <mui:DataGridTextColumn Header="Address"
+                                Width="Auto"
+                                Binding="{Binding ConsigneeAddress}" />
+        <mui:DataGridTextColumn Header="Name of Vessel"
+                                Width="Auto"
+                                Binding="{Binding VesselName}" />
+        <mui:DataGridTextColumn Header="Voyage No."
+                                Width="Auto"
+                                Binding="{Binding VoyageNo}" />
+        <mui:DataGridTextColumn Header="Cargo"
+                                Width="Auto"
+                                Binding="{Binding ItemName}" />
+        <mui:DataGridTextColumn Header="Count"
+                                Width="Auto"                                
+                                Binding="{Binding ItemCount}" />
+        <mui:DataGridTextColumn Header="Unit"
+                                Width="Auto"
+                                Binding="{Binding ItemUnitName}" />
+        <mui:DataGridTextColumn Header="Remarks"
+                                Width="Auto"
+                                Binding="{Binding Remarks}" />
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <controls:DataPager Grid.Row="3"/>
+  </Grid>
+</UserControl>
