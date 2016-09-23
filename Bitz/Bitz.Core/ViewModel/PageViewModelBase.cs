@@ -1,13 +1,16 @@
-﻿using Bitz.Core.Constants;
+﻿using Bitz.Core.Application;
+using Bitz.Core.Constants;
 using Bitz.Core.Shell;
 using Bitz.Core.Utilities;
 using Csla.Xaml;
+using FirstFloor.ModernUI.Windows.Controls;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -80,6 +83,17 @@ namespace Bitz.Core.ViewModel
               if (IsReadOnly) return false;
               return base.CanCancel;
             }
+        }
+        #endregion
+
+        #region CanPrint
+        public virtual bool CanPrint
+        {
+          get
+          {
+            var isdirty = base.IsDirty;
+            return !isdirty;
+          }
         }
         #endregion
 
@@ -190,6 +204,22 @@ namespace Bitz.Core.ViewModel
 
         public virtual void CommandBackExecute(object parameter)
         {
+          var isproceed = true;
+          if (base.IsDirty) { 
+            var result = ModernDialog.ShowMessage("Uncommitted changes will be lost, are you sure you want to proceed?",
+              "Close", MessageBoxButton.YesNo,AppCache.MainWindow);
+            isproceed = result == MessageBoxResult.Yes;
+          }
+
+          //Is this UI link to parent, if yes, go back to it
+          if (isproceed)
+          {
+            var parentUI = UserInterfaces.GetParent(this.UserInterface);
+            if (parentUI != null)
+            {
+              NavigationManager.Show(parentUI);
+            }
+          }
         }
         #endregion
 

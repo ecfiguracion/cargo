@@ -14,5 +14,7 @@ namespace Bitz.Core.Application
 
     public static ModernFrame ContentFrame { get; set; }
 
+    public static ModernWindow MainWindow { get; set; }
+
   }
 }

@@ -88,13 +88,6 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #region Commands
 
-    #region CommandBack
-    public override void CommandBackExecute(object parameter)
-    {
-      NavigationManager.Show(UserInterfaces.Cargo.ForeignBills);
-    }
-    #endregion
-
     public override void CommandPrintExecute(object parameter)
     {
       if (!this.Model.IsNew)

@@ -31,6 +31,7 @@ namespace Bitz.Views
       AppearanceManager.Current.AccentColor = Colors.Orange;
 
       AppCache.MainFrame = this.xMainFrame;
+      AppCache.MainWindow = this;
 
       var vm = new MainVM();
 

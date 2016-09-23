@@ -9,6 +9,10 @@ using Bitz.Core.Shell;
 using System.Windows.Input;
 using Bitz.Core.Data;
 using Prism.Commands;
+using FirstFloor.ModernUI.Windows.Controls;
+using System.Windows;
+using Bitz.Core.Commands;
+using Bitz.Core.Application;
 
 namespace Bitz.Core.ViewModel
 {
@@ -221,17 +225,16 @@ namespace Bitz.Core.ViewModel
 
         if (tablename.Length > 0 && keycolumn.Length > 0 && keycolumnvalue > 0)
         {
-          //var result = NavigationManager.ShowMessage("Confirm Remove",
-          //    "This will permanently remove the record from the database. \n\nAre you sure you want to proceed?",
-          //    CoreConstants.MessageboxButtons.YesNo);
-          //if ((bool)result)
-          //{
-          //  CommandRemoveRow.Execute(tablename, keycolumn, keycolumnvalue, (o, e) =>
-          //  {
-          //    if (e.Error != null) ;
-          //    this.Refresh();
-          //  });
-          //}
+          var result = ModernDialog.ShowMessage("This will permanently remove the record from the database. \n\nAre you sure you want to proceed?",
+            "Remove", MessageBoxButton.YesNo,AppCache.MainWindow);
+          if (result == MessageBoxResult.Yes)
+          {
+            CommandRemoveRow.Execute(tablename, keycolumn, keycolumnvalue, (o, e) =>
+            {
+              if (e.Error != null) ;
+              this.Refresh();
+            });          
+          }
         }
       }
     }

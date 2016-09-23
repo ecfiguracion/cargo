@@ -152,6 +152,24 @@ namespace Bitz.Core.Application
 
     #endregion
 
+    #region GetParent
+
+    public static CoreConstants.UserInterface GetParent(CoreConstants.UserInterface childUI)
+    {
+      CoreConstants.UserInterface userinterface = null;
+      foreach (var item in Items.FindAll(x => x.LinkUI != null))
+      {
+        if (item.LinkUI.Id == childUI.Id)
+        {
+          userinterface = item;
+          break;
+        }
+      }
+      return userinterface;
+    }
+
+    #endregion
+
     #endregion
   }
 }
