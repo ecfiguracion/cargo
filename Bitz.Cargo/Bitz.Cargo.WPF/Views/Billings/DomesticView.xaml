@@ -22,7 +22,7 @@
     <toolbar:BasicToolbar />
     <ScrollViewer VerticalScrollBarVisibility="Auto" 
                   Grid.Row="1">
-      <Grid>
+      <Grid Grid.Row="1">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"></RowDefinition>
           <RowDefinition Height="Auto"></RowDefinition>
@@ -63,8 +63,7 @@
                     Margin="4"
                     Width="130"
                     HorizontalAlignment="Left"
-                    Text="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True, StringFormat='{}{0:MMM dd,yyyy}'}" />
-
+                    SelectedDate="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True}" />
         <Label Grid.Row="1"
                Grid.Column="2"
                Margin="8,4,4,4"
@@ -117,8 +116,7 @@
                  Margin="4"
                  TextWrapping="WrapWithOverflow"
                  AcceptsReturn="True"
-
-                      SelectedDate="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True}"/>
+                 Text="{Binding Model.ConsigneeAddress, Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
         <Label  Grid.Row="3"
                 Grid.Column="0"
@@ -492,7 +490,7 @@
                                         HeaderStyle="{StaticResource xHeaderStyleLeftAligned}"
                                         DisplayMemberPath="Name"
                                         ItemsSource="{Binding HandlingChargeType}"
-                                        SelectedValuePath="Key"
+                                        SelectedValuePath="Id"
                                         SelectedValueBinding="{Binding RateType,Mode=TwoWay,ValidatesOnDataErrors=True}" />
           </DataGrid.Columns>
         </DataGrid>
