@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Bitz.Cargo.Business.Billing
 {
   [Serializable]
-  public class Foreign : BusinessBase<Foreign>
+  public class BillingItem : BusinessBase<BillingItem>
   {
     #region One To One Properties
 
@@ -225,17 +225,17 @@ namespace Bitz.Cargo.Business.Billing
     }
 
     #endregion
-
+    
     #region Factory Methods
 
-    public static void Get(int id, EventHandler<DataPortalResult<Foreign>> completed)
+    public static void Get(int id, EventHandler<DataPortalResult<BillingItem>> completed)
     {
-      DataPortal<Foreign> dp = new DataPortal<Foreign>();
+      DataPortal<BillingItem> dp = new DataPortal<BillingItem>();
       dp.FetchCompleted += completed;
       dp.BeginFetch(id);
     }
 
-    public static void New(EventHandler<DataPortalResult<Foreign>> completed)
+    public static void New(EventHandler<DataPortalResult<BillingItem>> completed)
     {
       Csla.DataPortal.BeginCreate(completed);
     }
@@ -269,7 +269,7 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = @"SELECT billingitem,referenceno,billingdate,iswithtax,billladingno,customer,
-	                              custpreferredaddress,vessel,voyageno,item,itemcount,preferreduom,preferreduom,remarks
+	                              custpreferredaddress,vessel,voyageno,item,itemcount,preferreduom,preferreduom,type,remarks
                               FROM billingitem WHERE billingitem = @id";
           cmd.Parameters.AddWithValue("@id", id);
 
@@ -278,9 +278,10 @@ namespace Bitz.Cargo.Business.Billing
             if (dr.Read())
             {
               LoadProperty(_Id, dr.GetInt32("billingitem"));
+              LoadProperty(_BillingItemType, dr.GetInt16("type"));
               LoadProperty(_ReferenceNo, dr.GetString("referenceno"));
-              LoadProperty(_BillingDate,dr.GetSmartDate("billingdate"));
-              LoadProperty(_IsWithTax, dr.GetBoolean("iswithtax"));
+              LoadProperty(_BillingDate, (SmartDate)dr.GetDateTime("billingdate"));
+              LoadProperty(_IsWithTax, dr.GetInt16("iswithtax") == 1);
               LoadProperty(_BillLadingNo, dr.GetString("billladingno"));
               LoadProperty(_Consignee, dr.GetInt32("customer"));
               LoadProperty(_ConsigneeAddress, dr.GetString("custpreferredaddress"));
@@ -314,10 +315,11 @@ namespace Bitz.Cargo.Business.Billing
                                         VALUES (@type,@referenceno,@billingdate,@iswithtax,@billladingno,@customer,@custpreferredaddress,
                                                          @vessel,@voyageno,@item,@itemcount,@uom,@remarks,@useraccount,@createddate,@lastupdateddate)
                                         SELECT SCOPE_IDENTITY()";
-          LoadProperty(_ReferenceNo, DateTime.Now.ToString("yyyyMMdd-HHmmssff"));
+          LoadProperty(_ReferenceNo, DateTime.Now.GetDateTimeFormats().GetValue(90).ToString().Replace("-", "").Replace(":", "").Replace(" ", "-"));
           cmd.Parameters.AddWithValue("@type", BillingItemType);
           cmd.Parameters.AddWithValue("@referenceno", ReferenceNo);
           cmd.Parameters.AddWithValue("@billingdate", BillingDate.DBValue);
+          cmd.Parameters.AddWithValue("@iswithtax", IsWithTax);
           cmd.Parameters.AddWithValue("@billladingno", BillLadingNo);
           cmd.Parameters.AddWithValue("@customer", Consignee);
           cmd.Parameters.AddWithValue("@custpreferredaddress", ConsigneeAddress);
@@ -360,6 +362,7 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = @"UPDATE billingitem SET 
+                                            type = @type,
                                             referenceno = @referenceno,
                                             billingdate = @billingdate,
                                             iswithtax = @iswithtax,
@@ -376,6 +379,7 @@ namespace Bitz.Cargo.Business.Billing
                                             lastupdateddate = @lastupdateddate
                                         WHERE billingitem = @id";
 
+          cmd.Parameters.AddWithValue("@type", BillingItemType);
           cmd.Parameters.AddWithValue("@referenceno", ReferenceNo);
           cmd.Parameters.AddWithValue("@billingdate", BillingDate.DBValue);
           cmd.Parameters.AddWithValue("@iswithtax", IsWithTax);
@@ -436,31 +440,31 @@ namespace Bitz.Cargo.Business.Billing
 
     private void SaveItemInventoryLocation()
     {
-      //      if (this.ItemType != ItemTypes.Inventory.Key) return;
+//      if (this.ItemType != ItemTypes.Inventory.Key) return;
 
-      //      using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
-      //      {
-      //        using (var cmd = ctx.Connection.CreateCommand())
-      //        {
-      //          cmd.CommandText = @"INSERT INTO iteminventory(item,itemlocation,qtyonhand,qtyonorder)
-      //                                        SELECT @item,l.location,0,0
-      //                                        FROM location l
-      //                                        WHERE NOT EXISTS (
-      //                                            SELECT 1 FROM iteminventory ii
-      //                                            WHERE ii.itemlocation = l.location
-      //                                            AND ii.item = @item)";
-      //          cmd.Parameters.AddWithValue("@item", Id);
-      //          try
-      //          {
-      //            cmd.ExecuteNonQuery();
-      //          }
-      //          catch (Exception)
-      //          {
-      //            throw;
-      //          }
+//      using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
+//      {
+//        using (var cmd = ctx.Connection.CreateCommand())
+//        {
+//          cmd.CommandText = @"INSERT INTO iteminventory(item,itemlocation,qtyonhand,qtyonorder)
+//                                        SELECT @item,l.location,0,0
+//                                        FROM location l
+//                                        WHERE NOT EXISTS (
+//                                            SELECT 1 FROM iteminventory ii
+//                                            WHERE ii.itemlocation = l.location
+//                                            AND ii.item = @item)";
+//          cmd.Parameters.AddWithValue("@item", Id);
+//          try
+//          {
+//            cmd.ExecuteNonQuery();
+//          }
+//          catch (Exception)
+//          {
+//            throw;
+//          }
 
-      //        }
-      //      }
+//        }
+//      }
     }
 
     #endregion

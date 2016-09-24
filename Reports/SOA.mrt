@@ -5,50 +5,235 @@
     <Databases isList="true" count="1">
       <cn Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlDatabase" isKey="true">
         <Alias>cn</Alias>
-        <ConnectionString>Integrated Security=False;Data Source=.\SQLExpress2014;Initial Catalog=cargo;Password=sysadm;User ID=sysadm</ConnectionString>
+        <ConnectionString>User ID=sysadm;Data Source=.\SQLExpress;Initial Catalog=cargo;Integrated Security=False;Password=sysadm</ConnectionString>
         <Name>cn</Name>
       </cn>
     </Databases>
-    <DataSources isList="true" count="1">
+    <DataSources isList="true" count="4">
       <dsBilling Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>dsBilling</Alias>
-        <Columns isList="true" count="4">
-          <value>referenceno,System.String</value>
+        <Columns isList="true" count="26">
+          <value>billingitem,System.Int32</value>
+          <value>billingitemrate,System.Int32</value>
+          <value>itemrate,System.Int32</value>
+          <value>itemcount,System.Decimal</value>
+          <value>chargetype,System.String</value>
+          <value>unitname,System.String</value>
+          <value>computation1,System.Decimal</value>
+          <value>computation2,System.Decimal</value>
+          <value>computation3,System.Decimal</value>
+          <value>amount,System.Decimal</value>
+          <value>soano,System.String</value>
           <value>billingdate,System.DateTime</value>
           <value>billladingno,System.String</value>
-          <value>contact,System.Int32</value>
+          <value>consigneename,System.String</value>
+          <value>custpreferredaddress,System.String</value>
+          <value>vesselname,System.String</value>
+          <value>voyageno,System.String</value>
+          <value>itemname,System.String</value>
+          <value>itemunitname,System.String</value>
+          <value>itemcounthandling,System.Decimal</value>
+          <value>itemhandlingunitname,System.String</value>
+          <value>typename,System.String</value>
+          <value>remarks,System.String</value>
+          <value>cargo,System.String</value>
+          <value>grossamount,System.Decimal</value>
+          <value>netamount,System.Decimal</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1" />
         <Name>dsBilling</Name>
         <NameInSource>cn</NameInSource>
         <Parameters isList="true" count="0" />
-        <SqlCommand>SELECT billingitem.referenceno, billingitem.billingdate,
-  billingitem.billladingno, customer.contact
-FROM billingitem LEFT JOIN
-  customer ON billingitem.customer = customer.customer
-WHERE billingitem = '{pId}'</SqlCommand>
+        <SqlCommand>SELECT i.billingitem,i.referenceno as soano,i.billingdate,i.billladingno,consignee.name as consigneename,
+	i.custpreferredaddress,vessel.name as vesselname,i.voyageno,item.itemname,i.itemcount,uom.code as itemunitname,
+	i.itemcounthandling, uom2.code as itemhandlingunitname,
+	CASE WHEN i.type = 1 THEN 'Foreign'
+	  WHEN i.type = 2 THEN 'Domestic'
+	  WHEN i.type = 3 THEN 'RORO' END as typename, i.remarks,
+	RTRIM(CAST(i.itemcount AS nvarchar(20))) + ' ' + COALESCE(RTRIM(uom.code),'') + ' of ' + COALESCE(item.itemname, '') + ' / ' + RTRIM(CAST(i.itemcounthandling AS nvarchar(20))) + ' ' + COALESCE(RTRIM(uom2.code),'') AS cargo,
+	grossamount, netamount
+FROM billingitem i
+	LEFT JOIN contact consignee
+		ON consignee.contact = i.customer
+	LEFT JOIN contact vessel
+		ON vessel.contact = i.vessel
+	LEFT JOIN uom
+		ON uom.uom = i.preferreduom
+	LEFT JOIN item
+		ON item.item = i.item
+	LEFT JOIN uom uom2
+		ON uom2.uom = item.handlingunit
+WHERE i.billingitem = '{pId}'</SqlCommand>
       </dsBilling>
+      <dsRate Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>dsRate</Alias>
+        <Columns isList="true" count="8">
+          <value>chargetype,System.String</value>
+          <value>itemcounthandling,System.Decimal</value>
+          <value>quantity,System.Decimal</value>
+          <value>unitprice,System.Decimal</value>
+          <value>unitname,System.String</value>
+          <value>unitcode,System.String</value>
+          <value>amount,System.Decimal</value>
+          <value>handlingunitcode,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>dsRate</Name>
+        <NameInSource>cn</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select case when itemprice.classification = 0 then 'Arrastre'
+		    when itemprice.classification = 1 then 'Stevedoring'
+		    when itemprice.classification = 2 then 'Roll-on/Roll-off' end as chargetype,
+	billingitem.itemcounthandling, unit.code as handlingunitcode, itemprice.quantity, itemprice.unitprice, uom.code as unitcode,
+	Round(billingitem.itemcounthandling * case when coalesce(itemprice.quantity, 0) &gt; 0 then itemprice.quantity else 1 end * itemprice.unitprice, 2) as amount
+from billingitemrate, billingitem, itemprice, uom, item, uom unit
+where billingitemrate.billingitem = billingitem.billingitem
+	and itemprice.uom = uom.uom
+	and billingitemrate.itemrate = itemprice
+	and item.item = billingitem.item
+	and item.handlingunit = unit.uom
+	and billingitem.billingitem = {pId}</SqlCommand>
+      </dsRate>
+      <dsOtherRatesAdd Ref="5" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>dsOtherRatesAdd</Alias>
+        <Columns isList="true" count="4">
+          <value>otherspercentage,System.Int16</value>
+          <value>othersdescription,System.String</value>
+          <value>amount,System.Decimal</value>
+          <value>gross,System.Decimal</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>dsOtherRatesAdd</Name>
+        <NameInSource>cn</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select otherspercentage, othersdescription, 
+	Round(billingitem.grossamount, 2) as gross,
+	Round(billingitem.grossamount * (otherspercentage / 100.0), 2) as amount
+from billingitemrateothers, billingitem
+where billingitemrateothers.billingitem = billingitem.billingitem
+	and ratetype = 0
+	and billingitem.billingitem = {pId}
+</SqlCommand>
+      </dsOtherRatesAdd>
+      <dsOtherRatesLess Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>dsOtherRatesLess</Alias>
+        <Columns isList="true" count="3">
+          <value>otherspercentage,System.Int16</value>
+          <value>othersdescription,System.String</value>
+          <value>amount,System.Decimal</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>dsOtherRatesLess</Name>
+        <NameInSource>cn</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select otherspercentage, othersdescription, 
+	Round(billingitem.grossamount * (otherspercentage / 100.0), 2) as amount
+from billingitemrateothers, billingitem
+where billingitemrateothers.billingitem = billingitem.billingitem
+	and ratetype = 1
+	and billingitem.billingitem = {pId}
+</SqlCommand>
+      </dsOtherRatesLess>
     </DataSources>
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="1">
-      <value>,pId,pId,System.String,_x0031_8,False,False</value>
+      <value>,pId,pId,System.String,_x0035_3,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
   <GlobalizationStrings isList="true" count="0" />
   <MetaTags isList="true" count="0" />
   <Pages isList="true" count="1">
-    <Page1 Ref="4" type="Page" isKey="true">
+    <Page1 Ref="7" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Components isList="true" count="10">
-        <PageHeaderBand1 Ref="5" type="PageHeaderBand" isKey="true">
+        <PageHeaderBand1 Ref="8" type="PageHeaderBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0.2,7.72,1.2</ClientRectangle>
-          <Components isList="true" count="6">
-            <Image1 Ref="6" type="Image" isKey="true">
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,0.2,7.56,2.1</ClientRectangle>
+          <Components isList="true" count="9">
+            <Image2 Ref="9" type="Image" isKey="true">
+              <AspectRatio>True</AspectRatio>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.7,0.7,1.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <File>C:\Development\Others\TPCC\CargoHandling\Assets\PPA_Logo.jpg</File>
+              <GrowToHeight>True</GrowToHeight>
+              <Name>Image2</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Stretch>True</Stretch>
+            </Image2>
+            <Text4 Ref="10" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1,7.5,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14.25,Bold| Italic,Point,False,0</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>b3a58153c46944c6a53ea4e0abadcc05</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Text>A service provider of the Philippine Ports Authority</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text4>
+            <Text3 Ref="11" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.6,7.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,14.25,Regular,Point,False,0</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>37fa3431d8e744d88f25205ac5bf4976</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text3>
+            <Text2 Ref="12" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.35,7.5,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,14.25,Regular,Point,False,0</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>5ad1d5c357af4018af4b9843de59ad77</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Text>Pier Site, Tabaco City 4511, Philippines</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text2>
+            <Text1 Ref="13" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,7.5,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,18,Bold,Point,False,0</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Text>TABACO PORT CARGO CORPORATION</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text1>
+            <Image1 Ref="14" type="Image" isKey="true">
               <AspectRatio>True</AspectRatio>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -57,219 +242,1133 @@ WHERE billingitem = '{pId}'</SqlCommand>
               <File>C:\Development\Others\TPCC\CargoHandling\Assets\Logo.png</File>
               <GrowToHeight>True</GrowToHeight>
               <Name>Image1</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
+              <Page isRef="7" />
+              <Parent isRef="8" />
               <Stretch>True</Stretch>
             </Image1>
-            <Image2 Ref="7" type="Image" isKey="true">
-              <AspectRatio>True</AspectRatio>
+            <Text5 Ref="15" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5.9,0.6,1.8,0.4</ClientRectangle>
+              <ClientRectangle>0,1.7,7.5,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <File>C:\Development\Others\TPCC\CargoHandling\Assets\PPA_Logo.jpg</File>
+              <Font>Arial Rounded MT Bold,18,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
-              <Name>Image2</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Stretch>True</Stretch>
-            </Image2>
-            <Text1 Ref="8" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0,7.7,0.3</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Tahoma,18,Bold</Font>
+              <Guid>eaf460c28e47434ab42252f78ecb702f</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
-              <Name>Text1</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Text>TABACO PORT CARGO CORPORATION</Text>
+              <Name>Text5</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Text>STATEMENT OF ACCOUNT</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
-            </Text1>
-            <Text2 Ref="9" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.35,7.7,0.3</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Tahoma,14.25,Regular,Point,False,0</Font>
-              <Guid>5ad1d5c357af4018af4b9843de59ad77</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text2</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Text>Pier Site, Tabaco City 4511, Philippines</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text2>
-            <Text3 Ref="10" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.6,7.7,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Tahoma,14.25,Regular,Point,False,0</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <Guid>37fa3431d8e744d88f25205ac5bf4976</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text3</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text3>
-            <Text4 Ref="11" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,1,7.7,0.3</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,14.25,Bold| Italic,Point,False,0</Font>
-              <Guid>b3a58153c46944c6a53ea4e0abadcc05</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text4</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Text>A service provider of the Philippine Ports Authority</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text4>
+            </Text5>
+            <HorizontalLinePrimitive1 Ref="16" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>0,1.3,7.5,0.01</ClientRectangle>
+              <Color>Black</Color>
+              <EndCap Ref="17" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Name>HorizontalLinePrimitive1</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Size>4</Size>
+              <StartCap Ref="18" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive1>
+            <HorizontalLinePrimitive2 Ref="19" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>0,1.34,7.5,0.01</ClientRectangle>
+              <Color>Black</Color>
+              <EndCap Ref="20" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Guid>8efb7e05ad9f4d37b023b4bd8070bf68</Guid>
+              <Name>HorizontalLinePrimitive2</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <StartCap Ref="21" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive2>
           </Components>
           <Conditions isList="true" count="0" />
           <Name>PageHeaderBand1</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
+          <Page isRef="7" />
+          <Parent isRef="7" />
         </PageHeaderBand1>
-        <Text5 Ref="12" type="Text" isKey="true">
+        <PageFooterBand1 Ref="22" type="PageFooterBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,2.1,7.7,0.3</ClientRectangle>
+          <ClientRectangle>0,8.82,7.56,1.4</ClientRectangle>
+          <Components isList="true" count="9">
+            <Text16 Ref="23" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.08,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>Prepared by:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text16>
+            <Text17 Ref="24" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.08,0.08,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>601d0fa30baa476bbc766aa0fa6aa194</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>Reviewed by:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text17>
+            <Text19 Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,0.08,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>95665caf6cc542f098eae39c91f34598</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text19</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>Approved by:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text19>
+            <Text27 Ref="26" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.68,2.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>7e0e2171f9ad449a8e7a2bd030f8d35d</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>CRISELDA C. CLARIANES</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text27>
+            <Text39 Ref="27" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.08,0.68,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>67b8adbe79e84276940829c2f348d22f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text39</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>ELMA B. BODINO</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text39>
+            <Text40 Ref="28" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,0.68,1.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>8aae0fa36f9a40b1b9df2e1b640b9975</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text40</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>CESAR LUIS A. MORAN</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text40>
+            <Text52 Ref="29" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.88,1.6,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Italic</Font>
+              <Guid>84b9f33120f74a528babd81ea9a3b93f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text52</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>Payroll/Billing Clerk</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text52>
+            <Text53 Ref="30" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.1,0.88,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Italic</Font>
+              <Guid>f8f3806481b540b2a8201f097f2562fd</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text53</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>Cashier</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text53>
+            <Text54 Ref="31" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,0.88,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Italic</Font>
+              <Guid>96b6e4f2a9364ca49c265e7b00502d97</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text54</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>Office Manager</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text54>
+          </Components>
           <Conditions isList="true" count="0" />
-          <Font>Arial Rounded MT Bold,18,Regular,Point,False,0</Font>
-          <Guid>eaf460c28e47434ab42252f78ecb702f</Guid>
-          <HorAlignment>Center</HorAlignment>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text5</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>STATEMENT OF ACCOUNT</Text>
-          <TextBrush>Black</TextBrush>
-          <Type>Expression</Type>
-        </Text5>
-        <Text6 Ref="13" type="Text" isKey="true">
+          <Name>PageFooterBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </PageFooterBand1>
+        <DataBand5 Ref="32" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>1.6,3,0.9,0.2</ClientRectangle>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,2.7,7.56,2.4</ClientRectangle>
+          <Components isList="true" count="19">
+            <Text38 Ref="33" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.1,0.4,3.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>e61c8f812fa143c1acfe6123dce0abff</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text38</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>{dsBilling.billingdate}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="34" type="CustomFormat" isKey="true">
+                <StringFormat>MMMM dd, yyyy</StringFormat>
+              </TextFormat>
+            </Text38>
+            <Text41 Ref="35" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0.4,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>82333665828e4344b3fc14be3e8ce4b9</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text41</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>Billing Date</Text>
+              <TextBrush>Black</TextBrush>
+            </Text41>
+            <Text42 Ref="36" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.1,0.8,6,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>eec0a63017a54b138554703b1ce7ce51</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text42</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>{dsBilling.consigneename}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text42>
+            <Text43 Ref="37" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0.8,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>866bd52ebc4d42e8bfe377e75e219152</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text43</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>Payor</Text>
+              <TextBrush>Black</TextBrush>
+            </Text43>
+            <Text44 Ref="38" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>1.1,1,6,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>5c1decf036124d4a9a2ce1331b0f32f0</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text44</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>{dsBilling.custpreferredaddress}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+            </Text44>
+            <Text45 Ref="39" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,1,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>9fe22c779bae417b8b1fb193f29b9158</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text45</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>Address</Text>
+              <TextBrush>Black</TextBrush>
+            </Text45>
+            <Text46 Ref="40" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.1,1.4,5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>3f87bf395a2f41e8acb8b7519b18b40f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text46</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>{dsBilling.vesselname}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text46>
+            <Text47 Ref="41" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,1.4,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>45dbd1a85ca64870865e99c3c67f492b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text47</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>Vessel</Text>
+              <TextBrush>Black</TextBrush>
+            </Text47>
+            <Text48 Ref="42" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>1.1,1.6,3.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>42999f1b5c1a45e6a095287cf1fa15bf</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text48</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>{dsBilling.voyageno}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+            </Text48>
+            <Text49 Ref="43" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,1.6,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>b8263c729d5f44f09cb950bdbe30ccc3</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text49</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>Voyage No.</Text>
+              <TextBrush>Black</TextBrush>
+            </Text49>
+            <Text50 Ref="44" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,2,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>0bb4e71a039f47deb1207244061f16a4</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text50</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>Cargo</Text>
+              <TextBrush>Black</TextBrush>
+            </Text50>
+            <Text51 Ref="45" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>1.1,2,5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>e9d8eff822ec4013a530896e4fcc2b9a</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text51</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>{Format("{0:N2}", dsBilling.itemcount) + " " + Trim(dsBilling.itemunitname) + " of " + Trim(dsBilling.itemname) + " / " + Format("{0:N2}", dsBilling.itemcounthandling) + " " + Trim(dsBilling.itemhandlingunitname)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
+            </Text51>
+            <Text55 Ref="46" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.7,0.2,2.7,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>41380de2ed38460e8663a3094262b151</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text55</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>Bill of Lading No.: {dsBilling.billladingno}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text55>
+            <Text37 Ref="47" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,0.4,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>98fbaa2879684c289118ca800f9f8fa3</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text37</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>:</Text>
+              <TextBrush>Black</TextBrush>
+            </Text37>
+            <Text56 Ref="48" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,0.8,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>f5a86ff112444e198cd120f9ede5cda7</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text56</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>:</Text>
+              <TextBrush>Black</TextBrush>
+            </Text56>
+            <Text57 Ref="49" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,1,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>80a06ea2ebad45dcb223e6c52b625c0d</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text57</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>:</Text>
+              <TextBrush>Black</TextBrush>
+            </Text57>
+            <Text58 Ref="50" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,1.4,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>21c55d0098914429b45e0ebd421a9195</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text58</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>:</Text>
+              <TextBrush>Black</TextBrush>
+            </Text58>
+            <Text59 Ref="51" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,1.6,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>0ce8832c94324dfb9a3f318a6636a087</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text59</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>:</Text>
+              <TextBrush>Black</TextBrush>
+            </Text59>
+            <Text60 Ref="52" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,2,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>9632ff21b0e446018ff96556f03f1614</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text60</Name>
+              <Page isRef="7" />
+              <Parent isRef="32" />
+              <Text>:</Text>
+              <TextBrush>Black</TextBrush>
+            </Text60>
+          </Components>
           <Conditions isList="true" count="0" />
-          <Font>Arial,10,Bold</Font>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text6</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>referenceno</Text>
-          <TextBrush>Black</TextBrush>
-        </Text6>
-        <Text7 Ref="14" type="Text" isKey="true">
+          <DataRelationName isNull="true" />
+          <DataSourceName>dsBilling</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand5</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand5>
+        <DataBand1 Ref="53" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>2.5,3,0.6,0.2</ClientRectangle>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,5.5,7.56,0.2</ClientRectangle>
+          <Components isList="true" count="5">
+            <Text18 Ref="54" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.1,0,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text18</Name>
+              <Page isRef="7" />
+              <Parent isRef="53" />
+              <Text>{dsRate.chargetype}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text18>
+            <Text20 Ref="55" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.4,0,0.7,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="7" />
+              <Parent isRef="53" />
+              <Text>{dsRate.unitprice}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="56" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+            </Text20>
+            <Text21 Ref="57" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.1,0,0.7,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="7" />
+              <Parent isRef="53" />
+              <Text>{dsRate.unitcode}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text21>
+            <Text22 Ref="58" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>b87769fa14084424a527acef122810f2</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="53" />
+              <ProcessingDuplicates>Merge</ProcessingDuplicates>
+              <Text>Rate</Text>
+              <TextBrush>Black</TextBrush>
+            </Text22>
+            <Text61 Ref="59" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,0,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>522087195eb245f4a43ddb0d7e4833d7</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text61</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="53" />
+              <ProcessingDuplicates>Merge</ProcessingDuplicates>
+              <Text>:</Text>
+              <TextBrush>Black</TextBrush>
+            </Text61>
+          </Components>
           <Conditions isList="true" count="0" />
-          <Font>Arial,10,Bold</Font>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text7</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>{dsBilling.referenceno}</Text>
-          <TextBrush>Black</TextBrush>
-        </Text7>
-        <Text8 Ref="15" type="Text" isKey="true">
+          <DataRelationName isNull="true" />
+          <DataSourceName>dsRate</DataSourceName>
+          <Filters isList="true" count="0" />
+          <KeepChildTogether>True</KeepChildTogether>
+          <KeepDetailsTogether>True</KeepDetailsTogether>
+          <Name>DataBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <HeaderBand1 Ref="60" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>1.7,3.2,0.8,0.2</ClientRectangle>
+          <ClientRectangle>0,6.1,7.56,0.5</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text6 Ref="61" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0.2,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="7" />
+              <Parent isRef="60" />
+              <Text>Computation</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text6>
+            <Text62 Ref="62" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,0.2,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>b1a641b6d8bd4993b1276b93590a3381</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text62</Name>
+              <Page isRef="7" />
+              <Parent isRef="60" />
+              <Text>:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text62>
+          </Components>
           <Conditions isList="true" count="0" />
-          <Font>Arial,10,Bold</Font>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text8</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>billingdate</Text>
-          <TextBrush>Black</TextBrush>
-        </Text8>
-        <Text9 Ref="16" type="Text" isKey="true">
+          <Name>HeaderBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </HeaderBand1>
+        <DataBand2 Ref="63" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>2.5,3.2,0.6,0.2</ClientRectangle>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,7,7.56,0.2</ClientRectangle>
+          <Components isList="true" count="11">
+            <Text24 Ref="64" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.3,0,0.6,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>2c19f0827da844a9bc9d3f79084d0730</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text24</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>{dsRate.unitprice}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="65" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+            </Text24>
+            <Text25 Ref="66" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.9,0,0.6,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>429c1dae9c694f63b7b500232be3cc1b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>{dsRate.unitcode}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text25>
+            <Text23 Ref="67" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,0,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>{dsRate.itemcounthandling}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="68" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+            </Text23>
+            <Text26 Ref="69" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.1,0,0.4,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>e0595f6cf9ab4d769ee47a34c2e5b931</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text26</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>{dsRate.handlingunitcode}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text26>
+            <Text28 Ref="70" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text28</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>{dsRate.amount}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="71" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+            </Text28>
+            <Text31 Ref="72" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.5,0,2.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>5e2c2cb6dc3240769628f77496c40f4c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text31</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>{Trim(dsBilling.itemname) + " - " + Trim(dsRate.chargetype)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
+            </Text31>
+            <Text32 Ref="73" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.7,0,0.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>b3cb94d1deef4d41acda47bb25a70f34</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text32</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <ProcessingDuplicates>Merge</ProcessingDuplicates>
+              <Text>P</Text>
+              <TextBrush>Black</TextBrush>
+            </Text32>
+            <Text15 Ref="74" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.7,0,0.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <HideZeros>True</HideZeros>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>{dsRate.quantity}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="75" type="NumberFormat" isKey="true">
+                <DecimalDigits>4</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+            </Text15>
+            <Text63 Ref="76" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.3,0,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>02d18e84f2ec41f787c44b3e5aa4a228</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text63</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>{ IIF(dsRate.quantity &gt; 0, "x", "")}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text63>
+            <Text64 Ref="77" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.5,0,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>c3b0ee6bce3245c5b2c87a6b0176cbcc</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text64</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>x</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text64>
+            <Text65 Ref="78" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.5,0,0.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>a22d26d1884b4f7b9487a44f57dfe49f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text65</Name>
+              <Page isRef="7" />
+              <Parent isRef="63" />
+              <Text>=</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text65>
+          </Components>
           <Conditions isList="true" count="0" />
-          <Font>Arial,10,Bold</Font>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text9</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>{dsBilling.billingdate}</Text>
-          <TextBrush>Black</TextBrush>
-        </Text9>
-        <HorizontalLinePrimitive1 Ref="17" type="HorizontalLinePrimitive" isKey="true">
-          <ClientRectangle>0,1.5,7.7,0.01</ClientRectangle>
-          <Color>Black</Color>
-          <EndCap Ref="18" type="Cap" isKey="true">
-            <Color>Black</Color>
-          </EndCap>
-          <Name>HorizontalLinePrimitive1</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Size>4</Size>
-          <StartCap Ref="19" type="Cap" isKey="true">
-            <Color>Black</Color>
-          </StartCap>
-        </HorizontalLinePrimitive1>
-        <HorizontalLinePrimitive2 Ref="20" type="HorizontalLinePrimitive" isKey="true">
-          <ClientRectangle>0,1.54,7.7,0.01</ClientRectangle>
-          <Color>Black</Color>
-          <EndCap Ref="21" type="Cap" isKey="true">
-            <Color>Black</Color>
-          </EndCap>
-          <Guid>8efb7e05ad9f4d37b023b4bd8070bf68</Guid>
-          <Name>HorizontalLinePrimitive2</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <StartCap Ref="22" type="Cap" isKey="true">
-            <Color>Black</Color>
-          </StartCap>
-        </HorizontalLinePrimitive2>
-        <Text10 Ref="23" type="Text" isKey="true">
+          <DataRelationName isNull="true" />
+          <DataSourceName>dsRate</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>c0dd58bf76cc42cf885c03ed212a675e</Guid>
+          <KeepChildTogether>True</KeepChildTogether>
+          <KeepDetailsTogether>True</KeepDetailsTogether>
+          <Name>DataBand2</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand2>
+        <FooterBand1 Ref="79" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>3.5,3,0.9,0.2</ClientRectangle>
+          <ClientRectangle>0,7.6,7.56,0.2</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text36 Ref="80" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.7,0,0.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>c71d2e5e98434c67a92e6b132c56a0c1</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text36</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="79" />
+              <ProcessingDuplicates>Merge</ProcessingDuplicates>
+              <Text>P</Text>
+              <TextBrush>Black</TextBrush>
+            </Text36>
+            <Text35 Ref="81" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>f7023691245c4924af966baaa1cc4c84</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text35</Name>
+              <Page isRef="7" />
+              <Parent isRef="79" />
+              <Text>{SumRunning(DataBand2,dsRate.amount)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="82" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text35>
+            <HorizontalLinePrimitive3 Ref="83" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>5.7,0,1.3,0.01</ClientRectangle>
+              <Color>Black</Color>
+              <EndCap Ref="84" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Name>HorizontalLinePrimitive3</Name>
+              <Page isRef="7" />
+              <Parent isRef="79" />
+              <StartCap Ref="85" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive3>
+          </Components>
           <Conditions isList="true" count="0" />
-          <Font>Arial,10,Bold</Font>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text10</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>billladingno</Text>
-          <TextBrush>Black</TextBrush>
-        </Text10>
-        <Text11 Ref="24" type="Text" isKey="true">
+          <Name>FooterBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </FooterBand1>
+        <DataBand3 Ref="86" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>4.4,3,0.6,0.2</ClientRectangle>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,8.2,7.56,0.4</ClientRectangle>
+          <Components isList="true" count="7">
+            <Text29 Ref="87" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.7,0,0.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text29</Name>
+              <Page isRef="7" />
+              <Parent isRef="86" />
+              <Text>{dsOtherRatesAdd.otherspercentage}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text29>
+            <Text30 Ref="88" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.6,0,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text30</Name>
+              <Page isRef="7" />
+              <Parent isRef="86" />
+              <Text>{dsOtherRatesAdd.othersdescription}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text30>
+            <Text33 Ref="89" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.2,0,0.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>1d692caf601644df91f5d45cc79935ed</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text33</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="86" />
+              <Text>%</Text>
+              <TextBrush>Black</TextBrush>
+            </Text33>
+            <Text34 Ref="90" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="7" />
+              <Parent isRef="86" />
+              <Text>{dsOtherRatesAdd.amount}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="91" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text34>
+            <Text8 Ref="92" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.9,0.2,1.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>f7cf6cac394e4dcd878900fd189c4ffa</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="7" />
+              <Parent isRef="86" />
+              <Text>{dsOtherRatesAdd.gross + SumRunning(dsOtherRatesAdd.amount)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="93" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text8>
+            <Text7 Ref="94" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.7,0.2,0.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>5656fd0aa6f74e08ac75d04ce24f7708</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="86" />
+              <Text>P</Text>
+              <TextBrush>Black</TextBrush>
+            </Text7>
+            <HorizontalLinePrimitive4 Ref="95" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>5.7,0.2,1.3,0.01</ClientRectangle>
+              <Color>Black</Color>
+              <EndCap Ref="96" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Guid>4be46809d9a6479cae1493adf05f029c</Guid>
+              <Name>HorizontalLinePrimitive4</Name>
+              <Page isRef="7" />
+              <Parent isRef="86" />
+              <StartCap Ref="97" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive4>
+          </Components>
           <Conditions isList="true" count="0" />
-          <Font>Arial,10,Bold</Font>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text11</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>{dsBilling.billladingno}</Text>
-          <TextBrush>Black</TextBrush>
-        </Text11>
+          <DataRelationName isNull="true" />
+          <DataSourceName>dsOtherRatesAdd</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand3</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand3>
+        <DataBand4 Ref="98" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,9,7.56,0.2</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text9 Ref="99" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.7,0,0.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>ec779e35805b48889f5915040958581a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="7" />
+              <Parent isRef="98" />
+              <Text>{dsOtherRatesLess.otherspercentage}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text9>
+            <Text10 Ref="100" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.6,0,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>fbb0eb28f102446094c4dec7bfd3ca9f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="7" />
+              <Parent isRef="98" />
+              <Text>{dsOtherRatesLess.othersdescription}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text10>
+            <Text11 Ref="101" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.2,0,0.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>ac2057d547b040669623cd5244426590</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="98" />
+              <Text>%</Text>
+              <TextBrush>Black</TextBrush>
+            </Text11>
+            <Text12 Ref="102" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>847f12df66104ecfbf108f51d4235eff</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="7" />
+              <Parent isRef="98" />
+              <Text>{dsOtherRatesLess.amount}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="103" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text12>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>dsOtherRatesLess</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand4</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand4>
+        <FooterBand3 Ref="104" type="FooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.6,7.56,0</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text13 Ref="105" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.7,0,0.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>493ee14b6f2a492ca235e59d3886f444</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="104" />
+              <ProcessingDuplicates>Merge</ProcessingDuplicates>
+              <Text>P</Text>
+              <TextBrush>Black</TextBrush>
+            </Text13>
+            <Text14 Ref="106" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>fc3b87f9c0e94f30bdae77f2242a3b39</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="7" />
+              <Parent isRef="104" />
+              <Text>{(Sum(DataBand3,dsOtherRatesAdd.amount) +
+Sum(DataBand2,dsRate.amount)) - Sum(DataBand4,dsOtherRatesLess.amount)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="107" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text14>
+            <HorizontalLinePrimitive5 Ref="108" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>5.7,0,1.3,0.01</ClientRectangle>
+              <Color>Black</Color>
+              <EndCap Ref="109" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Guid>e1c0d0951e704fec804d7c87152ad174</Guid>
+              <Name>HorizontalLinePrimitive5</Name>
+              <Page isRef="7" />
+              <Parent isRef="104" />
+              <StartCap Ref="110" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive5>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>FooterBand3</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </FooterBand3>
       </Components>
       <Conditions isList="true" count="0" />
       <Guid>01d5104470fa435fb3ca644cb8304603</Guid>
-      <Margins>0.39,0.39,0.39,0.39</Margins>
+      <Margins>0.55,0.39,0.39,0.39</Margins>
       <Name>Page1</Name>
       <PageHeight>11</PageHeight>
       <PageWidth>8.5</PageWidth>
       <PaperSize>Letter</PaperSize>
       <Report isRef="0" />
-      <Watermark Ref="25" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="111" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="26" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="112" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -281,10 +1380,10 @@ WHERE billingitem = '{pId}'</SqlCommand>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/10/2016 6:38:09 AM</ReportChanged>
+  <ReportChanged>9/15/2016 3:36:48 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
-  <ReportFile>D:\Temp\TPCC\CargoHandling\Reports\SOA.mrt</ReportFile>
-  <ReportGuid>28e633a5c9f54c88b95cc8d0ee239035</ReportGuid>
+  <ReportFile>C:\Development\Others\TPCC\CargoHandling\Reports\SOA.mrt</ReportFile>
+  <ReportGuid>e644257542eb4bdebe3c914afc09517b</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

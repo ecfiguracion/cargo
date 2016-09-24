@@ -1,22 +1,39 @@
 ﻿using Bitz.Cargo.Business.Billing;
 using Bitz.Cargo.Business.Billing.Infos;
+using Bitz.Cargo.Business.CargoReferences.Infos;
 using Bitz.Cargo.Business.Contacts;
+using Bitz.Cargo.Business.Contacts.Infos;
 using Bitz.Cargo.Business.Items;
+using Bitz.Cargo.Business.Items.Infos;
 using Bitz.Core.Application;
 using Bitz.Core.Shell;
 using Bitz.Core.Utilities;
 using Bitz.Core.ViewModel;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Bitz.Cargo.ViewModels.Billings
 {
   public class DomesticVM : PageViewModelBase<Domestic>
   {
     #region Initialise
+
+    public DomesticVM()
+    {
+      if (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv") return;
+
+      this.CommandAddItemRate = new DelegateCommand<object>(CommandAddItemRateExecute);
+      this.CommandRemoveItemRate = new DelegateCommand<object>(CommandRemoveItemRateExecute);
+
+      this.CommandAddItemRateOther = new DelegateCommand<object>(CommandAddItemRateOtherExecute);
+      this.CommandRemoveItemRateOther = new DelegateCommand<object>(CommandRemoveItemRateOtherExecute);
+    }
 
     public override void Initialise(int? id)
     {
@@ -25,6 +42,7 @@ namespace Bitz.Cargo.ViewModels.Billings
         if (isloaded)
         {
           base.Initialise(id);
+          LoadConfiguredItemRates();
         }
       });
     }
@@ -81,9 +99,182 @@ namespace Bitz.Cargo.ViewModels.Billings
       }
     }
 
+    //ConfiguredItemRates
+    private ItemRateInfos _ConfiguredItemRates;
+    public ItemRateInfos ConfiguredItemRates
+    {
+      get { return _ConfiguredItemRates; }
+      set
+      {
+        _ConfiguredItemRates = value;
+        OnPropertyChanged("ConfiguredItemRates");
+      }
+    }
+
+    //SelectedConfiguredItemRate
+    private ItemRateInfo _SelectedConfiguredItemRate;
+    public ItemRateInfo SelectedConfiguredItemRate
+    {
+      get { return _SelectedConfiguredItemRate; }
+      set
+      {
+        _SelectedConfiguredItemRate = value;
+        OnPropertyChanged("SelectedConfiguredItemRate");
+        OnPropertyChanged("CanRemoveItemRate");
+        OnPropertyChanged("CanAddItemRate");
+      }
+    }
+
+    public bool CanAddItemRate
+    {
+      get { return this.SelectedConfiguredItemRate != null; }
+    }
+
+    public bool CanRemoveItemRate
+    {
+      get { return this.SelectedItemRate != null; }
+    }
+
+    public bool CanRemoveItemRateOther
+    {
+      get { return this.SelectedItemRateOther != null; }
+    }
+
+    //SelectedItemRates
+    private ItemRateInfos _SelectedItemRates;
+    public ItemRateInfos SelectedItemRates
+    {
+      get { return _SelectedItemRates; }
+      set
+      {
+        _SelectedItemRates = value;
+        OnPropertyChanged("SelectedItemRates");
+      }
+    }
+
+    //SelectedItemRate
+    private BillingItemRate _SelectedItemRate;
+    public BillingItemRate SelectedItemRate
+    {
+      get { return _SelectedItemRate; }
+      set
+      {
+        _SelectedItemRate = value;
+        OnPropertyChanged("SelectedItemRate");
+        OnPropertyChanged("CanRemoveItemRate");
+        OnPropertyChanged("CanAddItemRate");
+      }
+    }
+
+    //SelectedItemRateOther
+    private BillingItemRateOther _SelectedItemRateOther;
+    public BillingItemRateOther SelectedItemRateOther
+    {
+      get { return _SelectedItemRateOther; }
+      set
+      {
+        _SelectedItemRateOther = value;
+        OnPropertyChanged("SelectedItemRateOther");
+        OnPropertyChanged("CanRemoveItemRateOther");
+      }
+    }
+
+    public Visibility ConfiguredRatesVisibility
+    {
+      get
+      {
+        if (this.Model == null || this.Model.Cargo == null || this.ConfiguredItemRates == null)
+          return Visibility.Hidden;
+
+        return this.ConfiguredItemRates.Any() ? Visibility.Visible : Visibility.Hidden;
+      }
+    }
+
+    public Visibility SelectedRatesVisibility
+    {
+      get
+      {
+        if (this.Model == null || this.Model.DomesticHandlingRates == null)
+          return Visibility.Hidden;
+
+        return this.Model.DomesticHandlingRates.Any() ? Visibility.Visible : Visibility.Hidden;
+      }
+    }
+
+    public System.Collections.IList HandlingChargeType
+    {
+      get { return Bitz.Cargo.Business.Constants.CargoConstants.CargoHandlingChargeTypes.Items; }
+    }
     #endregion
 
     #region Commands
+
+    public ICommand CommandAddItemRate
+    {
+      get;
+      private set;
+    }
+
+    public void CommandAddItemRateExecute(object parameter)
+    {
+      if (this.Model.DomesticHandlingRates == null)
+        this.Model.DomesticHandlingRates = new BillingItemRates();
+
+      var itemrate = this.Model.DomesticHandlingRates.AddNew();
+      itemrate.ItemRate = this.SelectedConfiguredItemRate.Id;
+      if (this.Model.ItemCountHandling != null)
+        itemrate.Computation1 = Math.Round(this.Model.ItemCountHandling.Value, 2);
+      if (this.SelectedConfiguredItemRate.ConstantValue > 0)
+        itemrate.Computation2 = this.SelectedConfiguredItemRate.ConstantValue;
+
+      itemrate.Computation3 = this.SelectedConfiguredItemRate.ItemRate;
+      LoadConfiguredItemRates();
+
+    }
+
+    public ICommand CommandRemoveItemRate
+    {
+      get;
+      private set;
+    }
+
+    public void CommandRemoveItemRateExecute(object parameter)
+    {
+      if (SelectedItemRate != null)
+      {
+        this.Model.DomesticHandlingRates.Remove(SelectedItemRate);
+        LoadConfiguredItemRates();
+      }
+    }
+
+    public ICommand CommandAddItemRateOther
+    {
+      get;
+      private set;
+    }
+
+    public void CommandAddItemRateOtherExecute(object parameter)
+    {
+      if (this.Model.DomesticHandlingRateOthers == null)
+        this.Model.DomesticHandlingRateOthers = new BillingItemRateOthers();
+
+      var itemrateother = this.Model.DomesticHandlingRateOthers.AddNew();
+
+    }
+
+    public ICommand CommandRemoveItemRateOther
+    {
+      get;
+      private set;
+    }
+
+    public void CommandRemoveItemRateOtherExecute(object parameter)
+    {
+      if (SelectedItemRateOther != null)
+      {
+        this.Model.DomesticHandlingRateOthers.Remove(SelectedItemRateOther);
+      }
+    }
 
     public override void CommandPrintExecute(object parameter)
     {
@@ -163,6 +354,26 @@ namespace Bitz.Cargo.ViewModels.Billings
     }
 
     #endregion
+
+    private void LoadConfiguredItemRates()
+    {
+      if (this.Model == null || this.Model.Cargo == null)
+        return;
+
+      var excludeIds = string.Empty;
+      if (this.Model.DomesticHandlingRates != null)
+        excludeIds = string.Join(",", this.Model.DomesticHandlingRates.Select(r => r.ItemRate).ToArray());
+
+      ItemRateInfos.Get(new ItemRateInfos.Criteria() { ItemId = this.Model.Cargo.Value, ExcludeStringIds = excludeIds }, (o, e) =>
+      {
+        if (e.Error != null) throw e.Error;
+        this.ConfiguredItemRates = e.Object;
+
+        OnPropertyChanged("ConfiguredRatesVisibility");
+        OnPropertyChanged("SelectedRatesVisibility");
+      });
+      OnPropertyChanged("CanPrint");
+    }
 
     #endregion
   }

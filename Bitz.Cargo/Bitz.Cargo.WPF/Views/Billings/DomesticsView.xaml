@@ -53,9 +53,6 @@
         <mui:DataGridTextColumn Header="SOA Number"
                                 Width="Auto"
                                 Binding="{Binding ReferenceNo}" />
-        <mui:DataGridCheckBoxColumn Header="W/H Tax"
-                                    Width="Auto"
-                                    Binding="{Binding IsWithTax, Mode=OneWay}" />
         <mui:DataGridTextColumn Header="Date"
                                 Width="Auto"
                                 Binding="{Binding BillingDate}" />
@@ -65,9 +62,6 @@
         <mui:DataGridTextColumn Header="Consignee"
                                 Width="Auto"
                                 Binding="{Binding ConsigneeName}" />
-        <mui:DataGridTextColumn Header="Address"
-                                Width="Auto"
-                                Binding="{Binding ConsigneeAddress}" />
         <mui:DataGridTextColumn Header="Name of Vessel"
                                 Width="Auto"
                                 Binding="{Binding VesselName}" />
@@ -83,9 +77,7 @@
         <mui:DataGridTextColumn Header="Unit"
                                 Width="Auto"
                                 Binding="{Binding ItemUnitName}" />
-        <mui:DataGridTextColumn Header="Remarks"
-                                Width="Auto"
-                                Binding="{Binding Remarks}" />
+
       </DataGrid.Columns>
     </DataGrid>
 

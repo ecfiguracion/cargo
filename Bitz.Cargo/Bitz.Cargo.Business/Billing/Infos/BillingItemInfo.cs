@@ -306,7 +306,6 @@ namespace Bitz.Cargo.Business.Billing.Infos
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          var sortby = string.Empty;
           cmd.CommandText = @"SELECT i.billingitem,i.referenceno,i.billingdate,i.billladingno,consignee.name as consigneename,
                                 i.custpreferredaddress,vessel.name as vesselname,i.voyageno,item.itemname,i.itemcount,uom.code as itemunitname,i.type,
                                 CASE WHEN i.type = 1 THEN 'Foreign'
@@ -353,7 +352,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
           //Apply paging
           if (criteria.PageSize > 0)
           {
-            sortby = "i.billingdate";
+            var sortby = "i.billingdate";
             SQLHelper.AddSQLPaging(criteria, sortby, cmd);
           }
 

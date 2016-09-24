@@ -59,17 +59,6 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region IsWithTax
-
-    public static readonly PropertyInfo<bool> _IsWithTax = RegisterProperty<bool>(c => c.IsWithTax, "W/Tax");
-    public bool IsWithTax
-    {
-      get { return GetProperty(_IsWithTax); }
-      set { SetProperty(_IsWithTax, value); }
-    }
-
-    #endregion
-
     #region BillLadingNo
 
     public static readonly PropertyInfo<string> _BillLadingNo = RegisterProperty<string>(c => c.BillLadingNo, "Bill Lading No.");
@@ -125,21 +114,21 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region Item
+    #region Cargo
 
-    public static readonly PropertyInfo<int?> _Item = RegisterProperty<int?>(c => c.Item, "Item");
-    public int? Item
+    public static readonly PropertyInfo<int?> _Cargo = RegisterProperty<int?>(c => c.Cargo, "Cargo");
+    public int? Cargo
     {
-      get { return GetProperty(_Item); }
-      set { SetProperty(_Item, value); }
+      get { return GetProperty(_Cargo); }
+      set { SetProperty(_Cargo, value); }
     }
 
     #endregion
 
     #region ItemCount
 
-    public static readonly PropertyInfo<decimal> _ItemCount = RegisterProperty<decimal>(c => c.ItemCount, "Count");
-    public decimal ItemCount
+    public static readonly PropertyInfo<decimal?> _ItemCount = RegisterProperty<decimal?>(c => c.ItemCount, "Count");
+    public decimal? ItemCount
     {
       get { return GetProperty(_ItemCount); }
       set { SetProperty(_ItemCount, value); }
@@ -154,6 +143,40 @@ namespace Bitz.Cargo.Business.Billing
     {
       get { return GetProperty(_ItemUnit); }
       set { SetProperty(_ItemUnit, value); }
+    }
+
+    #endregion
+
+    #region ItemCountHandling
+
+    public static readonly PropertyInfo<decimal?> _ItemCountHandling = RegisterProperty<decimal?>(c => c.ItemCountHandling, "Handling Unit Quantity");
+    public decimal? ItemCountHandling
+    {
+      get { return GetProperty(_ItemCountHandling); }
+      set
+      {
+        SetProperty(_ItemCountHandling, value);
+        if (this.DomesticHandlingRates != null && this.DomesticHandlingRates.Any())
+        {
+          foreach (var item in DomesticHandlingRates)
+          {
+            item.Computation1 = value;
+          }
+          if (value > 0)
+            this.ComputeStatementOfAccount();
+        }
+      }
+    }
+
+    #endregion
+
+    #region HandlingUnit
+
+    public static readonly PropertyInfo<int?> _HandlingUnit = RegisterProperty<int?>(c => c.HandlingUnit, "Handling Unit");
+    public int? HandlingUnit
+    {
+      get { return GetProperty(_HandlingUnit); }
+      set { SetProperty(_HandlingUnit, value); }
     }
 
     #endregion
@@ -202,9 +225,56 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region GrossAmount
+
+    public static readonly PropertyInfo<decimal?> _GrossAmount = RegisterProperty<decimal?>(c => c.GrossAmount);
+    public decimal? GrossAmount
+    {
+      get { return GetProperty(_GrossAmount); }
+      set { SetProperty(_GrossAmount, value); }
+    }
+
+    #endregion
+
+    #region NetAmount
+
+    public static readonly PropertyInfo<decimal?> _NetAmount = RegisterProperty<decimal?>(c => c.NetAmount);
+    public decimal? NetAmount
+    {
+      get { return GetProperty(_NetAmount); }
+      set { SetProperty(_NetAmount, value); }
+    }
+
+    #endregion
+
     #endregion
 
     #region One To Many Properties
+
+    #region DomesticHandlingRates
+
+    public static readonly PropertyInfo<BillingItemRates> _DomesticHandlingRates = RegisterProperty<BillingItemRates>(c => c.DomesticHandlingRates);
+    public BillingItemRates DomesticHandlingRates
+    {
+      get { return GetProperty(_DomesticHandlingRates); }
+      set
+      {
+        SetProperty(_DomesticHandlingRates, value);
+        this.ComputeStatementOfAccount();
+      }
+    }
+
+    public static readonly PropertyInfo<BillingItemRateOthers> _DomesticHandlingRateOthers = RegisterProperty<BillingItemRateOthers>(c => c.DomesticHandlingRateOthers);
+    public BillingItemRateOthers DomesticHandlingRateOthers
+    {
+      get { return GetProperty(_DomesticHandlingRateOthers); }
+      set
+      {
+        SetProperty(_DomesticHandlingRateOthers, value);
+        this.ComputeStatementOfAccount();
+      }
+    }
+    #endregion
 
     #endregion
 
@@ -213,12 +283,11 @@ namespace Bitz.Cargo.Business.Billing
     protected override void AddBusinessRules()
     {
       base.AddBusinessRules();
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Item));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_BillingDate));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_BillLadingNo));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Consignee));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Vessel));
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Item));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Cargo));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_ItemCount));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_ItemUnit));
       //BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_ItemName, 300));
@@ -255,6 +324,7 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_UserAccount, 1);
       LoadProperty(_CreatedDate, DateTime.Now);
       LoadProperty(_LastUpdatedDate, DateTime.Now);
+      //LoadProperty(_DomesticHandlingRates, BillingItemRates.New());
       this.BusinessRules.CheckRules();
     }
 
@@ -268,9 +338,13 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT billingitem,referenceno,billingdate,iswithtax,billladingno,customer,
-	                              custpreferredaddress,vessel,voyageno,item,itemcount,preferreduom,preferreduom,remarks
-                              FROM billingitem WHERE billingitem = @id";
+          cmd.CommandText = @"SELECT billingitem,referenceno,billingdate,billladingno,customer,
+	                              custpreferredaddress,vessel,voyageno,billingitem.item,itemcount,
+                                itemcounthandling, item.handlingunit,preferreduom,billingitem.remarks,
+                                grossamount, netamount
+                              FROM billingitem 
+                                LEFT JOIN item ON item.item = billingitem.item
+                              WHERE billingitem = @id";
           cmd.Parameters.AddWithValue("@id", id);
 
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
@@ -285,10 +359,14 @@ namespace Bitz.Cargo.Business.Billing
               LoadProperty(_ConsigneeAddress, dr.GetString("custpreferredaddress"));
               LoadProperty(_Vessel, dr.GetInt32("vessel"));
               LoadProperty(_VoyageNo, dr.GetString("voyageno"));
-              LoadProperty(_Item, dr.GetInt32("item"));
+              LoadProperty(_Cargo, dr.GetInt32("item"));
               LoadProperty(_ItemCount, dr.GetDecimal("itemcount"));
+              LoadProperty(_ItemCountHandling, dr.GetDecimal("itemcounthandling"));
               LoadProperty(_ItemUnit, dr.GetInt32("preferreduom"));
               LoadProperty(_Remarks, dr.GetString("remarks"));
+              LoadProperty(_HandlingUnit, dr.GetInt32("handlingunit"));
+              LoadProperty(_GrossAmount, dr.GetDecimal("grossamount"));
+              LoadProperty(_NetAmount, dr.GetDecimal("netamount"));
             }
           }
         }
@@ -307,37 +385,50 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO billingitem(type,referenceno,billingdate,iswithtax,billladingno,customer,custpreferredaddress,
-                                                         vessel,voyageno,item,itemcount,preferreduom,remarks,useraccount,createddate,lastupdateddate)
-                                        VALUES (@type,@referenceno,@billingdate,@iswithtax,@billladingno,@customer,@custpreferredaddress,
-                                                         @vessel,@voyageno,@item,@itemcount,@uom,@remarks,@useraccount,@createddate,@lastupdateddate)
+          cmd.CommandText = @"INSERT INTO billingitem(type,referenceno,billingdate,billladingno,customer,custpreferredaddress,grossamount,
+                                                         vessel,voyageno,item,itemcount,itemcounthandling,preferreduom,remarks,useraccount,createddate,lastupdateddate)
+                                        VALUES (@type,@referenceno,@billingdate,@billladingno,@customer,@custpreferredaddress,@grossamount,
+                                                         @vessel,@voyageno,@item,@itemcount,@itemcounthandling,@uom,@remarks,@useraccount,@createddate,@lastupdateddate)
                                         SELECT SCOPE_IDENTITY()";
           LoadProperty(_ReferenceNo, DateTime.Now.ToString("yyyyMMdd-HHmmssff"));
           cmd.Parameters.AddWithValue("@type", BillingItemType);
           cmd.Parameters.AddWithValue("@referenceno", ReferenceNo);
           cmd.Parameters.AddWithValue("@billingdate", BillingDate.DBValue);
-          cmd.Parameters.AddWithValue("@iswithtax", IsWithTax);
           cmd.Parameters.AddWithValue("@billladingno", BillLadingNo);
           cmd.Parameters.AddWithValue("@customer", Consignee);
           cmd.Parameters.AddWithValue("@custpreferredaddress", ConsigneeAddress);
           cmd.Parameters.AddWithValue("@vessel", Vessel);
           cmd.Parameters.AddWithValue("@voyageno", VoyageNo);
-          cmd.Parameters.AddWithValue("@item", Item);
+          cmd.Parameters.AddWithValue("@item", Cargo);
           cmd.Parameters.AddWithValue("@itemcount", ItemCount);
           cmd.Parameters.AddWithValue("@uom", ItemUnit);
           cmd.Parameters.AddWithValue("@remarks", Remarks);
           cmd.Parameters.AddWithValue("@useraccount", UserAccount);
           cmd.Parameters.AddWithValue("@createddate", CreatedDate.DBValue);
           cmd.Parameters.AddWithValue("@lastupdateddate", LastUpdatedDate.DBValue);
+          if (GrossAmount != null)
+            cmd.Parameters.AddWithValue("@grossamount", GrossAmount);
+          else
+            cmd.Parameters.AddWithValue("@grossamount", DBNull.Value);
+
+          if (ItemCountHandling != null)
+            cmd.Parameters.AddWithValue("@itemcounthandling", ItemCountHandling);
+          else
+            cmd.Parameters.AddWithValue("@itemcounthandling", DBNull.Value);
+
+          //if (ItemReference != null)
+          //  cmd.Parameters.AddWithValue("@itemreference", ItemReference);
+          //else
+          //  cmd.Parameters.AddWithValue("@itemreference", DBNull.Value);
 
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
             LoadProperty(_Id, identity);
           }
-          catch (Exception)
+          catch (Exception e)
           {
-            throw;
+            throw e;
           }
         }
       }
@@ -357,7 +448,6 @@ namespace Bitz.Cargo.Business.Billing
           cmd.CommandText = @"UPDATE billingitem SET 
                                             referenceno = @referenceno,
                                             billingdate = @billingdate,
-                                            iswithtax = @iswithtax,
                                             billladingno = @billladingno,
                                             customer = @customer,
                                             custpreferredaddress = @custpreferredaddress,
@@ -365,34 +455,45 @@ namespace Bitz.Cargo.Business.Billing
                                             voyageno = @voyageno,
                                             item = @item,
                                             itemcount = @itemcount,
+                                            itemcounthandling = @itemcounthandling,
                                             preferreduom = @uom,
                                             remarks = @remarks,
                                             useraccount = @useraccount,
-                                            lastupdateddate = @lastupdateddate
+                                            lastupdateddate = @lastupdateddate,
+                                            grossamount = @grossamount
                                         WHERE billingitem = @id";
 
           cmd.Parameters.AddWithValue("@referenceno", ReferenceNo);
           cmd.Parameters.AddWithValue("@billingdate", BillingDate.DBValue);
-          cmd.Parameters.AddWithValue("@iswithtax", IsWithTax);
           cmd.Parameters.AddWithValue("@billladingno", BillLadingNo);
           cmd.Parameters.AddWithValue("@customer", Consignee);
           cmd.Parameters.AddWithValue("@custpreferredaddress", ConsigneeAddress);
           cmd.Parameters.AddWithValue("@vessel", Vessel);
           cmd.Parameters.AddWithValue("@voyageno", VoyageNo);
-          cmd.Parameters.AddWithValue("@item", Item);
+          cmd.Parameters.AddWithValue("@item", Cargo);
           cmd.Parameters.AddWithValue("@itemcount", ItemCount);
           cmd.Parameters.AddWithValue("@uom", ItemUnit);
           cmd.Parameters.AddWithValue("@remarks", Remarks);
           cmd.Parameters.AddWithValue("@useraccount", 1);
           cmd.Parameters.AddWithValue("@lastupdateddate", DateTime.Now);
           cmd.Parameters.AddWithValue("@id", this.Id);
+          if (GrossAmount != null)
+            cmd.Parameters.AddWithValue("@grossamount", GrossAmount);
+          else
+            cmd.Parameters.AddWithValue("@grossamount", DBNull.Value);
+
+          if (ItemCountHandling != null)
+            cmd.Parameters.AddWithValue("@itemcounthandling", ItemCountHandling);
+          else
+            cmd.Parameters.AddWithValue("@itemcounthandling", DBNull.Value);
+
           try
           {
             cmd.ExecuteNonQuery();
           }
-          catch (Exception)
+          catch (Exception e)
           {
-            throw;
+            throw e;
           }
         }
       }
@@ -405,10 +506,8 @@ namespace Bitz.Cargo.Business.Billing
 
     private void ChildFetch()
     {
-      //LoadProperty(_ItemPrices, ItemPrices.Get(new SingleCriteria<int>(this.Id)));
-      //LoadProperty(_ItemUomConversions, ItemUomConversions.Get(new SingleCriteria<int>(this.Id)));
-      //LoadProperty(_ItemInventory, ItemInventoryInfos.Get(new ItemInventoryInfos.Criteria() { Item = this.Id }));
-      //LoadProperty(_ItemSuppliers, ItemSuppliers.Get(new SingleCriteria<int>(this.Id)));
+      LoadProperty(_DomesticHandlingRates, BillingItemRates.Get(new SingleCriteria<int>(this.Id)));
+      LoadProperty(_DomesticHandlingRateOthers, BillingItemRateOthers.Get(new SingleCriteria<int>(this.Id)));
     }
 
     #endregion
@@ -417,51 +516,42 @@ namespace Bitz.Cargo.Business.Billing
 
     private void SaveChild()
     {
-      //Csla.DataPortal.UpdateChild(ReadProperty(_ItemSim), new SingleCriteria<int>(this.Id));
-      //Csla.DataPortal.UpdateChild(ReadProperty(_ItemStock), new SingleCriteria<int>(this.Id));
-      //Csla.DataPortal.UpdateChild(ReadProperty(_ItemPrices), new SingleCriteria<int>(this.Id));
-      //Csla.DataPortal.UpdateChild(ReadProperty(_ItemUomConversions), new SingleCriteria<int>(this.Id));
-      //Csla.DataPortal.UpdateChild(ReadProperty(_ItemSuppliers), new SingleCriteria<int>(this.Id));
-      //SaveItemInventoryLocation();
+      Csla.DataPortal.UpdateChild(ReadProperty(_DomesticHandlingRates), new SingleCriteria<int>(this.Id));
+      Csla.DataPortal.UpdateChild(ReadProperty(_DomesticHandlingRateOthers), new SingleCriteria<int>(this.Id));
     }
 
     #endregion
 
-    #region SaveItemInventoryLocation
-
-    private void SaveItemInventoryLocation()
+    public void ComputeStatementOfAccount()
     {
-      //      if (this.ItemType != ItemTypes.Inventory.Key) return;
+      this.GrossAmount = 0;
+      if (this.DomesticHandlingRates != null)
+      {
+        foreach (var rate in this.DomesticHandlingRates)
+        {
+          var fixedamount = rate.Computation2 != null && rate.Computation2 > 0 ? rate.Computation2.Value : 1;
+          this.GrossAmount += this.ItemCountHandling.Value * fixedamount * rate.Computation3;
+        }
+      }
 
-      //      using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
-      //      {
-      //        using (var cmd = ctx.Connection.CreateCommand())
-      //        {
-      //          cmd.CommandText = @"INSERT INTO iteminventory(item,itemlocation,qtyonhand,qtyonorder)
-      //                                        SELECT @item,l.location,0,0
-      //                                        FROM location l
-      //                                        WHERE NOT EXISTS (
-      //                                            SELECT 1 FROM iteminventory ii
-      //                                            WHERE ii.itemlocation = l.location
-      //                                            AND ii.item = @item)";
-      //          cmd.Parameters.AddWithValue("@item", Id);
-      //          try
-      //          {
-      //            cmd.ExecuteNonQuery();
-      //          }
-      //          catch (Exception)
-      //          {
-      //            throw;
-      //          }
-
-      //        }
-      //      }
+      //  this.NetAmount = this.GrossAmount;
+      //  if (this.NetAmount != null && this.NetAmount.Value > 0)
+      //  {
+      //    foreach (var other in this.DomesticHandlingRateOthers.Where(o => o.RateType == 0))
+      //    {
+      //      var fixedamount = other.FixedAmount != null ? other.FixedAmount.Value : 0;
+      //      this.NetAmount += fixedamount + (this.NetAmount * (other.Percentage.Value / (decimal)100.0));
+      //    }
+      //    var tempNetAmount = this.NetAmount;
+      //    foreach (var other in this.DomesticHandlingRateOthers.Where(o => o.RateType != 0))
+      //    {
+      //      var fixedamount = other.FixedAmount != null ? other.FixedAmount.Value : 0;
+      //      this.NetAmount = (this.NetAmount.Value - fixedamount) - (tempNetAmount * (other.Percentage.Value / (decimal)100.0));
+      //    }
+      //  }
     }
 
     #endregion
-
-    #endregion
-
   }
 
 }

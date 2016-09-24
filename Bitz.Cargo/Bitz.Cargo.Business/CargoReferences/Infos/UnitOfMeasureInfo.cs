@@ -9,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bitz.Cargo.Business.Items
+namespace Bitz.Cargo.Business.CargoReferences.Infos
 {
-  #region ItemInfo
+  #region UnitOfMeasureInfo
 
   [Serializable]
-  [TableInfo(TableName = "item", KeyColumn = "item.item")]
-  public class ItemInfo : ReadOnlyBase<ItemInfo>
+  [TableInfo(TableName = "uom", KeyColumn = "uom.uom")]
+  public class UnitOfMeasureInfo : ReadOnlyBase<UnitOfMeasureInfo>
   {
     #region One To One Properties
 
@@ -49,41 +49,12 @@ namespace Bitz.Cargo.Business.Items
 
     #endregion
 
-    #region ShortDescription
+    #region Description
 
-    public static readonly PropertyInfo<string> _ShortDescription = RegisterProperty<string>(c => c.ShortDescription);
-    public string ShortDescription
+    public static readonly PropertyInfo<string> _Description = RegisterProperty<string>(c => c.Description);
+    public string Description
     {
-      get { return GetProperty(_ShortDescription); }
-    }
-    #endregion
-
-    #region Remarks
-
-    public static readonly PropertyInfo<string> _Remarks = RegisterProperty<string>(c => c.Remarks);
-    public string Remarks
-    {
-      get { return GetProperty(_Remarks); }
-    }
-
-    #endregion
-
-    #region ItemTypeName
-
-    public static readonly PropertyInfo<string> _ItemTypeName = RegisterProperty<string>(c => c.ItemTypeName);
-    public string ItemTypeName
-    {
-      get { return GetProperty(_ItemTypeName); }
-    }
-
-    #endregion
-
-    #region ItemType
-
-    public static readonly PropertyInfo<int?> _ItemType = RegisterProperty<int?>(c => c.ItemType);
-    public int? ItemType
-    {
-      get { return GetProperty(_ItemType); }
+      get { return GetProperty(_Description); }
     }
 
     #endregion
@@ -96,14 +67,14 @@ namespace Bitz.Cargo.Business.Items
 
     #region Factory Methods
 
-    public static ItemInfo Get(SafeDataReader dr)
+    public static UnitOfMeasureInfo Get(SafeDataReader dr)
     {
-      return Csla.DataPortal.FetchChild<ItemInfo>(dr);
+      return Csla.DataPortal.FetchChild<UnitOfMeasureInfo>(dr);
     }
 
-    public static void Delete(SingleCriteria<int> id, EventHandler<DataPortalResult<ItemInfo>> completed)
+    public static void Delete(SingleCriteria<int> id, EventHandler<DataPortalResult<UnitOfMeasureInfo>> completed)
     {
-      DataPortal<ItemInfo> dp = new DataPortal<ItemInfo>();
+      DataPortal<UnitOfMeasureInfo> dp = new DataPortal<UnitOfMeasureInfo>();
       dp.DeleteCompleted += completed;
       dp.BeginDelete(id);
     }
@@ -118,12 +89,10 @@ namespace Bitz.Cargo.Business.Items
 
     private void Child_Fetch(SafeDataReader dr)
     {
-      LoadProperty(_Id, dr.GetInt32("item"));
-      LoadProperty(_Code, dr.GetString("itemid"));
-      LoadProperty(_Name, dr.GetString("itemname"));
-      LoadProperty(_ShortDescription, dr.GetString("shortdescription"));
-      LoadProperty(_Remarks, dr.GetString("remarks"));
-      LoadProperty(_ItemType, dr.GetInt16("itemtype"));
+      LoadProperty(_Id, dr.GetInt32("uom"));
+      LoadProperty(_Code, dr.GetString("code"));
+      LoadProperty(_Name, dr.GetString("name"));
+      LoadProperty(_Description, dr.GetString("description"));
     }
 
     #endregion
@@ -136,7 +105,7 @@ namespace Bitz.Cargo.Business.Items
       {
         using (var cm = ctx.Connection.CreateCommand())
         {
-          cm.CommandText += @"DELETE FROM item WHERE item = @id";
+          cm.CommandText += @"DELETE FROM uom WHERE uom = @id";
           cm.Parameters.AddWithValue("@id", id.Value);
           cm.ExecuteNonQuery();
         }
@@ -152,10 +121,10 @@ namespace Bitz.Cargo.Business.Items
 
   #endregion
 
-  #region ItemInfos
+  #region UnitOfMeasureInfos
 
   [Serializable]
-  public class ItemInfos : ReadOnlyListBase<ItemInfos, ItemInfo>
+  public class UnitOfMeasureInfos : ReadOnlyListBase<UnitOfMeasureInfos, UnitOfMeasureInfo>
   {
     #region Criteria
 
@@ -172,25 +141,15 @@ namespace Bitz.Cargo.Business.Items
       }
       #endregion //SearchText
 
-      #region ItemType
-      private static PropertyInfo<int?> _ItemType = RegisterProperty<int?>(c => c.ItemType);
-
-      public int? ItemType
-      {
-        get { return ReadProperty(_ItemType); }
-        set { LoadProperty(_ItemType, value); }
-      }
-      #endregion //ItemType
-
     }
 
     #endregion
 
     #region Factory Methods
 
-    public static void Get(Criteria criteria, EventHandler<DataPortalResult<ItemInfos>> completed)
+    public static void Get(Criteria criteria, EventHandler<DataPortalResult<UnitOfMeasureInfos>> completed)
     {
-      DataPortal<ItemInfos> dp = new DataPortal<ItemInfos>();
+      DataPortal<UnitOfMeasureInfos> dp = new DataPortal<UnitOfMeasureInfos>();
       dp.FetchCompleted += completed;
       dp.BeginFetch(criteria);
     }
@@ -205,13 +164,11 @@ namespace Bitz.Cargo.Business.Items
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT item,itemid,itemname,shortdescription,remarks,itemtype
-                              FROM item
-                              WHERE (itemid LIKE @SearchText 
-                                      OR itemname LIKE @SearchText
-                                      OR remarks LIKE @SearchText
-                                      OR shortdescription LIKE @SearchText)
-                              ORDER BY itemname";
+          cmd.CommandText = @"SELECT uom,code,name,description
+                              FROM uom
+                              WHERE (code LIKE @SearchText 
+                                      OR name LIKE @SearchText
+                                      OR description LIKE @SearchText)";
           cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
 
           //if (criteria.ItemType != null)
@@ -224,7 +181,7 @@ namespace Bitz.Cargo.Business.Items
             IsReadOnly = false;
             while (dr.Read())
             {
-              this.Add(ItemInfo.Get(dr));
+              this.Add(UnitOfMeasureInfo.Get(dr));
             }
             IsReadOnly = true;
           }
