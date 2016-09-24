@@ -63,7 +63,7 @@
                     Margin="4"
                     Width="130"
                     HorizontalAlignment="Left"
-                    Text="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True, StringFormat='{}{0:MMM dd,yyyy}'}" />
+                    SelectedDate="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True, StringFormat='{}{0:MMM dd,yyyy}'}" />
 
         <Label Grid.Row="1"
                Grid.Column="2"
