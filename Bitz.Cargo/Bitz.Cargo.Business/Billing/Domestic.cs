@@ -353,7 +353,7 @@ namespace Bitz.Cargo.Business.Billing
             {
               LoadProperty(_Id, dr.GetInt32("billingitem"));
               LoadProperty(_ReferenceNo, dr.GetString("referenceno"));
-              LoadProperty(_BillingDate, (SmartDate)dr.GetDateTime("billingdate"));
+              LoadProperty(_BillingDate,dr.GetSmartDate("billingdate"));
               LoadProperty(_BillLadingNo, dr.GetString("billladingno"));
               LoadProperty(_Consignee, dr.GetInt32("customer"));
               LoadProperty(_ConsigneeAddress, dr.GetString("custpreferredaddress"));

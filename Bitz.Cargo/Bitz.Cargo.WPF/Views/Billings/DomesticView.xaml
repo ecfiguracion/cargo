@@ -117,7 +117,8 @@
                  Margin="4"
                  TextWrapping="WrapWithOverflow"
                  AcceptsReturn="True"
-                 Text="{Binding Model.ConsigneeAddress, Mode=TwoWay,ValidatesOnDataErrors=True}" />
+
+                      SelectedDate="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True}"/>
 
         <Label  Grid.Row="3"
                 Grid.Column="0"

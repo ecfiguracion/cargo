@@ -193,7 +193,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
       LoadProperty(_BillingItemType, dr.GetInt16("type"));
       LoadProperty(_BillingItemTypeName, dr.GetString("typename"));
       LoadProperty(_ReferenceNo, dr.GetString("referenceno"));
-      LoadProperty(_BillingDate, (SmartDate)dr.GetDateTime("billingdate"));
+      LoadProperty(_BillingDate, dr.GetSmartDate("billingdate"));
       LoadProperty(_BillLadingNo, dr.GetString("billladingno"));
       LoadProperty(_ConsigneeName, dr.GetString("consigneename"));
       LoadProperty(_ConsigneeAddress, dr.GetString("custpreferredaddress"));

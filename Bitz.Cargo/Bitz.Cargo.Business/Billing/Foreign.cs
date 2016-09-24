@@ -279,8 +279,8 @@ namespace Bitz.Cargo.Business.Billing
             {
               LoadProperty(_Id, dr.GetInt32("billingitem"));
               LoadProperty(_ReferenceNo, dr.GetString("referenceno"));
-              LoadProperty(_BillingDate, (SmartDate)dr.GetDateTime("billingdate"));
-              LoadProperty(_IsWithTax, dr.GetInt16("iswithtax") == 1);
+              LoadProperty(_BillingDate,dr.GetSmartDate("billingdate"));
+              LoadProperty(_IsWithTax, dr.GetBoolean("iswithtax"));
               LoadProperty(_BillLadingNo, dr.GetString("billladingno"));
               LoadProperty(_Consignee, dr.GetInt32("customer"));
               LoadProperty(_ConsigneeAddress, dr.GetString("custpreferredaddress"));
@@ -318,7 +318,6 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@type", BillingItemType);
           cmd.Parameters.AddWithValue("@referenceno", ReferenceNo);
           cmd.Parameters.AddWithValue("@billingdate", BillingDate.DBValue);
-          cmd.Parameters.AddWithValue("@iswithtax", IsWithTax);
           cmd.Parameters.AddWithValue("@billladingno", BillLadingNo);
           cmd.Parameters.AddWithValue("@customer", Consignee);
           cmd.Parameters.AddWithValue("@custpreferredaddress", ConsigneeAddress);
