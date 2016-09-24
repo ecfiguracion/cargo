@@ -74,7 +74,7 @@
                       Width="190"
                       Height="24"
                       HorizontalAlignment="Left"
-                      Text="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True}"/>
+                      SelectedDate="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True}"/>
 
       <Label Grid.Row="1"
                  Grid.Column="2"
