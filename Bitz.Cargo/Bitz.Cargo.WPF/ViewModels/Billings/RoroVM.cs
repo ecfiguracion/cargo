@@ -1,12 +1,14 @@
 ﻿using Bitz.Cargo.Business.Billing;
+using Bitz.Cargo.Business.CargoReferences.Infos;
 using Bitz.Cargo.Business.Contacts;
+using Bitz.Cargo.Business.Contacts.Infos;
 using Bitz.Cargo.Business.Items;
+using Bitz.Cargo.Business.Items.Infos;
 using Bitz.Core.Application;
 using Bitz.Core.Constants;
 using Bitz.Core.Shell;
 using Bitz.Core.Utilities;
 using Bitz.Core.ViewModel;
-using CargoHandling.Business.Billing;
 using FirstFloor.ModernUI.Windows.Navigation;
 using System;
 using System.Collections.Generic;

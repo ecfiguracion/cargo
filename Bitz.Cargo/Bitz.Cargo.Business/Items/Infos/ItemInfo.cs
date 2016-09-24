@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bitz.Cargo.Business.Items
+namespace Bitz.Cargo.Business.Items.Infos
 {
   #region ItemInfo
 
@@ -68,22 +68,22 @@ namespace Bitz.Cargo.Business.Items
 
     #endregion
 
-    #region ItemTypeName
+    #region HandlingUnit
 
-    public static readonly PropertyInfo<string> _ItemTypeName = RegisterProperty<string>(c => c.ItemTypeName);
-    public string ItemTypeName
+    public static readonly PropertyInfo<int?> _HandlingUnit = RegisterProperty<int?>(c => c.HandlingUnit);
+    public int? HandlingUnit
     {
-      get { return GetProperty(_ItemTypeName); }
+      get { return GetProperty(_HandlingUnit); }
     }
 
     #endregion
 
-    #region ItemType
+    #region HandlingUnitName
 
-    public static readonly PropertyInfo<int?> _ItemType = RegisterProperty<int?>(c => c.ItemType);
-    public int? ItemType
+    public static readonly PropertyInfo<string> _HandlingUnitName = RegisterProperty<string>(c => c.HandlingUnitName);
+    public string HandlingUnitName
     {
-      get { return GetProperty(_ItemType); }
+      get { return GetProperty(_HandlingUnitName); }
     }
 
     #endregion
@@ -123,7 +123,8 @@ namespace Bitz.Cargo.Business.Items
       LoadProperty(_Name, dr.GetString("itemname"));
       LoadProperty(_ShortDescription, dr.GetString("shortdescription"));
       LoadProperty(_Remarks, dr.GetString("remarks"));
-      LoadProperty(_ItemType, dr.GetInt16("itemtype"));
+      LoadProperty(_HandlingUnit, dr.GetInt32("handlingunit"));
+      LoadProperty(_HandlingUnitName, dr.GetString("handlingunitname"));
     }
 
     #endregion
@@ -173,13 +174,13 @@ namespace Bitz.Cargo.Business.Items
       #endregion //SearchText
 
       #region ItemType
-      private static PropertyInfo<int?> _ItemType = RegisterProperty<int?>(c => c.ItemType);
+      //private static PropertyInfo<int?> _ItemType = RegisterProperty<int?>(c => c.ItemType);
 
-      public int? ItemType
-      {
-        get { return ReadProperty(_ItemType); }
-        set { LoadProperty(_ItemType, value); }
-      }
+      //public int? ItemType
+      //{
+      //  get { return ReadProperty(_ItemType); }
+      //  set { LoadProperty(_ItemType, value); }
+      //}
       #endregion //ItemType
 
     }
@@ -205,13 +206,13 @@ namespace Bitz.Cargo.Business.Items
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT item,itemid,itemname,shortdescription,remarks,itemtype
+          cmd.CommandText = @"SELECT item,itemid,itemname,shortdescription,remarks,item.handlingunit,uom.name as handlingunitname
                               FROM item
+                                LEFT JOIN uom on uom.uom = item.handlingunit
                               WHERE (itemid LIKE @SearchText 
                                       OR itemname LIKE @SearchText
                                       OR remarks LIKE @SearchText
-                                      OR shortdescription LIKE @SearchText)
-                              ORDER BY itemname";
+                                      OR shortdescription LIKE @SearchText)";
           cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
 
           //if (criteria.ItemType != null)

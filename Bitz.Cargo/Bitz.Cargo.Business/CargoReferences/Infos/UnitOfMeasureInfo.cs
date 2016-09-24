@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bitz.Cargo.Business.Items
+namespace Bitz.Cargo.Business.CargoReferences.Infos
 {
   #region UnitOfMeasureInfo
 
@@ -49,6 +49,16 @@ namespace Bitz.Cargo.Business.Items
 
     #endregion
 
+    #region Description
+
+    public static readonly PropertyInfo<string> _Description = RegisterProperty<string>(c => c.Description);
+    public string Description
+    {
+      get { return GetProperty(_Description); }
+    }
+
+    #endregion
+
     #endregion
 
     #region One To Many Properties
@@ -82,6 +92,7 @@ namespace Bitz.Cargo.Business.Items
       LoadProperty(_Id, dr.GetInt32("uom"));
       LoadProperty(_Code, dr.GetString("code"));
       LoadProperty(_Name, dr.GetString("name"));
+      LoadProperty(_Description, dr.GetString("description"));
     }
 
     #endregion
@@ -130,36 +141,6 @@ namespace Bitz.Cargo.Business.Items
       }
       #endregion //SearchText
 
-      #region ItemType
-      private static PropertyInfo<int?> _ItemType = RegisterProperty<int?>(c => c.ItemType);
-
-      public int? ItemType
-      {
-        get { return ReadProperty(_ItemType); }
-        set { LoadProperty(_ItemType, value); }
-      }
-      #endregion //ItemType
-
-      #region Category
-      private static PropertyInfo<int?> _Category = RegisterProperty<int?>(c => c.Category);
-
-      public int? Category
-      {
-        get { return ReadProperty(_Category); }
-        set { LoadProperty(_Category, value); }
-      }
-      #endregion //Category
-
-      #region SubCategory
-      private static PropertyInfo<int?> _SubCategory = RegisterProperty<int?>(c => c.SubCategory);
-
-      public int? SubCategory
-      {
-        get { return ReadProperty(_SubCategory); }
-        set { LoadProperty(_SubCategory, value); }
-      }
-      #endregion //Category
-
     }
 
     #endregion
@@ -183,11 +164,11 @@ namespace Bitz.Cargo.Business.Items
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT uom,code,description as name
+          cmd.CommandText = @"SELECT uom,code,name,description
                               FROM uom
                               WHERE (code LIKE @SearchText 
-                                      OR description LIKE @SearchText)
-                              ORDER BY description";
+                                      OR name LIKE @SearchText
+                                      OR description LIKE @SearchText)";
           cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
 
           //if (criteria.ItemType != null)

@@ -32,6 +32,53 @@ namespace Bitz.Cargo.Business.Constants
       }
     }
 
+    #region CargoHandlingCharges
+
+    public class CargoHandlingCharges
+    {
+      private static List<CoreConstants.IdValue> _CargoHandlingCharges = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue Arrastre { get { return _CargoHandlingCharges[0]; } }
+      public static CoreConstants.IdValue Stevedoring { get { return _CargoHandlingCharges[1]; } }
+      public static CoreConstants.IdValue RollOnRollOff { get { return _CargoHandlingCharges[2]; } }
+
+      static CargoHandlingCharges()
+      {
+        _CargoHandlingCharges.Add(new CoreConstants.IdValue(0, "Arrastre"));
+        _CargoHandlingCharges.Add(new CoreConstants.IdValue(1, "Stevedoring"));
+        _CargoHandlingCharges.Add(new CoreConstants.IdValue(2, "RollOn/RollOff"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _CargoHandlingCharges; }
+      }
+    }
+
+    #endregion
+
+    #region CargoHandlingChargeTypes
+
+    public class CargoHandlingChargeTypes
+    {
+      private static List<CoreConstants.IdValue> _CargoHandlingChargeTypes = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue Add { get { return _CargoHandlingChargeTypes[0]; } }
+      public static CoreConstants.IdValue Less { get { return _CargoHandlingChargeTypes[1]; } }
+
+      static CargoHandlingChargeTypes()
+      {
+        _CargoHandlingChargeTypes.Add(new CoreConstants.IdValue(0, "Add"));
+        _CargoHandlingChargeTypes.Add(new CoreConstants.IdValue(1, "Less"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _CargoHandlingChargeTypes; }
+      }
+    }
+
+    #endregion
 
     #endregion
   }

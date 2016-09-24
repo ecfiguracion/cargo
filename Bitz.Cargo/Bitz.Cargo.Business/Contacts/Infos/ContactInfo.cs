@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bitz.Cargo.Business.Contacts
+namespace Bitz.Cargo.Business.Contacts.Infos
 {
   #region ContactInfo
 

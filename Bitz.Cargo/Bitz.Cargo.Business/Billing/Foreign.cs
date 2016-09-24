@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CargoHandling.Business.Billing
+namespace Bitz.Cargo.Business.Billing
 {
   [Serializable]
   public class Foreign : BusinessBase<Foreign>

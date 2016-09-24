@@ -45,14 +45,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Billing\BillingItem.cs" />
+    <Compile Include="Billing\BillingItemRate.cs" />
+    <Compile Include="Billing\BillingItemRateOther.cs" />
     <Compile Include="Billing\Domestic.cs" />
     <Compile Include="Billing\Foreign.cs" />
     <Compile Include="Billing\Infos\BillingItemInfo.cs" />
     <Compile Include="Billing\Roro.cs" />
+    <Compile Include="CargoReferences\Consignee.cs" />
+    <Compile Include="CargoReferences\Infos\UnitOfMeasureInfo.cs" />
+    <Compile Include="CargoReferences\UnitOfMeasure.cs" />
+    <Compile Include="CargoReferences\Vessel.cs" />
     <Compile Include="Constants\CargoConstants.cs" />
-    <Compile Include="Contacts\ContactInfo.cs" />
-    <Compile Include="Items\ItemInfo.cs" />
-    <Compile Include="Items\UnitOfMeasureInfo.cs" />
+    <Compile Include="Contacts\Infos\ContactInfo.cs" />
+    <Compile Include="Items\Infos\ItemInfo.cs" />
+    <Compile Include="Items\Infos\ItemRateInfo.cs" />
+    <Compile Include="Items\Infos\ItemUomConversionInfo.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemRate.cs" />
+    <Compile Include="Items\ItemUomConversion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
