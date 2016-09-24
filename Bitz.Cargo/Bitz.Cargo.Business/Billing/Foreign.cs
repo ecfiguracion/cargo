@@ -59,17 +59,6 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region IsWithTax
-
-    public static readonly PropertyInfo<bool> _IsWithTax = RegisterProperty<bool>(c => c.IsWithTax, "W/Tax");
-    public bool IsWithTax
-    {
-      get { return GetProperty(_IsWithTax); }
-      set { SetProperty(_IsWithTax, value); }
-    }
-
-    #endregion
-
     #region BillLadingNo
 
     public static readonly PropertyInfo<string> _BillLadingNo = RegisterProperty<string>(c => c.BillLadingNo, "Bill Lading No.");
@@ -268,7 +257,7 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT billingitem,referenceno,billingdate,iswithtax,billladingno,customer,
+          cmd.CommandText = @"SELECT billingitem,referenceno,billingdate,billladingno,customer,
 	                              custpreferredaddress,vessel,voyageno,item,itemcount,preferreduom,preferreduom,remarks
                               FROM billingitem WHERE billingitem = @id";
           cmd.Parameters.AddWithValue("@id", id);
@@ -280,7 +269,6 @@ namespace Bitz.Cargo.Business.Billing
               LoadProperty(_Id, dr.GetInt32("billingitem"));
               LoadProperty(_ReferenceNo, dr.GetString("referenceno"));
               LoadProperty(_BillingDate,dr.GetSmartDate("billingdate"));
-              LoadProperty(_IsWithTax, dr.GetBoolean("iswithtax"));
               LoadProperty(_BillLadingNo, dr.GetString("billladingno"));
               LoadProperty(_Consignee, dr.GetInt32("customer"));
               LoadProperty(_ConsigneeAddress, dr.GetString("custpreferredaddress"));
@@ -309,9 +297,9 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO billingitem(type,referenceno,billingdate,iswithtax,billladingno,customer,custpreferredaddress,
+          cmd.CommandText = @"INSERT INTO billingitem(type,referenceno,billingdate,billladingno,customer,custpreferredaddress,
                                                          vessel,voyageno,item,itemcount,preferreduom,remarks,useraccount,createddate,lastupdateddate)
-                                        VALUES (@type,@referenceno,@billingdate,@iswithtax,@billladingno,@customer,@custpreferredaddress,
+                                        VALUES (@type,@referenceno,@billingdate,@billladingno,@customer,@custpreferredaddress,
                                                          @vessel,@voyageno,@item,@itemcount,@uom,@remarks,@useraccount,@createddate,@lastupdateddate)
                                         SELECT SCOPE_IDENTITY()";
           LoadProperty(_ReferenceNo, DateTime.Now.ToString("yyyyMMdd-HHmmssff"));
@@ -362,7 +350,6 @@ namespace Bitz.Cargo.Business.Billing
           cmd.CommandText = @"UPDATE billingitem SET 
                                             referenceno = @referenceno,
                                             billingdate = @billingdate,
-                                            iswithtax = @iswithtax,
                                             billladingno = @billladingno,
                                             customer = @customer,
                                             custpreferredaddress = @custpreferredaddress,
@@ -378,7 +365,6 @@ namespace Bitz.Cargo.Business.Billing
 
           cmd.Parameters.AddWithValue("@referenceno", ReferenceNo);
           cmd.Parameters.AddWithValue("@billingdate", BillingDate.DBValue);
-          cmd.Parameters.AddWithValue("@iswithtax", IsWithTax);
           cmd.Parameters.AddWithValue("@billladingno", BillLadingNo);
           cmd.Parameters.AddWithValue("@customer", Consignee);
           cmd.Parameters.AddWithValue("@custpreferredaddress", ConsigneeAddress);

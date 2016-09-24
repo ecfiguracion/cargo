@@ -352,7 +352,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
           //Apply paging
           if (criteria.PageSize > 0)
           {
-            var sortby = "i.billingdate";
+            var sortby = "i.billingdate DESC";
             SQLHelper.AddSQLPaging(criteria, sortby, cmd);
           }
 
