@@ -25,6 +25,11 @@ namespace Bitz.Core.ViewModel
       this.CommandOpen = new DelegateCommand<object>(CommandOpenExecute);
       this.CommandRemove = new DelegateCommand<object>(CommandRemoveExecute);
       this.CommandRefresh = new DelegateCommand<object>(CommandRefreshExecute);
+
+      this.CommandMoveNext = new DelegateCommand<object>(CommandMoveNextExecute);
+      this.CommandMovePrevious = new DelegateCommand<object>(CommandMovePreviousExecute);
+      this.CommandMoveLast = new DelegateCommand<object>(CommandMoveLastExecute);
+      this.CommandMoveFirst = new DelegateCommand<object>(CommandMoveFirstExecute);
     }
 
     #region Initialise
@@ -32,6 +37,16 @@ namespace Bitz.Core.ViewModel
     public virtual void Initialise()
     {
 
+    }
+
+    #endregion
+
+    #region Events
+
+    protected override void OnModelChanged(TModel oldValue, TModel newValue)
+    {
+      base.OnModelChanged(oldValue, newValue);
+      OnPropertyChanged("PageInfo");
     }
 
     #endregion
@@ -145,7 +160,22 @@ namespace Bitz.Core.ViewModel
 
     #region Criteria
 
-    public virtual Object Criteria { get; set; }
+    public virtual IPageCriteria Criteria { get; set; }
+
+    #endregion
+
+    #region PageInfo
+
+    public string PageInfo
+    {
+      get
+      {
+        if (base.Model != null)
+          return string.Format("Page {0} of {1}", Criteria.PageIndex, Criteria.TotalPage);
+        else
+          return "Page 1 of 1";
+      }
+    }
 
     #endregion
 
@@ -250,6 +280,74 @@ namespace Bitz.Core.ViewModel
     public virtual void CommandRefreshExecute(object parameter)
     {
       this.Refresh();
+    }
+    #endregion
+
+    #region CommandMoveNext
+    public ICommand CommandMoveNext
+    {
+      get;
+      private set;
+    }
+
+    public virtual void CommandMoveNextExecute(object parameter)
+    {
+      if (this.Criteria.PageIndex < this.Criteria.TotalPage)
+      {
+        this.Criteria.PageIndex += 1;
+        this.Refresh();
+      }
+    }
+    #endregion
+
+    #region CommandMovePrevious
+    public ICommand CommandMovePrevious
+    {
+      get;
+      private set;
+    }
+
+    public virtual void CommandMovePreviousExecute(object parameter)
+    {
+      if (this.Criteria.PageIndex > 1)
+      {
+        this.Criteria.PageIndex -= 1;
+        this.Refresh();
+      }
+    }
+    #endregion
+
+    #region CommandMoveLast
+    public ICommand CommandMoveLast
+    {
+      get;
+      private set;
+    }
+
+    public virtual void CommandMoveLastExecute(object parameter)
+    {
+      if (this.Criteria.PageIndex != this.Criteria.TotalPage)
+      {
+        this.Criteria.PageIndex = this.Criteria.TotalPage;
+        this.Refresh();
+      }
+    }
+    #endregion
+
+    #region CommandMoveFirst
+    public ICommand CommandMoveFirst
+    {
+      get;
+      private set;
+    }
+
+    public virtual void CommandMoveFirstExecute(object parameter)
+    {
+      if (this.Criteria.PageIndex != 1)
+      {
+        this.Criteria.PageIndex = 1;
+        this.Refresh();
+      }
     }
     #endregion
 

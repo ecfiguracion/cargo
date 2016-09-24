@@ -69,16 +69,6 @@ namespace Bitz.Cargo.Business.Billing.Infos
 
     #endregion
 
-    #region IsWithTax
-
-    public static readonly PropertyInfo<bool> _IsWithTax = RegisterProperty<bool>(c => c.IsWithTax);
-    public bool IsWithTax
-    {
-      get { return GetProperty(_IsWithTax); }
-    }
-
-    #endregion
-
     #region BillLadingNo
 
     public static readonly PropertyInfo<string> _BillLadingNo = RegisterProperty<string>(c => c.BillLadingNo);
@@ -249,7 +239,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
     #region Criteria
 
     [Serializable]
-    public class Criteria : CriteriaBase<Criteria>
+    public class Criteria : PageCriteriaBase<Criteria>
     {
       #region SearchText
       private static PropertyInfo<string> _SearchText = RegisterProperty<string>(c => c.SearchText);
@@ -260,6 +250,28 @@ namespace Bitz.Cargo.Business.Billing.Infos
         set { LoadProperty(_SearchText, value); }
       }
       #endregion //SearchText
+
+      #region BillingDateStartRange
+
+      public static readonly PropertyInfo<SmartDate> _BillingDateStartRange = RegisterProperty<SmartDate>(c => c.BillingDateStartRange);
+      public SmartDate BillingDateStartRange
+      {
+        get { return ReadProperty(_BillingDateStartRange); }
+        set { LoadProperty(_BillingDateStartRange, value); }
+      }
+
+      #endregion
+
+      #region BillingDateEndRange
+
+      public static readonly PropertyInfo<SmartDate> _BillingDateEndRange = RegisterProperty<SmartDate>(c => c.BillingDateEndRange);
+      public SmartDate BillingDateEndRange
+      {
+        get { return ReadProperty(_BillingDateEndRange); }
+        set { LoadProperty(_BillingDateEndRange, value); }
+      }
+
+      #endregion
 
       #region BillingItemType
       private static PropertyInfo<int?> _BillingItemType = RegisterProperty<int?>(c => c.BillingItemType);
@@ -294,35 +306,56 @@ namespace Bitz.Cargo.Business.Billing.Infos
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT i.billingitem,i.referenceno,i.billingdate,i.iswithtax,i.billladingno,consignee.name as consigneename,
+          var sortby = string.Empty;
+          cmd.CommandText = @"SELECT i.billingitem,i.referenceno,i.billingdate,i.billladingno,consignee.name as consigneename,
                                 i.custpreferredaddress,vessel.name as vesselname,i.voyageno,item.itemname,i.itemcount,uom.code as itemunitname,i.type,
                                 CASE WHEN i.type = 1 THEN 'Foreign'
                                   WHEN i.type = 2 THEN 'Domestic'
                                   WHEN i.type = 3 THEN 'RORO' END as typename, i.remarks
                               FROM dbo.billingitem i
-	                            INNER JOIN contact consignee
+	                            LEFT JOIN contact consignee
 		                            ON consignee.contact = i.customer
-	                            INNER JOIN contact vessel
+	                            LEFT JOIN contact vessel
 		                            ON vessel.contact = i.vessel
-	                            INNER JOIN uom
+	                            LEFT JOIN uom
 		                            ON uom.uom = i.preferreduom
-	                            INNER JOIN item
+	                            LEFT JOIN item
 		                            ON item.item = i.item
-                              WHERE (i.referenceno LIKE @SearchText 
+                              WHERE (i.type = @billingitemtype OR @billingitemtype IS NULL)";
+
+          //cmd.Parameters.AddWithValue("@categorytype", CargoHandling.Constants.BitzConstants.LookupReferences.ItemCategory1.Id);
+          //cmd.Parameters.AddWithValue("@subcategorytype", CargoHandling.Constants.BitzConstants.LookupReferences.ItemCategory2.Id);
+          if (!string.IsNullOrEmpty(criteria.SearchText))
+          {
+            cmd.CommandText += @" AND (i.referenceno LIKE @SearchText 
                                   OR i.billladingno LIKE @SearchText 
                                   OR consignee.name LIKE @SearchText 
                                   OR i.custpreferredaddress LIKE @SearchText 
                                   OR vessel.name LIKE @SearchText 
                                   OR i.voyageno LIKE @SearchText 
-                                  OR item.itemname LIKE @SearchText)
-                                AND (i.type = @billingitemtype OR @billingitemtype IS NULL)";
+                                  OR item.itemname LIKE @SearchText)";
 
-          cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
+            cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
+          }
 
           if (criteria.BillingItemType != null)
             cmd.Parameters.AddWithValue("@billingitemtype", criteria.BillingItemType);
           else
             cmd.Parameters.AddWithValue("@billingitemtype", DBNull.Value);
+
+          if (criteria.BillingDateStartRange != null && criteria.BillingDateEndRange != null)
+          {
+            cmd.CommandText += @" AND (i.billingdate >= @fromDate AND i.billingdate < @toDate)";
+            cmd.Parameters.AddWithValue("@fromDate", criteria.BillingDateStartRange.Date);
+            cmd.Parameters.AddWithValue("@toDate", criteria.BillingDateEndRange.Date.AddDays(1));
+          }
+
+          //Apply paging
+          if (criteria.PageSize > 0)
+          {
+            sortby = "i.billingdate";
+            SQLHelper.AddSQLPaging(criteria, sortby, cmd);
+          }
 
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
           {

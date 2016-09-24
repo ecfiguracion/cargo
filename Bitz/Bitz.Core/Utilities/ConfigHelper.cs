@@ -21,6 +21,12 @@ namespace Bitz.Core.Utilities
       return ConfigurationManager.AppSettings["ReportsPath"];
     }
 
+    public static int GetPageSize()
+    {
+      return int.Parse(ConfigurationManager.AppSettings["PageSize"]);
+    }
+
+
     #endregion
   }
 }

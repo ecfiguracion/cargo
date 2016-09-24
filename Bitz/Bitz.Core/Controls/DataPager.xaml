@@ -8,12 +8,12 @@
   <Border BorderBrush="#d3d3d3" BorderThickness="0,1,0,0">
     <Grid Margin="0,8,0,4">
       <StackPanel Orientation="Horizontal">
-        <mui:ModernButton Margin="2,0" IconData="F1 M 57,27.7083L 57,48.2917L 43.5417,38L 57,27.7083 Z M 39.5833,27.7083L 39.5833,48.2917L 26.125,38L 39.5833,27.7083 Z M 23.75,28.5L 23.75,47.5L 19,47.5L 19,28.5L 23.75,28.5 Z "/>
-        <mui:ModernButton Margin="2,0" IconData="F1 M 19,25L 35.75,38L 19,51L 19,25 Z M 41,25L 57.75,38L 41,51L 41,25 Z "/>
-        <mui:ModernButton Margin="2,0" IconData="F1 M 57,25L 40.25,38L 57,51L 57,25 Z M 35,25L 18.25,38L 35,51L 35,25 Z "/>
-        <mui:ModernButton Margin="2,0" IconData="F1 M 19,27.7083L 32.4583,38L 19,48.2917L 19,27.7083 Z M 36.4167,27.7083L 49.875,38L 36.4167,48.2917L 36.4167,27.7083 Z M 52.25,28.5L 57,28.5L 57,47.5L 52.25,47.5L 52.25,28.5 Z "/>
+        <mui:ModernButton Command="{Binding CommandMoveFirst}" Margin="2,0" IconData="F1 M 57,27.7083L 57,48.2917L 43.5417,38L 57,27.7083 Z M 39.5833,27.7083L 39.5833,48.2917L 26.125,38L 39.5833,27.7083 Z M 23.75,28.5L 23.75,47.5L 19,47.5L 19,28.5L 23.75,28.5 Z "/>
+        <mui:ModernButton Command="{Binding CommandMoveNext}" Margin="2,0" IconData="F1 M 19,25L 35.75,38L 19,51L 19,25 Z M 41,25L 57.75,38L 41,51L 41,25 Z "/>
+        <mui:ModernButton Command="{Binding CommandMovePrevious}" Margin="2,0" IconData="F1 M 57,25L 40.25,38L 57,51L 57,25 Z M 35,25L 18.25,38L 35,51L 35,25 Z "/>
+        <mui:ModernButton Command="{Binding CommandMoveLast}" Margin="2,0" IconData="F1 M 19,27.7083L 32.4583,38L 19,48.2917L 19,27.7083 Z M 36.4167,27.7083L 49.875,38L 36.4167,48.2917L 36.4167,27.7083 Z M 52.25,28.5L 57,28.5L 57,47.5L 52.25,47.5L 52.25,28.5 Z "/>
       </StackPanel>
-      <TextBlock Text="Page 1 of 1" VerticalAlignment="Center" FontWeight="Medium" HorizontalAlignment="Right"/>
+      <TextBlock Text="{Binding PageInfo}" VerticalAlignment="Center" FontWeight="Medium" HorizontalAlignment="Right"/>
     </Grid>
   </Border>
 </UserControl>

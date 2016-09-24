@@ -1,0 +1,3 @@
+Z:\Development\Bitz\Bitz\Bitz\bin\Debug\Bitz.exe.config
+Z:\Development\Bitz\Bitz\bin\Debug\Bitz.exe.config
+Z:\Development\Bitz\Bitz.WPF\bin\Debug\Bitz.exe.config
