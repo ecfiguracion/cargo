@@ -73,16 +73,39 @@
   <ItemGroup>
     <Compile Include="Gateway.cs" />
     <Compile Include="ViewModels\CargoDashBoardVM.cs" />
+    <Compile Include="Views\Billings\DSB003View.xaml.cs">
+      <DependentUpon>DSB003View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Billings\DSB002View.xaml.cs">
+      <DependentUpon>DSB002View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Billings\DSB001View.xaml.cs">
+      <DependentUpon>DSB001View.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CargoDashBoardView.xaml.cs">
       <DependentUpon>CargoDashBoardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\Billings\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Billings\DSB003View.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Billings\DSB002View.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Billings\DSB001View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CargoDashBoardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

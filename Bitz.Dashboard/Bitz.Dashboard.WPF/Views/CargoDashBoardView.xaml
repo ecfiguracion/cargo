@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"              
+             xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"     
+             xmlns:ui="clr-namespace:Bitz.Dashboard.Views"                 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:vm="clr-namespace:Bitz.Dashboard.ViewModels"
              mc:Ignorable="d" 
@@ -14,6 +15,17 @@
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <mui:ModernButton Grid.Column="0" IconData="F1 M 57,42L 57,34L 32.25,34L 42.25,24L 31.75,24L 17.75,38L 31.75,52L 42.25,52L 32.25,42L 57,42 Z " 
+                                EllipseDiameter="32" IconHeight="16" IconWidth="16" Margin="8,4,4,4"
+                            Command="{Binding CommandNext}" Visibility="Collapsed"/>
+
+
+    <Grid Grid.Column="1">
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>
       <RowDefinition Height="*"/>
@@ -24,26 +36,15 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <chart:ClusteredColumnChart ChartTitle="Billing Statistics" ChartSubTitle="Year 2015"
-        Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="4">
-      <chart:ClusteredColumnChart.Series>
-        <chart:ChartSeries ItemsSource="{Binding PresentLoanHistory}"
-                                DisplayMember="Month"                                           
-                                ValueMember="Count" Caption="Series by Month" />
-      </chart:ClusteredColumnChart.Series>
-    </chart:ClusteredColumnChart>
+      <ui:DSB001View Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
-    <chart:PieChart ChartTitle="Billing Quick Info" ChartSubTitle="Year 2015"
-        Grid.Row="0" Grid.Column="2" Margin="0,4,4,4">
-      <chart:PieChart.Series>
-        <chart:ChartSeries ItemsSource="{Binding LoanQuickInfos}"
-                                DisplayMember="Name"                                           
-                                ValueMember="Count"/>
-      </chart:PieChart.Series>
-    </chart:PieChart>
+      <ui:DSB002View Grid.Row="0" Grid.Column="2"/>
 
-
-    <DataGrid Grid.Row="1" Grid.ColumnSpan="3" Margin="4"></DataGrid>
+      <ui:DSB003View Grid.Row="1" Grid.Column="2"/>
+    </Grid>
+    <mui:ModernButton  Grid.Column="2" IconData="F1 M 19.0002,34L 19.0002,42L 43.7502,42L 33.7502,52L 44.2502,52L 58.2502,38L 44.2502,24L 33.7502,24L 43.7502,34L 19.0002,34 Z " 
+                                EllipseDiameter="32" IconHeight="16" IconWidth="16" Margin="8,4,4,4"
+                            Command="{Binding CommandPrevious}" Visibility="Collapsed"/>
 
   </Grid>
 </UserControl>
