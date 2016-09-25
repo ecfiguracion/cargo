@@ -142,7 +142,7 @@ where billingitemrateothers.billingitem = billingitem.billingitem
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="1">
-      <value>,pId,pId,System.String,_x0035_3,False,False</value>
+      <value>,pId,pId,System.String,_x0033_8,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -237,8 +237,10 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <AspectRatio>True</AspectRatio>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>0,0,1.2,1.2</ClientRectangle>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0,0,1.2,2.1</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <DockStyle>Left</DockStyle>
               <File>C:\Development\Others\TPCC\CargoHandling\Assets\Logo.png</File>
               <GrowToHeight>True</GrowToHeight>
               <Name>Image1</Name>
@@ -296,147 +298,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
           <Page isRef="7" />
           <Parent isRef="7" />
         </PageHeaderBand1>
-        <PageFooterBand1 Ref="22" type="PageFooterBand" isKey="true">
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0,8.82,7.56,1.4</ClientRectangle>
-          <Components isList="true" count="9">
-            <Text16 Ref="23" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.08,1.2,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text16</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>Prepared by:</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text16>
-            <Text17 Ref="24" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>3.08,0.08,0.9,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12</Font>
-              <Guid>601d0fa30baa476bbc766aa0fa6aa194</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text17</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>Reviewed by:</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text17>
-            <Text19 Ref="25" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>5.6,0.08,1.2,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12</Font>
-              <Guid>95665caf6cc542f098eae39c91f34598</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text19</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>Approved by:</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text19>
-            <Text27 Ref="26" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.68,2.1,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12,Bold</Font>
-              <Guid>7e0e2171f9ad449a8e7a2bd030f8d35d</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text27</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>CRISELDA C. CLARIANES</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text27>
-            <Text39 Ref="27" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>3.08,0.68,1.5,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12,Bold</Font>
-              <Guid>67b8adbe79e84276940829c2f348d22f</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text39</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>ELMA B. BODINO</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text39>
-            <Text40 Ref="28" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>5.6,0.68,1.9,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12,Bold</Font>
-              <Guid>8aae0fa36f9a40b1b9df2e1b640b9975</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text40</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>CESAR LUIS A. MORAN</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text40>
-            <Text52 Ref="29" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.88,1.6,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12,Italic</Font>
-              <Guid>84b9f33120f74a528babd81ea9a3b93f</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text52</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>Payroll/Billing Clerk</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text52>
-            <Text53 Ref="30" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>3.1,0.88,1.2,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12,Italic</Font>
-              <Guid>f8f3806481b540b2a8201f097f2562fd</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text53</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>Cashier</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text53>
-            <Text54 Ref="31" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>5.6,0.88,1.5,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12,Italic</Font>
-              <Guid>96b6e4f2a9364ca49c265e7b00502d97</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text54</Name>
-              <Page isRef="7" />
-              <Parent isRef="22" />
-              <Text>Office Manager</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text54>
-          </Components>
-          <Conditions isList="true" count="0" />
-          <Name>PageFooterBand1</Name>
-          <Page isRef="7" />
-          <Parent isRef="7" />
-        </PageFooterBand1>
-        <DataBand5 Ref="32" type="DataBand" isKey="true">
+        <DataBand5 Ref="22" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,2.7,7.56,2.4</ClientRectangle>
           <Components isList="true" count="19">
-            <Text38 Ref="33" type="Text" isKey="true">
+            <Text38 Ref="23" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.1,0.4,3.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -446,14 +313,14 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text38</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>{dsBilling.billingdate}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="34" type="CustomFormat" isKey="true">
+              <TextFormat Ref="24" type="CustomFormat" isKey="true">
                 <StringFormat>MMMM dd, yyyy</StringFormat>
               </TextFormat>
             </Text38>
-            <Text41 Ref="35" type="Text" isKey="true">
+            <Text41 Ref="25" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,0.4,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -463,11 +330,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text41</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>Billing Date</Text>
               <TextBrush>Black</TextBrush>
             </Text41>
-            <Text42 Ref="36" type="Text" isKey="true">
+            <Text42 Ref="26" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.1,0.8,6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -477,11 +344,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text42</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>{dsBilling.consigneename}</Text>
               <TextBrush>Black</TextBrush>
             </Text42>
-            <Text43 Ref="37" type="Text" isKey="true">
+            <Text43 Ref="27" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,0.8,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -491,11 +358,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text43</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>Payor</Text>
               <TextBrush>Black</TextBrush>
             </Text43>
-            <Text44 Ref="38" type="Text" isKey="true">
+            <Text44 Ref="28" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>1.1,1,6,0.2</ClientRectangle>
@@ -506,12 +373,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text44</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>{dsBilling.custpreferredaddress}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
             </Text44>
-            <Text45 Ref="39" type="Text" isKey="true">
+            <Text45 Ref="29" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,1,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -521,11 +388,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text45</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>Address</Text>
               <TextBrush>Black</TextBrush>
             </Text45>
-            <Text46 Ref="40" type="Text" isKey="true">
+            <Text46 Ref="30" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.1,1.4,5,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -535,11 +402,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text46</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>{dsBilling.vesselname}</Text>
               <TextBrush>Black</TextBrush>
             </Text46>
-            <Text47 Ref="41" type="Text" isKey="true">
+            <Text47 Ref="31" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,1.4,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -549,11 +416,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text47</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>Vessel</Text>
               <TextBrush>Black</TextBrush>
             </Text47>
-            <Text48 Ref="42" type="Text" isKey="true">
+            <Text48 Ref="32" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>1.1,1.6,3.2,0.2</ClientRectangle>
@@ -564,12 +431,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text48</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>{dsBilling.voyageno}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
             </Text48>
-            <Text49 Ref="43" type="Text" isKey="true">
+            <Text49 Ref="33" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,1.6,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -579,11 +446,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text49</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>Voyage No.</Text>
               <TextBrush>Black</TextBrush>
             </Text49>
-            <Text50 Ref="44" type="Text" isKey="true">
+            <Text50 Ref="34" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,2,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -593,11 +460,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text50</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>Cargo</Text>
               <TextBrush>Black</TextBrush>
             </Text50>
-            <Text51 Ref="45" type="Text" isKey="true">
+            <Text51 Ref="35" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>1.1,2,5,0.2</ClientRectangle>
@@ -608,13 +475,13 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text51</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>{Format("{0:N2}", dsBilling.itemcount) + " " + Trim(dsBilling.itemunitname) + " of " + Trim(dsBilling.itemname) + " / " + Format("{0:N2}", dsBilling.itemcounthandling) + " " + Trim(dsBilling.itemhandlingunitname)}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>Expression</Type>
             </Text51>
-            <Text55 Ref="46" type="Text" isKey="true">
+            <Text55 Ref="36" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.7,0.2,2.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -625,12 +492,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text55</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>Bill of Lading No.: {dsBilling.billladingno}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text55>
-            <Text37 Ref="47" type="Text" isKey="true">
+            <Text37 Ref="37" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,0.4,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -640,11 +507,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text37</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
             </Text37>
-            <Text56 Ref="48" type="Text" isKey="true">
+            <Text56 Ref="38" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,0.8,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -654,11 +521,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text56</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
             </Text56>
-            <Text57 Ref="49" type="Text" isKey="true">
+            <Text57 Ref="39" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,1,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -668,11 +535,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text57</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
             </Text57>
-            <Text58 Ref="50" type="Text" isKey="true">
+            <Text58 Ref="40" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,1.4,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -682,11 +549,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text58</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
             </Text58>
-            <Text59 Ref="51" type="Text" isKey="true">
+            <Text59 Ref="41" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,1.6,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -696,11 +563,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text59</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
             </Text59>
-            <Text60 Ref="52" type="Text" isKey="true">
+            <Text60 Ref="42" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,2,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -710,7 +577,7 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text60</Name>
               <Page isRef="7" />
-              <Parent isRef="32" />
+              <Parent isRef="22" />
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
             </Text60>
@@ -719,17 +586,19 @@ where billingitemrateothers.billingitem = billingitem.billingitem
           <DataRelationName isNull="true" />
           <DataSourceName>dsBilling</DataSourceName>
           <Filters isList="true" count="0" />
+          <KeepChildTogether>True</KeepChildTogether>
+          <KeepDetailsTogether>True</KeepDetailsTogether>
           <Name>DataBand5</Name>
           <Page isRef="7" />
           <Parent isRef="7" />
           <Sort isList="true" count="0" />
         </DataBand5>
-        <DataBand1 Ref="53" type="DataBand" isKey="true">
+        <DataBand1 Ref="43" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,5.5,7.56,0.2</ClientRectangle>
           <Components isList="true" count="5">
-            <Text18 Ref="54" type="Text" isKey="true">
+            <Text18 Ref="44" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.1,0,1.3,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -737,11 +606,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text18</Name>
               <Page isRef="7" />
-              <Parent isRef="53" />
+              <Parent isRef="43" />
               <Text>{dsRate.chargetype}</Text>
               <TextBrush>Black</TextBrush>
             </Text18>
-            <Text20 Ref="55" type="Text" isKey="true">
+            <Text20 Ref="45" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.4,0,0.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -750,15 +619,15 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text20</Name>
               <Page isRef="7" />
-              <Parent isRef="53" />
+              <Parent isRef="43" />
               <Text>{dsRate.unitprice}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="56" type="NumberFormat" isKey="true">
+              <TextFormat Ref="46" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
             </Text20>
-            <Text21 Ref="57" type="Text" isKey="true">
+            <Text21 Ref="47" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.1,0,0.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -766,12 +635,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text21</Name>
               <Page isRef="7" />
-              <Parent isRef="53" />
+              <Parent isRef="43" />
               <Text>{dsRate.unitcode}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text21>
-            <Text22 Ref="58" type="Text" isKey="true">
+            <Text22 Ref="48" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,0,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -781,12 +650,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Name>Text22</Name>
               <OnlyText>True</OnlyText>
               <Page isRef="7" />
-              <Parent isRef="53" />
+              <Parent isRef="43" />
               <ProcessingDuplicates>Merge</ProcessingDuplicates>
               <Text>Rate</Text>
               <TextBrush>Black</TextBrush>
             </Text22>
-            <Text61 Ref="59" type="Text" isKey="true">
+            <Text61 Ref="49" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,0,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -796,7 +665,7 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Name>Text61</Name>
               <OnlyText>True</OnlyText>
               <Page isRef="7" />
-              <Parent isRef="53" />
+              <Parent isRef="43" />
               <ProcessingDuplicates>Merge</ProcessingDuplicates>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
@@ -813,11 +682,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
           <Parent isRef="7" />
           <Sort isList="true" count="0" />
         </DataBand1>
-        <HeaderBand1 Ref="60" type="HeaderBand" isKey="true">
+        <HeaderBand1 Ref="50" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,6.1,7.56,0.5</ClientRectangle>
           <Components isList="true" count="2">
-            <Text6 Ref="61" type="Text" isKey="true">
+            <Text6 Ref="51" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,0.2,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -825,12 +694,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text6</Name>
               <Page isRef="7" />
-              <Parent isRef="60" />
+              <Parent isRef="50" />
               <Text>Computation</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text6>
-            <Text62 Ref="62" type="Text" isKey="true">
+            <Text62 Ref="52" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,0.2,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -839,7 +708,7 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text62</Name>
               <Page isRef="7" />
-              <Parent isRef="60" />
+              <Parent isRef="50" />
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
@@ -850,12 +719,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
           <Page isRef="7" />
           <Parent isRef="7" />
         </HeaderBand1>
-        <DataBand2 Ref="63" type="DataBand" isKey="true">
+        <DataBand2 Ref="53" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,7,7.56,0.2</ClientRectangle>
           <Components isList="true" count="11">
-            <Text24 Ref="64" type="Text" isKey="true">
+            <Text24 Ref="54" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.3,0,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -865,15 +734,15 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text24</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>{dsRate.unitprice}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="65" type="NumberFormat" isKey="true">
+              <TextFormat Ref="55" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
             </Text24>
-            <Text25 Ref="66" type="Text" isKey="true">
+            <Text25 Ref="56" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.9,0,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -882,12 +751,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text25</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>{dsRate.unitcode}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text25>
-            <Text23 Ref="67" type="Text" isKey="true">
+            <Text23 Ref="57" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,0.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -896,15 +765,15 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text23</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>{dsRate.itemcounthandling}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="68" type="NumberFormat" isKey="true">
+              <TextFormat Ref="58" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
             </Text23>
-            <Text26 Ref="69" type="Text" isKey="true">
+            <Text26 Ref="59" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.1,0,0.4,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -913,12 +782,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text26</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>{dsRate.handlingunitcode}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text26>
-            <Text28 Ref="70" type="Text" isKey="true">
+            <Text28 Ref="60" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -927,15 +796,15 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text28</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>{dsRate.amount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="71" type="NumberFormat" isKey="true">
+              <TextFormat Ref="61" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
             </Text28>
-            <Text31 Ref="72" type="Text" isKey="true">
+            <Text31 Ref="62" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.5,0,2.3,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -944,13 +813,13 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text31</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>{Trim(dsBilling.itemname) + " - " + Trim(dsRate.chargetype)}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>Expression</Type>
             </Text31>
-            <Text32 Ref="73" type="Text" isKey="true">
+            <Text32 Ref="63" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.7,0,0.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -960,12 +829,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Name>Text32</Name>
               <OnlyText>True</OnlyText>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <ProcessingDuplicates>Merge</ProcessingDuplicates>
               <Text>P</Text>
               <TextBrush>Black</TextBrush>
             </Text32>
-            <Text15 Ref="74" type="Text" isKey="true">
+            <Text15 Ref="64" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.7,0,0.5,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -974,17 +843,17 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text15</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>{dsRate.quantity}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="75" type="NumberFormat" isKey="true">
+              <TextFormat Ref="65" type="NumberFormat" isKey="true">
                 <DecimalDigits>4</DecimalDigits>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
             </Text15>
-            <Text63 Ref="76" type="Text" isKey="true">
+            <Text63 Ref="66" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.3,0,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -993,12 +862,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text63</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>{ IIF(dsRate.quantity &gt; 0, "x", "")}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text63>
-            <Text64 Ref="77" type="Text" isKey="true">
+            <Text64 Ref="67" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.5,0,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1007,12 +876,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text64</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>x</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text64>
-            <Text65 Ref="78" type="Text" isKey="true">
+            <Text65 Ref="68" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.5,0,0.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1021,7 +890,7 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text65</Name>
               <Page isRef="7" />
-              <Parent isRef="63" />
+              <Parent isRef="53" />
               <Text>=</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
@@ -1039,11 +908,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
           <Parent isRef="7" />
           <Sort isList="true" count="0" />
         </DataBand2>
-        <FooterBand1 Ref="79" type="FooterBand" isKey="true">
+        <FooterBand1 Ref="69" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,7.6,7.56,0.2</ClientRectangle>
           <Components isList="true" count="3">
-            <Text36 Ref="80" type="Text" isKey="true">
+            <Text36 Ref="70" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.7,0,0.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1053,12 +922,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Name>Text36</Name>
               <OnlyText>True</OnlyText>
               <Page isRef="7" />
-              <Parent isRef="79" />
+              <Parent isRef="69" />
               <ProcessingDuplicates>Merge</ProcessingDuplicates>
               <Text>P</Text>
               <TextBrush>Black</TextBrush>
             </Text36>
-            <Text35 Ref="81" type="Text" isKey="true">
+            <Text35 Ref="71" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1068,25 +937,25 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text35</Name>
               <Page isRef="7" />
-              <Parent isRef="79" />
+              <Parent isRef="69" />
               <Text>{SumRunning(DataBand2,dsRate.amount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="82" type="NumberFormat" isKey="true">
+              <TextFormat Ref="72" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <Type>Totals</Type>
             </Text35>
-            <HorizontalLinePrimitive3 Ref="83" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive3 Ref="73" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>5.7,0,1.3,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="84" type="Cap" isKey="true">
+              <EndCap Ref="74" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive3</Name>
               <Page isRef="7" />
-              <Parent isRef="79" />
-              <StartCap Ref="85" type="Cap" isKey="true">
+              <Parent isRef="69" />
+              <StartCap Ref="75" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive3>
@@ -1096,12 +965,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
           <Page isRef="7" />
           <Parent isRef="7" />
         </FooterBand1>
-        <DataBand3 Ref="86" type="DataBand" isKey="true">
+        <DataBand3 Ref="76" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,8.2,7.56,0.4</ClientRectangle>
           <Components isList="true" count="7">
-            <Text29 Ref="87" type="Text" isKey="true">
+            <Text29 Ref="77" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.7,0,0.5,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1110,12 +979,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text29</Name>
               <Page isRef="7" />
-              <Parent isRef="86" />
+              <Parent isRef="76" />
               <Text>{dsOtherRatesAdd.otherspercentage}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text29>
-            <Text30 Ref="88" type="Text" isKey="true">
+            <Text30 Ref="78" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.6,0,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1123,12 +992,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text30</Name>
               <Page isRef="7" />
-              <Parent isRef="86" />
+              <Parent isRef="76" />
               <Text>{dsOtherRatesAdd.othersdescription}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text30>
-            <Text33 Ref="89" type="Text" isKey="true">
+            <Text33 Ref="79" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.2,0,0.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1138,11 +1007,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Name>Text33</Name>
               <OnlyText>True</OnlyText>
               <Page isRef="7" />
-              <Parent isRef="86" />
+              <Parent isRef="76" />
               <Text>%</Text>
               <TextBrush>Black</TextBrush>
             </Text33>
-            <Text34 Ref="90" type="Text" isKey="true">
+            <Text34 Ref="80" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1151,16 +1020,16 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text34</Name>
               <Page isRef="7" />
-              <Parent isRef="86" />
+              <Parent isRef="76" />
               <Text>{dsOtherRatesAdd.amount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="91" type="NumberFormat" isKey="true">
+              <TextFormat Ref="81" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <Type>Expression</Type>
             </Text34>
-            <Text8 Ref="92" type="Text" isKey="true">
+            <Text8 Ref="82" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.9,0.2,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1170,16 +1039,16 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text8</Name>
               <Page isRef="7" />
-              <Parent isRef="86" />
+              <Parent isRef="76" />
               <Text>{dsOtherRatesAdd.gross + SumRunning(dsOtherRatesAdd.amount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="93" type="NumberFormat" isKey="true">
+              <TextFormat Ref="83" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <Type>Expression</Type>
             </Text8>
-            <Text7 Ref="94" type="Text" isKey="true">
+            <Text7 Ref="84" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.7,0.2,0.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1189,21 +1058,21 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Name>Text7</Name>
               <OnlyText>True</OnlyText>
               <Page isRef="7" />
-              <Parent isRef="86" />
+              <Parent isRef="76" />
               <Text>P</Text>
               <TextBrush>Black</TextBrush>
             </Text7>
-            <HorizontalLinePrimitive4 Ref="95" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive4 Ref="85" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>5.7,0.2,1.3,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="96" type="Cap" isKey="true">
+              <EndCap Ref="86" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>4be46809d9a6479cae1493adf05f029c</Guid>
               <Name>HorizontalLinePrimitive4</Name>
               <Page isRef="7" />
-              <Parent isRef="86" />
-              <StartCap Ref="97" type="Cap" isKey="true">
+              <Parent isRef="76" />
+              <StartCap Ref="87" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive4>
@@ -1217,12 +1086,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
           <Parent isRef="7" />
           <Sort isList="true" count="0" />
         </DataBand3>
-        <DataBand4 Ref="98" type="DataBand" isKey="true">
+        <DataBand4 Ref="88" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,9,7.56,0.2</ClientRectangle>
           <Components isList="true" count="4">
-            <Text9 Ref="99" type="Text" isKey="true">
+            <Text9 Ref="89" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.7,0,0.5,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1232,12 +1101,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text9</Name>
               <Page isRef="7" />
-              <Parent isRef="98" />
+              <Parent isRef="88" />
               <Text>{dsOtherRatesLess.otherspercentage}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text9>
-            <Text10 Ref="100" type="Text" isKey="true">
+            <Text10 Ref="90" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.6,0,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1246,12 +1115,12 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text10</Name>
               <Page isRef="7" />
-              <Parent isRef="98" />
+              <Parent isRef="88" />
               <Text>{dsOtherRatesLess.othersdescription}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text10>
-            <Text11 Ref="101" type="Text" isKey="true">
+            <Text11 Ref="91" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.2,0,0.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1261,11 +1130,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Name>Text11</Name>
               <OnlyText>True</OnlyText>
               <Page isRef="7" />
-              <Parent isRef="98" />
+              <Parent isRef="88" />
               <Text>%</Text>
               <TextBrush>Black</TextBrush>
             </Text11>
-            <Text12 Ref="102" type="Text" isKey="true">
+            <Text12 Ref="92" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1275,10 +1144,10 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text12</Name>
               <Page isRef="7" />
-              <Parent isRef="98" />
+              <Parent isRef="88" />
               <Text>{dsOtherRatesLess.amount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="103" type="NumberFormat" isKey="true">
+              <TextFormat Ref="93" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1294,26 +1163,11 @@ where billingitemrateothers.billingitem = billingitem.billingitem
           <Parent isRef="7" />
           <Sort isList="true" count="0" />
         </DataBand4>
-        <FooterBand3 Ref="104" type="FooterBand" isKey="true">
+        <FooterBand3 Ref="94" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,9.6,7.56,0</ClientRectangle>
           <Components isList="true" count="3">
-            <Text13 Ref="105" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>5.7,0,0.2,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12,Bold</Font>
-              <Guid>493ee14b6f2a492ca235e59d3886f444</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text13</Name>
-              <OnlyText>True</OnlyText>
-              <Page isRef="7" />
-              <Parent isRef="104" />
-              <ProcessingDuplicates>Merge</ProcessingDuplicates>
-              <Text>P</Text>
-              <TextBrush>Black</TextBrush>
-            </Text13>
-            <Text14 Ref="106" type="Text" isKey="true">
+            <Text14 Ref="95" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.9,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1323,27 +1177,42 @@ where billingitemrateothers.billingitem = billingitem.billingitem
               <Margins>0,0,0,0</Margins>
               <Name>Text14</Name>
               <Page isRef="7" />
-              <Parent isRef="104" />
+              <Parent isRef="94" />
               <Text>{(Sum(DataBand3,dsOtherRatesAdd.amount) +
 Sum(DataBand2,dsRate.amount)) - Sum(DataBand4,dsOtherRatesLess.amount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="107" type="NumberFormat" isKey="true">
+              <TextFormat Ref="96" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <Type>Expression</Type>
             </Text14>
-            <HorizontalLinePrimitive5 Ref="108" type="HorizontalLinePrimitive" isKey="true">
+            <Text13 Ref="97" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.7,0,0.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>493ee14b6f2a492ca235e59d3886f444</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <OnlyText>True</OnlyText>
+              <Page isRef="7" />
+              <Parent isRef="94" />
+              <ProcessingDuplicates>Merge</ProcessingDuplicates>
+              <Text>P</Text>
+              <TextBrush>Black</TextBrush>
+            </Text13>
+            <HorizontalLinePrimitive5 Ref="98" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>5.7,0,1.3,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="109" type="Cap" isKey="true">
+              <EndCap Ref="99" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>e1c0d0951e704fec804d7c87152ad174</Guid>
               <Name>HorizontalLinePrimitive5</Name>
               <Page isRef="7" />
-              <Parent isRef="104" />
-              <StartCap Ref="110" type="Cap" isKey="true">
+              <Parent isRef="94" />
+              <StartCap Ref="100" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive5>
@@ -1353,15 +1222,152 @@ Sum(DataBand2,dsRate.amount)) - Sum(DataBand4,dsOtherRatesLess.amount)}</Text>
           <Page isRef="7" />
           <Parent isRef="7" />
         </FooterBand3>
+        <DataBand6 Ref="101" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,10,7.56,1.4</ClientRectangle>
+          <Components isList="true" count="9">
+            <Text16 Ref="102" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.5,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>Prepared by:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text16>
+            <Text17 Ref="103" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.08,0.5,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>601d0fa30baa476bbc766aa0fa6aa194</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>Reviewed by:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text17>
+            <Text19 Ref="104" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,0.5,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>95665caf6cc542f098eae39c91f34598</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text19</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>Approved by:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text19>
+            <Text27 Ref="105" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1,2.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>7e0e2171f9ad449a8e7a2bd030f8d35d</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>CRISELDA C. CLARIANES</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text27>
+            <Text39 Ref="106" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.08,1,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>67b8adbe79e84276940829c2f348d22f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text39</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>ELMA B. BODINO</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text39>
+            <Text40 Ref="107" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,1,1.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold</Font>
+              <Guid>8aae0fa36f9a40b1b9df2e1b640b9975</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text40</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>CESAR LUIS A. MORAN</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text40>
+            <Text52 Ref="108" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.2,1.6,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Italic</Font>
+              <Guid>84b9f33120f74a528babd81ea9a3b93f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text52</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>Payroll/Billing Clerk</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text52>
+            <Text53 Ref="109" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.1,1.2,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Italic</Font>
+              <Guid>f8f3806481b540b2a8201f097f2562fd</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text53</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>Cashier</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text53>
+            <Text54 Ref="110" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,1.2,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Italic</Font>
+              <Guid>96b6e4f2a9364ca49c265e7b00502d97</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text54</Name>
+              <Page isRef="7" />
+              <Parent isRef="101" />
+              <Text>Office Manager</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text54>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand6</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand6>
       </Components>
       <Conditions isList="true" count="0" />
       <Guid>01d5104470fa435fb3ca644cb8304603</Guid>
       <Margins>0.55,0.39,0.39,0.39</Margins>
       <Name>Page1</Name>
-      <PageHeight>11</PageHeight>
+      <PageHeight>12.2</PageHeight>
       <PageWidth>8.5</PageWidth>
-      <PaperSize>Letter</PaperSize>
       <Report isRef="0" />
+      <StretchToPrintArea>True</StretchToPrintArea>
       <Watermark Ref="111" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
@@ -1380,10 +1386,10 @@ Sum(DataBand2,dsRate.amount)) - Sum(DataBand4,dsOtherRatesLess.amount)}</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/15/2016 3:36:48 PM</ReportChanged>
+  <ReportChanged>9/24/2016 11:42:06 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\Others\TPCC\CargoHandling\Reports\SOA.mrt</ReportFile>
-  <ReportGuid>e644257542eb4bdebe3c914afc09517b</ReportGuid>
+  <ReportGuid>ff3f656c56024873b1b383805440acf6</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
