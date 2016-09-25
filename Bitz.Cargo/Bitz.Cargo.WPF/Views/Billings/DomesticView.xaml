@@ -32,7 +32,7 @@
           <RowDefinition Height="Auto"></RowDefinition>
           <RowDefinition Height="Auto"></RowDefinition>
           <RowDefinition Height="Auto"></RowDefinition>
-          <RowDefinition Height="Auto"></RowDefinition>
+          <!--<RowDefinition Height="Auto"></RowDefinition>-->
           <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -489,12 +489,12 @@
             <mui:DataGridComboBoxColumn Header="Type"
                                         HeaderStyle="{StaticResource xHeaderStyleLeftAligned}"
                                         DisplayMemberPath="Value"
-                                        ItemsSource="{Binding HandlingChargeType}"
+                                        ItemsSource="{Binding HandlingChargeType,Source={StaticResource ViewModel}}"
                                         SelectedValuePath="Id"
                                         SelectedValueBinding="{Binding RateType,Mode=TwoWay,ValidatesOnDataErrors=True}" />
           </DataGrid.Columns>
         </DataGrid>
-        <Label Grid.Row="9"
+        <!--<Label Grid.Row="9"
                Grid.ColumnSpan="4"
                Margin="4"
                HorizontalAlignment="Left"
@@ -505,7 +505,7 @@
                  Margin="4"
                  TextWrapping="WrapWithOverflow"
                  AcceptsReturn="True"
-                 Text="{Binding Model.Remarks,Mode=TwoWay}" />
+                 Text="{Binding Model.Remarks,Mode=TwoWay}" />-->
 
       </Grid>
     </ScrollViewer>

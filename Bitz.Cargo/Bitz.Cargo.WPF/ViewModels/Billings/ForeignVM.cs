@@ -6,6 +6,7 @@ using Bitz.Cargo.Business.Contacts.Infos;
 using Bitz.Cargo.Business.Items;
 using Bitz.Cargo.Business.Items.Infos;
 using Bitz.Core.Application;
+using Bitz.Core.Constants;
 using Bitz.Core.Shell;
 using Bitz.Core.Utilities;
 using Bitz.Core.ViewModel;
@@ -266,7 +267,7 @@ namespace Bitz.Cargo.ViewModels.Billings
       }
     }
 
-    public System.Collections.IList HandlingChargeType
+    public List<CoreConstants.IdValue> HandlingChargeType
     {
       get { return Bitz.Cargo.Business.Constants.CargoConstants.CargoHandlingChargeTypes.Items; }
     }

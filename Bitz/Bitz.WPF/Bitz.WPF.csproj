@@ -137,6 +137,11 @@
       <Name>Bitz.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\background.snowflakes.jpg" />
+    <Resource Include="Assets\Bitz.ico" />
+    <Resource Include="Assets\Logo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
