@@ -239,7 +239,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
     #region Criteria
 
     [Serializable]
-    public class Criteria : CriteriaBase<Criteria>
+    public class Criteria : PageCriteriaBase<Criteria>
     {
       #region SearchText
       private static PropertyInfo<string> _SearchText = RegisterProperty<string>(c => c.SearchText);
@@ -347,6 +347,13 @@ namespace Bitz.Cargo.Business.Billing.Infos
             cmd.CommandText += @" AND (i.billingdate >= @fromDate AND i.billingdate < @toDate)";
             cmd.Parameters.AddWithValue("@fromDate", criteria.BillingDateStartRange.Date);
             cmd.Parameters.AddWithValue("@toDate", criteria.BillingDateEndRange.Date.AddDays(1));
+          }
+
+          //Apply paging
+          if (criteria.PageSize > 0)
+          {
+            var sortby = "i.billingdate DESC";
+            SQLHelper.AddSQLPaging(criteria, sortby, cmd);
           }
 
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
