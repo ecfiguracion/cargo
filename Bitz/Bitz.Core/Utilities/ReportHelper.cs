@@ -25,7 +25,7 @@ namespace Bitz.Core.Utilities
     public static void Print(string reportcode, string parameterXML, bool preview)
     {
       // Load report dll
-      StiReport report = StiReport.GetReportFromAssembly(ConfigHelper.GetReportsPath() + reportcode);
+      StiReport report = StiReport.GetReportFromAssembly(ConfigHelper.GetAppSettings(BitzConstants.Configurations.ReportsPath) + reportcode);
 
       // Fill up report parameter values
       XDocument xdocument = XDocument.Parse(parameterXML);

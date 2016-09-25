@@ -84,6 +84,7 @@
     <Compile Include="Application\Reports.cs" />
     <Compile Include="Application\UserInterface.cs" />
     <Compile Include="Commands\CommandRemoveRow.cs" />
+    <Compile Include="Constants\BitzConstants.cs" />
     <Compile Include="Constants\CoreConstants.cs" />
     <Compile Include="Controls\DataPager.xaml.cs">
       <DependentUpon>DataPager.xaml</DependentUpon>

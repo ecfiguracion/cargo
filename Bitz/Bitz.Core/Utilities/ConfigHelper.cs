@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bitz.Core.Constants;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -16,14 +17,9 @@ namespace Bitz.Core.Utilities
       return ConfigurationManager.ConnectionStrings["Bitz"].ConnectionString;
     }
 
-    public static string GetReportsPath()
+    public static string GetAppSettings(CoreConstants.IdValue configuration)
     {
-      return ConfigurationManager.AppSettings["ReportsPath"];
-    }
-
-    public static int GetPageSize()
-    {
-      return int.Parse(ConfigurationManager.AppSettings["PageSize"]);
+      return ConfigurationManager.AppSettings[configuration.Value];
     }
 
 

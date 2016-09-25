@@ -32,6 +32,8 @@ namespace Bitz.Cargo.Business.Constants
       }
     }
 
+    #endregion
+
     #region CargoHandlingCharges
 
     public class CargoHandlingCharges
@@ -80,6 +82,5 @@ namespace Bitz.Cargo.Business.Constants
 
     #endregion
 
-    #endregion
   }
 }
