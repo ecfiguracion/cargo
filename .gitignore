@@ -216,6 +216,11 @@
 /Bitz.Reports/Bitz.Reports.Business/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 /Bitz.Reports/Bitz.Reports.Business/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
 /Bitz.Reports/Bitz.Reports.Business/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+Output
+obj
+bin
+/Bitz/Bitz.WPF/App.config
+/Bitz.Reports/Bitz.Reports.Business/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
 /Bitz.Reports/Bitz.Reports.WPF/bin/Debug/Bitz.Core.dll
 /Bitz.Reports/Bitz.Reports.WPF/bin/Debug/Bitz.Core.pdb
 /Bitz.Reports/Bitz.Reports.WPF/bin/Debug/Bitz.Reports.dll

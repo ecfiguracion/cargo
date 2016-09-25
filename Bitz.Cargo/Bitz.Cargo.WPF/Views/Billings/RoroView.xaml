@@ -63,7 +63,7 @@
                   Margin="4"
                   Width="130"
                   HorizontalAlignment="Left"
-                  SelectedDate="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True, StringFormat='{}{0:MMM dd,yyyy}'}" />
+                  SelectedDate="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
       <Label Grid.Row="1"
              Grid.Column="2"
@@ -310,7 +310,7 @@
       <DataGrid Name="DG2"
                 Margin="8,24,8,8"
                 Grid.Row="8"
-                ItemsSource="{Binding Model.BillingItemRoroHandlingRates, Mode=TwoWay}"
+                ItemsSource="{Binding Model.RoroHandlingRates, Mode=TwoWay}"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 Visibility="{Binding SelectedRatesVisibility}"
@@ -417,7 +417,7 @@
                 Margin="8,54,8,8"
                 Grid.Row="6"
                 Grid.RowSpan="3"
-                ItemsSource="{Binding Model.BillingItemRoroHandlingRateOthers, Mode=TwoWay}"
+                ItemsSource="{Binding Model.RoroHandlingRateOthers, Mode=TwoWay}"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 SelectedItem="{Binding SelectedItemRateOther, Mode=TwoWay}"
@@ -489,9 +489,9 @@
 
           <mui:DataGridComboBoxColumn Header="Type"
                                       HeaderStyle="{StaticResource xHeaderStyleLeftAligned}"
-                                      DisplayMemberPath="Name"
+                                      DisplayMemberPath="Value"
                                       ItemsSource="{Binding HandlingChargeType}"
-                                      SelectedValuePath="Key"
+                                      SelectedValuePath="Id"
                                       SelectedValueBinding="{Binding RateType,Mode=TwoWay,ValidatesOnDataErrors=True}" />
         </DataGrid.Columns>
       </DataGrid>
