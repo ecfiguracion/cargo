@@ -270,6 +270,7 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       get { return Bitz.Cargo.Business.Constants.CargoConstants.CargoHandlingChargeTypes.Items; }
     }
+
     #endregion
 
     #region Commands

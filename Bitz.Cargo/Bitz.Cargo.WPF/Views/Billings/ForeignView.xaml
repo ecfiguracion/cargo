@@ -489,7 +489,7 @@
 
             <mui:DataGridComboBoxColumn Header="Type"
                                         HeaderStyle="{StaticResource xHeaderStyleLeftAligned}"
-                                        DisplayMemberPath="Name"
+                                        DisplayMemberPath="Value"
                                         ItemsSource="{Binding HandlingChargeType}"
                                         SelectedValuePath="Id"
                                         SelectedValueBinding="{Binding RateType,Mode=TwoWay,ValidatesOnDataErrors=True}" />
