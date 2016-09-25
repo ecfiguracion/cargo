@@ -1,4 +1,5 @@
-﻿using Bitz.Core.Utilities;
+﻿using Bitz.Core.Constants;
+using Bitz.Core.Utilities;
 using Csla;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,8 @@ namespace Bitz.Core.Data
 
     protected PageCriteriaBase()
     {
-      this.PageSize = ConfigHelper.GetPageSize();
+      var pagesize = ConfigHelper.GetAppSettings(BitzConstants.Configurations.PageSize); ;
+      this.PageSize = int.Parse(pagesize);
       this.PageIndex = 1;
     }
 
