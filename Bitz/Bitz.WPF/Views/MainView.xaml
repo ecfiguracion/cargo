@@ -16,27 +16,6 @@
     </Grid.ColumnDefinitions>
     
     <mui:ModernMenu Grid.Row="0" x:Name="Menu" SelectedLink="{Binding SelectedLink,Mode=TwoWay}">
-    <StackPanel Orientation="Horizontal"
-                HorizontalAlignment="Right">
-      <TextBlock Text="Tabaco Port Cargo Corporation"
-                 Margin="8,0"
-                 VerticalAlignment="Center"
-                 Style="{StaticResource ModernWindowTitle}"
-                 Visibility="Visible" />
-      <Image Grid.Column="0"
-             Margin="2,5"
-             Source="/Assets/Logo.png"
-             HorizontalAlignment="Left"
-             Opacity=".7"
-             Height="88"
-             VerticalAlignment="Top" />
-      <TextBlock Text="Cargo Handling"
-                 Margin="8,0"
-                 VerticalAlignment="Center"
-                 Style="{StaticResource ModernWindowTitle}"
-                 Visibility="Visible" />
-    </StackPanel>
-    <mui:ModernMenu Margin="0,20,0,0" x:Name="Menu" SelectedLink="{Binding SelectedLink,Mode=TwoWay}">
       <mui:ModernMenu.LinkGroups>
         <mui:LinkGroup DisplayName="Home">
           <mui:LinkGroup.Links>
