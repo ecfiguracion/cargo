@@ -7,7 +7,6 @@ using Bitz.Cargo.Business.Items;
 using Bitz.Cargo.Business.Items.Infos;
 using Bitz.Core.Application;
 using Bitz.Core.Constants;
-using Bitz.Core.Events;
 using Bitz.Core.Shell;
 using Bitz.Core.Utilities;
 using Bitz.Core.ViewModel;
@@ -22,18 +21,18 @@ using System.Windows.Input;
 
 namespace Bitz.Cargo.ViewModels.Billings
 {
-  public class ForeignVM : PageViewModelBase<Foreign>
+  public class PaymentVM : PageViewModelBase<Foreign>
   {
     #region Initialise
 
-    public ForeignVM()
+    public PaymentVM()
     {
       if (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv") return;
 
-      this.CommandAddItem = new DelegateCommand<object>(CommandAddItemExecute);
-      this.CommandRemoveItem = new DelegateCommand<object>(CommandRemoveItemExecute);
+      this.CommandAddItemRate = new DelegateCommand<object>(CommandAddItemRateExecute);
+      this.CommandRemoveItemRate = new DelegateCommand<object>(CommandRemoveItemRateExecute);
 
-      this.CommandAddItemOther = new DelegateCommand<object>(CommandAddItemOtherExecute);
+      this.CommandAddItemRateOther = new DelegateCommand<object>(CommandAddItemRateOtherExecute);
       this.CommandRemoveItemRateOther = new DelegateCommand<object>(CommandRemoveItemRateOtherExecute);
     }
 
@@ -276,30 +275,36 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #region Commands
 
-    public ICommand CommandAddItem
+    public ICommand CommandAddItemRate
     {
       get;
       private set;
     }
 
-    public void CommandAddItemExecute(object parameter)
+    public void CommandAddItemRateExecute(object parameter)
     {
-      EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Subscribe(SelectedCargoResult);
-      NavigationManager.Show(UserInterfaces.Cargo.CargoSelectDialog);
+      if (this.Model.ForeignHandlingRates == null)
+        this.Model.ForeignHandlingRates = new BillingItemRates();
+
+      var itemrate = this.Model.ForeignHandlingRates.AddNew();
+      itemrate.ItemRate = this.SelectedConfiguredItemRate.Id;
+      if (this.Model.ItemCountHandling != null)
+        itemrate.Computation1 = Math.Round(this.Model.ItemCountHandling.Value, 2);
+      if (this.SelectedConfiguredItemRate.ConstantValue > 0)
+        itemrate.Computation2 = this.SelectedConfiguredItemRate.ConstantValue;
+
+      itemrate.Computation3 = this.SelectedConfiguredItemRate.ItemRate;
+      //LoadConfiguredItemRates();
+
     }
 
-    public void SelectedCargoResult(object payload)
-    {
-
-    }
-
-    public ICommand CommandRemoveItem
+    public ICommand CommandRemoveItemRate
     {
       get;
       private set;
     }
 
-    public void CommandRemoveItemExecute(object parameter)
+    public void CommandRemoveItemRateExecute(object parameter)
     {
       if (SelectedItemRate != null)
       {
@@ -308,13 +313,13 @@ namespace Bitz.Cargo.ViewModels.Billings
       }
     }
 
-    public ICommand CommandAddItemOther
+    public ICommand CommandAddItemRateOther
     {
       get;
       private set;
     }
 
-    public void CommandAddItemOtherExecute(object parameter)
+    public void CommandAddItemRateOtherExecute(object parameter)
     {
       if (this.Model.ForeignHandlingRateOthers == null)
         this.Model.ForeignHandlingRateOthers = new BillingItemRateOthers();

@@ -84,9 +84,11 @@ namespace Bitz.Core.Application
       public static CoreConstants.UserInterface DomesticBills { get { return FindById(1404); } }
 
       public static CoreConstants.UserInterface RoroBill { get { return FindById(1405); } }
-      public static CoreConstants.UserInterface RoroBills { get { return FindById(1406); } 
-      }
+      public static CoreConstants.UserInterface RoroBills { get { return FindById(1406); } }
+
       public static CoreConstants.UserInterface BillingInquiry { get { return FindById(1407); } }
+
+      public static CoreConstants.UserInterface CargoSelectDialog { get { return FindById(1408); } }
 
       public static void Initialise()
       {
@@ -102,6 +104,8 @@ namespace Bitz.Core.Application
         Items.Add(new CoreConstants.UserInterface(1406, "Roro","Roro Billings", "Bitz.Cargo.Views.Billings.RorosView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.RoroBill));
 
         Items.Add(new CoreConstants.UserInterface(1407, "Inquiry","Billing Inquiry", "Bitz.Cargo.Views.Billings.InquiryView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+
+        Items.Add(new CoreConstants.UserInterface(1408, "Select Cargo","Bitz.Cargo.Views.Dialogs.CargoSelectDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
       }
     }
 

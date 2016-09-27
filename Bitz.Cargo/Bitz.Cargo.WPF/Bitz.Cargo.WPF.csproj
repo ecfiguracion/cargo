@@ -73,14 +73,19 @@
     <Compile Include="ViewModels\Billings\DomesticsVM.cs" />
     <Compile Include="ViewModels\Billings\DomesticVM.cs" />
     <Compile Include="ViewModels\Billings\ForeignsVM.cs" />
+    <Compile Include="ViewModels\Billings\PaymentVM.cs" />
     <Compile Include="ViewModels\Billings\RoroVM.cs" />
     <Compile Include="ViewModels\Billings\ForeignVM.cs" />
     <Compile Include="ViewModels\Billings\RorosVM.cs" />
+    <Compile Include="ViewModels\Dialogs\CargoSelectDialogVM.cs" />
     <Compile Include="Views\BillingMainView.xaml.cs">
       <DependentUpon>BillingMainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Billings\DomesticsView.xaml.cs">
       <DependentUpon>DomesticsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Billings\PaymentView.xaml.cs">
+      <DependentUpon>PaymentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Billings\RorosView.xaml.cs">
       <DependentUpon>RorosView.xaml</DependentUpon>
@@ -96,6 +101,12 @@
     </Compile>
     <Compile Include="Views\Billings\ForeignView.xaml.cs">
       <DependentUpon>ForeignView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\CargoSelectDialogView.xaml.cs">
+      <DependentUpon>CargoSelectDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\ModernDialog1.xaml.cs">
+      <DependentUpon>ModernDialog1.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup />
@@ -121,6 +132,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Billings\PaymentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Billings\RorosView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -138,6 +153,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Billings\ForeignView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\CargoSelectDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\ModernDialog1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
