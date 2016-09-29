@@ -36,5 +36,30 @@ namespace Bitz.Core.Constants
     }
 
     #endregion
+
+    #region ContactTypes
+
+    public class ContactTypes
+    {
+      private static List<CoreConstants.IdValue> _ContactTypes = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue Employee { get { return _ContactTypes[0]; } }
+      public static CoreConstants.IdValue Consignee { get { return _ContactTypes[1]; } }
+      public static CoreConstants.IdValue Vessel { get { return _ContactTypes[2]; } }
+
+      static ContactTypes()
+      {
+        _ContactTypes.Add(new CoreConstants.IdValue(1, "Employee"));
+        _ContactTypes.Add(new CoreConstants.IdValue(2, "Consignee"));
+        _ContactTypes.Add(new CoreConstants.IdValue(3, "Vessel"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _ContactTypes; }
+      }
+    }
+
+    #endregion
   }
 }

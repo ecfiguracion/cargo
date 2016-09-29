@@ -161,7 +161,7 @@ namespace Bitz.Cargo.Business.Items.Infos
     #region Criteria
 
     [Serializable]
-    public class Criteria : CriteriaBase<Criteria>
+    public class Criteria : PageCriteriaBase<Criteria>
     {
       #region SearchText
       private static PropertyInfo<string> _SearchText = RegisterProperty<string>(c => c.SearchText);
@@ -215,10 +215,12 @@ namespace Bitz.Cargo.Business.Items.Infos
                                       OR shortdescription LIKE @SearchText)";
           cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
 
-          //if (criteria.ItemType != null)
-          //  cmd.Parameters.AddWithValue("@itemtype", criteria.ItemType);
-          //else
-          //  cmd.Parameters.AddWithValue("@itemtype", DBNull.Value);
+          //Apply paging
+          if (criteria.PageSize > 0)
+          {
+            var sortby = "itemname ASC";
+            SQLHelper.AddSQLPaging(criteria, sortby, cmd);
+          }
 
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
           {

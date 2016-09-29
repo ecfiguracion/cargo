@@ -90,6 +90,20 @@ namespace Bitz.Core.Application
 
       public static CoreConstants.UserInterface CargoSelectDialog { get { return FindById(1408); } }
 
+      public static CoreConstants.UserInterface References { get { return FindById(1409); } }
+
+      public static CoreConstants.UserInterface Consignee { get { return FindById(1410); } }
+      public static CoreConstants.UserInterface Consignees { get { return FindById(1411); } }
+
+      public static CoreConstants.UserInterface Vessel { get { return FindById(1412); } }
+      public static CoreConstants.UserInterface Vessels { get { return FindById(1413); } }
+
+      public static CoreConstants.UserInterface CargoItem { get { return FindById(1414); } }
+      public static CoreConstants.UserInterface CargoItems { get { return FindById(1415); } }
+
+      public static CoreConstants.UserInterface UnitOfMeasure { get { return FindById(1416); } }
+      public static CoreConstants.UserInterface UnitOfMeasures { get { return FindById(1417); } }
+
       public static void Initialise()
       {
         Items.Add(new CoreConstants.UserInterface(1400, "Billings", "Bitz.Cargo.Views.BillingMainView", Modules.Cargo, CoreConstants.PageType.Page));
@@ -106,6 +120,20 @@ namespace Bitz.Core.Application
         Items.Add(new CoreConstants.UserInterface(1407, "Inquiry","Billing Inquiry", "Bitz.Cargo.Views.Billings.InquiryView", Modules.Cargo, CoreConstants.PageType.ContentPage));
 
         Items.Add(new CoreConstants.UserInterface(1408, "Select Cargo","Bitz.Cargo.Views.Dialogs.CargoSelectDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
+
+        Items.Add(new CoreConstants.UserInterface(1409, "References", "Bitz.Cargo.Views.Settings.ReferencesView", Modules.Cargo, CoreConstants.PageType.Page));
+        
+        Items.Add(new CoreConstants.UserInterface(1410, "Consignee", "Bitz.Cargo.Views.Settings.ConsigneeView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1411, "Consignees", "Bitz.Cargo.Views.Settings.ConsigneesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.Consignee));
+
+        Items.Add(new CoreConstants.UserInterface(1412, "Vessel", "Bitz.Cargo.Views.Settings.VesselView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1413, "Vessels", "Bitz.Cargo.Views.Settings.VesselsView", Modules.Cargo, CoreConstants.PageType.ContentPage,Cargo.Vessel));
+
+        Items.Add(new CoreConstants.UserInterface(1414, "Cargo", "Bitz.Cargo.Views.Settings.CargoView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1415, "Cargos", "Bitz.Cargo.Views.Settings.CargosView", Modules.Cargo, CoreConstants.PageType.ContentPage,Cargo.CargoItem));
+
+        Items.Add(new CoreConstants.UserInterface(1416, "Unit Of Measure", "Bitz.Cargo.Views.Settings.UnitOfMeasureView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1417, "Unit Of Measures", "Bitz.Cargo.Views.Settings.UnitOfMeasuresView", Modules.Cargo, CoreConstants.PageType.ContentPage,Cargo.UnitOfMeasure));
       }
     }
 

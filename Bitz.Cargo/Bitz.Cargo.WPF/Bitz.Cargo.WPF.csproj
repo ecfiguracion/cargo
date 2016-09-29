@@ -78,6 +78,15 @@
     <Compile Include="ViewModels\Billings\ForeignVM.cs" />
     <Compile Include="ViewModels\Billings\RorosVM.cs" />
     <Compile Include="ViewModels\Dialogs\CargoSelectDialogVM.cs" />
+    <Compile Include="ViewModels\Settings\CargosVM.cs" />
+    <Compile Include="ViewModels\Settings\UnitOfMeasuresVM.cs" />
+    <Compile Include="ViewModels\Settings\VesselsVM.cs" />
+    <Compile Include="ViewModels\Settings\ConsigneesVM.cs" />
+    <Compile Include="ViewModels\Settings\CargoVM.cs" />
+    <Compile Include="ViewModels\Settings\UnitOfMeasureVM.cs" />
+    <Compile Include="ViewModels\Settings\VesselVM.cs" />
+    <Compile Include="ViewModels\Settings\ConsigneeVM.cs" />
+    <Compile Include="ViewModels\Settings\ReferencesVM.cs" />
     <Compile Include="Views\BillingMainView.xaml.cs">
       <DependentUpon>BillingMainView.xaml</DependentUpon>
     </Compile>
@@ -107,6 +116,33 @@
     </Compile>
     <Compile Include="Views\Dialogs\ModernDialog1.xaml.cs">
       <DependentUpon>ModernDialog1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\CargosView.xaml.cs">
+      <DependentUpon>CargosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\UnitOfMeasuresView.xaml.cs">
+      <DependentUpon>UnitOfMeasuresView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\VesselsView.xaml.cs">
+      <DependentUpon>VesselsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\ConsigneesView.xaml.cs">
+      <DependentUpon>ConsigneesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\CargoView.xaml.cs">
+      <DependentUpon>CargoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\UnitOfMeasureView.xaml.cs">
+      <DependentUpon>UnitOfMeasureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\VesselView.xaml.cs">
+      <DependentUpon>VesselView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\ConsigneeView.xaml.cs">
+      <DependentUpon>ConsigneeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\ReferencesView.xaml.cs">
+      <DependentUpon>ReferencesView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup />
@@ -163,6 +199,42 @@
     <Page Include="Views\Dialogs\ModernDialog1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\CargosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\UnitOfMeasuresView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\VesselsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\ConsigneesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\CargoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\UnitOfMeasureView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\VesselView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\ConsigneeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\ReferencesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

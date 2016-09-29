@@ -195,7 +195,7 @@ namespace Bitz.Cargo.Business.Contacts.Infos
     #region Criteria
 
     [Serializable]
-    public class Criteria : CriteriaBase<Criteria>
+    public class Criteria : PageCriteriaBase<Criteria>
     {
       #region SearchText
       private static PropertyInfo<string> _SearchText = RegisterProperty<string>(c => c.SearchText);
@@ -267,6 +267,13 @@ namespace Bitz.Cargo.Business.Contacts.Infos
             cmd.Parameters.AddWithValue("@contactType", criteria.ContactType);
           else
             cmd.Parameters.AddWithValue("@contactType", DBNull.Value);
+
+          //Apply paging
+          if (criteria.PageSize > 0)
+          {
+            var sortby = "name ASC";
+            SQLHelper.AddSQLPaging(criteria, sortby, cmd);
+          }
 
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
           {

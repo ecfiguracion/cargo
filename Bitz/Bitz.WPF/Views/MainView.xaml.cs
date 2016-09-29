@@ -32,6 +32,7 @@ namespace Bitz.Views
 
       AppCache.MainFrame = this.xMainFrame;
       AppCache.MainWindow = this;
+      AppCache.MainFrame.KeepContentAlive = false;
 
       var vm = new MainVM();
 

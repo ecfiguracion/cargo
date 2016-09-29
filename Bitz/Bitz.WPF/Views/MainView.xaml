@@ -33,6 +33,7 @@
         <mui:LinkGroup DisplayName="Settings">
           <mui:LinkGroup.Links>
             <mui:Link DisplayName="References" />
+            <mui:Link DisplayName="Security" />
             <mui:Link DisplayName="Theme" />
           </mui:LinkGroup.Links>
         </mui:LinkGroup>
