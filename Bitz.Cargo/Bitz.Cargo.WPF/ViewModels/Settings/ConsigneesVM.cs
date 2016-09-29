@@ -22,7 +22,7 @@ namespace Bitz.Cargo.ViewModels.Settings
     {
       base.Initialise();
 
-      this.Criteria = new ConsigneeInfos.Criteria() as IPageCriteria;
+      this.Criteria = new ConsigneeInfos.Criteria();
      
       this.Refresh();
     }

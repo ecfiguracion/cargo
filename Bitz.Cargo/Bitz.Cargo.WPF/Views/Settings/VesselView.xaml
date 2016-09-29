@@ -24,132 +24,38 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition Height="*"></RowDefinition>
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
-        <ColumnDefinition Width="Auto"></ColumnDefinition>
-        <ColumnDefinition Width="*"></ColumnDefinition>
       </Grid.ColumnDefinitions>
 
       <Label Grid.Row="0"
                  Grid.Column="0"
-                 Margin="4"
+                 Margin="4,0"
                  HorizontalAlignment="Left"
                  VerticalContentAlignment="Center"
-                 Content="Code" />
+                 Content="Vessel Id" />
       <TextBox Grid.Row="0"
-                   Grid.Column="1"
-                   Margin="4"
-                   Width="250"
-                   HorizontalAlignment="Left"
-                   Text="{Binding Model.Code,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+               Grid.Column="1"
+               IsReadOnly="True"
+               Margin="8,2,2,2"
+               Width="250"
+               HorizontalAlignment="Left"
+               Text="{Binding Model.Contact.Code,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
       <Label Grid.Row="1"
                  Grid.Column="0"
-                 Margin="4"
+                 Margin="4,0"
                  HorizontalAlignment="Left"
                  VerticalContentAlignment="Center"
-                 Content="Preferred Name" />
+                 Content="Vessel Name" />
       <TextBox Grid.Row="1"
-                   Grid.Column="1"
-                   Margin="4"
-                   Width="250"
-                   HorizontalAlignment="Left"
-                   Text="{Binding Model.PreferredName,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-      <Label Grid.Row="2"
-                 Grid.Column="0"
-                 Margin="4"
-                 HorizontalAlignment="Left"
-                 VerticalContentAlignment="Center"
-                 Content="Firstname" />
-      <TextBox Grid.Row="2"
-                   Grid.Column="1"
-                   Margin="4"
-                   Text="{Binding Model.Firstname, Mode=TwoWay,ValidatesOnDataErrors=True}"/>
-
-      <Label  Grid.Row="3"
-                  Grid.Column="0"
-                  Margin="4"
-                  HorizontalAlignment="Left"
-                  VerticalContentAlignment="Center"
-                  Content="Middle Name" />
-      <TextBox Grid.Row="3"
-                   Grid.Column="1"
-                   Margin="4"
-                   Width="250"
-                   HorizontalAlignment="Left"
-                   Text="{Binding Model.MiddleName,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-      <Label  Grid.Row="4"
-                  Grid.Column="0"
-                  Margin="4"
-                  HorizontalAlignment="Left"
-                  VerticalContentAlignment="Center"
-                  Content="Last Name" />
-
-      <TextBox Grid.Column="1"
-                   HorizontalAlignment="Left"
-                   Margin="4"
-                   Grid.Row="4"
-                   Width="250"
-                   Text="{Binding Model.LastName, Mode=TwoWay,ValidatesOnDataErrors=True}"/>
-
-      <Label Grid.Row="2"
-                 Grid.Column="2"
-                 Margin="4"
-                 HorizontalAlignment="Left"
-                 VerticalContentAlignment="Center"
-                 Content="Phone" />
-      <TextBox Grid.Row="2"
-                   Grid.Column="3"
-                   HorizontalAlignment="Left"
-                   Width="250"
-                   Margin="4"
-                   Text="{Binding Model.Phone, Mode=TwoWay,ValidatesOnDataErrors=True}" />
-
-      <Label  Grid.Row="3"
-                  Grid.Column="2"
-                  Margin="4"
-                  HorizontalAlignment="Left"
-                  VerticalContentAlignment="Center"
-                  Content="Fax" />
-      <TextBox Grid.Row="3"
-                   Grid.Column="3"
-                   Margin="4"
-                   Width="250"
-                   HorizontalAlignment="Left"
-                   Text="{Binding Model.Fax,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-      <Label  Grid.Row="4"
-                  Grid.Column="2"
-                  Margin="4"
-                  HorizontalAlignment="Left"
-                  VerticalContentAlignment="Center"
-                  Content="Email" />
-
-      <TextBox Grid.Column="3"
-                   HorizontalAlignment="Left"
-                   Margin="4"
-                   Grid.Row="4"
-                   Width="250"
-                   Text="{Binding Model.Email, Mode=TwoWay,ValidatesOnDataErrors=True}" />
-
-      <Label Grid.Row="5"
-                 Grid.Column="0"
-                 Grid.ColumnSpan="4"
-                 Margin="4"
-                 HorizontalAlignment="Left"
-                 Content="Remarks" />
-
-      <TextBox Grid.Row="5"
-                   Grid.Column="1"
-                   Grid.ColumnSpan="3"
-                   Margin="4"
-                   TextWrapping="WrapWithOverflow"
-                   AcceptsReturn="True" />
+               Grid.Column="1"
+               Margin="8,2,2,2"
+               MinWidth="250"
+               MaxWidth="420"
+               Text="{Binding Model.Contact.Name,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
     </Grid>
   </Grid>

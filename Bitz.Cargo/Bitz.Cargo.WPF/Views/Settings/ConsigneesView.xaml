@@ -11,7 +11,7 @@
              d:DesignHeight="300" d:DesignWidth="800">
   <UserControl.Resources>
     <ResourceDictionary>
-      <vm:ConsigneeVM x:Key="ViewModel" />
+      <vm:ConsigneesVM x:Key="ViewModel" />
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid Style="{StaticResource ContentRoot}">
@@ -55,14 +55,14 @@
                                 Binding="{Binding Name}" />
         <mui:DataGridTextColumn Header="Phone"
                                 Width="Auto"
-                                Binding="{Binding Phone}" />
+                                Binding="{Binding PhoneNumber}" />
         <mui:DataGridTextColumn Header="Fax"
                                 Width="Auto"
                                 Binding="{Binding Fax}" />
         <mui:DataGridTextColumn Header="Email"
                                 Width="Auto"
                                 Binding="{Binding Email}" />
-        <mui:DataGridTextColumn Header="Firstname"
+        <!--mui:DataGridTextColumn Header="Firstname"
                                 Width="Auto"
                                 Binding="{Binding Firstname}" />
         <mui:DataGridTextColumn Header="Middle Name"
@@ -70,7 +70,7 @@
                                 Binding="{Binding MiddleName}" />
         <mui:DataGridTextColumn Header="Last Name"
                                 Width="Auto"
-                                Binding="{Binding LastName}" />
+                                Binding="{Binding LastName}" /-->
       </DataGrid.Columns>
     </DataGrid>
 

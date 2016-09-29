@@ -152,9 +152,9 @@ namespace Bitz.Business.Contacts
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
             LoadProperty(_Id, identity);
           }
-          catch (Exception)
+          catch (Exception e)
           {
-            throw;
+            throw e;
           }
         }
       }

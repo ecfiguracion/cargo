@@ -53,7 +53,7 @@
         <mui:DataGridTextColumn Header="Preferred Name"
                                 Width="Auto"
                                 Binding="{Binding Name}" />
-        <mui:DataGridTextColumn Header="Phone"
+        <!--mui:DataGridTextColumn Header="Phone"
                                 Width="Auto"
                                 Binding="{Binding Phone}" />
         <mui:DataGridTextColumn Header="Fax"
@@ -70,7 +70,7 @@
                                 Binding="{Binding MiddleName}" />
         <mui:DataGridTextColumn Header="Last Name"
                                 Width="Auto"
-                                Binding="{Binding LastName}" />
+                                Binding="{Binding LastName}" /-->
       </DataGrid.Columns>
     </DataGrid>
 

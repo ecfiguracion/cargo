@@ -42,6 +42,7 @@
                    Grid.Column="1"
                    Margin="8,2,2,2"
                    Width="250"
+                   IsReadOnly="True"
                    HorizontalAlignment="Left"
                    Text="{Binding Model.Contact.Code,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
@@ -52,11 +53,13 @@
                  VerticalContentAlignment="Center"
                  Content="Consignee Name" />
       <TextBox Grid.Row="1"
-                   Grid.Column="1"
+               Grid.Column="1"
+               Grid.ColumnSpan="2"
+               MaxWidth="420"
+               MinWidth="250"
+               HorizontalAlignment="Left"
                Margin="8,2,2,2"
-               Width="250"
-                   HorizontalAlignment="Left"
-                   Text="{Binding Model.Contact.Name,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+               Text="{Binding Model.Contact.Name,Mode=TwoWay,ValidatesOnDataErrors=True}" />
       <TabControl Grid.Row="2"
                   Grid.Column="0"
                   Grid.ColumnSpan="3"

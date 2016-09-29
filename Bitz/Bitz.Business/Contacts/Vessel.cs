@@ -99,7 +99,8 @@ namespace Bitz.Business.Contacts
         {
           cmd.CommandText = string.Format(@"SELECT s.vessel,s.contact,
                                               c.contact as {0}contact,c.code as {0}code,c.name as {0}name,
-                                              c.contacttype as {0}contacttype          
+                                              c.contacttype as {0}contacttype,c.phone as {0}phone,
+                                              c.fax as {0}fax,c.email as {0}email                                      
                                             FROM vessel s
                                             INNER JOIN contact c ON s.contact = c.contact
                                             WHERE s.vessel = @id", _Contact.Name);
