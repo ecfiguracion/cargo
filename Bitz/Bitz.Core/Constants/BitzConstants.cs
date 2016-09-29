@@ -61,5 +61,33 @@ namespace Bitz.Core.Constants
     }
 
     #endregion
+
+    #region TableCounter
+
+    public class TableCounter
+    {
+      private static List<CoreConstants.IdValue> _TableCounter = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue Item { get { return _TableCounter[0]; } }
+      public static CoreConstants.IdValue Employee { get { return _TableCounter[1]; } }
+      public static CoreConstants.IdValue Consignee { get { return _TableCounter[2]; } }
+      public static CoreConstants.IdValue Vessel { get { return _TableCounter[3]; } }
+
+      static TableCounter()
+      {
+        _TableCounter.Add(new CoreConstants.IdValue(1, "ITEM"));
+        _TableCounter.Add(new CoreConstants.IdValue(2, "EMPLOYEE"));
+        _TableCounter.Add(new CoreConstants.IdValue(3, "CONSIGNEE"));
+        _TableCounter.Add(new CoreConstants.IdValue(4, "VESSEL"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _TableCounter; }
+      }
+    }
+
+    #endregion
+
   }
 }

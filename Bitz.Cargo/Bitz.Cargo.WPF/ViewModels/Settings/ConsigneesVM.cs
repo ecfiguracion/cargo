@@ -1,7 +1,8 @@
-﻿using Bitz.Cargo.Business.Billing.Infos;
+﻿using Bitz.Business.Contacts.Infos;
+using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.Constants;
-using Bitz.Cargo.Business.Contacts.Infos;
 using Bitz.Core.Constants;
+using Bitz.Core.Data;
 using Bitz.Core.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Bitz.Cargo.ViewModels.Settings
 {
-  public class ConsigneesVM : GridViewModelBase<ContactInfos>
+  public class ConsigneesVM : GridViewModelBase<ConsigneeInfos>
   {
     #region Initialise
 
@@ -21,10 +22,7 @@ namespace Bitz.Cargo.ViewModels.Settings
     {
       base.Initialise();
 
-      var criteria = new ContactInfos.Criteria();
-      criteria.ContactType = BitzConstants.ContactTypes.Consignee.Id;
-
-      this.Criteria = criteria;
+      this.Criteria = new ConsigneeInfos.Criteria() as IPageCriteria;
      
       this.Refresh();
     }

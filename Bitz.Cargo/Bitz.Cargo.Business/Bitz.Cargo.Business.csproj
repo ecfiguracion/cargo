@@ -57,7 +57,6 @@
     <Compile Include="CargoReferences\UnitOfMeasure.cs" />
     <Compile Include="CargoReferences\Vessel.cs" />
     <Compile Include="Constants\CargoConstants.cs" />
-    <Compile Include="Contacts\Infos\ContactInfo.cs" />
     <Compile Include="Items\Infos\ItemInfo.cs" />
     <Compile Include="Items\Infos\ItemRateInfo.cs" />
     <Compile Include="Items\Infos\ItemUomConversionInfo.cs" />
@@ -65,8 +64,6 @@
     <Compile Include="Items\ItemRate.cs" />
     <Compile Include="Items\ItemUomConversion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\Vessel.cs" />
-    <Compile Include="Settings\Consignee.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -77,7 +74,9 @@
       <Name>Bitz.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Settings\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

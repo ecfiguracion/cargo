@@ -2,11 +2,8 @@
 using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.CargoReferences.Infos;
 using Bitz.Cargo.Business.Constants;
-using Bitz.Cargo.Business.Contacts;
-using Bitz.Cargo.Business.Contacts.Infos;
 using Bitz.Cargo.Business.Items;
 using Bitz.Cargo.Business.Items.Infos;
-using Bitz.Cargo.Business.Settings;
 using Bitz.Core.Application;
 using Bitz.Core.Constants;
 using Bitz.Core.Events;

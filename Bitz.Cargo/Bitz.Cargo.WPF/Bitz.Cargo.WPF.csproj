@@ -79,9 +79,11 @@
     <Compile Include="ViewModels\Billings\RorosVM.cs" />
     <Compile Include="ViewModels\Dialogs\CargoSelectDialogVM.cs" />
     <Compile Include="ViewModels\Settings\CargosVM.cs" />
+    <Compile Include="ViewModels\Settings\ConsigneesVM.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModels\Settings\UnitOfMeasuresVM.cs" />
     <Compile Include="ViewModels\Settings\VesselsVM.cs" />
-    <Compile Include="ViewModels\Settings\ConsigneesVM.cs" />
     <Compile Include="ViewModels\Settings\CargoVM.cs" />
     <Compile Include="ViewModels\Settings\UnitOfMeasureVM.cs" />
     <Compile Include="ViewModels\Settings\VesselVM.cs" />
@@ -120,14 +122,15 @@
     <Compile Include="Views\Settings\CargosView.xaml.cs">
       <DependentUpon>CargosView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Settings\ConsigneesView.xaml.cs">
+      <DependentUpon>ConsigneesView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Views\Settings\UnitOfMeasuresView.xaml.cs">
       <DependentUpon>UnitOfMeasuresView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\VesselsView.xaml.cs">
       <DependentUpon>VesselsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Settings\ConsigneesView.xaml.cs">
-      <DependentUpon>ConsigneesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\CargoView.xaml.cs">
       <DependentUpon>CargoView.xaml</DependentUpon>
@@ -150,6 +153,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Bitz\Bitz.Business\Bitz.Business.csproj">
+      <Project>{d0f8a00d-250b-49ee-bf1d-83730dff463f}</Project>
+      <Name>Bitz.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Bitz\Bitz.Core\Bitz.Core.csproj">
       <Project>{c641477b-bb85-4e90-b976-8c41dd306d89}</Project>
       <Name>Bitz.Core</Name>
@@ -204,15 +211,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Settings\ConsigneesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Settings\UnitOfMeasuresView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Settings\VesselsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Settings\ConsigneesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

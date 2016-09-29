@@ -1,8 +1,7 @@
-﻿using Bitz.Cargo.Business.Billing;
+﻿using Bitz.Business.Contacts.Infos;
+using Bitz.Cargo.Business.Billing;
 using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.CargoReferences.Infos;
-using Bitz.Cargo.Business.Contacts;
-using Bitz.Cargo.Business.Contacts.Infos;
 using Bitz.Cargo.Business.Items;
 using Bitz.Cargo.Business.Items.Infos;
 using Bitz.Core.Application;
@@ -119,8 +118,8 @@ namespace Bitz.Cargo.ViewModels.Billings
     #region Properties
 
     //Consignees
-    private ContactInfos _Consignees;
-    public ContactInfos Consignees
+    private BaseContactInfos _Consignees;
+    public BaseContactInfos Consignees
     {
       get { return _Consignees; }
       set
@@ -131,8 +130,8 @@ namespace Bitz.Cargo.ViewModels.Billings
     }
 
     //Vessels
-    private ContactInfos _Vessels;
-    public ContactInfos Vessels
+    private BaseContactInfos _Vessels;
+    public BaseContactInfos Vessels
     {
       get { return _Vessels; }
       set
@@ -363,7 +362,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
       if (this.Consignees == null)
       {
-        ContactInfos.Get(new ContactInfos.Criteria() { ContactType = 2 }, (o, e) =>
+        BaseContactInfos.Get(new BaseContactInfos.Criteria() { ContactType = BitzConstants.ContactTypes.Consignee.Id }, (o, e) =>
         {
           if (e.Error != null) throw e.Error;
 
@@ -377,7 +376,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
       if (this.Vessels == null)
       {
-        ContactInfos.Get(new ContactInfos.Criteria() { ContactType = 3 }, (o, e) =>
+        BaseContactInfos.Get(new BaseContactInfos.Criteria() { ContactType = BitzConstants.ContactTypes.Vessel.Id }, (o, e) =>
         {
           if (e.Error != null) throw e.Error;
 

@@ -1,7 +1,6 @@
 ﻿using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.CargoReferences.Infos;
 using Bitz.Cargo.Business.Constants;
-using Bitz.Cargo.Business.Contacts.Infos;
 using Bitz.Core.Constants;
 using Bitz.Core.ViewModel;
 using System;

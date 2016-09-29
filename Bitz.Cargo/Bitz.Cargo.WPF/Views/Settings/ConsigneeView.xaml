@@ -24,13 +24,9 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="*"></RowDefinition>
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"></ColumnDefinition>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -38,118 +34,143 @@
 
       <Label Grid.Row="0"
                  Grid.Column="0"
-                 Margin="4"
+                 Margin="4,0"
                  HorizontalAlignment="Left"
                  VerticalContentAlignment="Center"
-                 Content="Code" />
+                 Content="Consignee Id" />
       <TextBox Grid.Row="0"
                    Grid.Column="1"
-                   Margin="4"
+                   Margin="8,2,2,2"
                    Width="250"
                    HorizontalAlignment="Left"
-                   Text="{Binding Model.Code,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+                   Text="{Binding Model.Contact.Code,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
       <Label Grid.Row="1"
                  Grid.Column="0"
-                 Margin="4"
+                 Margin="4,0"
                  HorizontalAlignment="Left"
                  VerticalContentAlignment="Center"
-                 Content="Preferred Name" />
+                 Content="Consignee Name" />
       <TextBox Grid.Row="1"
                    Grid.Column="1"
-                   Margin="4"
-                   Width="250"
+               Margin="8,2,2,2"
+               Width="250"
                    HorizontalAlignment="Left"
-                   Text="{Binding Model.PreferredName,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-      <Label Grid.Row="2"
-                 Grid.Column="0"
-                 Margin="4"
-                 HorizontalAlignment="Left"
-                 VerticalContentAlignment="Center"
-                 Content="Firstname" />
-      <TextBox Grid.Row="2"
-                   Grid.Column="1"
-                   Margin="4"
-                   Text="{Binding Model.Firstname, Mode=TwoWay,ValidatesOnDataErrors=True}"/>
-
-      <Label  Grid.Row="3"
+                   Text="{Binding Model.Contact.Name,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+      <TabControl Grid.Row="2"
                   Grid.Column="0"
-                  Margin="4"
-                  HorizontalAlignment="Left"
-                  VerticalContentAlignment="Center"
-                  Content="Middle Name" />
-      <TextBox Grid.Row="3"
-                   Grid.Column="1"
-                   Margin="4"
-                   Width="250"
-                   HorizontalAlignment="Left"
-                   Text="{Binding Model.MiddleName,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-      <Label  Grid.Row="4"
-                  Grid.Column="0"
-                  Margin="4"
-                  HorizontalAlignment="Left"
-                  VerticalContentAlignment="Center"
-                  Content="Last Name" />
+                  Grid.ColumnSpan="3"
+                  Margin="0,8,0,0">
+        <TabItem Header="Details">
+          <Grid Margin="4">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-      <TextBox Grid.Column="1"
-                   HorizontalAlignment="Left"
-                   Margin="4"
-                   Grid.Row="4"
-                   Width="250"
-                   Text="{Binding Model.LastName, Mode=TwoWay,ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="0"
+                       Text="CONTACT"
+                       Grid.ColumnSpan="2"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center" />
 
-      <Label Grid.Row="2"
-                 Grid.Column="2"
-                 Margin="4"
-                 HorizontalAlignment="Left"
-                 VerticalContentAlignment="Center"
-                 Content="Phone" />
-      <TextBox Grid.Row="2"
-                   Grid.Column="3"
-                   HorizontalAlignment="Left"
-                   Width="250"
-                   Margin="4"
-                   Text="{Binding Model.Phone, Mode=TwoWay,ValidatesOnDataErrors=True}" />
+            <TextBlock Grid.Row="1"
+                       Text="Phone"
+                       VerticalAlignment="Center"
+                       Margin="0,8,0,0" />
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     Margin="8,8,2,2"
+                     Width="200"
+                     Text="{Binding Model.Contact.Phone,Mode=TwoWay}" />
 
-      <Label  Grid.Row="3"
-                  Grid.Column="2"
-                  Margin="4"
-                  HorizontalAlignment="Left"
-                  VerticalContentAlignment="Center"
-                  Content="Fax" />
-      <TextBox Grid.Row="3"
-                   Grid.Column="3"
-                   Margin="4"
-                   Width="250"
-                   HorizontalAlignment="Left"
-                   Text="{Binding Model.Fax,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-      <Label  Grid.Row="4"
-                  Grid.Column="2"
-                  Margin="4"
-                  HorizontalAlignment="Left"
-                  VerticalContentAlignment="Center"
-                  Content="Email" />
+            <TextBlock Grid.Row="2"
+                       Text="Fax"
+                       VerticalAlignment="Center"
+                       Margin="0,2,0,0" />
+            <TextBox Grid.Row="2"
+                     Grid.Column="1"
+                     Margin="8,2,2,2"
+                     Width="200"
+                     Text="{Binding Model.Contact.Fax,Mode=TwoWay}" />
 
-      <TextBox Grid.Column="3"
-                   HorizontalAlignment="Left"
-                   Margin="4"
-                   Grid.Row="4"
-                   Width="250"
-                   Text="{Binding Model.Email, Mode=TwoWay,ValidatesOnDataErrors=True}" />
+            <TextBlock Grid.Row="3"
+                       Text="Email"
+                       VerticalAlignment="Center"
+                       Margin="0,2,0,0" />
+            <TextBox Grid.Row="3"
+                     Grid.Column="1"
+                     Margin="8,2,2,2"
+                     Width="200"
+                     Text="{Binding Model.Contact.Email,Mode=TwoWay}" />
 
-      <Label Grid.Row="5"
-                 Grid.Column="0"
-                 Grid.ColumnSpan="4"
-                 Margin="4"
-                 HorizontalAlignment="Left"
-                 Content="Remarks" />
+            <TextBlock Grid.Row="6"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Text="ADDRESSES"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="0,16,0,0" />
 
-      <TextBox Grid.Row="5"
-                   Grid.Column="1"
-                   Grid.ColumnSpan="3"
-                   Margin="4"
-                   TextWrapping="WrapWithOverflow"
-                   AcceptsReturn="True" />
+            <StackPanel Grid.Row="7"
+                        Grid.ColumnSpan="5"
+                        Orientation="Horizontal"
+                        Margin="0,8,0,4">
+              <mui:ModernButton IconData="F1 M 51.5487,37.9814L 56.814,41.0534L 50.3383,48.7636L 50.3383,48.8841L 60.0205,46.9565L 60.0205,53.0403L 50.2777,51.414L 50.2777,51.5344L 56.814,59.0037L 51.4882,62.0757L 47.978,52.7994L 47.8569,52.7994L 44.4072,62.0757L 39.2025,59.0037L 45.6782,51.4742L 45.6177,51.3537L 36.1159,53.0403L 36.1159,46.9565L 45.5571,48.8841L 45.5571,48.7636L 39.2025,41.1137L 44.5888,37.9814L 47.9174,47.3179L 48.0385,47.3179L 51.5487,37.9814 Z M 20,17L 43.25,17L 56,29.75L 56,39L 52,36.75L 52,34L 39,34L 39,21L 24,21L 24,55L 41,55L 37.5,59L 20,59L 20,17 Z M 43,22.25L 43,30L 50.75,30L 43,22.25 Z "
+                                Content="Add Address"
+                                Command="{Binding CommandAddAddress}" />
+
+              <mui:ModernButton Margin="8,0"
+                                IconData="F1 M 25.3333,23.75L 50.6667,23.75C 51.5411,23.75 51.8541,27.3125 51.8541,27.3125L 24.1458,27.3125C 24.1458,27.3125 24.4589,23.75 25.3333,23.75 Z M 35.625,19.7917L 40.375,19.7917C 40.8122,19.7917 41.9583,20.9378 41.9583,21.375C 41.9583,21.8122 40.8122,22.9584 40.375,22.9584L 35.625,22.9584C 35.1878,22.9584 34.0416,21.8122 34.0416,21.375C 34.0416,20.9378 35.1878,19.7917 35.625,19.7917 Z M 27.7083,28.5L 48.2916,28.5C 49.1661,28.5 49.875,29.2089 49.875,30.0834L 48.2916,53.8334C 48.2916,54.7078 47.5828,55.4167 46.7083,55.4167L 29.2917,55.4167C 28.4172,55.4167 27.7083,54.7078 27.7083,53.8334L 26.125,30.0834C 26.125,29.2089 26.8339,28.5 27.7083,28.5 Z M 30.0833,31.6667L 30.4792,52.25L 33.25,52.25L 32.8542,31.6667L 30.0833,31.6667 Z M 36.4167,31.6667L 36.4167,52.25L 39.5833,52.25L 39.5833,31.6667L 36.4167,31.6667 Z M 43.1458,31.6667L 42.75,52.25L 45.5208,52.25L 45.9167,31.6667L 43.1458,31.6667 Z "
+                                Content="Remove Address"
+                                Command="{Binding CommandRemoveAddress}" />
+
+            </StackPanel>
+
+
+            <DataGrid Grid.Row="8"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      AutoGenerateColumns="False"
+                      BorderThickness="1"
+                      Margin="0,2,0,0"
+                      CanUserAddRows="False"
+                      RowHeaderWidth="0"
+                      AlternatingRowBackground="#FFECF5FF"
+                      Background="White"
+                      ItemsSource="{Binding Model.Addresss}"
+                      SelectedItem="{Binding SelectedAddress,Mode=TwoWay}">
+              <DataGrid.Columns>
+                <mui:DataGridTextColumn Header="Address Name"
+                                        Width="250"
+                                        Binding="{Binding AddressName,Mode=TwoWay}" />
+                <mui:DataGridTextColumn Header="Street"
+                                        Width="150"
+                                        Binding="{Binding Street,Mode=TwoWay}" />
+                <mui:DataGridTextColumn Header="City"
+                                        Width="150"
+                                        Binding="{Binding City,Mode=TwoWay}" />
+                <mui:DataGridTextColumn Header="Province"
+                                        Width="150"
+                                        Binding="{Binding Province,Mode=TwoWay}" />
+              </DataGrid.Columns>
+            </DataGrid>
+
+          </Grid>
+        </TabItem>
+      </TabControl>
 
     </Grid>
   </Grid>
