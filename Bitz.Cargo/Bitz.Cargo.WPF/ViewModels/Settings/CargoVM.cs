@@ -31,8 +31,6 @@ namespace Bitz.Cargo.ViewModels.Settings
 
     public override void Initialise(int? id)
     {
-      this.CommandAddRate = new DelegateCommand<object>(CommandAddRateExecute);
-      this.CommandRemoveRate = new DelegateCommand<object>(CommandRemoveRateExecute);
       this.CommandAddUomConversion = new DelegateCommand<object>(CommandAddUomConversionExecute);
       this.CommandRemoveUomConversion = new DelegateCommand<object>(CommandRemoveUomConversionExecute);
 
@@ -76,17 +74,6 @@ namespace Bitz.Cargo.ViewModels.Settings
     }
     #endregion
 
-    #region CargoCharges
-    public List<CoreConstants.IdValue> CargoCharges
-    {
-      get { return CargoConstants.CargoHandlingCharges.Items; }
-    }
-    #endregion
-
-    #region SelectedItemRate
-    public ItemRate SelectedItemRate { get; set; }
-    #endregion
-
     #region SelectedItemUomConversion
     public ItemUomConversion SelectedItemUomConversion { get; set; }
     #endregion
@@ -94,41 +81,6 @@ namespace Bitz.Cargo.ViewModels.Settings
     #endregion
 
     #region Commands
-
-    #region CommandAddRate
-    public ICommand CommandAddRate
-    {
-      get;
-      private set;
-    }
-
-    public void CommandAddRateExecute(object parameter)
-    {
-      if (this.Model.ItemUnitRates == null)
-        this.Model.ItemUnitRates = new ItemRates();
-
-      this.Model.ItemUnitRates.AddNew();
-
-    }
-
-    #endregion
-
-    #region CommandRemoveRate
-
-    public ICommand CommandRemoveRate
-    {
-      get;
-      private set;
-    }
-    public void CommandRemoveRateExecute(object parameter)
-    {
-      if (SelectedItemRate != null)
-      {
-        this.Model.ItemUnitRates.Remove(SelectedItemRate);
-      }
-    }
-
-    #endregion
 
     #region CommandAddUomConversion
     public ICommand CommandAddUomConversion

@@ -36,40 +36,43 @@
 
       <Label Grid.Row="0"
                  Grid.Column="0"
-                 Margin="4"
+                 Margin="4,2,2,2"
                  VerticalContentAlignment="Center"
-                 Content="Code" />
+                 Content="Cargo Id" />
       <TextBox Grid.Row="0"
-                   Grid.Column="1"
-                   Margin="4"
-                   Text="{Binding Model.Code,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+               Grid.Column="1"
+               Margin="4,2,2,2"
+               Text="{Binding Model.Code,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
       <Label Grid.Column="2"
-                 Margin="12,4,4,4"
+                 Margin="32,2,2,2"
                  VerticalContentAlignment="Center"
-                 Content="Name" />
+                 Content="RT Multiplier" />
       <TextBox Grid.Column="3"
-                   Margin="4"
-                   Text="{Binding Model.Name,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+               Width="100"
+               HorizontalAlignment="Left"
+               HorizontalContentAlignment="Right"
+               Margin="4,2,2,2"
+               Text="{Binding Model.RevenueMultiplier, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n4}}" />
       <Label Grid.Row="1"
                  Grid.Column="0"
-                 Margin="4"
+                 Margin="4,2,2,2"
                  VerticalContentAlignment="Center"
-                 Content="Short Description" />
+                 Content="Cargo Name" />
       <TextBox Grid.Row="1"
                    Grid.Column="1"
-                   Margin="4"
-                   Text="{Binding Model.ShortDescription, Mode=TwoWay,ValidatesOnDataErrors=True}"/>
+                   Margin="4,2,2,2"
+                   Text="{Binding Model.Name, Mode=TwoWay,ValidatesOnDataErrors=True}"/>
 
       <Label Grid.Column="2"
                  Grid.Row="1"
-                 Margin="12,4,4,4"
+                 Margin="32,2,2,2"
                  VerticalContentAlignment="Center"
-                 Content="Handling UOM" />
+                 Content="Handling Unit" />
 
       <ComboBox  Grid.Row="1"
                      Grid.Column="3"
-                     Margin="4"
+                     Margin="4,2,2,2"
                      Height="24"
                      Width="170"
                      IsEditable="True"
@@ -85,129 +88,79 @@
         <TabItem Header="Item Rates/Charges">
           <Grid>
             <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="*"/>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal"
-                    Margin="0,0,0,8">
-              <mui:ModernButton IconData="F1 M 51.5487,37.9814L 56.814,41.0534L 50.3383,48.7636L 50.3383,48.8841L 60.0205,46.9565L 60.0205,53.0403L 50.2777,51.414L 50.2777,51.5344L 56.814,59.0037L 51.4882,62.0757L 47.978,52.7994L 47.8569,52.7994L 44.4072,62.0757L 39.2025,59.0037L 45.6782,51.4742L 45.6177,51.3537L 36.1159,53.0403L 36.1159,46.9565L 45.5571,48.8841L 45.5571,48.7636L 39.2025,41.1137L 44.5888,37.9814L 47.9174,47.3179L 48.0385,47.3179L 51.5487,37.9814 Z M 20,17L 43.25,17L 56,29.75L 56,39L 52,36.75L 52,34L 39,34L 39,21L 24,21L 24,55L 41,55L 37.5,59L 20,59L 20,17 Z M 43,22.25L 43,30L 50.75,30L 43,22.25 Z "
-                            Content="Add Rate Details"
-                            Command="{Binding CommandAddRate}"
-                            Margin="4" />
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-              <mui:ModernButton IconData="F1 M 25.3333,23.75L 50.6667,23.75C 51.5411,23.75 51.8541,27.3125 51.8541,27.3125L 24.1458,27.3125C 24.1458,27.3125 24.4589,23.75 25.3333,23.75 Z M 35.625,19.7917L 40.375,19.7917C 40.8122,19.7917 41.9583,20.9378 41.9583,21.375C 41.9583,21.8122 40.8122,22.9584 40.375,22.9584L 35.625,22.9584C 35.1878,22.9584 34.0416,21.8122 34.0416,21.375C 34.0416,20.9378 35.1878,19.7917 35.625,19.7917 Z M 27.7083,28.5L 48.2916,28.5C 49.1661,28.5 49.875,29.2089 49.875,30.0834L 48.2916,53.8334C 48.2916,54.7078 47.5828,55.4167 46.7083,55.4167L 29.2917,55.4167C 28.4172,55.4167 27.7083,54.7078 27.7083,53.8334L 26.125,30.0834C 26.125,29.2089 26.8339,28.5 27.7083,28.5 Z M 30.0833,31.6667L 30.4792,52.25L 33.25,52.25L 32.8542,31.6667L 30.0833,31.6667 Z M 36.4167,31.6667L 36.4167,52.25L 39.5833,52.25L 39.5833,31.6667L 36.4167,31.6667 Z M 43.1458,31.6667L 42.75,52.25L 45.5208,52.25L 45.9167,31.6667L 43.1458,31.6667 Z "
-                            Content="Remove Rate Details"
-                            Command="{Binding CommandRemoveRate}"
-                            Margin="8,4,4,4" />
+            <TextBlock Text="ARRASTRE"
+                       Grid.ColumnSpan="2"
+                       FontWeight="Bold"
+                       Margin="8,8,0,0"
+                       VerticalAlignment="Center" />
 
-            </StackPanel>
-            <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding Model.ItemUnitRates}"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  SelectedItem="{Binding SelectedItemRate, Mode=TwoWay}">
+            <TextBlock Text="Metric Rate"
+                       Grid.Row="1"
+                       VerticalAlignment="Center"
+                       Margin="8,8,2,2" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="1"
+                     Margin="8,8,2,2"
+                     Width="100"
+                     HorizontalContentAlignment="Right"
+                     Text="{Binding Model.ArrMetricRate, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}" />
 
-            <DataGrid.Resources>
-              <Style x:Key="xCellStyleRightAligned"
-                   TargetType="TextBlock">
-                <Setter Property="HorizontalAlignment"
-                      Value="Stretch" />
-                <Setter Property="TextAlignment"
-                      Value="Right" />
-                <Setter Property="VerticalAlignment"
-                      Value="Bottom" />
-              </Style>
-              <Style x:Key="xHeaderStyleRightAligned"
-                   TargetType="DataGridColumnHeader">
-                <Setter Property="HorizontalAlignment"
-                      Value="Stretch" />
-                <Setter Property="HorizontalContentAlignment"
-                      Value="Right" />
-                <Setter Property="Margin"
-                      Value="8,0,8,0" />
-                <Setter Property="Background"
-                      Value="Transparent" />
-                <Setter Property="TextBlock.FontWeight"
-                      Value="Bold" />
-              </Style>
-              <Style x:Key="xHeaderStyleLeftAligned"
-                   TargetType="DataGridColumnHeader">
-                <Setter Property="HorizontalAlignment"
-                      Value="Stretch" />
-                <Setter Property="HorizontalContentAlignment"
-                      Value="Left" />
-                <Setter Property="Margin"
-                      Value="8,0,8,0" />
-                <Setter Property="Background"
-                      Value="Transparent" />
-                <Setter Property="TextBlock.FontWeight"
-                      Value="Bold" />
-              </Style>
-              <Style TargetType="{x:Type DataGridRow}">
-                <Style.Triggers>
-                  <Trigger Property="Validation.HasError"
-                         Value="True">
-                    <Setter Property="Background"
-                          Value="Transparent" />
-                    <Setter Property="ValidationErrorTemplate"
-                          Value="{x:Null}" />
-                  </Trigger>
-                  <Trigger Property="Validation.HasError"
-                         Value="False">
-                    <Setter Property="Background"
-                          Value="Transparent" />
-                  </Trigger>
-                </Style.Triggers>
-              </Style>
-            </DataGrid.Resources>
+            <TextBlock Grid.Row="2"
+                       Text="Revenue Rate"
+                       VerticalAlignment="Center"
+                       Margin="8,2,2,2" />
+            <TextBox Grid.Row="2"
+                     Grid.Column="1"
+                     Margin="8,2,2,2"
+                     Width="100"
+                     HorizontalContentAlignment="Right"
+                     Text="{Binding Model.ArrRevenueRate, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}" />
 
-            <DataGrid.Columns>
-              <mui:DataGridComboBoxColumn Header="Unit"
-                                        HeaderStyle="{StaticResource xHeaderStyleLeftAligned}"
-                                        ItemsSource="{Binding Units,Source={StaticResource ViewModel}}"
-                                        Width="100"
-                                        DisplayMemberPath="Name"
-                                        SelectedValuePath="Id"
-                                        SelectedValueBinding="{Binding ItemUnit,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-              <mui:DataGridTextColumn Header="Constant Value"
-                                    HeaderStyle="{StaticResource xHeaderStyleRightAligned}"
-                                    Width="110"
-                                    Binding="{Binding ConstantValue,Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n4}}"
-                                    ElementStyle="{StaticResource xCellStyleRightAligned}" />
-              <mui:DataGridTextColumn Header="Rate"
-                                    HeaderStyle="{StaticResource xHeaderStyleRightAligned}"
-                                    Width="100"
-                                    Binding="{Binding Rate,Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}"
-                                    ElementStyle="{StaticResource xCellStyleRightAligned}" />
-              <mui:DataGridComboBoxColumn Header="Handling Charge"
-                                        HeaderStyle="{StaticResource xHeaderStyleLeftAligned}"
-                                        Width="140"
-                                        DisplayMemberPath="Name"
-                                        ItemsSource="{Binding CargoCharges,Source={StaticResource ViewModel}}"
-                                        SelectedValuePath="Key"
-                                        SelectedValueBinding="{Binding ChargeType,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-              <!--DataGridTemplateColumn  Header="Handling Charge"
-                                     HeaderStyle="{StaticResource xHeaderStyleLeftAligned}">
-              <DataGridTemplateColumn.CellTemplate>
-                <DataTemplate>
-                  <ComboBox IsEditable="True"
-                            Width="140"
-                            DisplayMemberPath="Name"
-                            ItemsSource="{Binding Source={StaticResource xCargoCharges}}"
-                            SelectedValuePath="Key"
-                            SelectedValue="{Binding ChargeType,Mode=TwoWay,ValidatesOnDataErrors=True}"
-                            />
-                </DataTemplate>
-              </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn-->
+            <TextBlock Text="STEVEDORING"
+                       Grid.Column="2"
+                       Grid.ColumnSpan="2"
+                       FontWeight="Bold"
+                       Margin="32,8,0,0"
+                       VerticalAlignment="Center" />
+            
+            <TextBlock Text="Metric Rate"
+                       Grid.Row="1"
+                       Grid.Column="2"
+                       VerticalAlignment="Center"
+                       Margin="32,8,2,2" />
+            <TextBox Grid.Column="3"
+                     Grid.Row="1"
+                     Margin="8,8,2,2"
+                     Width="100"
+                     HorizontalContentAlignment="Right"
+                     Text="{Binding Model.StevMetricRate, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}" />
 
-              <mui:DataGridTextColumn Header="Remarks"
-                                    HeaderStyle="{StaticResource xHeaderStyleLeftAligned}"
-                                    Width="300"
-                                    Binding="{Binding Remarks,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-            </DataGrid.Columns>
-          </DataGrid>
+            <TextBlock Grid.Row="2"
+                       Grid.Column="2"
+                       Text="Revenue Rate"
+                       VerticalAlignment="Center"
+                       Margin="32,2,2,2" />
+            <TextBox Grid.Row="2"
+                     Grid.Column="3"
+                     Margin="8,2,2,2"
+                     Width="100"
+                     HorizontalContentAlignment="Right"
+                     Text="{Binding Model.StevRevenueRate, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}" />
+
+            
           </Grid>
+          
         </TabItem>
         <TabItem Header="Uom Conversion">
           <Grid>

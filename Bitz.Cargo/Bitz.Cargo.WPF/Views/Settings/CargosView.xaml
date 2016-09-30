@@ -53,15 +53,12 @@
         <mui:DataGridTextColumn Header="Name"
                                 Width="Auto"
                                 Binding="{Binding Name}" />
-        <mui:DataGridTextColumn Header="Short Description"
-                                Width="Auto"
-                                Binding="{Binding ShortDescription}" />
+
         <mui:DataGridTextColumn Header="Handling Unit"
                                 Width="Auto"
                                 Binding="{Binding HandlingUnitName}" />
-        <mui:DataGridTextColumn Header="Remarks"
-                                Width="Auto"
-                                Binding="{Binding Remarks}" />
+
+        
       </DataGrid.Columns>
     </DataGrid>
 

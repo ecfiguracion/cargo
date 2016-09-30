@@ -47,23 +47,13 @@ namespace Bitz.Cargo.Business.Items
     }
     #endregion
 
-    #region ShortDescription
+    #region RevenueMultiplier
 
-    public static readonly PropertyInfo<string> _ShortDescription = RegisterProperty<string>(c => c.ShortDescription, "Short Description");
-    public string ShortDescription
+    public static readonly PropertyInfo<decimal?> _RevenueMultiplier = RegisterProperty<decimal?>(c => c.RevenueMultiplier, "Revenue Multiplier");
+    public decimal? RevenueMultiplier
     {
-      get { return GetProperty(_ShortDescription); }
-      set { SetProperty(_ShortDescription, value); }
-    }
-    #endregion
-
-    #region Remarks
-
-    public static readonly PropertyInfo<string> _Remarks = RegisterProperty<string>(c => c.Remarks, "Remarks");
-    public string Remarks
-    {
-      get { return GetProperty(_Remarks); }
-      set { SetProperty(_Remarks, value); }
+      get { return GetProperty(_RevenueMultiplier); }
+      set { SetProperty(_RevenueMultiplier, value); }
     }
     #endregion
 
@@ -78,19 +68,49 @@ namespace Bitz.Cargo.Business.Items
 
     #endregion
 
+    #region ArrMetricRate
+
+    public static readonly PropertyInfo<decimal?> _ArrMetricRate = RegisterProperty<decimal?>(c => c.ArrMetricRate, "Arrastre Metric Rate");
+    public decimal? ArrMetricRate
+    {
+      get { return GetProperty(_ArrMetricRate); }
+      set { SetProperty(_ArrMetricRate, value); }
+    }
+    #endregion
+
+    #region ArrRevenueRate
+
+    public static readonly PropertyInfo<decimal?> _ArrRevenueRate = RegisterProperty<decimal?>(c => c.ArrRevenueRate, "Arrastre Revenue Rate");
+    public decimal? ArrRevenueRate
+    {
+      get { return GetProperty(_ArrRevenueRate); }
+      set { SetProperty(_ArrRevenueRate, value); }
+    }
+    #endregion
+
+    #region StevMetricRate
+
+    public static readonly PropertyInfo<decimal?> _StevMetricRate = RegisterProperty<decimal?>(c => c.StevMetricRate, "Stevedoring Metric Rate");
+    public decimal? StevMetricRate
+    {
+      get { return GetProperty(_StevMetricRate); }
+      set { SetProperty(_StevMetricRate, value); }
+    }
+    #endregion
+
+    #region StevRevenueRate
+
+    public static readonly PropertyInfo<decimal?> _StevRevenueRate = RegisterProperty<decimal?>(c => c.StevRevenueRate, "Stevedoring Revenue Rate");
+    public decimal? StevRevenueRate
+    {
+      get { return GetProperty(_StevRevenueRate); }
+      set { SetProperty(_StevRevenueRate, value); }
+    }
+    #endregion
+
     #endregion
 
     #region One To Many Properties
-
-    #region ItemUnitRates
-
-    public static readonly PropertyInfo<ItemRates> _ItemUnitRates = RegisterProperty<ItemRates>(c => c.ItemUnitRates);
-    public ItemRates ItemUnitRates
-    {
-      get { return GetProperty(_ItemUnitRates); }
-      set { SetProperty(_ItemUnitRates, value); }
-    }
-    #endregion
 
     #region ItemUomConversions
 
@@ -140,8 +160,6 @@ namespace Bitz.Cargo.Business.Items
     {
       base.DataPortal_Create();
       this.BusinessRules.CheckRules();
-      //LoadProperty(_ItemType, 2);
-      //LoadProperty(_ItemUnitRates, ItemRates.New());
     }
 
     #endregion
@@ -157,9 +175,12 @@ namespace Bitz.Cargo.Business.Items
           cmd.CommandText = @"SELECT item
                               ,itemid
                               ,itemname
-                              ,shortdescription
-                              ,remarks
+                              ,rtconstant
                               ,handlingunit
+                              ,mtrate1
+                              ,mtrate2
+                              ,rtrate1
+                              ,rtrate2
                               ,uom.name as handlingunitname
                           FROM item
                             LEFT JOIN uom ON uom.uom = item.handlingunit
@@ -173,9 +194,12 @@ namespace Bitz.Cargo.Business.Items
               LoadProperty(_Id, dr.GetInt32("item"));
               LoadProperty(_Code, dr.GetString("itemid"));
               LoadProperty(_Name, dr.GetString("itemname"));
-              LoadProperty(_ShortDescription, dr.GetString("shortdescription"));
-              LoadProperty(_Remarks, dr.GetString("remarks"));
+              LoadProperty(_RevenueMultiplier, dr.GetDecimal("rtconstant"));
               LoadProperty(_HandlingUnit, dr.GetInt32("handlingunit"));
+              LoadProperty(_ArrMetricRate, dr.GetDecimal("mtrate1"));
+              LoadProperty(_ArrRevenueRate, dr.GetDecimal("rtrate1"));
+              LoadProperty(_StevMetricRate, dr.GetDecimal("mtrate2"));
+              LoadProperty(_StevRevenueRate, dr.GetDecimal("rtrate2"));
             }
           }
         }
@@ -193,8 +217,8 @@ namespace Bitz.Cargo.Business.Items
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO item (itemid,itemname,shortdescription,remarks,handlingunit)
-                              VALUES (@itemid,@itemname,@shortdescription,@remarks,@handlingunit)
+          cmd.CommandText = @"INSERT INTO item (itemid,itemname,rtconstant,handlingunit,mtrate1,mtrate2,rtrate1,rtrate2)
+                              VALUES (@itemid,@itemname,@rtconstant,@handlingunit,@mtrate1,@mtrate2,@rtrate1,@rtrate2)
                                         SELECT SCOPE_IDENTITY()";
 
           //if (ItemType != null)
@@ -204,18 +228,21 @@ namespace Bitz.Cargo.Business.Items
 
           cmd.Parameters.AddWithValue("@itemid", Code);
           cmd.Parameters.AddWithValue("@itemname", Name);
-          cmd.Parameters.AddWithValue("@shortdescription", ShortDescription);
-          cmd.Parameters.AddWithValue("@remarks", Remarks);
+          cmd.Parameters.AddWithValue("@rtconstant", RevenueMultiplier);
           cmd.Parameters.AddWithValue("@handlingunit", HandlingUnit);
+          cmd.Parameters.AddWithValue("@mtrate1", ArrMetricRate);
+          cmd.Parameters.AddWithValue("@mtrate2", StevMetricRate);
+          cmd.Parameters.AddWithValue("@rtrate1", ArrRevenueRate);
+          cmd.Parameters.AddWithValue("@rtrate2", StevRevenueRate);
 
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
             LoadProperty(_Id, identity);
           }
-          catch (Exception)
+          catch (Exception e)
           {
-            throw;
+            throw e;
           }
         }
       }
@@ -235,16 +262,22 @@ namespace Bitz.Cargo.Business.Items
           cmd.CommandText = @"UPDATE item
                                SET itemid = @code
                                   ,itemname = @name
-                                  ,shortdescription = @shortdescription
-                                  ,remarks = @remarks
+                                  ,rtconstant = @rtconstant
                                   ,handlingunit = @handlingunit
+                                  ,mtrate1 = @mtrate1
+                                  ,mtrate2 = @mtrate2
+                                  ,rtrate1 = @rtrate1
+                                  ,rtrate2 = @rtrate2
                                 WHERE item = @id";
 
           cmd.Parameters.AddWithValue("@code", Code);
           cmd.Parameters.AddWithValue("@name", Name);
           cmd.Parameters.AddWithValue("@handlingunit", HandlingUnit);
-          cmd.Parameters.AddWithValue("@shortdescription", ShortDescription);
-          cmd.Parameters.AddWithValue("@remarks", Remarks);
+          cmd.Parameters.AddWithValue("@rtconstant", RevenueMultiplier);
+          cmd.Parameters.AddWithValue("@mtrate1", ArrMetricRate);
+          cmd.Parameters.AddWithValue("@mtrate2", StevMetricRate);
+          cmd.Parameters.AddWithValue("@rtrate1", ArrRevenueRate);
+          cmd.Parameters.AddWithValue("@rtrate2", StevRevenueRate);
           cmd.Parameters.AddWithValue("@id", this.Id);
           try
           {
@@ -265,7 +298,6 @@ namespace Bitz.Cargo.Business.Items
 
     private void ChildFetch()
     {
-      LoadProperty(_ItemUnitRates, ItemRates.Get(new SingleCriteria<int>(this.Id)));
       LoadProperty(_ItemUomConversions, ItemUomConversions.Get(new SingleCriteria<int>(this.Id)));
     }
 
@@ -275,7 +307,6 @@ namespace Bitz.Cargo.Business.Items
 
     private void SaveChild()
     {
-      Csla.DataPortal.UpdateChild(ReadProperty(_ItemUnitRates), new SingleCriteria<int>(this.Id));
       Csla.DataPortal.UpdateChild(ReadProperty(_ItemUomConversions), new SingleCriteria<int>(this.Id));
     }
 
