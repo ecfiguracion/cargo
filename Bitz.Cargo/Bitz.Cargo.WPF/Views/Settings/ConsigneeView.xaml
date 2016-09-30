@@ -55,7 +55,7 @@
                Grid.Column="1"
                Grid.ColumnSpan="2"
                MaxWidth="420"
-               MinWidth="250"
+               MinWidth="400"
                HorizontalAlignment="Left"
                Margin="8,2,2,2"
                Text="{Binding Model.Contact.Name,Mode=TwoWay,ValidatesOnDataErrors=True}" />
@@ -63,7 +63,7 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="3"
                   Margin="0,8,0,0">
-        <TabItem Header="Details">
+        <TabItem Header="Contact Details">
           <Grid Margin="4">
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
@@ -106,9 +106,11 @@
                      Text="{Binding Model.Contact.Email,Mode=TwoWay}" />
           </Grid>
         </TabItem>
-        <TabItem Header="Details">
+        <TabItem Header="Address Details">
           <Grid Margin="4">
             <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
@@ -161,6 +163,28 @@
                      Width="300"
                      Text="{Binding Model.Address.Province,Mode=TwoWay}" />
 
+            <TextBlock Grid.Row="4"
+                       Text="State"
+                       VerticalAlignment="Center"
+                       Margin="4,2,2,2" />
+            <TextBox Grid.Row="4"
+                     Grid.Column="1"
+                     Margin="8,2,2,2"
+                     HorizontalAlignment="Left"
+                     Width="300"
+                     Text="{Binding Model.Address.State,Mode=TwoWay}" />
+
+            <TextBlock Grid.Row="5"
+                       Text="Country"
+                       VerticalAlignment="Center"
+                       Margin="4,2,2,2" />
+            <TextBox Grid.Row="5"
+                     Grid.Column="1"
+                     Margin="8,2,2,2"
+                     HorizontalAlignment="Left"
+                     Width="300"
+                     Text="{Binding Model.Address.Country,Mode=TwoWay}" />
+          
           </Grid>
         </TabItem>
       </TabControl>
