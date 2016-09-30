@@ -38,18 +38,29 @@ namespace Bitz.Business.Contacts
 
     #endregion
 
+    #region Address
+
+    public static readonly PropertyInfo<Address> _Address = RegisterProperty<Address>(c => c.Address);
+    public Address Address
+    {
+      get { return GetProperty(_Address); }
+      set { SetProperty(_Address, value); }
+    }
+
+    #endregion
+
     #endregion
 
     #region One To Many Properties
 
     #region Addresss
 
-    public static readonly PropertyInfo<Addresss> _Addresss = RegisterProperty<Addresss>(c => c.Addresss);
-    public Addresss Addresss
-    {
-      get { return GetProperty(_Addresss); }
-      set { SetProperty(_Addresss, value); }
-    }
+    //public static readonly PropertyInfo<Addresss> _Addresss = RegisterProperty<Addresss>(c => c.Addresss);
+    //public Addresss Addresss
+    //{
+    //  get { return GetProperty(_Addresss); }
+    //  set { SetProperty(_Addresss, value); }
+    //}
 
     #endregion
 
@@ -95,7 +106,7 @@ namespace Bitz.Business.Contacts
       var contact = Contact.New();
       contact.ContactType = BitzConstants.ContactTypes.Consignee.Id;
       LoadProperty(_Contact, contact);
-      LoadProperty(_Addresss, Addresss.New());
+      LoadProperty(_Address, Address.New());
       BusinessRules.CheckRules();
     }
 
@@ -112,10 +123,13 @@ namespace Bitz.Business.Contacts
           cmd.CommandText = string.Format(@"SELECT s.consignee,s.contact,
                                               c.contact as {0}contact,c.code as {0}code,c.name as {0}name,
                                               c.contacttype as {0}contacttype,c.phone as {0}phone,
-                                              c.fax as {0}fax,c.email as {0}email                                      
+                                              c.fax as {0}fax,c.email as {0}email,a.contact as {1}contact,                                      
+                                              a.contactaddress as {1}contactaddress,a.addressname as {1}addressname,a.street as {1}street,
+                                              a.city as {1}city,a.province as {1}province,a.state as {1}state,a.country as {1}country
                                             FROM consignee s
                                             INNER JOIN contact c ON s.contact = c.contact
-                                            WHERE s.consignee = @id", _Contact.Name);
+                                            LEFT JOIN contactaddress a ON a.contact = c.contact
+                                            WHERE s.consignee = @id", _Contact.Name, _Address.Name);
           cmd.Parameters.AddWithValue("@id", id);
 
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
@@ -124,12 +138,13 @@ namespace Bitz.Business.Contacts
             {
               LoadProperty(_Id, dr.GetInt32("consignee"));
               LoadProperty(_Contact, Contact.Get(dr, _Contact.Name));
+              LoadProperty(_Address, Address.Get(dr, _Address.Name));
 
             }
           }
         }
       }
-      this.ChildFetch();
+      //this.ChildFetch();
     }
 
     #endregion
@@ -196,7 +211,7 @@ namespace Bitz.Business.Contacts
 
     private void ChildFetch()
     {
-      LoadProperty(_Addresss, Addresss.Get(new SingleCriteria<int>(this.Contact.Id)));
+      LoadProperty(_Address, Addresss.Get(new SingleCriteria<int>(this.Contact.Id)));
     }
 
     #endregion
@@ -205,7 +220,7 @@ namespace Bitz.Business.Contacts
 
     private void SaveChild()
     {
-      Csla.DataPortal.UpdateChild(ReadProperty(_Addresss), new SingleCriteria<int>(this.Contact.Id));
+      Csla.DataPortal.UpdateChild(ReadProperty(_Address), new SingleCriteria<int>(this.Contact.Id));
     }
 
     #endregion
