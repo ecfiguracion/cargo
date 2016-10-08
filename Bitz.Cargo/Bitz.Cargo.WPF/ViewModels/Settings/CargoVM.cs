@@ -33,6 +33,9 @@ namespace Bitz.Cargo.ViewModels.Settings
     {
       this.CommandAddUomConversion = new DelegateCommand<object>(CommandAddUomConversionExecute);
       this.CommandRemoveUomConversion = new DelegateCommand<object>(CommandRemoveUomConversionExecute);
+      this.CommandAddRate = new DelegateCommand<object>(CommandAddRateExecute);
+      this.CommandRemoveRate = new DelegateCommand<object>(CommandRemoveRateExecute);
+
 
       UnitOfMeasureInfos.Get(new UnitOfMeasureInfos.Criteria(), (oo, ee) =>
       {
@@ -78,6 +81,10 @@ namespace Bitz.Cargo.ViewModels.Settings
     public ItemUomConversion SelectedItemUomConversion { get; set; }
     #endregion
 
+    #region SelectedItemUomRate
+    public ItemUomRate SelectedItemUomRate { get; set; }
+    #endregion
+
     #endregion
 
     #region Commands
@@ -91,9 +98,6 @@ namespace Bitz.Cargo.ViewModels.Settings
 
     public void CommandAddUomConversionExecute(object parameter)
     {
-      if (this.Model.ItemUomConversions == null)
-        this.Model.ItemUomConversions = new ItemUomConversions();
-
       this.Model.ItemUomConversions.AddNew();
 
     }
@@ -111,6 +115,35 @@ namespace Bitz.Cargo.ViewModels.Settings
       if (SelectedItemUomConversion != null)
       {
         this.Model.ItemUomConversions.Remove(SelectedItemUomConversion);
+      }
+    }
+    #endregion
+
+    #region CommandAddRate
+    public ICommand CommandAddRate
+    {
+      get;
+      private set;
+    }
+
+    public void CommandAddRateExecute(object parameter)
+    {
+      this.Model.ItemUomRates.AddNew();
+    }
+    #endregion
+
+    #region CommandRemoveRate
+    public ICommand CommandRemoveRate
+    {
+      get;
+      private set;
+    }
+
+    public void CommandRemoveRateExecute(object parameter)
+    {
+      if (SelectedItemUomRate != null)
+      {
+        this.Model.ItemUomRates.Remove(SelectedItemUomRate);
       }
     }
     #endregion

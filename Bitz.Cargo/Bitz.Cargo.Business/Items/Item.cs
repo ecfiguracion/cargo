@@ -151,6 +151,17 @@ namespace Bitz.Cargo.Business.Items
 
     #endregion
 
+    #region ItemUomRates
+
+    public static readonly PropertyInfo<ItemUomRates> _ItemUomRates = RegisterProperty<ItemUomRates>(c => c.ItemUomRates);
+    public ItemUomRates ItemUomRates
+    {
+      get { return GetProperty(_ItemUomRates); }
+      set { SetProperty(_ItemUomRates, value); }
+    }
+
+    #endregion
+
     #endregion
 
     #region Business Rules
@@ -191,6 +202,8 @@ namespace Bitz.Cargo.Business.Items
     {
       base.DataPortal_Create();
       LoadProperty(_Code, "[Auto-Assign]");
+      LoadProperty(_ItemUomConversions, ItemUomConversions.New());
+      LoadProperty(_ItemUomRates, ItemUomRates.New());
       this.BusinessRules.CheckRules();
     }
 
@@ -326,6 +339,7 @@ namespace Bitz.Cargo.Business.Items
     private void ChildFetch()
     {
       LoadProperty(_ItemUomConversions, ItemUomConversions.Get(new SingleCriteria<int>(this.Id)));
+      LoadProperty(_ItemUomRates,ItemUomRates.Get(new SingleCriteria<int>(this.Id)));
     }
 
     #endregion
@@ -335,6 +349,7 @@ namespace Bitz.Cargo.Business.Items
     private void SaveChild()
     {
       Csla.DataPortal.UpdateChild(ReadProperty(_ItemUomConversions), new SingleCriteria<int>(this.Id));
+      Csla.DataPortal.UpdateChild(ReadProperty(_ItemUomRates), new SingleCriteria<int>(this.Id));
     }
 
     #endregion

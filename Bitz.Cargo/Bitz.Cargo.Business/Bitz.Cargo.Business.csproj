@@ -45,10 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Billing\BillingItem.cs" />
+    <Compile Include="Billing\BillItemRoro.cs" />
     <Compile Include="Billing\BillItem.cs" />
-    <Compile Include="Billing\BillingItemRate.cs" />
-    <Compile Include="Billing\BillingItemRateOther.cs" />
     <Compile Include="Billing\Domestic.cs" />
     <Compile Include="Billing\Foreign.cs" />
     <Compile Include="Billing\Infos\BillInfo.cs" />
@@ -65,6 +63,7 @@
     <Compile Include="Items\Infos\ItemUomConversionInfo.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\ItemRate.cs" />
+    <Compile Include="Items\ItemUomRate.cs" />
     <Compile Include="Items\ItemUomConversion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\BankAccount.cs" />

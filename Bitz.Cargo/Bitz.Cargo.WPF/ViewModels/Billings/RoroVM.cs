@@ -2,13 +2,16 @@
 using Bitz.Cargo.Business.Billing;
 using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.CargoReferences.Infos;
+using Bitz.Cargo.Business.Constants;
 using Bitz.Cargo.Business.Items;
 using Bitz.Cargo.Business.Items.Infos;
 using Bitz.Core.Application;
 using Bitz.Core.Constants;
+using Bitz.Core.Events;
 using Bitz.Core.Shell;
 using Bitz.Core.Utilities;
 using Bitz.Core.ViewModel;
+using FirstFloor.ModernUI.Windows.Controls;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -17,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+
 
 namespace Bitz.Cargo.ViewModels.Billings
 {
@@ -28,11 +32,12 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       if (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv") return;
 
-      this.CommandAddItemRate = new DelegateCommand<object>(CommandAddItemRateExecute);
-      this.CommandRemoveItemRate = new DelegateCommand<object>(CommandRemoveItemRateExecute);
+      this.CommandSelectConsignee = new DelegateCommand<object>(CommandSelectConsigneeExecute);
+      this.CommandSelectVessel = new DelegateCommand<object>(CommandSelectVesselExecute);
 
-      this.CommandAddItemRateOther = new DelegateCommand<object>(CommandAddItemRateOtherExecute);
-      this.CommandRemoveItemRateOther = new DelegateCommand<object>(CommandRemoveItemRateOtherExecute);
+      this.CommandAddItem = new DelegateCommand<object>(CommandAddItemExecute);
+      this.CommandRemoveItem = new DelegateCommand<object>(CommandRemoveItemExecute);
+
     }
 
     public override void Initialise(int? id)
@@ -42,7 +47,6 @@ namespace Bitz.Cargo.ViewModels.Billings
         if (isloaded)
         {
           base.Initialise(id);
-          LoadConfiguredItemRates();
         }
       });
     }
@@ -51,240 +55,175 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #region Internal Events
 
+    protected override void OnModelChanged(Roro oldValue, Roro newValue)
+    {
+      base.OnModelChanged(oldValue, newValue);
+      newValue.ChildChanged += newValue_ChildChanged;
+    }
+
+    void newValue_ChildChanged(object sender, Csla.Core.ChildChangedEventArgs e)
+    {
+      if (e.PropertyChangedArgs != null)
+      {
+        if (this.Model.BillItems.IsValid)
+        {
+          this.ComputeTotalBill();
+        }
+      }
+    }
+
     #endregion
 
     #region Properties
 
-    //Consignees
-    private BaseContactInfos _Consignees;
-    public BaseContactInfos Consignees
+    #region Cargoes
+
+    public ItemInfos Cargoes { get; set; }
+
+    #endregion
+
+    #region UnitOfMeasures
+
+    private UnitOfMeasureInfos _UnitOfMeasures;
+    public UnitOfMeasureInfos UnitOfMeasures
     {
-      get { return _Consignees; }
+      get { return _UnitOfMeasures; }
       set
       {
-        _Consignees = value;
-        OnPropertyChanged("Consignees");
+        _UnitOfMeasures = value;
+        OnPropertyChanged("UnitOfMeasures");
       }
     }
 
-    //Vessels
-    private BaseContactInfos _Vessels;
-    public BaseContactInfos Vessels
-    {
-      get { return _Vessels; }
-      set
-      {
-        _Vessels = value;
-        OnPropertyChanged("Vessels");
-      }
-    }
+    #endregion
 
-    //Cargos
-    private ItemInfos _Cargos;
-    public ItemInfos Cargos
-    {
-      get { return _Cargos; }
-      set
-      {
-        _Cargos = value;
-        OnPropertyChanged("Cargos");
-      }
-    }
+    #region SelectedItem
 
-    //UOM
-    private UnitOfMeasureInfos _Units;
-    public UnitOfMeasureInfos Units
-    {
-      get { return _Units; }
-      set
-      {
-        _Units = value;
-        OnPropertyChanged("Units");
-      }
-    }
+    public BillItemRoro SelectedItem { get; set; }
 
-    //ConfiguredItemRates
-    private ItemRateInfos _ConfiguredItemRates;
-    public ItemRateInfos ConfiguredItemRates
-    {
-      get { return _ConfiguredItemRates; }
-      set
-      {
-        _ConfiguredItemRates = value;
-        OnPropertyChanged("ConfiguredItemRates");
-      }
-    }
+    #endregion
 
-    //SelectedConfiguredItemRate
-    private ItemRateInfo _SelectedConfiguredItemRate;
-    public ItemRateInfo SelectedConfiguredItemRate
-    {
-      get { return _SelectedConfiguredItemRate; }
-      set
-      {
-        _SelectedConfiguredItemRate = value;
-        OnPropertyChanged("SelectedConfiguredItemRate");
-        OnPropertyChanged("CanRemoveItemRate");
-        OnPropertyChanged("CanAddItemRate");
-      }
-    }
+    #region WeightTypes
 
-    public bool CanAddItemRate
-    {
-      get { return this.SelectedConfiguredItemRate != null; }
-    }
-
-    public bool CanRemoveItemRate
-    {
-      get { return this.SelectedItemRate != null; }
-    }
-
-    public bool CanRemoveItemRateOther
-    {
-      get { return this.SelectedItemRateOther != null; }
-    }
-
-    //SelectedItemRates
-    private ItemRateInfos _SelectedItemRates;
-    public ItemRateInfos SelectedItemRates
-    {
-      get { return _SelectedItemRates; }
-      set
-      {
-        _SelectedItemRates = value;
-        OnPropertyChanged("SelectedItemRates");
-      }
-    }
-
-    //SelectedItemRate
-    private BillingItemRate _SelectedItemRate;
-    public BillingItemRate SelectedItemRate
-    {
-      get { return _SelectedItemRate; }
-      set
-      {
-        _SelectedItemRate = value;
-        OnPropertyChanged("SelectedItemRate");
-        OnPropertyChanged("CanRemoveItemRate");
-        OnPropertyChanged("CanAddItemRate");
-      }
-    }
-
-    //SelectedItemRateOther
-    private BillingItemRateOther _SelectedItemRateOther;
-    public BillingItemRateOther SelectedItemRateOther
-    {
-      get { return _SelectedItemRateOther; }
-      set
-      {
-        _SelectedItemRateOther = value;
-        OnPropertyChanged("SelectedItemRateOther");
-        OnPropertyChanged("CanRemoveItemRateOther");
-      }
-    }
-
-    public Visibility ConfiguredRatesVisibility
+    public List<CoreConstants.IdValue> WeightRates
     {
       get
       {
-        if (this.Model == null || this.Model.Cargo == null || this.ConfiguredItemRates == null)
-          return Visibility.Hidden;
-
-        return this.ConfiguredItemRates.Any() ? Visibility.Visible : Visibility.Hidden;
+        return CargoConstants.WeightRates.Items;
       }
     }
 
-    public Visibility SelectedRatesVisibility
-    {
-      get
-      {
-        if (this.Model == null || this.Model.RoroHandlingRates == null)
-          return Visibility.Hidden;
+    #endregion
 
-        return this.Model.RoroHandlingRates.Any() ? Visibility.Visible : Visibility.Hidden;
-      }
-    }
-
-    public List<CoreConstants.IdValue> HandlingChargeType
-    {
-      get { return Bitz.Cargo.Business.Constants.CargoConstants.CargoHandlingChargeTypes.Items; }
-    }
     #endregion
 
     #region Commands
 
-    public ICommand CommandAddItemRate
+    #region CommandSelectConsignee
+    public ICommand CommandSelectConsignee
     {
       get;
       private set;
     }
 
-    public void CommandAddItemRateExecute(object parameter)
+    public void CommandSelectConsigneeExecute(object parameter)
     {
-      if (this.Model.RoroHandlingRates == null)
-        this.Model.RoroHandlingRates = new BillingItemRates();
-
-      var itemrate = this.Model.RoroHandlingRates.AddNew();
-      itemrate.ItemRate = this.SelectedConfiguredItemRate.Id;
-      if (this.Model.ItemCountHandling != null)
-        itemrate.Computation1 = Math.Round(this.Model.ItemCountHandling.Value, 2);
-      if (this.SelectedConfiguredItemRate.ConstantValue > 0)
-        itemrate.Computation2 = this.SelectedConfiguredItemRate.ConstantValue;
-
-      itemrate.Computation3 = this.SelectedConfiguredItemRate.ItemRate;
-      LoadConfiguredItemRates();
-
+      EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Subscribe(SelectedConsigneeResult);
+      NavigationManager.Show(UserInterfaces.Bitz.ContactSelectDialog, new object[] { BitzConstants.ContactTypes.Consignee.Id });
     }
 
-    public ICommand CommandRemoveItemRate
+    public void SelectedConsigneeResult(object payload)
     {
-      get;
-      private set;
-    }
-
-    public void CommandRemoveItemRateExecute(object parameter)
-    {
-      if (SelectedItemRate != null)
+      var contact = payload as BaseContactInfo;
+      if (contact != null)
       {
-        this.Model.RoroHandlingRates.Remove(SelectedItemRate);
-        LoadConfiguredItemRates();
+        this.Model.Consignee = contact;
+        this.Model.BillingAddress = contact.Address;
+      }
+      EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Unsubscribe(SelectedConsigneeResult);
+    }
+
+    #endregion
+
+    #region CommandSelectVessel
+    public ICommand CommandSelectVessel
+    {
+      get;
+      private set;
+    }
+
+    public void CommandSelectVesselExecute(object parameter)
+    {
+      EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Subscribe(SelectedVesselResult);
+      NavigationManager.Show(UserInterfaces.Bitz.ContactSelectDialog, new object[] { BitzConstants.ContactTypes.Vessel.Id });
+    }
+
+    public void SelectedVesselResult(object payload)
+    {
+      var contact = payload as BaseContactInfo;
+      if (contact != null)
+      {
+        this.Model.Vessel = contact;
+      }
+      EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Unsubscribe(SelectedVesselResult);
+    }
+    #endregion
+
+    #region CommandAddItem
+    public ICommand CommandAddItem
+    {
+      get;
+      private set;
+    }
+
+    public void CommandAddItemExecute(object parameter)
+    {
+      EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Subscribe(SelectedCargoResult);
+      NavigationManager.Show(UserInterfaces.Cargo.CargoSelectDialog);
+    }
+
+    public void SelectedCargoResult(object payload)
+    {
+      var item = payload as BaseItemInfo;
+      if (item != null)
+      {
+        if (!this.Model.BillItems.Any(x => x.Cargo.Id == item.Id))
+        {
+          var billitem = BillItemRoro.New();
+          billitem.Cargo = item;
+          this.Model.BillItems.Add(billitem);
+        }
+        else
+        {
+          NavigationManager.ShowMessage("Error", "Selected cargo already exists on the list, please retry.", MessageBoxButton.OK);
+        }
+      }
+      EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Unsubscribe(SelectedCargoResult);
+    }
+    #endregion
+
+    #region CommandRemoveItem
+    public ICommand CommandRemoveItem
+    {
+      get;
+      private set;
+    }
+
+    public void CommandRemoveItemExecute(object parameter)
+    {
+      if (SelectedItem != null)
+      {
+        var result = NavigationManager.ShowMessage("Remove", "Are you sure you want to delete the selected record?", MessageBoxButton.YesNo);
+        if (result == MessageBoxResult.Yes)
+        {
+          this.Model.BillItems.Remove(this.SelectedItem);
+        }
       }
     }
 
-    public ICommand CommandAddItemRateOther
-    {
-      get;
-      private set;
-    }
+    #endregion
 
-    public void CommandAddItemRateOtherExecute(object parameter)
-    {
-      if (this.Model.RoroHandlingRateOthers == null)
-        this.Model.RoroHandlingRateOthers = new BillingItemRateOthers();
-
-      var itemrateother = this.Model.RoroHandlingRateOthers.AddNew();
-
-    }
-
-    public ICommand CommandRemoveItemRateOther
-    {
-      get;
-      private set;
-    }
-
-    public void CommandRemoveItemRateOtherExecute(object parameter)
-    {
-      if (SelectedItemRateOther != null)
-      {
-        this.Model.RoroHandlingRateOthers.Remove(SelectedItemRateOther);
-      }
-    }
-
-    public override void CommandCancelExecute(object parameter)
-    {
-      base.DoCancel();
-      //DoRefresh("Get", this);
-    }
+    #region CommandPrint
 
     public override void CommandPrintExecute(object parameter)
     {
@@ -295,95 +234,53 @@ namespace Bitz.Cargo.ViewModels.Billings
     }
     #endregion
 
+    #endregion
+
     #region Methods
 
     #region LoadLookupReferences
 
     private void LoadLookupReferences(Action<bool> resultCallback)
     {
-      var datasourcestotal = 4;
+      var datasourcestotal = 2;
       var datasourcescount = 0;
 
-      if (this.Consignees == null)
+      UnitOfMeasureInfos.Get(new UnitOfMeasureInfos.Criteria(), (o, e) =>
       {
-        BaseContactInfos.Get(new BaseContactInfos.Criteria() { ContactType = BitzConstants.ContactTypes.Consignee.Id }, (o, e) =>
-        {
-          if (e.Error != null) throw e.Error;
+        if (e.Error != null) throw e.Error;
 
-          this.Consignees = e.Object;
+        this.UnitOfMeasures = e.Object;
+        datasourcescount += 1;
 
-        });
-      }
-      ++datasourcescount;
-      if (datasourcescount == datasourcestotal)
-        resultCallback(true);
+        if (datasourcescount == datasourcestotal)
+          resultCallback(true);
+      });
 
-      if (this.Vessels == null)
+      ItemInfos.Get(new ItemInfos.Criteria() { }, (o, e) =>
       {
-        BaseContactInfos.Get(new BaseContactInfos.Criteria() { ContactType = BitzConstants.ContactTypes.Vessel.Id }, (o, e) =>
-        {
-          if (e.Error != null) throw e.Error;
+        if (e.Error != null) throw e.Error;
+        this.Cargoes = e.Object;
+        datasourcescount += 1;
 
-          this.Vessels = e.Object;
-
-        });
-      }
-      ++datasourcescount;
-      if (datasourcescount == datasourcestotal)
-        resultCallback(true);
-
-      if (this.Cargos == null)
-      {
-        ItemInfos.Get(new ItemInfos.Criteria(), (o, e) =>
-        {
-          if (e.Error != null) throw e.Error;
-
-          this.Cargos = e.Object;
-
-        });
-      }
-      ++datasourcescount;
-      if (datasourcescount == datasourcestotal)
-        resultCallback(true);
-
-      if (this.Units == null)
-      {
-        UnitOfMeasureInfos.Get(new UnitOfMeasureInfos.Criteria(), (o, e) =>
-        {
-          if (e.Error != null) throw e.Error;
-
-          this.Units = e.Object;
-
-        });
-      }
-      ++datasourcescount;
-      if (datasourcescount == datasourcestotal)
-        resultCallback(true);
-
-
+        if (datasourcescount == datasourcestotal)
+          resultCallback(true);
+      });
     }
 
     #endregion
 
-    private void LoadConfiguredItemRates()
+    #region ComputeTotalBill
+
+    private void ComputeTotalBill()
     {
-      if (this.Model == null || this.Model.Cargo == null)
-        return;
-
-      var excludeIds = string.Empty;
-      if (this.Model.RoroHandlingRates != null)
-        excludeIds = string.Join(",", this.Model.RoroHandlingRates.Select(r => r.ItemRate).ToArray());
-
-      ItemRateInfos.Get(new ItemRateInfos.Criteria() { ItemId = this.Model.Cargo.Value, ExcludeStringIds = excludeIds }, (o, e) =>
+      decimal totalbill = 0;
+      foreach (var item in this.Model.BillItems)
       {
-        if (e.Error != null) throw e.Error;
-        this.ConfiguredItemRates = e.Object;
-
-        OnPropertyChanged("ConfiguredRatesVisibility");
-        OnPropertyChanged("SelectedRatesVisibility");
-      });
-      OnPropertyChanged("CanPrint");
+        totalbill += (int)item.Quantity * item.Rate;
+      }
+      this.Model.TotalBill = totalbill;
     }
+    #endregion
 
     #endregion
   }

@@ -63,7 +63,7 @@
       <TabControl  Grid.Row="3"
                           Grid.ColumnSpan="4"
                           Margin="0,4,0,0">
-        <TabItem Header="Item Rates/Charges">
+        <TabItem Header="Rates">
           <Grid>
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
@@ -193,7 +193,50 @@
               </DataGrid.Columns>
             </DataGrid>
           </Grid>
-        </TabItem>        
+        </TabItem>
+        <TabItem Header="Uom Rates">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal"
+                    Margin="0,0,0,8">
+              <Button Content="Add Rate" Command="{Binding CommandAddRate}" Margin="4" />
+
+              <Button Content="Remove Rate" Command="{Binding CommandRemoveRate}" Margin="8,4,4,4" />
+
+            </StackPanel>
+            <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Model.ItemUomRates}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  SelectedItem="{Binding SelectedItemUomRate, Mode=TwoWay}">
+              <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Uom" Width="120">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <ComboBox ItemsSource="{Binding Units,Source={StaticResource ViewModel}}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id"
+                                SelectedValue="{Binding Uom,Mode=TwoWay,
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}" 
+                                Background="Transparent" BorderBrush="Transparent"/>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Quantity" Width="120">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBox Text="{Binding Rate,Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2},UpdateSourceTrigger=PropertyChanged}"
+                                    Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Right"/>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+          </Grid>
+        </TabItem>
       </TabControl>
     </Grid>
   </Grid>
