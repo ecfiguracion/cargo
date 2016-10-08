@@ -58,32 +58,72 @@ namespace Bitz.Cargo.Business.Items.Infos
     }
     #endregion
 
-    #region Remarks
+    #region ArrastreMTRate
 
-    public static readonly PropertyInfo<string> _Remarks = RegisterProperty<string>(c => c.Remarks);
-    public string Remarks
+    public static readonly PropertyInfo<decimal> _ArrastreMTRate = RegisterProperty<decimal>(c => c.ArrastreMTRate);
+    public decimal ArrastreMTRate
     {
-      get { return GetProperty(_Remarks); }
+      get { return GetProperty(_ArrastreMTRate); }
     }
 
     #endregion
 
-    #region HandlingUnit
+    #region ArrastreRTRate
 
-    public static readonly PropertyInfo<int?> _HandlingUnit = RegisterProperty<int?>(c => c.HandlingUnit);
-    public int? HandlingUnit
+    public static readonly PropertyInfo<decimal> _ArrastreRTRate = RegisterProperty<decimal>(c => c.ArrastreRTRate);
+    public decimal ArrastreRTRate
     {
-      get { return GetProperty(_HandlingUnit); }
+      get { return GetProperty(_ArrastreRTRate); }
     }
 
     #endregion
 
-    #region HandlingUnitName
+    #region StevedoringMTRate
 
-    public static readonly PropertyInfo<string> _HandlingUnitName = RegisterProperty<string>(c => c.HandlingUnitName);
-    public string HandlingUnitName
+    public static readonly PropertyInfo<decimal> _StevedoringMTRate = RegisterProperty<decimal>(c => c.StevedoringMTRate);
+    public decimal StevedoringMTRate
     {
-      get { return GetProperty(_HandlingUnitName); }
+      get { return GetProperty(_StevedoringMTRate); }
+    }
+
+    #endregion
+
+    #region StevedoringRTRate
+
+    public static readonly PropertyInfo<decimal> _StevedoringRTRate = RegisterProperty<decimal>(c => c.StevedoringRTRate);
+    public decimal StevedoringRTRate
+    {
+      get { return GetProperty(_StevedoringRTRate); }
+    }
+
+    #endregion
+
+    #region RTMultiplier
+
+    public static readonly PropertyInfo<decimal> _RTMultiplier = RegisterProperty<decimal>(c => c.RTMultiplier);
+    public decimal RTMultiplier
+    {
+      get { return GetProperty(_RTMultiplier); }
+    }
+
+    #endregion
+
+    #region PremiumRate
+
+    public static readonly PropertyInfo<decimal> _PremiumRate = RegisterProperty<decimal>(c => c.PremiumRate);
+    public decimal PremiumRate
+    {
+      get { return GetProperty(_PremiumRate); }
+    }
+
+    #endregion
+
+    #region IsTaxWithHeld
+
+    public static readonly PropertyInfo<bool> _IsTaxWithHeld = RegisterProperty<bool>(c => c.IsTaxWithHeld);
+    public bool IsTaxWithHeld
+    {
+      get { return GetProperty(_IsTaxWithHeld); }
     }
 
     #endregion
@@ -119,12 +159,16 @@ namespace Bitz.Cargo.Business.Items.Infos
     private void Child_Fetch(SafeDataReader dr)
     {
       LoadProperty(_Id, dr.GetInt32("item"));
-      LoadProperty(_Code, dr.GetString("itemid"));
+      LoadProperty(_Code, dr.GetString("itemcode"));
       LoadProperty(_Name, dr.GetString("itemname"));
       LoadProperty(_ShortDescription, dr.GetString("shortdescription"));
-      LoadProperty(_Remarks, dr.GetString("remarks"));
-      LoadProperty(_HandlingUnit, dr.GetInt32("handlingunit"));
-      LoadProperty(_HandlingUnitName, dr.GetString("handlingunitname"));
+      LoadProperty(_ArrastreMTRate, dr.GetDecimal("arrastremtrate"));
+      LoadProperty(_ArrastreRTRate, dr.GetDecimal("arrastrertrate"));
+      LoadProperty(_StevedoringMTRate, dr.GetDecimal("stevedoringmtrate"));
+      LoadProperty(_StevedoringRTRate, dr.GetDecimal("stevedoringrtrate"));
+      LoadProperty(_PremiumRate, dr.GetDecimal("premiumrate"));
+      LoadProperty(_RTMultiplier, dr.GetDecimal("rtmultiplier"));
+      LoadProperty(_IsTaxWithHeld, dr.GetBoolean("istaxwithheld"));
     }
 
     #endregion
@@ -173,16 +217,6 @@ namespace Bitz.Cargo.Business.Items.Infos
       }
       #endregion //SearchText
 
-      #region ItemType
-      //private static PropertyInfo<int?> _ItemType = RegisterProperty<int?>(c => c.ItemType);
-
-      //public int? ItemType
-      //{
-      //  get { return ReadProperty(_ItemType); }
-      //  set { LoadProperty(_ItemType, value); }
-      //}
-      #endregion //ItemType
-
     }
 
     #endregion
@@ -206,13 +240,10 @@ namespace Bitz.Cargo.Business.Items.Infos
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT item,itemid,itemname,shortdescription,remarks,item.handlingunit,uom.name as handlingunitname
-                              FROM item
-                                LEFT JOIN uom on uom.uom = item.handlingunit
-                              WHERE (itemid LIKE @SearchText 
-                                      OR itemname LIKE @SearchText
-                                      OR remarks LIKE @SearchText
-                                      OR shortdescription LIKE @SearchText)";
+          cmd.CommandText = @"SELECT item,itemcode,itemname,shortdescription,arrastremtrate,arrastrertrate,premiumrate,
+                                    stevedoringmtrate,stevedoringrtrate,rtmultiplier,istaxwithheld
+                              FROM item                              
+                              WHERE (itemname LIKE @SearchText OR itemcode LIKE @SearchText)";
           cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
 
           //Apply paging

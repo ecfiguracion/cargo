@@ -78,9 +78,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\Dialogs\SelectContactDialogVM.cs" />
+    <Compile Include="Views\Dialogs\SelectContactDialogView.xaml.cs">
+      <DependentUpon>SelectContactDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Security\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Dialogs\SelectContactDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -117,6 +125,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.config.tmp" />
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -130,6 +139,10 @@
     <Folder Include="ViewModels\Security\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bitz.Business\Bitz.Business.csproj">
+      <Project>{d0f8a00d-250b-49ee-bf1d-83730dff463f}</Project>
+      <Name>Bitz.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bitz.Core\Bitz.Core.csproj">
       <Project>{c641477b-bb85-4e90-b976-8c41dd306d89}</Project>
       <Name>Bitz.Core</Name>

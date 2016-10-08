@@ -39,7 +39,7 @@
       <TextBox Grid.Row="0"
                Grid.Column="1"
                Margin="8,2,2,2"
-               Width="250"
+               Width="150" IsReadOnly="True"
                HorizontalAlignment="Left"
                Text="{Binding Model.Contact.Code,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
@@ -47,13 +47,13 @@
                  Grid.Column="0"
                  Margin="4,0"
                  HorizontalAlignment="Left"
-                 VerticalContentAlignment="Center"
+                 VerticalContentAlignment="Top"
                  Content="Vessel Name" />
       <TextBox Grid.Row="1"
                Grid.Column="1"
                Margin="8,2,2,2"
-               MinWidth="250"
-               MaxWidth="420"
+               Width="400"
+               Height="50" AcceptsReturn="True"
                Text="{Binding Model.Contact.Name,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
     </Grid>

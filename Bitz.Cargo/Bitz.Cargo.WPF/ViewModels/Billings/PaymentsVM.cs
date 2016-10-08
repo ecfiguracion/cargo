@@ -1,6 +1,5 @@
 ﻿using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.Constants;
-using Bitz.Core.Constants;
 using Bitz.Core.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -10,19 +9,18 @@ using System.Threading.Tasks;
 
 namespace Bitz.Cargo.ViewModels.Billings
 {
-  public class DomesticsVM : GridViewModelBase<BillInfos>
+  public class PaymentsVM : GridViewModelBase<BillingItemInfos>
   {
     #region Initialise
 
-    public DomesticsVM() { }
+    public PaymentsVM() { }
 
     public override void Initialise()
     {
       base.Initialise();
 
-      var criteria = new BillInfos.Criteria();
-      criteria.BillType = CargoConstants.BillingType.Domestic.Id;
-      criteria.Status = CargoConstants.BillStatus.Draft.Id;
+      var criteria = new BillingItemInfos.Criteria();
+      criteria.BillingItemType = CargoConstants.BillingType.Domestic.Id;
 
       this.Criteria = criteria;
 
@@ -32,14 +30,6 @@ namespace Bitz.Cargo.ViewModels.Billings
     #endregion
 
     #region Properties
-
-    public List<CoreConstants.IdValue> Statuses
-    {
-      get
-      {
-        return CargoConstants.BillStatus.Items;
-      }
-    }
 
     #endregion
 

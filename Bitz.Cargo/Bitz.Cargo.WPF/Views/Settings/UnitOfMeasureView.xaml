@@ -63,7 +63,8 @@
                    Grid.Column="1"
                    Grid.ColumnSpan="2"
                    Grid.RowSpan="4"
-                   Margin="4"
+                   Margin="4" Height="80"
+                   VerticalAlignment="Top"
                    TextWrapping="WrapWithOverflow"
                    AcceptsReturn="True"
                    Text="{Binding Model.Description, Mode=TwoWay,ValidatesOnDataErrors=True}"/>

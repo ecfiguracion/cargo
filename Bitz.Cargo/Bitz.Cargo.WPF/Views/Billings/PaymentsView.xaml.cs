@@ -1,5 +1,4 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Bitz.Cargo.Views.Dialogs
+namespace Bitz.Cargo.Views.Billings
 {
   /// <summary>
-  /// Interaction logic for ModernDialog1.xaml
+  /// Interaction logic for ForeignView.xaml
   /// </summary>
-  public partial class ModernDialog1 : ModernDialog
+  public partial class PaymentsView : UserControl
   {
-    public ModernDialog1()
+    public PaymentsView()
     {
       InitializeComponent();
-
-      // define the dialog buttons
-      this.Buttons = new Button[] { this.OkButton, this.CancelButton };
     }
   }
 }

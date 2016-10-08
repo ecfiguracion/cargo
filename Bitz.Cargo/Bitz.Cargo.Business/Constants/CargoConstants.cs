@@ -82,5 +82,53 @@ namespace Bitz.Cargo.Business.Constants
 
     #endregion
 
+    #region BillStatus
+
+    public class BillStatus
+    {
+      private static List<CoreConstants.IdValue> _BillStatus = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue Draft { get { return _BillStatus[0]; } }
+      public static CoreConstants.IdValue PartiallyPaid { get { return _BillStatus[1]; } }
+      public static CoreConstants.IdValue FullyPaid { get { return _BillStatus[2]; } }
+
+      static BillStatus()
+      {
+        _BillStatus.Add(new CoreConstants.IdValue(0, "Draft"));
+        _BillStatus.Add(new CoreConstants.IdValue(1, "Partially Paid"));
+        _BillStatus.Add(new CoreConstants.IdValue(2, "Fully Paid"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _BillStatus; }
+      }
+    }
+
+    #endregion
+
+    #region WeightRates
+
+    public class WeightRates
+    {
+      private static List<CoreConstants.IdValue> _WeightRates = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue MetricTons { get { return _WeightRates[0]; } }
+      public static CoreConstants.IdValue RevenueTons { get { return _WeightRates[1]; } }
+
+      static WeightRates()
+      {
+        _WeightRates.Add(new CoreConstants.IdValue(0, "MT"));
+        _WeightRates.Add(new CoreConstants.IdValue(1, "RT"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _WeightRates; }
+      }
+    }
+
+    #endregion
+
   }
 }

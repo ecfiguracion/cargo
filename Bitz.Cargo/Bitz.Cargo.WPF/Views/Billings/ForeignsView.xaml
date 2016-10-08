@@ -12,6 +12,9 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <vm:ForeignsVM x:Key="ViewModel"/>
+      <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+      </Style>
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid Style="{StaticResource ContentRoot}">
@@ -32,14 +35,15 @@
         </TextBox>
       </StackPanel>
       <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
-        <TextBlock Text="Consignee" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
-        <ComboBox  Width="180" Margin="8,4"/>
+        <TextBlock Text="Status" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
+        <ComboBox  Width="180" Margin="8,4" ItemsSource="{Binding Statuses}" DisplayMemberPath="Value" SelectedValuePath="Id"
+                   SelectedValue="{Binding Criteria.Status,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
       </StackPanel>
     </StackPanel>
 
     <toolbar:ListToolbar Grid.Row="0" HorizontalAlignment="Right"/>
 
-    <DataGrid Name="DG1"
+    <DataGrid Name="DG1" AlternatingRowBackground="#FFECF5FF"
               RowHeaderWidth="0"
               IsReadOnly="True"
               Grid.Row="2"
@@ -51,32 +55,23 @@
       </DataGrid.InputBindings>
       <DataGrid.Columns>
         <mui:DataGridTextColumn Header="SOA Number"
-                                Width="Auto"
-                                Binding="{Binding ReferenceNo}" />
+                                Width="150"
+                                Binding="{Binding BillNo}" />
         <mui:DataGridTextColumn Header="Date"
-                                Width="Auto"
-                                Binding="{Binding BillingDate}" />
-        <mui:DataGridTextColumn Header="Bill of Lading No."
-                                Width="Auto"
-                                Binding="{Binding BillLadingNo}" />
+                                Width="150"
+                                Binding="{Binding BillDate}" />
         <mui:DataGridTextColumn Header="Consignee"
-                                Width="Auto"
-                                Binding="{Binding ConsigneeName}" />
-        <mui:DataGridTextColumn Header="Name of Vessel"
-                                Width="Auto"
-                                Binding="{Binding VesselName}" />
+                                Width="*"
+                                Binding="{Binding Consignee}" />
+        <mui:DataGridTextColumn Header="Vessel"
+                                Width="*"
+                                Binding="{Binding Vessel}" />
         <mui:DataGridTextColumn Header="Voyage No."
-                                Width="Auto"
+                                Width="150"
                                 Binding="{Binding VoyageNo}" />
-        <mui:DataGridTextColumn Header="Cargo"
-                                Width="Auto"
-                                Binding="{Binding ItemName}" />
-        <mui:DataGridTextColumn Header="Count"
-                                Width="Auto"                                
-                                Binding="{Binding ItemCount}" />
-        <mui:DataGridTextColumn Header="Unit"
-                                Width="Auto"
-                                Binding="{Binding ItemUnitName}" />
+        <mui:DataGridTextColumn Header="Status"
+                                Width="150"
+                                Binding="{Binding Status.Value}" />
       </DataGrid.Columns>
     </DataGrid>
 
