@@ -1,4 +1,7 @@
-﻿using Bitz.Core.Utilities;
+﻿using Bitz.Business.Contacts.Infos;
+using Bitz.Cargo.Business.Constants;
+using Bitz.Core.Constants;
+using Bitz.Core.Utilities;
 using Csla;
 using Csla.Data;
 using System;
@@ -26,54 +29,43 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region BillingItemType
+    #region BillType
 
-    public static readonly PropertyInfo<int> _BillingItemType = RegisterProperty<int>(c => c.BillingItemType, "Type");
-    public int BillingItemType
+    public static readonly PropertyInfo<int> _BillType = RegisterProperty<int>(c => c.BillType, "Type");
+    public int BillType
     {
-      get { return GetProperty(_BillingItemType); }
-      set { SetProperty(_BillingItemType, value); }
+      get { return GetProperty(_BillType); }
+      set { SetProperty(_BillType, value); }
     }
 
     #endregion
 
-    #region ReferenceNo
+    #region BillNo
 
-    public static readonly PropertyInfo<string> _ReferenceNo = RegisterProperty<string>(c => c.ReferenceNo, "Reference No.");
-    public string ReferenceNo
+    public static readonly PropertyInfo<string> _BillNo = RegisterProperty<string>(c => c.BillNo, "Reference No.");
+    public string BillNo
     {
-      get { return GetProperty(_ReferenceNo); }
-      set { SetProperty(_ReferenceNo, value); }
+      get { return GetProperty(_BillNo); }
+      set { SetProperty(_BillNo, value); }
     }
 
     #endregion
 
-    #region BillingDate
+    #region BillDate
 
-    public static readonly PropertyInfo<SmartDate> _BillingDate = RegisterProperty<SmartDate>(c => c.BillingDate, "Billing Date");
-    public SmartDate BillingDate
+    public static readonly PropertyInfo<SmartDate> _BillDate = RegisterProperty<SmartDate>(c => c.BillDate, "Billing Date");
+    public SmartDate BillDate
     {
-      get { return GetProperty(_BillingDate); }
-      set { SetProperty(_BillingDate, value); }
-    }
-
-    #endregion
-
-    #region BillLadingNo
-
-    public static readonly PropertyInfo<string> _BillLadingNo = RegisterProperty<string>(c => c.BillLadingNo, "Bill Lading No.");
-    public string BillLadingNo
-    {
-      get { return GetProperty(_BillLadingNo); }
-      set { SetProperty(_BillLadingNo, value); }
+      get { return GetProperty(_BillDate); }
+      set { SetProperty(_BillDate, value); }
     }
 
     #endregion
 
     #region Consignee
 
-    public static readonly PropertyInfo<int?> _Consignee = RegisterProperty<int?>(c => c.Consignee);
-    public int? Consignee
+    public static readonly PropertyInfo<BaseContactInfo> _Consignee = RegisterProperty<BaseContactInfo>(c => c.Consignee);
+    public BaseContactInfo Consignee
     {
       get { return GetProperty(_Consignee); }
       set { SetProperty(_Consignee, value); }
@@ -81,24 +73,35 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region ConsigneeAddress
+    #region BillingAddress
 
-    public static readonly PropertyInfo<string> _ConsigneeAddress = RegisterProperty<string>(c => c.ConsigneeAddress, "Consignee Address");
-    public string ConsigneeAddress
+    public static readonly PropertyInfo<string> _BillingAddress = RegisterProperty<string>(c => c.BillingAddress, "Consignee Address");
+    public string BillingAddress
     {
-      get { return GetProperty(_ConsigneeAddress); }
-      set { SetProperty(_ConsigneeAddress, value); }
+      get { return GetProperty(_BillingAddress); }
+      set { SetProperty(_BillingAddress, value); }
     }
 
     #endregion
 
     #region Vessel
 
-    public static readonly PropertyInfo<int?> _Vessel = RegisterProperty<int?>(c => c.Vessel, "Vessel");
-    public int? Vessel
+    public static readonly PropertyInfo<BaseContactInfo> _Vessel = RegisterProperty<BaseContactInfo>(c => c.Vessel, "Vessel");
+    public BaseContactInfo Vessel
     {
       get { return GetProperty(_Vessel); }
       set { SetProperty(_Vessel, value); }
+    }
+
+    #endregion
+
+    #region BillOfLadingNo
+
+    public static readonly PropertyInfo<string> _BillOfLadingNo = RegisterProperty<string>(c => c.BillOfLadingNo, "Bill Lading No.");
+    public string BillOfLadingNo
+    {
+      get { return GetProperty(_BillOfLadingNo); }
+      set { SetProperty(_BillOfLadingNo, value); }
     }
 
     #endregion
@@ -114,135 +117,89 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region Cargo
+    #region TotalBill
 
-    public static readonly PropertyInfo<int?> _Cargo = RegisterProperty<int?>(c => c.Cargo, "Cargo");
-    public int? Cargo
+    public static readonly PropertyInfo<decimal> _TotalBill = RegisterProperty<decimal>(c => c.TotalBill);
+    public decimal TotalBill
     {
-      get { return GetProperty(_Cargo); }
-      set { SetProperty(_Cargo, value); }
+      get { return GetProperty(_TotalBill); }
+      set { SetProperty(_TotalBill, value); }
     }
 
     #endregion
 
-    #region ItemCount
+    #region DueDate
 
-    public static readonly PropertyInfo<decimal?> _ItemCount = RegisterProperty<decimal?>(c => c.ItemCount, "Count");
-    public decimal? ItemCount
+    public static readonly PropertyInfo<SmartDate> _DueDate = RegisterProperty<SmartDate>(c => c.DueDate);
+    public SmartDate DueDate
     {
-      get { return GetProperty(_ItemCount); }
-      set { SetProperty(_ItemCount, value); }
+      get { return GetProperty(_DueDate); }
+      set { SetProperty(_DueDate, value); }
     }
 
     #endregion
 
-    #region ItemUnit
+    #region Status
 
-    public static readonly PropertyInfo<int?> _ItemUnit = RegisterProperty<int?>(c => c.ItemUnit, "Unit");
-    public int? ItemUnit
+    public static readonly PropertyInfo<int> _Status = RegisterProperty<int>(c => c.Status);
+    public CoreConstants.IdValue Status
     {
-      get { return GetProperty(_ItemUnit); }
-      set { SetProperty(_ItemUnit, value); }
-    }
-
-    #endregion
-
-    #region ItemCountHandling
-
-    public static readonly PropertyInfo<decimal?> _ItemCountHandling = RegisterProperty<decimal?>(c => c.ItemCountHandling, "Handling Unit Quantity");
-    public decimal? ItemCountHandling
-    {
-      get { return GetProperty(_ItemCountHandling); }
-      set
+      get 
       {
-        SetProperty(_ItemCountHandling, value);
-        if (this.ForeignHandlingRates != null && this.ForeignHandlingRates.Any())
-        {
-          foreach (var item in ForeignHandlingRates)
-          {
-            item.Computation1 = value;
-          }
-          if (value > 0)
-            this.ComputeStatementOfAccount();
-        }
+        var status = CargoConstants.BillStatus.Items.SingleOrDefault(x => x.Id == GetProperty(_Status));
+        if (status == null)
+          return CargoConstants.BillStatus.Draft;
+        return status;
+      }
+      set 
+      {
+        SetProperty(_Status, value.Id); 
       }
     }
 
     #endregion
 
-    #region HandlingUnit
+    #region CreatedBy
 
-    public static readonly PropertyInfo<int?> _HandlingUnit = RegisterProperty<int?>(c => c.HandlingUnit, "Handling Unit");
-    public int? HandlingUnit
+    public static readonly PropertyInfo<int> _CreatedBy = RegisterProperty<int>(c => c.CreatedBy);
+    public int CreatedBy
     {
-      get { return GetProperty(_HandlingUnit); }
-      set { SetProperty(_HandlingUnit, value); }
+      get { return GetProperty(_CreatedBy); }
+      set { SetProperty(_CreatedBy, value); }
+    }
+
+
+
+    #endregion
+
+    #region DateCreated
+
+    public static readonly PropertyInfo<SmartDate> _DateCreated = RegisterProperty<SmartDate>(c => c.DateCreated);
+    public SmartDate DateCreated
+    {
+      get { return GetProperty(_DateCreated); }
+      set { SetProperty(_DateCreated, value); }
     }
 
     #endregion
 
-    #region Remarks
+    #region UpdatedBy
 
-    public static readonly PropertyInfo<string> _Remarks = RegisterProperty<string>(c => c.Remarks, "Remarks");
-    public string Remarks
+    public static readonly PropertyInfo<int> _UpdatedBy = RegisterProperty<int>(c => c.UpdatedBy);
+    public int UpdatedBy
     {
-      get { return GetProperty(_Remarks); }
-      set { SetProperty(_Remarks, value); }
+      get { return GetProperty(_UpdatedBy); }
+      set { SetProperty(_UpdatedBy, value); }
     }
-
     #endregion
 
-    #region UserAccount
+    #region DateUpdated
 
-    public static readonly PropertyInfo<int> _UserAccount = RegisterProperty<int>(c => c.UserAccount, "User Account");
-    public int UserAccount
+    public static readonly PropertyInfo<SmartDate> _DateUpdated = RegisterProperty<SmartDate>(c => c.DateUpdated);
+    public SmartDate DateUpdated
     {
-      get { return GetProperty(_UserAccount); }
-      set { SetProperty(_UserAccount, value); }
-    }
-
-    #region CreatedDate
-
-    public static readonly PropertyInfo<SmartDate> _CreatedDate = RegisterProperty<SmartDate>(c => c.CreatedDate, "Created Date");
-    public SmartDate CreatedDate
-    {
-      get { return GetProperty(_CreatedDate); }
-      set { SetProperty(_CreatedDate, value); }
-    }
-
-    #endregion
-
-    #region LastUpdatedDate
-
-    public static readonly PropertyInfo<SmartDate> _LastUpdatedDate = RegisterProperty<SmartDate>(c => c.LastUpdatedDate, "Last Updated Date");
-    public SmartDate LastUpdatedDate
-    {
-      get { return GetProperty(_LastUpdatedDate); }
-      set { SetProperty(_LastUpdatedDate, value); }
-    }
-
-    #endregion
-
-    #endregion
-
-    #region GrossAmount
-
-    public static readonly PropertyInfo<decimal?> _GrossAmount = RegisterProperty<decimal?>(c => c.GrossAmount);
-    public decimal? GrossAmount
-    {
-      get { return GetProperty(_GrossAmount); }
-      set { SetProperty(_GrossAmount, value); }
-    }
-
-    #endregion
-
-    #region NetAmount
-
-    public static readonly PropertyInfo<decimal?> _NetAmount = RegisterProperty<decimal?>(c => c.NetAmount);
-    public decimal? NetAmount
-    {
-      get { return GetProperty(_NetAmount); }
-      set { SetProperty(_NetAmount, value); }
+      get { return GetProperty(_DateUpdated); }
+      set { SetProperty(_DateUpdated, value); }
     }
 
     #endregion
@@ -251,29 +208,15 @@ namespace Bitz.Cargo.Business.Billing
 
     #region One To Many Properties
 
-    #region ForeignHandlingRates
+    #region BillItems
 
-    public static readonly PropertyInfo<BillingItemRates> _ForeignHandlingRates = RegisterProperty<BillingItemRates>(c => c.ForeignHandlingRates);
-    public BillingItemRates ForeignHandlingRates
+    public static readonly PropertyInfo<BillItems> _BillItems = RegisterProperty<BillItems>(c => c.BillItems);
+    public BillItems BillItems
     {
-      get { return GetProperty(_ForeignHandlingRates); }
-      set
-      {
-        SetProperty(_ForeignHandlingRates, value);
-        this.ComputeStatementOfAccount();
-      }
+      get { return GetProperty(_BillItems); }
+      set { SetProperty(_BillItems, value); }
     }
 
-    public static readonly PropertyInfo<BillingItemRateOthers> _ForeignHandlingRateOthers = RegisterProperty<BillingItemRateOthers>(c => c.ForeignHandlingRateOthers);
-    public BillingItemRateOthers ForeignHandlingRateOthers
-    {
-      get { return GetProperty(_ForeignHandlingRateOthers); }
-      set
-      {
-        SetProperty(_ForeignHandlingRateOthers, value);
-        this.ComputeStatementOfAccount();
-      }
-    }
     #endregion
 
     #endregion
@@ -283,15 +226,38 @@ namespace Bitz.Cargo.Business.Billing
     protected override void AddBusinessRules()
     {
       base.AddBusinessRules();
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_BillingDate));
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_BillLadingNo));
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Consignee));
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Vessel));
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Cargo));
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_ItemCount));
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_ItemUnit));
-      //BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_ItemName, 300));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_BillDate));
+      BusinessRules.AddRule(new ConsigneeRequired { PrimaryProperty = _Consignee });
+      BusinessRules.AddRule(new VesselRequired { PrimaryProperty = _Vessel });
     }
+
+    #region ConsigneeRequired
+    private class ConsigneeRequired : Csla.Rules.BusinessRule
+    {
+      protected override void Execute(Csla.Rules.RuleContext context)
+      {
+        var target = (Foreign)context.Target;
+        if (target.Consignee == null)
+        {
+          context.AddErrorResult("Consignee is required.");
+        }
+      }
+    }
+    #endregion
+
+    #region VesselRequired
+    private class VesselRequired : Csla.Rules.BusinessRule
+    {
+      protected override void Execute(Csla.Rules.RuleContext context)
+      {
+        var target = (Foreign)context.Target;
+        if (target.Vessel == null)
+        {
+          context.AddErrorResult("Vessel is required.");
+        }
+      }
+    }
+    #endregion
 
     #endregion
 
@@ -318,13 +284,14 @@ namespace Bitz.Cargo.Business.Billing
     protected override void DataPortal_Create()
     {
       base.DataPortal_Create();
-      LoadProperty(_ReferenceNo, "[Auto-Number]");
-      LoadProperty(_BillingDate, DateTime.Now);
-      LoadProperty(_BillingItemType, 2);
-      LoadProperty(_UserAccount, 1);
-      LoadProperty(_CreatedDate, DateTime.Now);
-      LoadProperty(_LastUpdatedDate, DateTime.Now);
-      //LoadProperty(_ForeignHandlingRates, BillingItemRates.New());
+      LoadProperty(_BillNo, "[Auto-Number]");
+      LoadProperty(_BillDate, DateTime.Now);
+      LoadProperty(_DueDate,new SmartDate(new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.DaysInMonth(DateTime.Now.Year,DateTime.Now.Month))));
+      LoadProperty(_BillType, CargoConstants.BillingType.Foreign.Id);
+      LoadProperty(_CreatedBy, 1);
+      LoadProperty(_DateCreated, DateTime.Now);
+      LoadProperty(_Status, CargoConstants.BillStatus.Draft.Id);
+      LoadProperty(_BillItems, BillItems.New());
       this.BusinessRules.CheckRules();
     }
 
@@ -338,41 +305,44 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT billingitem,referenceno,billingdate,billladingno,customer,
-	                              custpreferredaddress,vessel,voyageno,billingitem.item,itemcount,
-                                itemcounthandling, item.handlingunit,preferreduom,billingitem.remarks,
-                                grossamount, netamount
-                              FROM billingitem 
-                                LEFT JOIN item ON item.item = billingitem.item
-                              WHERE billingitem = @id";
+          cmd.CommandText = string.Format(@"
+                            SELECT b.bill,b.billtype,b.billno,b.billdate,b.consignee,b.billingaddress,
+	                            c.contact AS {0}contact,c.code AS {0}code,c.name AS {0}name,
+	                            v.contact AS {1}contact,v.code AS {1}code,v.name AS {1}name,
+	                            b.billofladingno,b.voyageno,b.totalbill,b.duedate,b.status,
+	                            billofladingno,b.createdby,b.datecreated,b.updatedby,b.dateupdated
+                            FROM bill b
+                            LEFT JOIN contact c ON b.consignee = c.contact
+                            LEFT JOIN contactaddress cca ON c.contact = cca.contact
+                            LEFT JOIN contact v ON b.vessel = v.contact
+                            LEFT JOIN contactaddress vca ON v.contact = vca.contact
+                            WHERE b.bill = @id", _Consignee.Name,_Vessel.Name);            
           cmd.Parameters.AddWithValue("@id", id);
-
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
           {
             if (dr.Read())
             {
-              LoadProperty(_Id, dr.GetInt32("billingitem"));
-              LoadProperty(_ReferenceNo, dr.GetString("referenceno"));
-              LoadProperty(_BillingDate, dr.GetSmartDate("billingdate"));
-              LoadProperty(_BillLadingNo, dr.GetString("billladingno"));
-              LoadProperty(_Consignee, dr.GetInt32("customer"));
-              LoadProperty(_ConsigneeAddress, dr.GetString("custpreferredaddress"));
-              LoadProperty(_Vessel, dr.GetInt32("vessel"));
+              LoadProperty(_Id, dr.GetInt32("bill"));
+              LoadProperty(_BillType, dr.GetInt32("billtype"));
+              LoadProperty(_BillNo, dr.GetString("billno"));
+              LoadProperty(_BillDate, dr.GetSmartDate("billdate"));
+              LoadProperty(_Consignee, BaseContactInfo.Get(dr, _Consignee.Name));
+              LoadProperty(_BillingAddress, dr.GetString("billingaddress"));
+              LoadProperty(_Vessel, BaseContactInfo.Get(dr, _Vessel.Name));
+              LoadProperty(_BillOfLadingNo, dr.GetString("BillOfLadingNo"));
               LoadProperty(_VoyageNo, dr.GetString("voyageno"));
-              LoadProperty(_Cargo, dr.GetInt32("item"));
-              LoadProperty(_ItemCount, dr.GetDecimal("itemcount"));
-              LoadProperty(_ItemCountHandling, dr.GetDecimal("itemcounthandling"));
-              LoadProperty(_ItemUnit, dr.GetInt32("preferreduom"));
-              LoadProperty(_Remarks, dr.GetString("remarks"));
-              LoadProperty(_HandlingUnit, dr.GetInt32("handlingunit"));
-              LoadProperty(_GrossAmount, dr.GetDecimal("grossamount"));
-              LoadProperty(_NetAmount, dr.GetDecimal("netamount"));
+              LoadProperty(_TotalBill, dr.GetDecimal("totalbill"));
+              LoadProperty(_DueDate, dr.GetSmartDate("duedate"));
+              LoadProperty(_Status,dr.GetInt32("status"));
+              LoadProperty(_CreatedBy, dr.GetInt32("createdby"));
+              LoadProperty(_DateCreated, dr.GetSmartDate("datecreated"));
+              LoadProperty(_UpdatedBy, dr.GetInt32("updatedby"));
+              LoadProperty(_DateUpdated, dr.GetSmartDate("dateupdated"));
             }
           }
         }
       }
-
-      this.ChildFetch();
+      LoadProperty(_BillItems, BillItems.Get(new SingleCriteria<int>(this.Id)));
     }
 
     #endregion
@@ -385,42 +355,27 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO billingitem(type,referenceno,billingdate,billladingno,customer,custpreferredaddress,grossamount,
-                                                         vessel,voyageno,item,itemcount,itemcounthandling,preferreduom,remarks,useraccount,createddate,lastupdateddate)
-                                        VALUES (@type,@referenceno,@billingdate,@billladingno,@customer,@custpreferredaddress,@grossamount,
-                                                         @vessel,@voyageno,@item,@itemcount,@itemcounthandling,@uom,@remarks,@useraccount,@createddate,@lastupdateddate)
-                                        SELECT SCOPE_IDENTITY()";
-          LoadProperty(_ReferenceNo, DateTime.Now.ToString("yyyyMMdd-HHmmssff"));
-          cmd.Parameters.AddWithValue("@type", BillingItemType);
-          cmd.Parameters.AddWithValue("@referenceno", ReferenceNo);
-          cmd.Parameters.AddWithValue("@billingdate", BillingDate.DBValue);
-          cmd.Parameters.AddWithValue("@billladingno", BillLadingNo);
-          cmd.Parameters.AddWithValue("@customer", Consignee);
-          cmd.Parameters.AddWithValue("@custpreferredaddress", ConsigneeAddress);
-          cmd.Parameters.AddWithValue("@vessel", Vessel);
+          cmd.CommandText = @"INSERT INTO bill(billtype,billno,billdate,consignee,billingaddress,vessel,billofladingno,voyageno,
+                                               totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated)
+                              VALUES (@billtype,@billno,@billdate,@consignee,@billingaddress,@vessel,@billofladingno,@voyageno,
+                                               @totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated)
+                              SELECT SCOPE_IDENTITY()";
+          LoadProperty(_BillNo, "FOR" + DateTime.Now.ToString("yyMMdd-HHmmss"));
+          cmd.Parameters.AddWithValue("@billtype", BillType);
+          cmd.Parameters.AddWithValue("@billno", BillNo);
+          cmd.Parameters.AddWithValue("@billdate", BillDate.DBValue);
+          cmd.Parameters.AddWithValue("@consignee", Consignee.Id);
+          cmd.Parameters.AddWithValue("@billingaddress", BillingAddress);
+          cmd.Parameters.AddWithValue("@vessel", Vessel.Id);
+          cmd.Parameters.AddWithValue("@billofladingno", BillOfLadingNo);
           cmd.Parameters.AddWithValue("@voyageno", VoyageNo);
-          cmd.Parameters.AddWithValue("@item", Cargo);
-          cmd.Parameters.AddWithValue("@itemcount", ItemCount);
-          cmd.Parameters.AddWithValue("@uom", ItemUnit);
-          cmd.Parameters.AddWithValue("@remarks", Remarks);
-          cmd.Parameters.AddWithValue("@useraccount", UserAccount);
-          cmd.Parameters.AddWithValue("@createddate", CreatedDate.DBValue);
-          cmd.Parameters.AddWithValue("@lastupdateddate", LastUpdatedDate.DBValue);
-          if (GrossAmount != null)
-            cmd.Parameters.AddWithValue("@grossamount", GrossAmount);
-          else
-            cmd.Parameters.AddWithValue("@grossamount", DBNull.Value);
-
-          if (ItemCountHandling != null)
-            cmd.Parameters.AddWithValue("@itemcounthandling", ItemCountHandling);
-          else
-            cmd.Parameters.AddWithValue("@itemcounthandling", DBNull.Value);
-
-          //if (ItemReference != null)
-          //  cmd.Parameters.AddWithValue("@itemreference", ItemReference);
-          //else
-          //  cmd.Parameters.AddWithValue("@itemreference", DBNull.Value);
-
+          cmd.Parameters.AddWithValue("@totalbill", TotalBill);
+          cmd.Parameters.AddWithValue("@duedate", DueDate.DBValue);
+          cmd.Parameters.AddWithValue("@status", Status.Id);
+          cmd.Parameters.AddWithValue("@createdby", CreatedBy);
+          cmd.Parameters.AddWithValue("@datecreated", DateCreated.DBValue);
+          cmd.Parameters.AddWithValue("@updatedby", UpdatedBy);
+          cmd.Parameters.AddWithValue("@dateupdated", DateUpdated.DBValue);
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
@@ -432,7 +387,7 @@ namespace Bitz.Cargo.Business.Billing
           }
         }
       }
-      this.SaveChild();
+      Csla.DataPortal.UpdateChild(ReadProperty(_BillItems), new SingleCriteria<int>(this.Id));
     }
 
     #endregion
@@ -445,47 +400,31 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"UPDATE billingitem SET 
-                                            referenceno = @referenceno,
-                                            billingdate = @billingdate,
-                                            billladingno = @billladingno,
-                                            customer = @customer,
-                                            custpreferredaddress = @custpreferredaddress,
-                                            vessel = @vessel,
-                                            voyageno = @voyageno,
-                                            item = @item,
-                                            itemcount = @itemcount,
-                                            itemcounthandling = @itemcounthandling,
-                                            preferreduom = @uom,
-                                            remarks = @remarks,
-                                            useraccount = @useraccount,
-                                            lastupdateddate = @lastupdateddate,
-                                            grossamount = @grossamount
-                                        WHERE billingitem = @id";
-
-          cmd.Parameters.AddWithValue("@referenceno", ReferenceNo);
-          cmd.Parameters.AddWithValue("@billingdate", BillingDate.DBValue);
-          cmd.Parameters.AddWithValue("@billladingno", BillLadingNo);
-          cmd.Parameters.AddWithValue("@customer", Consignee);
-          cmd.Parameters.AddWithValue("@custpreferredaddress", ConsigneeAddress);
-          cmd.Parameters.AddWithValue("@vessel", Vessel);
+          cmd.CommandText = @"UPDATE bill SET
+                                     billdate = @billdate,
+                                     consignee = @consignee,
+                                     billingaddress = @billingaddress,
+                                     vessel = @vessel,
+                                     billofladingno = @billofladingno,
+                                     voyageno = @voyageno,
+                                     totalbill = @totalbill,
+                                     duedate = @duedate,
+                                     status = @status,
+                                     updatedby = @updatedby,
+                                     dateupdated = @dateupdated
+                              WHERE bill = @id";
+          cmd.Parameters.AddWithValue("@billdate", BillDate.DBValue);
+          cmd.Parameters.AddWithValue("@consignee", Consignee.Id);
+          cmd.Parameters.AddWithValue("@billingaddress", BillingAddress);
+          cmd.Parameters.AddWithValue("@vessel", Vessel.Id);
+          cmd.Parameters.AddWithValue("@billofladingno", BillOfLadingNo);
           cmd.Parameters.AddWithValue("@voyageno", VoyageNo);
-          cmd.Parameters.AddWithValue("@item", Cargo);
-          cmd.Parameters.AddWithValue("@itemcount", ItemCount);
-          cmd.Parameters.AddWithValue("@uom", ItemUnit);
-          cmd.Parameters.AddWithValue("@remarks", Remarks);
-          cmd.Parameters.AddWithValue("@useraccount", 1);
-          cmd.Parameters.AddWithValue("@lastupdateddate", DateTime.Now);
+          cmd.Parameters.AddWithValue("@totalbill", TotalBill);
+          cmd.Parameters.AddWithValue("@duedate", DueDate.DBValue);
+          cmd.Parameters.AddWithValue("@status", Status.Id);
+          cmd.Parameters.AddWithValue("@updatedby", UpdatedBy);
+          cmd.Parameters.AddWithValue("@dateupdated", DateUpdated.DBValue);
           cmd.Parameters.AddWithValue("@id", this.Id);
-          if (GrossAmount != null)
-            cmd.Parameters.AddWithValue("@grossamount", GrossAmount);
-          else
-            cmd.Parameters.AddWithValue("@grossamount", DBNull.Value);
-
-          if (ItemCountHandling != null)
-            cmd.Parameters.AddWithValue("@itemcounthandling", ItemCountHandling);
-          else
-            cmd.Parameters.AddWithValue("@itemcounthandling", DBNull.Value);
 
           try
           {
@@ -497,59 +436,10 @@ namespace Bitz.Cargo.Business.Billing
           }
         }
       }
-      this.SaveChild();
+      Csla.DataPortal.UpdateChild(ReadProperty(_BillItems), new SingleCriteria<int>(this.Id));
     }
 
     #endregion
-
-    #region ChildFetch
-
-    private void ChildFetch()
-    {
-      LoadProperty(_ForeignHandlingRates, BillingItemRates.Get(new SingleCriteria<int>(this.Id)));
-      LoadProperty(_ForeignHandlingRateOthers, BillingItemRateOthers.Get(new SingleCriteria<int>(this.Id)));
-    }
-
-    #endregion
-
-    #region SaveChild
-
-    private void SaveChild()
-    {
-      Csla.DataPortal.UpdateChild(ReadProperty(_ForeignHandlingRates), new SingleCriteria<int>(this.Id));
-      Csla.DataPortal.UpdateChild(ReadProperty(_ForeignHandlingRateOthers), new SingleCriteria<int>(this.Id));
-    }
-
-    #endregion
-
-    public void ComputeStatementOfAccount()
-    {
-      this.GrossAmount = 0;
-      if (this.ForeignHandlingRates != null)
-      {
-        foreach (var rate in this.ForeignHandlingRates)
-        {
-          var fixedamount = rate.Computation2 != null && rate.Computation2 > 0 ? rate.Computation2.Value : 1;
-          this.GrossAmount += this.ItemCountHandling.Value * fixedamount * rate.Computation3;
-        }
-      }
-
-      //  this.NetAmount = this.GrossAmount;
-      //  if (this.NetAmount != null && this.NetAmount.Value > 0)
-      //  {
-      //    foreach (var other in this.ForeignHandlingRateOthers.Where(o => o.RateType == 0))
-      //    {
-      //      var fixedamount = other.FixedAmount != null ? other.FixedAmount.Value : 0;
-      //      this.NetAmount += fixedamount + (this.NetAmount * (other.Percentage.Value / (decimal)100.0));
-      //    }
-      //    var tempNetAmount = this.NetAmount;
-      //    foreach (var other in this.ForeignHandlingRateOthers.Where(o => o.RateType != 0))
-      //    {
-      //      var fixedamount = other.FixedAmount != null ? other.FixedAmount.Value : 0;
-      //      this.NetAmount = (this.NetAmount.Value - fixedamount) - (tempNetAmount * (other.Percentage.Value / (decimal)100.0));
-      //    }
-      //  }
-    }
 
     #endregion
   }

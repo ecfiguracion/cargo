@@ -12,6 +12,9 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <vm:UnitOfMeasuresVM x:Key="ViewModel"/>
+      <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+      </Style>      
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid Style="{StaticResource ContentRoot}">
@@ -36,7 +39,7 @@
 
     <toolbar:ListToolbar Grid.Row="0" HorizontalAlignment="Right"/>
 
-    <DataGrid Name="DG1"
+    <DataGrid Name="DG1" AlternatingRowBackground="#FFECF5FF"
               RowHeaderWidth="0"
               IsReadOnly="True"
               Grid.Row="2"
@@ -48,13 +51,13 @@
       </DataGrid.InputBindings>
       <DataGrid.Columns>
         <mui:DataGridTextColumn Header="Code"
-                                Width="Auto"
+                                Width="150"
                                 Binding="{Binding Code}" />
         <mui:DataGridTextColumn Header="Name"
-                                Width="Auto"
+                                Width="250"
                                 Binding="{Binding Name}" />
         <mui:DataGridTextColumn Header="Description"
-                                Width="Auto"
+                                Width="*"
                                 Binding="{Binding Description}"
                                 />
       </DataGrid.Columns>

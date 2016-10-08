@@ -1,4 +1,6 @@
-﻿using Bitz.Core.Utilities;
+﻿using Bitz.Business.Settings.Infos;
+using Bitz.Core.Constants;
+using Bitz.Core.Utilities;
 using Csla;
 using Csla.Data;
 using System;
@@ -47,65 +49,91 @@ namespace Bitz.Cargo.Business.Items
     }
     #endregion
 
-    #region RevenueMultiplier
+    #region ShortDescription
 
-    public static readonly PropertyInfo<decimal?> _RevenueMultiplier = RegisterProperty<decimal?>(c => c.RevenueMultiplier, "Revenue Multiplier");
-    public decimal? RevenueMultiplier
+    public static readonly PropertyInfo<string> _ShortDescription = RegisterProperty<string>(c => c.ShortDescription);
+    public string ShortDescription
     {
-      get { return GetProperty(_RevenueMultiplier); }
-      set { SetProperty(_RevenueMultiplier, value); }
+      get { return GetProperty(_ShortDescription); }
+      set { SetProperty(_ShortDescription, value); }
     }
     #endregion
 
-    #region HandlingUnit
+    #region ArrastreMTRate
 
-    public static readonly PropertyInfo<int?> _HandlingUnit = RegisterProperty<int?>(c => c.HandlingUnit, "Handling Unit");
-    public int? HandlingUnit
+    public static readonly PropertyInfo<decimal> _ArrastreMTRate = RegisterProperty<decimal>(c => c.ArrastreMTRate);
+    public decimal ArrastreMTRate
     {
-      get { return GetProperty(_HandlingUnit); }
-      set { SetProperty(_HandlingUnit, value); }
+      get { return GetProperty(_ArrastreMTRate); }
+      set { SetProperty(_ArrastreMTRate, value); }
     }
 
     #endregion
 
-    #region ArrMetricRate
+    #region ArrastreRTRate
 
-    public static readonly PropertyInfo<decimal?> _ArrMetricRate = RegisterProperty<decimal?>(c => c.ArrMetricRate, "Arrastre Metric Rate");
-    public decimal? ArrMetricRate
+    public static readonly PropertyInfo<decimal> _ArrastreRTRate = RegisterProperty<decimal>(c => c.ArrastreRTRate);
+    public decimal ArrastreRTRate
     {
-      get { return GetProperty(_ArrMetricRate); }
-      set { SetProperty(_ArrMetricRate, value); }
+      get { return GetProperty(_ArrastreRTRate); }
+      set { SetProperty(_ArrastreRTRate, value); }
     }
+
     #endregion
 
-    #region ArrRevenueRate
+    #region StevedoringMTRate
 
-    public static readonly PropertyInfo<decimal?> _ArrRevenueRate = RegisterProperty<decimal?>(c => c.ArrRevenueRate, "Arrastre Revenue Rate");
-    public decimal? ArrRevenueRate
+    public static readonly PropertyInfo<decimal> _StevedoringMTRate = RegisterProperty<decimal>(c => c.StevedoringMTRate);
+    public decimal StevedoringMTRate
     {
-      get { return GetProperty(_ArrRevenueRate); }
-      set { SetProperty(_ArrRevenueRate, value); }
+      get { return GetProperty(_StevedoringMTRate); }
+      set { SetProperty(_StevedoringMTRate, value); }
     }
+
     #endregion
 
-    #region StevMetricRate
+    #region StevedoringRTRate
 
-    public static readonly PropertyInfo<decimal?> _StevMetricRate = RegisterProperty<decimal?>(c => c.StevMetricRate, "Stevedoring Metric Rate");
-    public decimal? StevMetricRate
+    public static readonly PropertyInfo<decimal> _StevedoringRTRate = RegisterProperty<decimal>(c => c.StevedoringRTRate);
+    public decimal StevedoringRTRate
     {
-      get { return GetProperty(_StevMetricRate); }
-      set { SetProperty(_StevMetricRate, value); }
+      get { return GetProperty(_StevedoringRTRate); }
+      set { SetProperty(_StevedoringRTRate, value); }
     }
+
     #endregion
 
-    #region StevRevenueRate
+    #region PremiumRate
 
-    public static readonly PropertyInfo<decimal?> _StevRevenueRate = RegisterProperty<decimal?>(c => c.StevRevenueRate, "Stevedoring Revenue Rate");
-    public decimal? StevRevenueRate
+    public static readonly PropertyInfo<decimal> _PremiumRate = RegisterProperty<decimal>(c => c.PremiumRate);
+    public decimal PremiumRate
     {
-      get { return GetProperty(_StevRevenueRate); }
-      set { SetProperty(_StevRevenueRate, value); }
+      get { return GetProperty(_PremiumRate); }
+      set { SetProperty(_PremiumRate, value); }
     }
+
+    #endregion
+
+    #region RTMultiplier
+
+    public static readonly PropertyInfo<decimal> _RTMultiplier = RegisterProperty<decimal>(c => c.RTMultiplier);
+    public decimal RTMultiplier
+    {
+      get { return GetProperty(_RTMultiplier); }
+      set { SetProperty(_RTMultiplier, value); }
+    }
+
+    #endregion
+
+    #region IsTaxWithHeld
+
+    public static readonly PropertyInfo<bool> _IsTaxWithHeld = RegisterProperty<bool>(c => c.IsTaxWithHeld);
+    public bool IsTaxWithHeld
+    {
+      get { return GetProperty(_IsTaxWithHeld); }
+      set { SetProperty(_IsTaxWithHeld, value); }
+    }
+
     #endregion
 
     #endregion
@@ -131,7 +159,10 @@ namespace Bitz.Cargo.Business.Items
     {
       base.AddBusinessRules();
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Name));
-      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_HandlingUnit));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_Name, 300));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Code));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_Code,50));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_ShortDescription, 30));
     }
 
     #endregion
@@ -159,6 +190,7 @@ namespace Bitz.Cargo.Business.Items
     protected override void DataPortal_Create()
     {
       base.DataPortal_Create();
+      LoadProperty(_Code, "[Auto-Assign]");
       this.BusinessRules.CheckRules();
     }
 
@@ -172,18 +204,9 @@ namespace Bitz.Cargo.Business.Items
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT item
-                              ,itemid
-                              ,itemname
-                              ,rtconstant
-                              ,handlingunit
-                              ,mtrate1
-                              ,mtrate2
-                              ,rtrate1
-                              ,rtrate2
-                              ,uom.name as handlingunitname
+          cmd.CommandText = @"SELECT item,itemcode,itemname,shortdescription,arrastremtrate,arrastrertrate,premiumrate,
+                                    stevedoringmtrate,stevedoringrtrate,rtmultiplier,istaxwithheld
                           FROM item
-                            LEFT JOIN uom ON uom.uom = item.handlingunit
                           WHERE item = @id";
           cmd.Parameters.AddWithValue("@id", id);
 
@@ -192,14 +215,16 @@ namespace Bitz.Cargo.Business.Items
             if (dr.Read())
             {
               LoadProperty(_Id, dr.GetInt32("item"));
-              LoadProperty(_Code, dr.GetString("itemid"));
+              LoadProperty(_Code, dr.GetString("itemcode"));
               LoadProperty(_Name, dr.GetString("itemname"));
-              LoadProperty(_RevenueMultiplier, dr.GetDecimal("rtconstant"));
-              LoadProperty(_HandlingUnit, dr.GetInt32("handlingunit"));
-              LoadProperty(_ArrMetricRate, dr.GetDecimal("mtrate1"));
-              LoadProperty(_ArrRevenueRate, dr.GetDecimal("rtrate1"));
-              LoadProperty(_StevMetricRate, dr.GetDecimal("mtrate2"));
-              LoadProperty(_StevRevenueRate, dr.GetDecimal("rtrate2"));
+              LoadProperty(_ShortDescription, dr.GetString("shortdescription"));
+              LoadProperty(_ArrastreMTRate, dr.GetDecimal("arrastremtrate"));
+              LoadProperty(_ArrastreRTRate, dr.GetDecimal("arrastrertrate"));
+              LoadProperty(_StevedoringMTRate, dr.GetDecimal("stevedoringmtrate"));
+              LoadProperty(_StevedoringRTRate, dr.GetDecimal("stevedoringrtrate"));
+              LoadProperty(_PremiumRate, dr.GetDecimal("premiumrate"));
+              LoadProperty(_RTMultiplier, dr.GetDecimal("rtmultiplier"));
+              LoadProperty(_IsTaxWithHeld, dr.GetBoolean("istaxwithheld"));
             }
           }
         }
@@ -217,24 +242,23 @@ namespace Bitz.Cargo.Business.Items
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO item (itemid,itemname,rtconstant,handlingunit,mtrate1,mtrate2,rtrate1,rtrate2)
-                              VALUES (@itemid,@itemname,@rtconstant,@handlingunit,@mtrate1,@mtrate2,@rtrate1,@rtrate2)
-                                        SELECT SCOPE_IDENTITY()";
-
-          //if (ItemType != null)
-          //  cmd.Parameters.AddWithValue("@itemtype", ItemType);
-          //else
-          //  cmd.Parameters.AddWithValue("@itemtype", DBNull.Value);
-
-          cmd.Parameters.AddWithValue("@itemid", Code);
+          cmd.CommandText = @"INSERT INTO item(itemcode,itemname,shortdescription,arrastremtrate,arrastrertrate,
+                                  stevedoringmtrate,stevedoringrtrate,rtmultiplier,premiumrate,istaxwithheld)
+                              VALUES (@itemcode,@itemname,@shortdescription,@arrastremtrate,@arrastrertrate,
+                                  @stevedoringmtrate,@stevedoringrtrate,@rtmultiplier,@premiumrate,@istaxwithheld)
+                              SELECT SCOPE_IDENTITY()";
+          LoadProperty(_Code, string.Format("CRG{0:yy}{0:MM}{1:0000}", DateTime.Now.Date,
+              TableCounterInfo.Get(new SingleCriteria<int>(BitzConstants.TableCounter.Item.Id)).Counter));
+          cmd.Parameters.AddWithValue("@itemcode", Code);
           cmd.Parameters.AddWithValue("@itemname", Name);
-          cmd.Parameters.AddWithValue("@rtconstant", RevenueMultiplier);
-          cmd.Parameters.AddWithValue("@handlingunit", HandlingUnit);
-          cmd.Parameters.AddWithValue("@mtrate1", ArrMetricRate);
-          cmd.Parameters.AddWithValue("@mtrate2", StevMetricRate);
-          cmd.Parameters.AddWithValue("@rtrate1", ArrRevenueRate);
-          cmd.Parameters.AddWithValue("@rtrate2", StevRevenueRate);
-
+          cmd.Parameters.AddWithValue("@shortdescription", ShortDescription);
+          cmd.Parameters.AddWithValue("@arrastremtrate", ArrastreMTRate);
+          cmd.Parameters.AddWithValue("@arrastrertrate", ArrastreRTRate);
+          cmd.Parameters.AddWithValue("@stevedoringmtrate", StevedoringMTRate);
+          cmd.Parameters.AddWithValue("@stevedoringrtrate", StevedoringRTRate);
+          cmd.Parameters.AddWithValue("@rtmultiplier", RTMultiplier);
+          cmd.Parameters.AddWithValue("@premiumrate", PremiumRate);
+          cmd.Parameters.AddWithValue("@istaxwithheld", IsTaxWithHeld);
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
@@ -259,25 +283,28 @@ namespace Bitz.Cargo.Business.Items
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"UPDATE item
-                               SET itemid = @code
-                                  ,itemname = @name
-                                  ,rtconstant = @rtconstant
-                                  ,handlingunit = @handlingunit
-                                  ,mtrate1 = @mtrate1
-                                  ,mtrate2 = @mtrate2
-                                  ,rtrate1 = @rtrate1
-                                  ,rtrate2 = @rtrate2
+          cmd.CommandText = @"UPDATE item SET
+                                  itemcode = @itemcode,
+                                  itemname = @itemname,
+                                  shortdescription = @shortdescription,
+                                  arrastremtrate = @arrastremtrate,
+                                  arrastrertrate = @arrastrertrate,
+                                  stevedoringmtrate = @stevedoringmtrate,
+                                  stevedoringrtrate = @stevedoringrtrate,
+                                  rtmultiplier = @rtmultiplier,
+                                  premiumrate = @premiumrate,
+                                  istaxwithheld = @istaxwithheld
                                 WHERE item = @id";
-
-          cmd.Parameters.AddWithValue("@code", Code);
-          cmd.Parameters.AddWithValue("@name", Name);
-          cmd.Parameters.AddWithValue("@handlingunit", HandlingUnit);
-          cmd.Parameters.AddWithValue("@rtconstant", RevenueMultiplier);
-          cmd.Parameters.AddWithValue("@mtrate1", ArrMetricRate);
-          cmd.Parameters.AddWithValue("@mtrate2", StevMetricRate);
-          cmd.Parameters.AddWithValue("@rtrate1", ArrRevenueRate);
-          cmd.Parameters.AddWithValue("@rtrate2", StevRevenueRate);
+          cmd.Parameters.AddWithValue("@itemcode", Code);
+          cmd.Parameters.AddWithValue("@itemname", Name);
+          cmd.Parameters.AddWithValue("@shortdescription", ShortDescription);
+          cmd.Parameters.AddWithValue("@arrastremtrate", ArrastreMTRate);
+          cmd.Parameters.AddWithValue("@arrastrertrate", ArrastreRTRate);
+          cmd.Parameters.AddWithValue("@stevedoringmtrate", StevedoringMTRate);
+          cmd.Parameters.AddWithValue("@stevedoringrtrate", StevedoringRTRate);
+          cmd.Parameters.AddWithValue("@rtmultiplier", RTMultiplier);
+          cmd.Parameters.AddWithValue("@premiumrate", PremiumRate);
+          cmd.Parameters.AddWithValue("@istaxwithheld", IsTaxWithHeld);
           cmd.Parameters.AddWithValue("@id", this.Id);
           try
           {

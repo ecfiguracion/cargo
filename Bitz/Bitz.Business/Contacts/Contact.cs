@@ -162,6 +162,9 @@ namespace Bitz.Business.Contacts
       BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_FirstName, 20));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_MiddleName, 20));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_LastName, 30));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_Phone, 30));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_Fax, 30));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_Email, 100));
     }
 
     #region Custom Rules
@@ -293,13 +296,13 @@ namespace Bitz.Business.Contacts
                                         VALUES (@code,@name,@firstname,@middlename,@lastname,@contacttype,@phone,@fax,@email)
                                         SELECT SCOPE_IDENTITY()";
           if (ContactType == BitzConstants.ContactTypes.Employee.Id)
-            LoadProperty(_Code, string.Format("ITM{0:yyyy}{0:MM}-{1:00000}", DateTime.Now.Date,
+            LoadProperty(_Code, string.Format("ITM{0:yy}{0:MM}{1:0000}", DateTime.Now.Date,
                 TableCounterInfo.Get(new SingleCriteria<int>(BitzConstants.TableCounter.Employee.Id)).Counter));
           else if (ContactType == BitzConstants.ContactTypes.Consignee.Id)
-            LoadProperty(_Code, string.Format("CON{0:yyyy}{0:MM}-{1:00000}", DateTime.Now.Date,
+            LoadProperty(_Code, string.Format("CON{0:yy}{0:MM}{1:0000}", DateTime.Now.Date,
                 TableCounterInfo.Get(new SingleCriteria<int>(BitzConstants.TableCounter.Consignee.Id)).Counter));
           else if (ContactType == BitzConstants.ContactTypes.Vessel.Id)
-            LoadProperty(_Code, string.Format("VES{0:yyyy}{0:MM}-{1:00000}", DateTime.Now.Date,
+            LoadProperty(_Code, string.Format("VES{0:yy}{0:MM}{1:0000}", DateTime.Now.Date,
                 TableCounterInfo.Get(new SingleCriteria<int>(BitzConstants.TableCounter.Vessel.Id)).Counter));
           cmd.Parameters.AddWithValue("@name", Name);
           cmd.Parameters.AddWithValue("@firstname", FirstName);

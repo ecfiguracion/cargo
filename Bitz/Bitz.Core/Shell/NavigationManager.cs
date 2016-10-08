@@ -109,5 +109,15 @@ namespace Bitz.Core.Shell
 
     #endregion
 
+    #region ShowMessage
+
+    public static MessageBoxResult ShowMessage(string title, string message, MessageBoxButton button)
+    {
+      return ModernDialog.ShowMessage(message,title,button,AppCache.MainWindow);
+    }
+
+
+    #endregion
+
   }
 }

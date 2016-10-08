@@ -51,67 +51,6 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #region Internal Events
 
-    protected override void OnModelChanged(Roro oldValue, Roro newValue)
-    {
-      base.OnModelChanged(oldValue, newValue);
-      this.Model.PropertyChanged += ModelPropertyChanged;
-    }
-
-    protected override void OnRefreshed()
-    {
-      base.OnRefreshed();
-      this.Model.PropertyChanged += ModelPropertyChanged;
-    }
-
-    //protected override void OnSaved()
-    //{
-    //  base.OnSaved();
-    //  this.Model.PropertyChanged += ModelPropertyChanged;
-    //  OnPropertyChanged("CanPrint");
-    //}
-
-    void ModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-      if (e.PropertyName == "ItemUnit" || e.PropertyName == "Cargo" || e.PropertyName == "ItemCount")
-      {
-        if (e.PropertyName == "Cargo")
-        {
-          LoadConfiguredItemRates();
-          if (this.Model != null && this.Model.RoroHandlingRates != null)
-            this.Model.RoroHandlingRates.Clear();
-
-          foreach (var cargo in this.Cargos)
-          {
-            if (cargo.Id == this.Model.Cargo.Value)
-            {
-              this.Model.HandlingUnit = cargo.HandlingUnit;
-              break;
-            }
-          }
-        }
-        if (this.Model.Cargo != null && this.Model.ItemCount != null && this.Model.ItemCount.Value > 0)
-        {
-          ItemUomConversionInfos.Get(new ItemUomConversionInfos.Criteria() { Item = this.Model.Cargo.Value, Uom = this.Model.ItemUnit.Value }, (oo, ee) =>
-          {
-            if (ee.Error != null) throw ee.Error;
-            if (ee.Object != null && ee.Object.Count > 0)
-              this.Model.ItemCountHandling = (this.Model.ItemCount.Value / ee.Object[0].Quantity);
-            else
-              this.Model.ItemCountHandling = null;
-
-            if (this.Model.ItemUnit.Value == this.Model.HandlingUnit)
-              this.Model.ItemCountHandling = this.Model.ItemCount.Value;
-
-            if (this.Model.ItemCountHandling != null && this.Model.ItemCountHandling.Value > 0)
-              this.Model.ComputeStatementOfAccount();
-
-          });
-        }
-      }
-
-      //OnPropertyChanged("CanPrint");
-    }
-
     #endregion
 
     #region Properties

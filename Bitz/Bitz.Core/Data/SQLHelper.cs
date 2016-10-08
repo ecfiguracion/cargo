@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Csla.Data;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -34,5 +35,10 @@ namespace Bitz.Core.Data
                             OFFSET {1} * ({2} - 1) ROWS
                             FETCH NEXT {1} ROWS ONLY", sortby, pageCriteria.PageSize, pageCriteria.PageIndex);
     }
+
+    public static bool HasColumn(SafeDataReader dr,string columnName) {
+      return (dr.GetSchemaTable().Select(string.Format("ColumnName='{0}'", columnName)).Length > 0);
+    }
+
   }
 }

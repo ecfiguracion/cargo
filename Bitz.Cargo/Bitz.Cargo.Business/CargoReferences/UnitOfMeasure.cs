@@ -78,7 +78,10 @@ namespace Bitz.Cargo.Business.CargoReferences
     protected override void AddBusinessRules()
     {
       base.AddBusinessRules();
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Code));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_Code, 15));
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_Name));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_Name,1000));
     }
 
     #endregion

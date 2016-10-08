@@ -49,27 +49,13 @@ namespace Bitz.Business.Contacts.Infos
 
     #endregion
 
-    #region For Student
+    #region Address
 
-    #region Course
-
-    public static readonly PropertyInfo<string> _Course = RegisterProperty<string>(c => c.Course);
-    public string Course
+    public static readonly PropertyInfo<string> _Address = RegisterProperty<string>(c => c.Address);
+    public string Address
     {
-      get { return GetProperty(_Course); }
+      get { return GetProperty(_Address); }
     }
-
-    #endregion
-
-    #region YearLevel
-
-    public static readonly PropertyInfo<string> _YearLevel = RegisterProperty<string>(c => c.YearLevel);
-    public string YearLevel
-    {
-      get { return GetProperty(_YearLevel); }
-    }
-
-    #endregion
 
     #endregion
 
@@ -77,19 +63,23 @@ namespace Bitz.Business.Contacts.Infos
 
     #region Derived Properties
 
-    #region ContactName
+    #region ToString
 
-    public string ContactName
+    public override string ToString()
+    {
+      return this.Name;
+    }
+
+    #endregion
+
+    #region DisplayText
+
+    public string DisplayText
     {
       get
       {
         return string.Format("{0} {1}", this.Code, this.Name);
       }
-    }
-
-    public override string ToString()
-    {
-      return this.Name;
     }
 
     #endregion
@@ -120,18 +110,15 @@ namespace Bitz.Business.Contacts.Infos
 
     private void Child_Fetch(SafeDataReader dr, string columnprefix)
     {
+      //Minimum set of columns
       LoadProperty(_Id, dr.GetInt32(columnprefix + "contact"));
       LoadProperty(_Code, dr.GetString(columnprefix + "code"));
       LoadProperty(_Name, dr.GetString(columnprefix + "name"));
 
-      var schematable = dr.GetSchemaTable();
-      if (schematable != null)
+      //Extended column sets
+      if (SQLHelper.HasColumn(dr,"Address"))
       {
-        //for student 
-        if (schematable.Select("ColumnName='" + columnprefix + "course" + "'").Length > 0)
-          LoadProperty(_Course, dr.GetString(columnprefix + "course"));
-        if (schematable.Select("ColumnName='" + columnprefix + "yearlevel" + "'").Length > 0)
-          LoadProperty(_YearLevel, dr.GetString(columnprefix + "yearlevel"));
+        LoadProperty(_Address, dr.GetString(columnprefix + "address"));
       }
     }
 
@@ -205,12 +192,13 @@ namespace Bitz.Business.Contacts.Infos
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT contact,code,name 
-                              FROM contact
-                              WHERE (contacttype = @contacttype OR @contacttype IS NULL)
-                              AND (contact = @contact OR @contact IS NULL)
-                              AND (code LIKE @SearchText OR name LIKE @SearchText)        
-                              ORDER BY name";
+          cmd.CommandText = @"SELECT c.contact,c.code,c.name,ca.addressname as address
+                              FROM contact c
+                              LEFT JOIN contactaddress ca ON c.contact = ca.contact
+                              WHERE (c.contacttype = @contacttype OR @contacttype IS NULL)
+                              AND (c.contact = @contact OR @contact IS NULL)
+                              AND (c.code LIKE @SearchText OR name LIKE @SearchText)        
+                              ORDER BY c.name";
 
           if (criteria.ContactType != null)
             cmd.Parameters.AddWithValue("@contacttype", criteria.ContactType);

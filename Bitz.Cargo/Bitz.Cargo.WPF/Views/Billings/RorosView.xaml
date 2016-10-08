@@ -12,6 +12,9 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <vm:RorosVM x:Key="ViewModel"/>
+      <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+      </Style>
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid Style="{StaticResource ContentRoot}">
@@ -39,7 +42,7 @@
 
     <toolbar:ListToolbar Grid.Row="0" HorizontalAlignment="Right"/>
 
-    <DataGrid Name="DG1"
+    <DataGrid Name="DG1" AlternatingRowBackground="#FFECF5FF"
               RowHeaderWidth="0"
               IsReadOnly="True"
               Grid.Row="2"

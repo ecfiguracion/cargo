@@ -1,4 +1,4 @@
-﻿using Bitz.Cargo.Business.Items.Infos;
+﻿using Bitz.Business.Contacts.Infos;
 using Bitz.Core.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -6,20 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bitz.Cargo.ViewModels.Dialogs
+namespace Bitz.ViewModels.Dialogs
 {
-  public class CargoSelectDialogVM : DialogViewModelBase<BaseItemInfos>
+  public class SelectContactDialogVM : DialogViewModelBase<BaseContactInfos>
   {
-    public override void Initialise()
+
+    public void Initialise(int type)
     {
-      base.Initialise();
+      this.Criteria.ContactType = type;
       this.Refresh();
     }
 
     #region Properties
 
-    public BaseItemInfos.Criteria _Criteria = new BaseItemInfos.Criteria();
-    public BaseItemInfos.Criteria Criteria
+    public BaseContactInfos.Criteria _Criteria = new BaseContactInfos.Criteria();
+    public BaseContactInfos.Criteria Criteria
     {
       get { return _Criteria; }
       set
@@ -34,7 +35,7 @@ namespace Bitz.Cargo.ViewModels.Dialogs
 
     public override void Refresh()
     {
-      BaseItemInfos.Get(this.Criteria, (o, e) =>
+      BaseContactInfos.Get(this.Criteria, (o, e) =>
       {
         if (e.Error != null) throw e.Error;
         this.Model = e.Object;
