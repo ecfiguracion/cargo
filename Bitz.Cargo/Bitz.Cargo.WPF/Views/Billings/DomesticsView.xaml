@@ -36,7 +36,8 @@
       </StackPanel>
       <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
         <TextBlock Text="Status" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
-        <ComboBox  Width="180" Margin="8,4"/>
+        <ComboBox  Width="180" Margin="8,4" ItemsSource="{Binding Statuses}" DisplayMemberPath="Value" SelectedValuePath="Id"
+                   SelectedValue="{Binding Criteria.Status,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
       </StackPanel>
     </StackPanel>
 
