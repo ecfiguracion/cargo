@@ -94,11 +94,11 @@
                      Grid.Row="1"
                      Margin="8,8,2,2"
                      Width="100"
-                     HorizontalContentAlignment="Right"
+                     HorizontalContentAlignment="Right" HorizontalAlignment="Left"
                      Text="{Binding Model.ArrastreMTRate, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}" />
 
             <TextBlock Grid.Row="2" Text="Revenue Rate" VerticalAlignment="Center" Margin="8,2,2,2" />
-            <TextBox Grid.Row="2" Grid.Column="1" Margin="8,2,2,2" Width="100" HorizontalContentAlignment="Right"
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="8,2,2,2" Width="100" HorizontalContentAlignment="Right" HorizontalAlignment="Left"
                      Text="{Binding Model.ArrastreRTRate, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}" />
 
             <TextBlock Text="STEVEDORING"
@@ -136,18 +136,16 @@
 
 
             <TextBlock Grid.Row="3" Text="Premium Rate" VerticalAlignment="Center" Margin="8,32,2,2" />
-            <TextBox Grid.Row="3" Grid.Column="1" Margin="8,32,2,2" Width="100" HorizontalContentAlignment="Right"
-                     Text="{Binding Model.PremiumRate, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}" />
-
-            <StackPanel Grid.Row="3" Grid.Column="2" Margin="32,32,2,2" Orientation="Horizontal">
-              <CheckBox IsChecked="{Binding Model.IsTaxWithHeld, Mode=TwoWay,ValidatesOnDataErrors=True}" VerticalAlignment="Center" />
-              <TextBlock Text="Tax With Held" VerticalAlignment="Center" Margin="4,0"/>
-
+            <StackPanel  Grid.Row="3" Grid.Column="1" Margin="8,32,2,2" Orientation="Horizontal">
+              <TextBox  Width="100" HorizontalContentAlignment="Right"
+                     Text="{Binding Model.PremiumRate, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:N0}}" />
+              <TextBlock Text="%" VerticalAlignment="Center" FontWeight="Bold" Margin="2,0"/>
             </StackPanel>
+            <StackPanel Grid.Row="3" Grid.Column="2" Margin="32,32,2,2" Orientation="Horizontal"/>
 
             <TextBlock Grid.Row="4" Text="RT Multipler" VerticalAlignment="Center" Margin="8,2,2,2" />
-            <TextBox Grid.Row="4" Grid.Column="1" Margin="8,2,2,2" Width="100" HorizontalContentAlignment="Right"
-                     Text="{Binding Model.RTMultiplier, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2}}" />
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="8,2,2,2" Width="100" HorizontalContentAlignment="Right" HorizontalAlignment="Left"
+                     Text="{Binding Model.RTMultiplier, Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n4}}" />
           </Grid>
           
         </TabItem>
@@ -182,7 +180,7 @@
                     </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Quantity" Width="120">
+                <DataGridTemplateColumn Header="Qty In Kilo(s)" Width="120">
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                       <TextBox Text="{Binding Quantity,Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2},UpdateSourceTrigger=PropertyChanged}"
@@ -194,7 +192,7 @@
             </DataGrid>
           </Grid>
         </TabItem>
-        <TabItem Header="Uom Rates">
+        <TabItem Header="RORO Uom Rates">
           <Grid>
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto"/>
@@ -225,7 +223,7 @@
                     </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Quantity" Width="120">
+                <DataGridTemplateColumn Header="Rate" Width="120">
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                       <TextBox Text="{Binding Rate,Mode=TwoWay,ValidatesOnDataErrors=True,StringFormat={}{0:n2},UpdateSourceTrigger=PropertyChanged}"

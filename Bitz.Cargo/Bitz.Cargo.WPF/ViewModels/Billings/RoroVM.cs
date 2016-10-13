@@ -278,7 +278,7 @@ namespace Bitz.Cargo.ViewModels.Billings
       {
         totalbill += (int)item.Quantity * item.Rate;
       }
-      this.Model.TotalBill = totalbill;
+      this.Model.TotalBill = totalbill * (decimal)1.12;
     }
     #endregion
 

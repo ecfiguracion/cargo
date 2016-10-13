@@ -275,43 +275,46 @@ namespace Bitz.Cargo.ViewModels.Billings
       decimal stevedoringtotal = 0;
       decimal arrastretotal = 0;
       decimal ratetotal = 0;
-      decimal totalwithvat = 0;
+      decimal rategrandtotal = 0;
+      decimal grandtotalvat = 0;
       decimal premiumtotal = 0;
+      decimal premiumgrandtotal = 0;
       decimal wtaxtotal = 0;
       decimal totalbill = 0;
       decimal grandtotalbill = 0;
       foreach (var item in this.Model.BillItems)
       {
         if (item.QtyConversion == 0) continue;
-        var convesiontotal = item.UnitCount / item.QtyConversion * 1000;
+        var conversiontotal = (item.UnitCount * item.QtyConversion) / 1000;
         if (item.WeightUsed == CargoConstants.WeightRates.MetricTons.Id)
         {
-          stevedoringtotal = (int)item.UnitCount * item.StevedoringRate;
-          arrastretotal = (int)item.UnitCount * item.ArrastreRate;
+          stevedoringtotal = (decimal)conversiontotal * item.StevedoringRate;
+          arrastretotal = (decimal)conversiontotal * item.ArrastreRate;
         }
         else
         {
-          stevedoringtotal = (int)item.UnitCount * item.StevedoringConst * item.StevedoringRate;
-          arrastretotal = (int)item.UnitCount * item.ArrastreConst * item.ArrastreRate;
+          stevedoringtotal = (decimal)conversiontotal * item.StevedoringConst * item.StevedoringRate;
+          arrastretotal = (decimal)conversiontotal * item.ArrastreConst * item.ArrastreRate;
         }
+
         ratetotal = stevedoringtotal + arrastretotal;
-        totalwithvat = ratetotal * (decimal)1.12;
         if (item.PremiumRate > 0)
         {
-          premiumtotal = ratetotal * item.PremiumRate;
+          premiumtotal += ratetotal * (item.PremiumRate / 100);
         }
 
-        totalbill += ratetotal + totalwithvat + premiumtotal;
+        grandtotalvat += (ratetotal + premiumtotal)  * (decimal)0.12;
 
-        if (item.IsTaxWithHeld)
-        {
-          wtaxtotal = totalbill * (decimal)0.05;
-          totalbill = totalbill - wtaxtotal;
-        }
-
-        grandtotalbill += totalbill;
+        premiumgrandtotal += premiumtotal;
+        rategrandtotal += ratetotal;
       }
-      this.Model.TotalBill = grandtotalbill;
+
+      if (this.Model.WTaxRate > 0)
+      {
+        wtaxtotal = (rategrandtotal + premiumgrandtotal) * (this.Model.WTaxRate / 100);
+      }
+
+      this.Model.TotalBill = rategrandtotal + grandtotalvat + premiumgrandtotal - wtaxtotal;
     }
     #endregion
 

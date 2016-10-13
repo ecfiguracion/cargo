@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bitz.Cargo.ViewModels.Billings
 {
-  public class PaymentsVM : GridViewModelBase<BillingItemInfos>
+  public class PaymentsVM : GridViewModelBase<BillInfos>
   {
     #region Initialise
 
@@ -19,8 +19,8 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       base.Initialise();
 
-      var criteria = new BillingItemInfos.Criteria();
-      criteria.BillingItemType = CargoConstants.BillingType.Domestic.Id;
+      var criteria = new BillInfos.Criteria();
+      criteria.BillType = CargoConstants.BillingType.Domestic.Id;
 
       this.Criteria = criteria;
 

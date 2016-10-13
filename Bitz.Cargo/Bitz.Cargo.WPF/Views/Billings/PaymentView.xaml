@@ -7,7 +7,7 @@
              xmlns:toolbar="clr-namespace:Bitz.Core.Controls.Toolbars;assembly=Bitz.Core"    
              xmlns:vm="clr-namespace:Bitz.Cargo.ViewModels.Billings"                
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="700">
+             d:DesignHeight="500" d:DesignWidth="1000">
   <UserControl.Resources>
     <ResourceDictionary>
       <vm:PaymentVM x:Key="ViewModel"/>
@@ -79,7 +79,23 @@
       <TextBox Grid.Row="4" Grid.Column="1" Margin="4,2" Width="320" HorizontalAlignment="Left" IsReadOnly="True"
                  Text="" />
 
-      <Border Grid.Row="0" Grid.Column="5" Margin="16,0" Grid.RowSpan="5" Width="200" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
+      <Border Grid.Row="0" Grid.Column="5" Width="350" Margin="16,0" Grid.RowSpan="3" BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Border Grid.RowSpan="4" BorderBrush="Gray" BorderThickness="1" Width="150"></Border>
+
+        </Grid>
+      </Border>
+      <!--<Border Grid.Row="0" Grid.Column="5" Margin="16,0" Grid.RowSpan="5" Width="200" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
         <StackPanel>
           <Border Background="LightGray">
             <TextBlock Text="Status" FontWeight="Bold" Margin="8,4" Background="LightGray" HorizontalAlignment="Center"/>
@@ -98,7 +114,7 @@
           <TextBlock Text="0.00" FontSize="24" FontWeight="Bold" Foreground="Red" Margin="8,0" HorizontalAlignment="Center" />
 
         </StackPanel>
-      </Border>      
+      </Border>-->      
     </Grid>
     <TabControl Grid.Row="2" Margin="0,4,0,0">
       <TabItem Header="SOA Detail">
@@ -119,20 +135,7 @@
               <ColumnDefinition Width="Auto"/>
               <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            
-            <TextBlock Grid.Row="0" Grid.Column="0" Margin="4,2" Text="SOA No." VerticalAlignment="Center" />
-            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="4,2">
-              <TextBox Width="125"/>
-              <mui:ModernButton IconData="F1 M 42.5,22C 49.4036,22 55,27.5964 55,34.5C 55,41.4036 49.4036,47 42.5,47C 40.1356,47 37.9245,46.3435 36,45.2426L 26.9749,54.2678C 25.8033,55.4393 23.9038,55.4393 22.7322,54.2678C 21.5607,53.0962 21.5607,51.1967 22.7322,50.0251L 31.7971,40.961C 30.6565,39.0755 30,36.8644 30,34.5C 30,27.5964 35.5964,22 42.5,22 Z M 42.5,26C 37.8056,26 34,29.8056 34,34.5C 34,39.1944 37.8056,43 42.5,43C 47.1944,43 51,39.1944 51,34.5C 51,29.8056 47.1944,26 42.5,26 Z " 
-                            Command="{Binding CommandSave}" IsEnabled="{Binding CanSave}"/>
-
-            </StackPanel>            
-            <TextBlock Text="Date" Grid.Row="1" Margin="4,2" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="4,2"/>
-            <TextBlock Text="Vessel" Grid.Row="2" Margin="4,2" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Width="250" HorizontalAlignment="Left" Margin="4,2"/>
-            <TextBlock Text="Type" Grid.Row="3" Margin="4,2" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Width="250" HorizontalAlignment="Left" Margin="4,2"/>
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="4,2"/>
 
           </Grid>
 
@@ -148,14 +151,6 @@
               <ColumnDefinition Width="Auto"/>
               <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Arrestre" Grid.Row="0" Grid.Column="0" Margin="16,2,4,2" VerticalAlignment="Center" FontSize="18"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="4,2" FontSize="24" Text="0.00" HorizontalContentAlignment="Right"/>
-            <TextBlock Text="Stevedoring" Grid.Row="1" Grid.Column="0" Margin="16,2,4,2" VerticalAlignment="Center" FontSize="18"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="4,2" FontSize="24" Text="0.00" HorizontalContentAlignment="Right"/>
-            <TextBlock Text="VAT" Grid.Row="2" Grid.Column="0" Margin="16,2,4,2" VerticalAlignment="Center" FontSize="18"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="4,2" FontSize="24" Text="0.00" HorizontalContentAlignment="Right"/>
-            <TextBlock Text="Amount Due" Grid.Row="3" Grid.Column="0" Margin="16,2,4,2" VerticalAlignment="Center" FontSize="18"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="4,2" FontSize="24" Text="0.00" HorizontalContentAlignment="Right"/>
 
           </Grid>
 
