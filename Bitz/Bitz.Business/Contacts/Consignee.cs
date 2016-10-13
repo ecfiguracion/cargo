@@ -49,6 +49,17 @@ namespace Bitz.Business.Contacts
 
     #endregion
 
+    #region WTaxRate
+
+    public static readonly PropertyInfo<decimal> _WTaxRate = RegisterProperty<decimal>(c => c.WTaxRate);
+    public decimal WTaxRate
+    {
+      get { return GetProperty(_WTaxRate); }
+      set { SetProperty(_WTaxRate, value); }
+    }
+
+    #endregion
+
     #endregion
 
     #region One To Many Properties
@@ -120,7 +131,7 @@ namespace Bitz.Business.Contacts
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = string.Format(@"SELECT s.consignee,s.contact,
+          cmd.CommandText = string.Format(@"SELECT s.consignee,s.contact,s.wtaxrate,
                                               c.contact as {0}contact,c.code as {0}code,c.name as {0}name,
                                               c.contacttype as {0}contacttype,c.phone as {0}phone,
                                               c.fax as {0}fax,c.email as {0}email,a.contact as {1}contact,                                      
@@ -137,6 +148,7 @@ namespace Bitz.Business.Contacts
             if (dr.Read())
             {
               LoadProperty(_Id, dr.GetInt32("consignee"));
+              LoadProperty(_WTaxRate, dr.GetDecimal("wtaxrate"));
               LoadProperty(_Contact, Contact.Get(dr, _Contact.Name));
               LoadProperty(_Address, Address.Get(dr, _Address.Name));
 
@@ -158,10 +170,11 @@ namespace Bitz.Business.Contacts
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO consignee(contact)
-                                        VALUES (@contact)
+          cmd.CommandText = @"INSERT INTO consignee(contact,wtaxrate)
+                                        VALUES (@contact,@wtaxrate)
                                         SELECT SCOPE_IDENTITY()";
           cmd.Parameters.AddWithValue("@contact", Contact.Id);
+          cmd.Parameters.AddWithValue("@wtaxrate", WTaxRate);
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
@@ -188,9 +201,11 @@ namespace Bitz.Business.Contacts
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = @"UPDATE consignee SET 
-                                            contact = @contact
+                                            contact = @contact,
+                                            wtaxrate = @wtaxrate
                                         WHERE consignee = @id";
           cmd.Parameters.AddWithValue("@contact", Contact.Id);
+          cmd.Parameters.AddWithValue("@wtaxrate", WTaxRate);
           cmd.Parameters.AddWithValue("@id", this.Id);
           try
           {

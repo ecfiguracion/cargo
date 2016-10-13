@@ -68,7 +68,11 @@ namespace Bitz.Cargo.Business.Billing
     public BaseContactInfo Consignee
     {
       get { return GetProperty(_Consignee); }
-      set { SetProperty(_Consignee, value); }
+      set
+      {
+        SetProperty(_Consignee, value);
+        this.GetWTaxRate();
+      }
     }
 
     #endregion
@@ -113,6 +117,17 @@ namespace Bitz.Cargo.Business.Billing
     {
       get { return GetProperty(_VoyageNo); }
       set { SetProperty(_VoyageNo, value); }
+    }
+
+    #endregion
+
+    #region WTaxRate
+
+    public static readonly PropertyInfo<decimal> _WTaxRate = RegisterProperty<decimal>(c => c.WTaxRate);
+    public decimal WTaxRate
+    {
+      get { return GetProperty(_WTaxRate); }
+      set { SetProperty(_WTaxRate, value); }
     }
 
     #endregion
@@ -309,7 +324,7 @@ namespace Bitz.Cargo.Business.Billing
                             SELECT b.bill,b.billtype,b.billno,b.billdate,b.consignee,b.billingaddress,
 	                            c.contact AS {0}contact,c.code AS {0}code,c.name AS {0}name,
 	                            v.contact AS {1}contact,v.code AS {1}code,v.name AS {1}name,
-	                            b.billofladingno,b.voyageno,b.totalbill,b.duedate,b.status,
+	                            b.billofladingno,b.voyageno,b.wtaxrate,b.totalbill,b.duedate,b.status,
 	                            billofladingno,b.createdby,b.datecreated,b.updatedby,b.dateupdated
                             FROM bill b
                             LEFT JOIN contact c ON b.consignee = c.contact
@@ -331,6 +346,7 @@ namespace Bitz.Cargo.Business.Billing
               LoadProperty(_Vessel, BaseContactInfo.Get(dr, _Vessel.Name));
               LoadProperty(_BillOfLadingNo, dr.GetString("BillOfLadingNo"));
               LoadProperty(_VoyageNo, dr.GetString("voyageno"));
+              LoadProperty(_WTaxRate, dr.GetDecimal("wtaxrate"));
               LoadProperty(_TotalBill, dr.GetDecimal("totalbill"));
               LoadProperty(_DueDate, dr.GetSmartDate("duedate"));
               LoadProperty(_Status, dr.GetInt32("status"));
@@ -356,9 +372,9 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = @"INSERT INTO bill(billtype,billno,billdate,consignee,billingaddress,vessel,billofladingno,voyageno,
-                                               totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated)
+                                      wtaxrate,totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated)
                               VALUES (@billtype,@billno,@billdate,@consignee,@billingaddress,@vessel,@billofladingno,@voyageno,
-                                               @totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated)
+                                      @wtaxrate,@totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated)
                               SELECT SCOPE_IDENTITY()";
           LoadProperty(_BillNo, "DOM"+DateTime.Now.ToString("yyMMdd-HHmmss"));
           cmd.Parameters.AddWithValue("@billtype", BillType);
@@ -369,6 +385,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@vessel", Vessel.Id);
           cmd.Parameters.AddWithValue("@billofladingno", BillOfLadingNo);
           cmd.Parameters.AddWithValue("@voyageno", VoyageNo);
+          cmd.Parameters.AddWithValue("@wtaxrate", WTaxRate);
           cmd.Parameters.AddWithValue("@totalbill", TotalBill);
           cmd.Parameters.AddWithValue("@duedate", DueDate.DBValue);
           cmd.Parameters.AddWithValue("@status", Status.Id);
@@ -407,6 +424,7 @@ namespace Bitz.Cargo.Business.Billing
                                      vessel = @vessel,
                                      billofladingno = @billofladingno,
                                      voyageno = @voyageno,
+                                     wtaxrate = @wtaxrate,
                                      totalbill = @totalbill,
                                      duedate = @duedate,
                                      status = @status,
@@ -419,6 +437,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@vessel", Vessel.Id);
           cmd.Parameters.AddWithValue("@billofladingno", BillOfLadingNo);
           cmd.Parameters.AddWithValue("@voyageno", VoyageNo);
+          cmd.Parameters.AddWithValue("@wtaxrate", WTaxRate);
           cmd.Parameters.AddWithValue("@totalbill", TotalBill);
           cmd.Parameters.AddWithValue("@duedate", DueDate.DBValue);
           cmd.Parameters.AddWithValue("@status", Status.Id);
@@ -440,6 +459,34 @@ namespace Bitz.Cargo.Business.Billing
     }
 
     #endregion
+
+
+    #endregion
+
+    #region Methods
+
+    private void GetWTaxRate()
+    {
+      if (this.Consignee == null) return;
+
+      using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
+      {
+        using (var cmd = ctx.Connection.CreateCommand())
+        {
+          cmd.CommandText = @"SELECT wtaxrate
+                              FROM consignee
+                              WHERE contact = @id";
+          cmd.Parameters.AddWithValue("@id", this.Consignee.Id);
+          using (var dr = new SafeDataReader(cmd.ExecuteReader()))
+          {
+            if (dr.Read())
+            {
+              this.WTaxRate = dr.GetDecimal("wtaxrate");
+            }
+          }
+        }
+      }
+    }
 
     #endregion
   }

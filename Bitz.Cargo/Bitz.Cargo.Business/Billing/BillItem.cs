@@ -158,16 +158,6 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region IsTaxWithHeld
-
-    public static readonly PropertyInfo<bool> _IsTaxWithHeld = RegisterProperty<bool>(c => c.IsTaxWithHeld);
-    public bool IsTaxWithHeld
-    {
-      get { return GetProperty(_IsTaxWithHeld); }
-      set { SetProperty(_IsTaxWithHeld, value); }
-    }
-
-    #endregion
 
     #endregion
 
@@ -203,6 +193,16 @@ namespace Bitz.Cargo.Business.Billing
         {
           return string.Format("({0:N3}) {1:N2}", this.ArrastreConst, this.ArrastreRate);
         }
+      }
+    }
+    #endregion
+
+    #region PremiumRateText
+    public string PremiumRateText
+    {
+      get
+      {
+        return string.Format("{0:N0}%", this.PremiumRate);
       }
     }
     #endregion

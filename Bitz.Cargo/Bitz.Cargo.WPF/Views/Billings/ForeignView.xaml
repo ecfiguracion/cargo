@@ -61,29 +61,29 @@
       <TextBox Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Margin="4,2" Width="250" HorizontalAlignment="Left"
                Text="{Binding Model.BillingAddress,Mode=TwoWay,ValidatesOnDataErrors=True}"/>
 
-      <Label Grid.Row="0" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Bill of Lading No." />
+      <Label Grid.Row="0" Grid.Column="2" Margin="24,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Bill of Lading No." />
       <TextBox Grid.Row="0" Grid.Column="3" Margin="4" Width="250" HorizontalAlignment="Left" Text="{Binding Model.BillOfLadingNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
-      <Label  Grid.Row="1" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Vessel" />
+      <Label  Grid.Row="1" Grid.Column="2" Margin="24,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Vessel" />
       <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" Margin="4,2">
         <TextBox Height="24" HorizontalAlignment="Stretch" Width="250" Text="{Binding Model.Vessel,Mode=OneWay,ValidatesOnDataErrors=True}" IsReadOnly="True" Foreground="Black"/>
         <mui:ModernButton IconData="F1 M 42.5,22C 49.4036,22 55,27.5964 55,34.5C 55,41.4036 49.4036,47 42.5,47C 40.1356,47 37.9245,46.3435 36,45.2426L 26.9749,54.2678C 25.8033,55.4393 23.9038,55.4393 22.7322,54.2678C 21.5607,53.0962 21.5607,51.1967 22.7322,50.0251L 31.7971,40.961C 30.6565,39.0755 30,36.8644 30,34.5C 30,27.5964 35.5964,22 42.5,22 Z M 42.5,26C 37.8056,26 34,29.8056 34,34.5C 34,39.1944 37.8056,43 42.5,43C 47.1944,43 51,39.1944 51,34.5C 51,29.8056 47.1944,26 42.5,26 Z " 
                             Command="{Binding CommandSelectVessel}"/>
       </StackPanel>
 
-      <Label Grid.Row="3" Grid.Column="2"  Margin="32,2,4,2" HorizontalAlignment="Left" Content="Due Date" />
+      <Label Grid.Row="3" Grid.Column="2"  Margin="24,2,4,2" HorizontalAlignment="Left" Content="Due Date" />
       <TextBox Grid.Row="3" Grid.Column="3"  Margin="4,2" Height="25" Width="150" HorizontalAlignment="Left"  
                Text="{Binding Model.DueDate,Mode=OneWay}" IsReadOnly="True" Foreground="Black"/>
 
-      <Label Grid.Row="4" Grid.Column="2"  Margin="32,2,4,2" HorizontalAlignment="Left" Content="User" />
+      <Label Grid.Row="4" Grid.Column="2"  Margin="24,2,4,2" HorizontalAlignment="Left" Content="User" />
       <TextBox Grid.Row="4" Grid.Column="3"  Margin="4,2" Height="25" Width="250" HorizontalAlignment="Left"  
                Text="TPCC ADMIN" IsReadOnly="True" Foreground="Black"/>
 
       
-      <Label Grid.Row="2" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Voyage No." />
+      <Label Grid.Row="2" Grid.Column="2" Margin="24,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Voyage No." />
       <TextBox Grid.Row="2" Grid.Column="3" Margin="4,2" Width="250" HorizontalAlignment="Left" Text="{Binding Model.VoyageNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
       
-      <Border Grid.Row="0" Grid.Column="5" Margin="16,0" Grid.RowSpan="4" Width="250" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
+      <Border Grid.Row="0" Grid.Column="5" Margin="8,0" Grid.RowSpan="4" Width="250" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
         <StackPanel>
           <Border Background="LightGray">
             <TextBlock Text="Status" FontSize="12" FontWeight="Bold" Margin="8,4" Background="LightGray" HorizontalAlignment="Center"/>
@@ -128,7 +128,7 @@
                   <DataTemplate>
                     <TextBox Text="{Binding UnitCount,Mode=TwoWay,
                                     ValidatesOnDataErrors=True,
-                                    UpdateSourceTrigger=PropertyChanged}" 
+                                    UpdateSourceTrigger=LostFocus}" 
                                     Background="Transparent" BorderBrush="Transparent"/>
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
@@ -178,7 +178,7 @@
               <DataGridTemplateColumn Header="Premium" Width="140">
                 <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                    <TextBox Text="{Binding PremiumRate,Mode=OneWay}"
+                    <TextBox Text="{Binding PremiumRateText,Mode=OneWay}"
                                     Background="Transparent" BorderBrush="Transparent"
                                     IsReadOnly="True" Foreground="Black"/>
                   </DataTemplate>

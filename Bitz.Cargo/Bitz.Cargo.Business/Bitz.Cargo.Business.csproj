@@ -50,7 +50,6 @@
     <Compile Include="Billing\Domestic.cs" />
     <Compile Include="Billing\Foreign.cs" />
     <Compile Include="Billing\Infos\BillInfo.cs" />
-    <Compile Include="Billing\Infos\BillingItemInfo.cs" />
     <Compile Include="Billing\Roro.cs" />
     <Compile Include="CargoReferences\Consignee.cs" />
     <Compile Include="CargoReferences\Infos\UnitOfMeasureInfo.cs" />
