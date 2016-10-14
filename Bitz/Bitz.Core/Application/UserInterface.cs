@@ -111,6 +111,12 @@ namespace Bitz.Core.Application
 
       public static CoreConstants.UserInterface BankAccounts { get { return FindById(1420); } }
 
+      public static CoreConstants.UserInterface WalkInBill { get { return FindById(1421); } }
+      public static CoreConstants.UserInterface WalkInBills { get { return FindById(1422); } }
+
+      public static CoreConstants.UserInterface BillSelectDialog { get { return FindById(1423); } }
+
+
       public static void Initialise()
       {
         Items.Add(new CoreConstants.UserInterface(1400, "Billings", "Bitz.Cargo.Views.BillingMainView", Modules.Cargo, CoreConstants.PageType.Page));
@@ -146,6 +152,13 @@ namespace Bitz.Core.Application
         Items.Add(new CoreConstants.UserInterface(1419, "Payment", "Bills Payment", "Bitz.Cargo.Views.Billings.PaymentsView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.Payment));
 
         Items.Add(new CoreConstants.UserInterface(1420, "Bank Accounts","Bitz.Cargo.Views.Settings.BankAccountsView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+
+        Items.Add(new CoreConstants.UserInterface(1421, "Walk-In", "Walk-In Billing", "Bitz.Cargo.Views.Billings.WalkInView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1422, "Walk-In", "Walk-In Billings", "Bitz.Cargo.Views.Billings.WalkInsView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.WalkInBill));
+
+        Items.Add(new CoreConstants.UserInterface(1423, "Select SOA", "Bitz.Cargo.Views.Dialogs.BillSelectDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
+
+
       }
     }
 

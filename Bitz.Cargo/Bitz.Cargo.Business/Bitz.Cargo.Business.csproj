@@ -45,11 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Billing\Infos\PaymentInfo.cs" />
+    <Compile Include="Billing\Payment.cs" />
+    <Compile Include="Billing\Infos\BillPaymentInfo.cs" />
+    <Compile Include="Billing\PaymentDetail.cs" />
     <Compile Include="Billing\BillItemRoro.cs" />
     <Compile Include="Billing\BillItem.cs" />
     <Compile Include="Billing\Domestic.cs" />
     <Compile Include="Billing\Foreign.cs" />
     <Compile Include="Billing\Infos\BillInfo.cs" />
+    <Compile Include="Billing\WalkIn.cs" />
     <Compile Include="Billing\Roro.cs" />
     <Compile Include="CargoReferences\Consignee.cs" />
     <Compile Include="CargoReferences\Infos\UnitOfMeasureInfo.cs" />

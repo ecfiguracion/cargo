@@ -21,13 +21,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
+
 namespace Bitz.Cargo.ViewModels.Billings
 {
-  public class DomesticVM : PageViewModelBase<Domestic>
+  public class WalkInVM : PageViewModelBase<WalkIn>
   {
     #region Initialise
 
-    public DomesticVM()
+    public WalkInVM()
     {
       if (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv") return;
 
@@ -54,7 +55,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #region Internal Events
 
-    protected override void OnModelChanged(Domestic oldValue, Domestic newValue)
+    protected override void OnModelChanged(WalkIn oldValue, WalkIn newValue)
     {
       base.OnModelChanged(oldValue, newValue);
       newValue.ChildChanged += newValue_ChildChanged;
@@ -75,6 +76,12 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #region Properties
 
+    #region Cargoes
+
+    public ItemInfos Cargoes { get; set; }
+
+    #endregion
+
     #region UnitOfMeasures
 
     private UnitOfMeasureInfos _UnitOfMeasures;
@@ -92,7 +99,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #region SelectedItem
 
-    public BillItem SelectedItem { get; set; }
+    public BillItemRoro SelectedItem { get; set; }
 
     #endregion
 
@@ -182,9 +189,8 @@ namespace Bitz.Cargo.ViewModels.Billings
       {
         if (!this.Model.BillItems.Any(x => x.Cargo.Id == item.Id))
         {
-          var billitem = BillItem.New();
+          var billitem = BillItemRoro.New();
           billitem.Cargo = item;
-          billitem.WeightUsed = CargoConstants.WeightRates.MetricTons.Id;
           this.Model.BillItems.Add(billitem);
         }
         else
@@ -236,7 +242,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     private void LoadLookupReferences(Action<bool> resultCallback)
     {
-      var datasourcestotal = 1;
+      var datasourcestotal = 2;
       var datasourcescount = 0;
 
       UnitOfMeasureInfos.Get(new UnitOfMeasureInfos.Criteria(), (o, e) =>
@@ -244,6 +250,16 @@ namespace Bitz.Cargo.ViewModels.Billings
         if (e.Error != null) throw e.Error;
 
         this.UnitOfMeasures = e.Object;
+        datasourcescount += 1;
+
+        if (datasourcescount == datasourcestotal)
+          resultCallback(true);
+      });
+
+      ItemInfos.Get(new ItemInfos.Criteria() { }, (o, e) =>
+      {
+        if (e.Error != null) throw e.Error;
+        this.Cargoes = e.Object;
         datasourcescount += 1;
 
         if (datasourcescount == datasourcestotal)
@@ -257,49 +273,12 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     private void ComputeTotalBill()
     {
-      decimal stevedoringtotal = 0;
-      decimal arrastretotal = 0;
-      decimal ratetotal = 0;
-      decimal rategrandtotal = 0;
-      decimal grandtotalvat = 0;
-      decimal premiumtotal = 0;
-      decimal premiumgrandtotal = 0;
-      decimal wtaxtotal = 0;
       decimal totalbill = 0;
-      decimal grandtotalbill = 0;
       foreach (var item in this.Model.BillItems)
       {
-        if (item.QtyConversion == 0) continue;
-        var conversiontotal = (item.UnitCount * item.QtyConversion) / 1000;
-        if (item.WeightUsed == CargoConstants.WeightRates.MetricTons.Id)
-        {
-          stevedoringtotal = (decimal)conversiontotal * item.StevedoringRate;
-          arrastretotal = (decimal)conversiontotal * item.ArrastreRate;
-        }
-        else
-        {
-          stevedoringtotal = (decimal)conversiontotal * item.StevedoringConst * item.StevedoringRate;
-          arrastretotal = (decimal)conversiontotal * item.ArrastreConst * item.ArrastreRate;
-        }
-
-        ratetotal = stevedoringtotal + arrastretotal;
-        if (item.PremiumRate > 0)
-        {
-          premiumtotal += ratetotal * (item.PremiumRate / 100);
-        }
-
-        grandtotalvat += (ratetotal + premiumtotal) * (decimal)0.12;
-
-        premiumgrandtotal += premiumtotal;
-        rategrandtotal += ratetotal;
+        totalbill += (int)item.Quantity * item.Rate;
       }
-
-      if (this.Model.WTaxRate > 0)
-      {
-        wtaxtotal = (rategrandtotal + premiumgrandtotal) * (this.Model.WTaxRate / 100);
-      }
-
-      this.Model.TotalBill = rategrandtotal + grandtotalvat + premiumgrandtotal - wtaxtotal;
+      this.Model.TotalBill = totalbill * (decimal)1.12;
     }
     #endregion
 
