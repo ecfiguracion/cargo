@@ -168,6 +168,7 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_Uom, dr.GetInt32("uom"));
       LoadProperty(_Cargo, BaseItemInfo.Get(dr, _Cargo.Name));
       LoadProperty(_Rate, dr.GetDecimal("rate"));
+      LoadProperty(_Total, this.Quantity * this.Rate);
     }
 
     #endregion

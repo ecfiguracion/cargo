@@ -70,6 +70,7 @@
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -107,10 +108,20 @@
                      Text="{Binding Model.Contact.Email,Mode=TwoWay}" />
 
             <TextBlock Grid.Row="3"
+                       Text="TIN"
+                       VerticalAlignment="Center"
+                       Margin="4,16,2,2" />
+            <TextBox Grid.Row="3"
+                     Grid.Column="1"
+                     Margin="8,16,2,2"
+                     Width="200"
+                     Text="{Binding Model.TIN,Mode=TwoWay}" />
+            
+            <TextBlock Grid.Row="4"
                        Text="WTAX"
                        VerticalAlignment="Center"
                        Margin="4,24,2,2" />
-            <StackPanel Grid.Row="3"
+            <StackPanel Grid.Row="4"
                      Grid.Column="1" Orientation="Horizontal"
                      Margin="8,24,2,2">
                 <TextBox 

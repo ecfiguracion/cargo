@@ -76,12 +76,6 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #region Properties
 
-    #region Cargoes
-
-    public ItemInfos Cargoes { get; set; }
-
-    #endregion
-
     #region UnitOfMeasures
 
     private UnitOfMeasureInfos _UnitOfMeasures;
@@ -242,7 +236,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     private void LoadLookupReferences(Action<bool> resultCallback)
     {
-      var datasourcestotal = 2;
+      var datasourcestotal = 1;
       var datasourcescount = 0;
 
       UnitOfMeasureInfos.Get(new UnitOfMeasureInfos.Criteria(), (o, e) =>
@@ -250,16 +244,6 @@ namespace Bitz.Cargo.ViewModels.Billings
         if (e.Error != null) throw e.Error;
 
         this.UnitOfMeasures = e.Object;
-        datasourcescount += 1;
-
-        if (datasourcescount == datasourcestotal)
-          resultCallback(true);
-      });
-
-      ItemInfos.Get(new ItemInfos.Criteria() { }, (o, e) =>
-      {
-        if (e.Error != null) throw e.Error;
-        this.Cargoes = e.Object;
         datasourcescount += 1;
 
         if (datasourcescount == datasourcestotal)

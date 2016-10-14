@@ -49,6 +49,17 @@ namespace Bitz.Business.Contacts
 
     #endregion
 
+    #region TIN
+
+    public static readonly PropertyInfo<string> _TIN = RegisterProperty<string>(c => c.TIN);
+    public string TIN
+    {
+      get { return GetProperty(_TIN); }
+      set { SetProperty(_TIN, value); }
+    }
+
+    #endregion
+
     #region WTaxRate
 
     public static readonly PropertyInfo<decimal> _WTaxRate = RegisterProperty<decimal>(c => c.WTaxRate);
@@ -131,7 +142,7 @@ namespace Bitz.Business.Contacts
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = string.Format(@"SELECT s.consignee,s.contact,s.wtaxrate,
+          cmd.CommandText = string.Format(@"SELECT s.consignee,s.contact,s.wtaxrate,s.tinnumber,
                                               c.contact as {0}contact,c.code as {0}code,c.name as {0}name,
                                               c.contacttype as {0}contacttype,c.phone as {0}phone,
                                               c.fax as {0}fax,c.email as {0}email,a.contact as {1}contact,                                      
@@ -149,6 +160,7 @@ namespace Bitz.Business.Contacts
             {
               LoadProperty(_Id, dr.GetInt32("consignee"));
               LoadProperty(_WTaxRate, dr.GetDecimal("wtaxrate"));
+              LoadProperty(_TIN, dr.GetString("tinnumber"));
               LoadProperty(_Contact, Contact.Get(dr, _Contact.Name));
               LoadProperty(_Address, Address.Get(dr, _Address.Name));
 
@@ -170,11 +182,12 @@ namespace Bitz.Business.Contacts
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO consignee(contact,wtaxrate)
-                                        VALUES (@contact,@wtaxrate)
+          cmd.CommandText = @"INSERT INTO consignee(contact,wtaxrate,tinnumber)
+                                        VALUES (@contact,@wtaxrate,@tinnumber)
                                         SELECT SCOPE_IDENTITY()";
           cmd.Parameters.AddWithValue("@contact", Contact.Id);
           cmd.Parameters.AddWithValue("@wtaxrate", WTaxRate);
+          cmd.Parameters.AddWithValue("@tinnumber", TIN);
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
@@ -202,10 +215,12 @@ namespace Bitz.Business.Contacts
         {
           cmd.CommandText = @"UPDATE consignee SET 
                                             contact = @contact,
-                                            wtaxrate = @wtaxrate
+                                            wtaxrate = @wtaxrate,
+                                            tinnumber = @tinnumber
                                         WHERE consignee = @id";
           cmd.Parameters.AddWithValue("@contact", Contact.Id);
           cmd.Parameters.AddWithValue("@wtaxrate", WTaxRate);
+          cmd.Parameters.AddWithValue("@tinnumber", TIN);
           cmd.Parameters.AddWithValue("@id", this.Id);
           try
           {

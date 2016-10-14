@@ -24,7 +24,7 @@ namespace Bitz.Cargo.ViewModels
       this.BillingMenu.Add(UserInterfaces.Cargo.ForeignBills);
       this.BillingMenu.Add(UserInterfaces.Cargo.DomesticBills);
       this.BillingMenu.Add(UserInterfaces.Cargo.RoroBills);
-      this.BillingMenu.Add(UserInterfaces.Cargo.BillingInquiry);
+      //this.BillingMenu.Add(UserInterfaces.Cargo.WalkInBills);
       this.BillingMenu.Add(UserInterfaces.Cargo.Payments);
 
       this.SelectedMenu = this.BillingMenu[0];

@@ -75,9 +75,12 @@
     <Compile Include="ViewModels\Billings\DomesticVM.cs" />
     <Compile Include="ViewModels\Billings\ForeignsVM.cs" />
     <Compile Include="ViewModels\Billings\PaymentVM.cs" />
+    <Compile Include="ViewModels\Billings\WalkInsVM.cs" />
+    <Compile Include="ViewModels\Billings\WalkInVM.cs" />
     <Compile Include="ViewModels\Billings\RoroVM.cs" />
     <Compile Include="ViewModels\Billings\ForeignVM.cs" />
     <Compile Include="ViewModels\Billings\RorosVM.cs" />
+    <Compile Include="ViewModels\Dialogs\BillSelectDialogVM.cs" />
     <Compile Include="ViewModels\Dialogs\CargoSelectDialogVM.cs" />
     <Compile Include="ViewModels\Settings\CargosVM.cs" />
     <Compile Include="ViewModels\Settings\BankAccountsVM.cs" />
@@ -103,6 +106,9 @@
     <Compile Include="Views\Billings\PaymentView.xaml.cs">
       <DependentUpon>PaymentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Billings\WalkInsView.xaml.cs">
+      <DependentUpon>WalkInsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Billings\RorosView.xaml.cs">
       <DependentUpon>RorosView.xaml</DependentUpon>
     </Compile>
@@ -112,11 +118,17 @@
     <Compile Include="Views\Billings\DomesticView.xaml.cs">
       <DependentUpon>DomesticView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Billings\WalkInView.xaml.cs">
+      <DependentUpon>WalkInView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Billings\RoroView.xaml.cs">
       <DependentUpon>RoroView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Billings\ForeignView.xaml.cs">
       <DependentUpon>ForeignView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\BillSelectDialogView.xaml.cs">
+      <DependentUpon>BillSelectDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\CargoSelectDialogView.xaml.cs">
       <DependentUpon>CargoSelectDialogView.xaml</DependentUpon>
@@ -188,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Billings\WalkInsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Billings\RorosView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -200,6 +216,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Billings\WalkInView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Billings\RoroView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -207,6 +227,10 @@
     <Page Include="Views\Billings\ForeignView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\BillSelectDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Dialogs\CargoSelectDialogView.xaml">
       <SubType>Designer</SubType>

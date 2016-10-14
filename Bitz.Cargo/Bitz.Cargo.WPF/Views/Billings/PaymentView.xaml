@@ -39,7 +39,7 @@
       </Grid.ColumnDefinitions>
         <Label Margin="4,2"  HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Payment No." />
         <TextBox Grid.Column="1" Margin="4,2" Width="200" HorizontalAlignment="Left" IsReadOnly="True"
-                 Text="{Binding Model.ReferenceNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+                 Text="{Binding Model.PaymentNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
         <Label Grid.Row="2"
                Grid.Column="0"
                Margin="4,2"
@@ -51,131 +51,99 @@
                     Margin="4,2"
                     Width="150"
                     HorizontalAlignment="Left"
-                    SelectedDate="{Binding Model.BillingDate,Mode=TwoWay,ValidatesOnDataErrors=True}" />
-      <Label Grid.Row="1"
-               Grid.Column="0"
-               Margin="4,2"
-               HorizontalAlignment="Left"
-               VerticalContentAlignment="Center"
-               Content="Consignee" />
+                    SelectedDate="{Binding Model.PaymentDate,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+      <Label Grid.Row="1" Grid.Column="0" Margin="4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Consignee" />
       <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-        <TextBox Grid.Row="2"
-                  Grid.Column="1"
-                  Margin="4,2"
-                  Height="24"
-                  HorizontalAlignment="Stretch"
-                  Width="300"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="4,2" Height="24" HorizontalAlignment="Stretch" Width="250" Foreground="Black"
+                 Text="{Binding Model.Consignee,Mode=OneWay,ValidatesOnDataErrors=True}" IsReadOnly="True"/>
         <mui:ModernButton IconData="F1 M 42.5,22C 49.4036,22 55,27.5964 55,34.5C 55,41.4036 49.4036,47 42.5,47C 40.1356,47 37.9245,46.3435 36,45.2426L 26.9749,54.2678C 25.8033,55.4393 23.9038,55.4393 22.7322,54.2678C 21.5607,53.0962 21.5607,51.1967 22.7322,50.0251L 31.7971,40.961C 30.6565,39.0755 30,36.8644 30,34.5C 30,27.5964 35.5964,22 42.5,22 Z M 42.5,26C 37.8056,26 34,29.8056 34,34.5C 34,39.1944 37.8056,43 42.5,43C 47.1944,43 51,39.1944 51,34.5C 51,29.8056 47.1944,26 42.5,26 Z " 
-                            Command="{Binding CommandSave}" IsEnabled="{Binding CanSave}"/>
+                            Command="{Binding CommandSelectConsignee}"/>
 
       </StackPanel>
 
       <Label Grid.Row="3" Margin="4,2"  HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="O/R Number" VerticalAlignment="Top" />
       <TextBox Grid.Row="3" Grid.Column="1" Margin="4,2" Width="150" HorizontalAlignment="Left" IsReadOnly="True"
-                 Text="" />
+                 Text="{Binding Model.ORNumber,Mode=TwoWay,NotifyOnValidationError=True}" />
 
-      
-      <Label Grid.Row="4" Margin="4,2"  HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Remarks" VerticalAlignment="Top" />
-      <TextBox Grid.Row="4" Grid.Column="1" Margin="4,2" Width="320" HorizontalAlignment="Left" IsReadOnly="True"
-                 Text="" />
-
-      <Border Grid.Row="0" Grid.Column="5" Width="350" Margin="16,0" Grid.RowSpan="3" BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-          </Grid.RowDefinitions>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-          </Grid.ColumnDefinitions>
-          <Border Grid.RowSpan="4" BorderBrush="Gray" BorderThickness="1" Width="150"></Border>
-
-        </Grid>
-      </Border>
-      <!--<Border Grid.Row="0" Grid.Column="5" Margin="16,0" Grid.RowSpan="5" Width="200" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
+      <Border Grid.Row="0" Grid.Column="5" Margin="8,0" Grid.RowSpan="4" Width="250" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
         <StackPanel>
           <Border Background="LightGray">
-            <TextBlock Text="Status" FontWeight="Bold" Margin="8,4" Background="LightGray" HorizontalAlignment="Center"/>
+            <TextBlock Text="Status" FontSize="12" FontWeight="Bold" Margin="8,4" Background="LightGray" HorizontalAlignment="Center"/>
           </Border>
 
           <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="PARTIALLY PAID" FontSize="14" FontWeight="Bold" Margin="8,4"/>
-          </StackPanel>          
+            <TextBlock Text="{Binding Model.Status.Value}" FontSize="18" FontWeight="Bold" Margin="8,4"/>
+          </StackPanel>
           <Border Background="LightGray">
-            <TextBlock Text="Total Amount Due" FontWeight="Bold" Margin="8,4" Background="LightGray" HorizontalAlignment="Center"/>
+            <TextBlock Text="Total Amount Paid" FontSize="12" FontWeight="Bold" Margin="8,4" Background="LightGray" HorizontalAlignment="Center"/>
           </Border>
-          <TextBlock Text="0.00" FontSize="24" FontWeight="Bold" Foreground="Red" Margin="8,0" HorizontalAlignment="Center" />
-          <Border Background="LightGray">
-            <TextBlock Text="Total Amount Paid" FontWeight="Bold" Margin="8,4" Background="LightGray" HorizontalAlignment="Center"/>
-          </Border>
-          <TextBlock Text="0.00" FontSize="24" FontWeight="Bold" Foreground="Red" Margin="8,0" HorizontalAlignment="Center" />
-
+          <TextBlock Text="{Binding TotalAmountPaid,StringFormat={}{0:n2},Mode=OneWay}" FontSize="24" FontWeight="Bold" Foreground="Red" Margin="8,0" HorizontalAlignment="Center" />
         </StackPanel>
-      </Border>-->      
+      </Border>
     </Grid>
     <TabControl Grid.Row="2" Margin="0,4,0,0">
-      <TabItem Header="SOA Detail">
-        <Grid Margin="10">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-          </Grid.ColumnDefinitions>
-          <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto"/>
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="4,2"/>
-
-          </Grid>
-
-          <Grid Grid.Column="1" Margin="16,0">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto"/>
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-          </Grid>
-
-        </Grid>
-      </TabItem>
-      <TabItem Header="Payment Details">
+      <TabItem Header="Bills">
         <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
           </Grid.RowDefinitions>
           <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,4">
-            <Button Content="Add Payment" Width="150"/>
-            <Button Content="Remove Payment" Width="150" Margin="4,0"/>
+            <Button Content="Select SOA" Width="120" Command="{Binding CommandSelectBill}"/>
+            <Button Content="Remove SOA" Width="120" Margin="4,0" Command="{Binding CommandRemoveBill}"/>
           </StackPanel>
-          <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Model.Items}">
+          <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Model.PaymentDetails}" AlternatingRowBackground="#FFECF5FF"
+                    CanUserAddRows="False" RowHeaderWidth="0" RowDetailsVisibilityMode="Visible">
             <DataGrid.Columns>
-              <DataGridTextColumn Header="Type of Payment" Width="120" IsReadOnly="True"/>
-              <DataGridTextColumn Header="Amount Paid" Width="120" IsReadOnly="True"/>
-              <DataGridTextColumn Header="Bank Name" Width="200" IsReadOnly="True"/>
-              <DataGridTextColumn Header="Bank Branch" Width="200" IsReadOnly="True"/>
-              <DataGridTextColumn Header="Check/Ref No" Width="200" IsReadOnly="True"/>
+              <DataGridTextColumn Header="SOA No." Width="150" Binding="{Binding Bill.BillNo}"/>
+              <DataGridTextColumn Header="Date" Width="150" Binding="{Binding Bill.BillDate}"/>
+              <DataGridTemplateColumn Header="Total Bill" Width="120">
+                <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                    <TextBox Text="{Binding Bill.TotalBill,Mode=OneWay,StringFormat={}{0:n2}}" 
+                                    Background="Transparent" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True"
+                                    HorizontalContentAlignment="Right"/>
+                  </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+              </DataGridTemplateColumn>
+              <DataGridTemplateColumn Header="Partial Payment" Width="180">
+                <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                    <TextBox Text="{Binding PartialPayment,Mode=OneWay,StringFormat={}{0:n2}}" 
+                                    Background="Transparent" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True"
+                                    HorizontalContentAlignment="Right"/>
+                  </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+              </DataGridTemplateColumn>
+              <DataGridTemplateColumn Header="Amount Due" Width="120">
+                <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                    <TextBox Text="{Binding AmountDue,Mode=OneWay,StringFormat={}{0:n2}}" 
+                                    Background="Transparent" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True"
+                                    HorizontalContentAlignment="Right"/>
+                  </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+              </DataGridTemplateColumn>
+              <DataGridTemplateColumn Header="Amount Paid" Width="120">
+                <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                    <TextBox Text="{Binding AmountPaid,Mode=TwoWay,
+                                    ValidatesOnDataErrors=True,
+                                    UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:n2}}" 
+                                    Background="Transparent" BorderBrush="Transparent" 
+                                    HorizontalContentAlignment="Right"/>
+                  </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+              </DataGridTemplateColumn>
             </DataGrid.Columns>
           </DataGrid>
         </Grid>
+      </TabItem>
+      <TabItem Header="Notes">
+        <TextBox Grid.Row="1"
+                     Grid.Column="0"
+                     Margin="4,8" AcceptsReturn="True"
+                     Text="{Binding Model.Remarks,Mode=TwoWay,ValidatesOnDataErrors=True}" />
       </TabItem>
     </TabControl>
   </Grid>
