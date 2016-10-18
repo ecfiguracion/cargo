@@ -212,6 +212,7 @@ namespace Bitz.Cargo.ViewModels.Billings
         if (result == MessageBoxResult.Yes)
         {
           this.Model.BillItems.Remove(this.SelectedItem);
+          ComputeTotalBill();
         }
       }
     }
@@ -261,16 +262,13 @@ namespace Bitz.Cargo.ViewModels.Billings
       decimal stevedoringtotal = 0;
       decimal arrastretotal = 0;
       decimal ratetotal = 0;
-      decimal rategrandtotal = 0;
-      decimal grandtotalvat = 0;
-      decimal premiumtotal = 0;
-      decimal premiumgrandtotal = 0;
       decimal wtaxtotal = 0;
       decimal totalbill = 0;
       decimal grandtotalbill = 0;
       foreach (var item in this.Model.BillItems)
       {
         if (item.QtyConversion == 0) continue;
+        item.GetRate();
         var conversiontotal = (item.UnitCount * item.QtyConversion) / 1000;
         if (item.WeightUsed == CargoConstants.WeightRates.MetricTons.Id)
         {
@@ -286,21 +284,22 @@ namespace Bitz.Cargo.ViewModels.Billings
         ratetotal = Math.Round(stevedoringtotal + arrastretotal, 2, MidpointRounding.AwayFromZero);
         if (item.PremiumRate > 0)
         {
-          premiumtotal += Math.Round(ratetotal * (item.PremiumRate / 100), 2, MidpointRounding.AwayFromZero);
+          ratetotal += Math.Round(ratetotal * (item.PremiumRate / 100), 2, MidpointRounding.AwayFromZero);
         }
 
-        grandtotalvat += Math.Round((ratetotal + premiumtotal) * (decimal)0.12, 2, MidpointRounding.AwayFromZero);
+        totalbill = Math.Round(ratetotal * (decimal)1.12, 2, MidpointRounding.AwayFromZero);
 
-        premiumgrandtotal += premiumtotal;
-        rategrandtotal += ratetotal;
+        if (this.Model.WTaxRate > 0)
+        {
+          wtaxtotal = Math.Round(ratetotal * (this.Model.WTaxRate / 100), 2, MidpointRounding.AwayFromZero);
+          totalbill -= wtaxtotal;
+        }
+
+        grandtotalbill += totalbill;
+
       }
 
-      if (this.Model.WTaxRate > 0)
-      {
-        wtaxtotal = Math.Round((rategrandtotal + premiumgrandtotal) * (this.Model.WTaxRate / 100), 2, MidpointRounding.AwayFromZero);
-      }
-
-      this.Model.TotalBill = Math.Round(rategrandtotal + grandtotalvat + premiumgrandtotal - wtaxtotal, 2, MidpointRounding.AwayFromZero);
+      this.Model.TotalBill = Math.Round(grandtotalbill, 2, MidpointRounding.AwayFromZero);
     }
     #endregion
 

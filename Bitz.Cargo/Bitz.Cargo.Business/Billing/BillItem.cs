@@ -98,8 +98,8 @@ namespace Bitz.Cargo.Business.Billing
       get { return GetProperty(_WeightUsed); }
       set 
       {
-        GetRate();
         SetProperty(_WeightUsed, value);
+        //GetRate();
       }
     }
 
@@ -176,7 +176,7 @@ namespace Bitz.Cargo.Business.Billing
         }
         else
         {
-          return string.Format("({0:N3}) {1:N2}",this.StevedoringConst, this.StevedoringRate);
+          return string.Format("({0:N4}) {1:N2}",this.StevedoringConst, this.StevedoringRate);
         }
       }
     }
@@ -193,7 +193,7 @@ namespace Bitz.Cargo.Business.Billing
         }
         else
         {
-          return string.Format("({0:N3}) {1:N2}", this.ArrastreConst, this.ArrastreRate);
+          return string.Format("({0:N4}) {1:N2}", this.ArrastreConst, this.ArrastreRate);
         }
       }
     }
@@ -259,6 +259,7 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_Cargo, BaseItemInfo.Get(dr, _Cargo.Name));
       LoadProperty(_UnitCount, dr.GetInt32("unitcount"));
       LoadProperty(_Uom, dr.GetInt32("uom"));
+      LoadProperty(_QtyConversion, dr.GetDecimal("qtyconversion"));
       LoadProperty(_WeightUsed, dr.GetInt32("weightused"));
       LoadProperty(_StevedoringRate, dr.GetDecimal("stevedoringrate"));
       LoadProperty(_StevedoringConst, dr.GetDecimal("stevedoringconst"));
@@ -389,7 +390,7 @@ namespace Bitz.Cargo.Business.Billing
 
     #region GetRate
 
-    private void GetRate()
+    public void GetRate()
     {
       if (this.Cargo == null) return;
 
@@ -434,6 +435,14 @@ namespace Bitz.Cargo.Business.Billing
               }
               this.PremiumRate = premiumrate;
             }
+            //else
+            //{
+            //  this.ArrastreRate = 0;
+            //  this.ArrastreConst = 0;
+            //  this.StevedoringRate = 0;
+            //  this.StevedoringConst = 0;
+            //}
+
           }
         }
       }
