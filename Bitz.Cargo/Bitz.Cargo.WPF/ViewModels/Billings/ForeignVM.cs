@@ -64,7 +64,8 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       if (e.PropertyChangedArgs != null)
       {
-        if (this.Model.BillItems.IsValid)
+        if (this.Model.BillItems.IsValid && (e.PropertyChangedArgs.PropertyName == "UnitCount" || e.PropertyChangedArgs.PropertyName == "Uom" ||
+          e.PropertyChangedArgs.PropertyName == "WeightUsed"))
         {
           this.ComputeTotalBill();
         }
@@ -272,22 +273,22 @@ namespace Bitz.Cargo.ViewModels.Billings
         var conversiontotal = (item.UnitCount * item.QtyConversion) / 1000;
         if (item.WeightUsed == CargoConstants.WeightRates.MetricTons.Id)
         {
-          stevedoringtotal = (decimal)conversiontotal * item.StevedoringRate;
-          arrastretotal = (decimal)conversiontotal * item.ArrastreRate;
+          stevedoringtotal = Math.Round((decimal)conversiontotal * item.StevedoringRate, 2,MidpointRounding.AwayFromZero);
+          arrastretotal = Math.Round((decimal)conversiontotal * item.ArrastreRate, 2, MidpointRounding.AwayFromZero);
         }
         else
         {
-          stevedoringtotal = (decimal)conversiontotal * item.StevedoringConst * item.StevedoringRate;
-          arrastretotal = (decimal)conversiontotal * item.ArrastreConst * item.ArrastreRate;
+          stevedoringtotal = Math.Round((decimal)conversiontotal * item.StevedoringConst * item.StevedoringRate, 2, MidpointRounding.AwayFromZero);
+          arrastretotal = Math.Round((decimal)conversiontotal * item.ArrastreConst * item.ArrastreRate, 2, MidpointRounding.AwayFromZero);
         }
 
-        ratetotal = stevedoringtotal + arrastretotal;
+        ratetotal = Math.Round(stevedoringtotal + arrastretotal, 2, MidpointRounding.AwayFromZero);
         if (item.PremiumRate > 0)
         {
-          premiumtotal += ratetotal * (item.PremiumRate / 100);
+          premiumtotal += Math.Round(ratetotal * (item.PremiumRate / 100), 2, MidpointRounding.AwayFromZero);
         }
 
-        grandtotalvat += (ratetotal + premiumtotal)  * (decimal)0.12;
+        grandtotalvat += Math.Round((ratetotal + premiumtotal) * (decimal)0.12, 2, MidpointRounding.AwayFromZero);
 
         premiumgrandtotal += premiumtotal;
         rategrandtotal += ratetotal;
@@ -295,10 +296,10 @@ namespace Bitz.Cargo.ViewModels.Billings
 
       if (this.Model.WTaxRate > 0)
       {
-        wtaxtotal = (rategrandtotal + premiumgrandtotal) * (this.Model.WTaxRate / 100);
+        wtaxtotal = Math.Round((rategrandtotal + premiumgrandtotal) * (this.Model.WTaxRate / 100), 2,MidpointRounding.AwayFromZero);
       }
 
-      this.Model.TotalBill = rategrandtotal + grandtotalvat + premiumgrandtotal - wtaxtotal;
+      this.Model.TotalBill = Math.Round(rategrandtotal + grandtotalvat + premiumgrandtotal - wtaxtotal, 2, MidpointRounding.AwayFromZero);
     }
     #endregion
 

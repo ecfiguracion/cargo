@@ -69,9 +69,11 @@ namespace Bitz.Cargo.Business.Billing
     {
       get { return GetProperty(_Uom); }
       set 
-      { 
+      {
+        this.QtyConversion = 0;
+        GetUomConversion(value);
         SetProperty(_Uom, value);
-        GetUomConversion();
+        
       }
     }
 
@@ -95,9 +97,9 @@ namespace Bitz.Cargo.Business.Billing
     {
       get { return GetProperty(_WeightUsed); }
       set 
-      { 
-        SetProperty(_WeightUsed, value);
+      {
         GetRate();
+        SetProperty(_WeightUsed, value);
       }
     }
 
@@ -437,9 +439,9 @@ namespace Bitz.Cargo.Business.Billing
       }
     }
 
-    private void GetUomConversion()
+    private void GetUomConversion(int? Uom)
     {
-      if (this.Cargo == null && this.Uom == null) return;
+      if (this.Cargo == null && Uom == null) return;
 
       using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
       {
@@ -449,7 +451,7 @@ namespace Bitz.Cargo.Business.Billing
                               FROM itemuomconversion
                               WHERE item = @id AND uom = @uom";
           cmd.Parameters.AddWithValue("@id", this.Cargo.Id);
-          cmd.Parameters.AddWithValue("@uom", this.Uom);
+          cmd.Parameters.AddWithValue("@uom", Uom);
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
           {
             if (dr.Read())

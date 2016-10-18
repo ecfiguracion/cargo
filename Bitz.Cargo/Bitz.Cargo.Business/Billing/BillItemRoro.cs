@@ -58,9 +58,10 @@ namespace Bitz.Cargo.Business.Billing
     {
       get { return GetProperty(_Uom); }
       set 
-      { 
+      {
+        this.Rate = 0;
+        GetRate(value);
         SetProperty(_Uom, value);
-        GetRate();
       }
     }
 
@@ -270,9 +271,9 @@ namespace Bitz.Cargo.Business.Billing
 
     #region Methods
 
-    private void GetRate()
+    private void GetRate(int? Uom)
     {
-      if (this.Cargo == null && this.Uom != null) return;
+      if (this.Cargo == null && Uom != null) return;
 
       using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
       {
@@ -281,7 +282,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.CommandText = @"SELECT rate FROM itemuomrate
                               WHERE item = @id AND uom = @uom";
           cmd.Parameters.AddWithValue("@id", this.Cargo.Id);
-          cmd.Parameters.AddWithValue("@uom", this.Uom);
+          cmd.Parameters.AddWithValue("@uom", Uom);
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
           {
             if (dr.Read())

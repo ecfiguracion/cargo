@@ -65,10 +65,11 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       if (e.PropertyChangedArgs != null)
       {
-        if (this.Model.BillItems.IsValid)
+        if (this.Model.BillItems.IsValid && (e.PropertyChangedArgs.PropertyName == "Quantity" || e.PropertyChangedArgs.PropertyName == "Uom"))
         {
           this.ComputeTotalBill();
         }
+
       }
     }
 
@@ -260,9 +261,9 @@ namespace Bitz.Cargo.ViewModels.Billings
       decimal totalbill = 0;
       foreach (var item in this.Model.BillItems)
       {
-        totalbill += (int)item.Quantity * item.Rate;
+        totalbill += Math.Round((int)item.Quantity * item.Rate, 2, MidpointRounding.AwayFromZero);
       }
-      this.Model.TotalBill = totalbill * (decimal)1.12;
+      this.Model.TotalBill = Math.Round(totalbill * (decimal)1.12, 2, MidpointRounding.AwayFromZero);
     }
     #endregion
 
