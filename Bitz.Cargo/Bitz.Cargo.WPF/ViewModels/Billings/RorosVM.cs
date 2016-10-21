@@ -22,7 +22,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
       var criteria = new BillInfos.Criteria();
       criteria.BillType = CargoConstants.BillingType.Roro.Id;
-      criteria.Status = CargoConstants.BillStatus.Draft.Id;
+      criteria.Status = CargoConstants.BillStatus.All.Id;
 
       this.Criteria = criteria;
 

@@ -1,4 +1,5 @@
 ﻿using Bitz.Business.Contacts.Infos;
+using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.Constants;
 using Bitz.Core.Constants;
 using Bitz.Core.Utilities;
@@ -234,6 +235,17 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region Payments
+
+    public static readonly PropertyInfo<PaymentInfos> _Payments = RegisterProperty<PaymentInfos>(c => c.Payments);
+    public PaymentInfos Payments
+    {
+      get { return GetProperty(_Payments); }
+      set { SetProperty(_Payments, value); }
+    }
+
+    #endregion
+
     #endregion
 
     #region Business Rules
@@ -359,6 +371,7 @@ namespace Bitz.Cargo.Business.Billing
         }
       }
       LoadProperty(_BillItems, BillItems.Get(new SingleCriteria<int>(this.Id)));
+      LoadProperty(_Payments, PaymentInfos.Get(new PaymentInfos.Criteria() { BillId = this.Id, Status = CargoConstants.PaymentStatus.Approved.Id }));
     }
 
     #endregion

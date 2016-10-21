@@ -128,11 +128,11 @@ namespace Bitz.Cargo.Business.Billing.Infos
       LoadProperty(_BillNo, dr.GetString(columnprefix + "billno"));
       LoadProperty(_BillDate, dr.GetSmartDate(columnprefix + "billdate"));
 
-      if (SQLHelper.HasColumn(dr, "consignee"))
+      if (SQLHelper.HasColumn(dr, columnprefix+"consignee"))
         LoadProperty(_Consignee, dr.GetString(columnprefix + "consignee"));
-      if (SQLHelper.HasColumn(dr,"totalbill"))
+      if (SQLHelper.HasColumn(dr,columnprefix+"totalbill"))
         LoadProperty(_TotalBill, dr.GetDecimal(columnprefix + "totalbill"));
-      if (SQLHelper.HasColumn(dr,"totalamountpaid"))
+      if (SQLHelper.HasColumn(dr,columnprefix+"totalamountpaid"))
         LoadProperty(_AmountPaid, dr.GetDecimal(columnprefix + "totalamountpaid"));
 
     }
@@ -199,6 +199,17 @@ namespace Bitz.Cargo.Business.Billing.Infos
 
       #endregion
 
+      #region Statuses
+
+      public static readonly PropertyInfo<MobileList<int>> _Statuses = RegisterProperty<MobileList<int>>(c => c.Statuses);
+      public MobileList<int> Statuses
+      {
+        get { return ReadProperty(_Statuses); }
+        set { LoadProperty(_Statuses, value); }
+      }
+
+      #endregion
+
     }
 
     #endregion
@@ -249,7 +260,12 @@ namespace Bitz.Cargo.Business.Billing.Infos
 
           if (criteria.BillTypes != null && criteria.BillTypes.Count > 0)
           {
-            cmd.CommandText += " AND b.billtype IN (" + string.Join(",", criteria.BillTypes.Select(x => x));
+            cmd.CommandText += " AND b.billtype IN (" + string.Join(",", criteria.BillTypes.Select(x => x)) + ")";
+          }
+
+          if (criteria.Statuses != null && criteria.Statuses.Count > 0)
+          {
+            cmd.CommandText += " AND b.status IN (" + string.Join(",", criteria.Statuses.Select(x => x)) + ")";
           }
 
           cmd.CommandText += " GROUP BY b.bill,c.name,b.billno,b.billdate,b.totalbill";

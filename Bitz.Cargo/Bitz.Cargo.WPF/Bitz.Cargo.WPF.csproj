@@ -80,6 +80,7 @@
     <Compile Include="ViewModels\Billings\RoroVM.cs" />
     <Compile Include="ViewModels\Billings\ForeignVM.cs" />
     <Compile Include="ViewModels\Billings\RorosVM.cs" />
+    <Compile Include="ViewModels\Dialogs\PaymentDetailsDialogVM.cs" />
     <Compile Include="ViewModels\Dialogs\BillSelectDialogVM.cs" />
     <Compile Include="ViewModels\Dialogs\CargoSelectDialogVM.cs" />
     <Compile Include="ViewModels\Settings\CargosVM.cs" />
@@ -126,6 +127,9 @@
     </Compile>
     <Compile Include="Views\Billings\ForeignView.xaml.cs">
       <DependentUpon>ForeignView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\PaymentDetailsDialogView.xaml.cs">
+      <DependentUpon>PaymentDetailsDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\BillSelectDialogView.xaml.cs">
       <DependentUpon>BillSelectDialogView.xaml</DependentUpon>
@@ -227,6 +231,10 @@
     <Page Include="Views\Billings\ForeignView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\PaymentDetailsDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Dialogs\BillSelectDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>

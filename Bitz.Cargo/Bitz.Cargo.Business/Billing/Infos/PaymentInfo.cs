@@ -17,7 +17,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
   #region PaymentInfo
 
   [Serializable]
-  [TableInfo(TableName = "bill", KeyColumn = "bill.bill")]
+  [TableInfo(TableName = "payment", KeyColumn = "payment.payment")]
   public class PaymentInfo : ReadOnlyBase<PaymentInfo>
   {
     #region One To One Properties
@@ -98,6 +98,13 @@ namespace Bitz.Cargo.Business.Billing.Infos
       return Csla.DataPortal.FetchChild<PaymentInfo>(dr);
     }
 
+    public static void Delete(SingleCriteria<int> id, EventHandler<DataPortalResult<PaymentInfo>> completed)
+    {
+      DataPortal<PaymentInfo> dp = new DataPortal<PaymentInfo>();
+      dp.DeleteCompleted += completed;
+      dp.BeginDelete(id);
+    }
+
     #endregion
 
     #region Data Access
@@ -114,6 +121,23 @@ namespace Bitz.Cargo.Business.Billing.Infos
       LoadProperty(_Consignee, dr.GetString("consignee"));
       LoadProperty(_AmountPaid, dr.GetDecimal("amountpaid"));
       LoadProperty(_Status, dr.GetInt32("status"));
+    }
+
+    #endregion
+
+    #region Delete
+
+    private void DataPortal_Delete(SingleCriteria<int> id)
+    {
+      using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase()))
+      {
+        using (var cm = ctx.Connection.CreateCommand())
+        {
+          cm.CommandText += @"DELETE FROM payment WHERE payment = @id";
+          cm.Parameters.AddWithValue("@id", id.Value);
+          cm.ExecuteNonQuery();
+        }
+      }
     }
 
     #endregion
@@ -177,6 +201,17 @@ namespace Bitz.Cargo.Business.Billing.Infos
       }
 
       #endregion
+
+      #region BillId
+
+      public static readonly PropertyInfo<int?> _BillId = RegisterProperty<int?>(c => c.BillId);
+      public int? BillId
+      {
+        get { return ReadProperty(_BillId); }
+        set { LoadProperty(_BillId, value); }
+      }
+
+      #endregion
     }
 
     #endregion
@@ -188,6 +223,11 @@ namespace Bitz.Cargo.Business.Billing.Infos
       DataPortal<PaymentInfos> dp = new DataPortal<PaymentInfos>();
       dp.FetchCompleted += completed;
       dp.BeginFetch(criteria);
+    }
+
+    public static PaymentInfos Get(Criteria criteria)
+    {
+      return Csla.DataPortal.Fetch<PaymentInfos>(criteria);
     }
 
     #endregion
@@ -216,6 +256,13 @@ namespace Bitz.Cargo.Business.Billing.Infos
             cmd.Parameters.AddWithValue("@status", criteria.Status);
           else
             cmd.Parameters.AddWithValue("@status", DBNull.Value);
+
+          if (criteria.BillId != null) {
+            cmd.CommandText += @" AND EXISTS (SELECT 1 FROM paymentdetail
+                                              WHERE paymentdetail.bill = @bill
+                                              AND paymentdetail.payment = p.payment)";
+            cmd.Parameters.AddWithValue("@bill",criteria.BillId);                                             
+          }
 
           if (criteria.StartDate != null && criteria.EndDate != null)
           {

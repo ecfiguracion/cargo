@@ -85,6 +85,83 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region PaymentType
+
+    public static readonly PropertyInfo<int> _PaymentType = RegisterProperty<int>(c => c.PaymentType);
+    public int PaymentType
+    {
+      get { return GetProperty(_PaymentType); }
+      set { SetProperty(_PaymentType, value); }
+    }
+
+    #endregion
+
+    #region BankName
+
+    public static readonly PropertyInfo<string> _BankName = RegisterProperty<string>(c => c.BankName);
+    public string BankName
+    {
+      get { return GetProperty(_BankName); }
+      set { SetProperty(_BankName, value); }
+    }
+
+    #endregion
+
+    #region BankBranch
+
+    public static readonly PropertyInfo<string> _BankBranch = RegisterProperty<string>(c => c.BankBranch);
+    public string BankBranch
+    {
+      get { return GetProperty(_BankBranch); }
+      set { SetProperty(_BankBranch, value); }
+    }
+
+    #endregion
+
+    #region RefNo
+
+    public static readonly PropertyInfo<string> _RefNo = RegisterProperty<string>(c => c.RefNo);
+    public string RefNo
+    {
+      get { return GetProperty(_RefNo); }
+      set { SetProperty(_RefNo, value); }
+    }
+
+    #endregion
+
+    #region RefDate
+
+    public static readonly PropertyInfo<SmartDate> _RefDate = RegisterProperty<SmartDate>(c => c.RefDate);
+    public SmartDate RefDate
+    {
+      get { return GetProperty(_RefDate); }
+      set { SetProperty(_RefDate, value); }
+    }
+
+    #endregion
+
+    #region Comments
+
+    public static readonly PropertyInfo<string> _Comments = RegisterProperty<string>(c => c.Comments);
+    public string Comments
+    {
+      get { return GetProperty(_Comments); }
+      set { SetProperty(_Comments, value); }
+    }
+
+    #endregion
+
+    #region Status
+
+    public static readonly PropertyInfo<int> _Status = RegisterProperty<int>(c => c.Status);
+    public int Status
+    {
+      get { return GetProperty(_Status); }
+      set { SetProperty(_Status, value); }
+    }
+
+    #endregion
+
     #endregion
 
     #region Derived Properties
@@ -95,12 +172,46 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region Criteria
+
+    [Serializable]
+    public class Criteria : CriteriaBase<Criteria>
+    {
+      #region Id
+      private static PropertyInfo<int> _Id = RegisterProperty<int>(c => c.Id);
+
+      public int Id
+      {
+        get { return ReadProperty(_Id); }
+        set { LoadProperty(_Id, value); }
+      }
+      #endregion //Id
+
+      #region Status
+
+      public static readonly PropertyInfo<int> _Status = RegisterProperty<int>(c => c.Status);
+      public int Status
+      {
+        get { return ReadProperty(_Status); }
+        set { LoadProperty(_Status, value); }
+      }
+
+      #endregion
+
+    }
+
+    #endregion
+
     #region Business Rules
 
     protected override void AddBusinessRules()
     {
       base.AddBusinessRules();
       BusinessRules.AddRule(new AmountPaidRule { PrimaryProperty = _AmountPaid });
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_BankName,150));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_BankBranch, 150));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_RefNo, 100));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.MaxLength(_Comments, 300));
     }
 
     #region AmountPaidRule
@@ -158,27 +269,44 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_PartialPayment,dr.GetDecimal("partialpayment"));
       LoadProperty(_AmountDue,dr.GetDecimal("amountdue"));
       LoadProperty(_AmountPaid,dr.GetDecimal("amountpaid"));
+      LoadProperty(_PaymentType, dr.GetInt32("paymenttype"));
+      LoadProperty(_BankName, dr.GetString("bank"));
+      LoadProperty(_BankBranch, dr.GetString("branch"));
+      LoadProperty(_RefNo, dr.GetString("refno"));
+      LoadProperty(_RefDate, dr.GetSmartDate("refdate"));
+      LoadProperty(_Comments, dr.GetString("comments"));
     }
 
     #endregion
 
     #region Child Insert
 
-    protected void Child_Insert(SingleCriteria<int> parentId)
+    protected void Child_Insert(Criteria criteria)
     {
       using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO paymentdetail(payment,bill,partialpayment,amountdue,amountpaid)
-                              VALUES (@payment,@bill,@partialpayment,@amountdue,@amountpaid)
+          cmd.CommandText = @"INSERT INTO paymentdetail(payment,bill,partialpayment,amountdue,amountpaid,
+                                      paymenttype,bank,branch,refno,refdate,comments)
+                              VALUES (@payment,@bill,@partialpayment,@amountdue,@amountpaid,
+                                      @paymenttype,@bank,@branch,@refno,@refdate,@comments)
                             SELECT SCOPE_IDENTITY()";
 
-          cmd.Parameters.AddWithValue("@payment", parentId.Value);
+          cmd.Parameters.AddWithValue("@payment", criteria.Id);
           cmd.Parameters.AddWithValue("@bill", Bill.Id);
           cmd.Parameters.AddWithValue("@partialpayment", PartialPayment);
           cmd.Parameters.AddWithValue("@amountdue", AmountDue);
           cmd.Parameters.AddWithValue("@amountpaid", AmountPaid);
+          cmd.Parameters.AddWithValue("@paymenttype", PaymentType);
+          cmd.Parameters.AddWithValue("@bank", BankName);
+          cmd.Parameters.AddWithValue("@branch", BankBranch);
+          cmd.Parameters.AddWithValue("@refno", RefNo);
+          if (RefDate != null)
+            cmd.Parameters.AddWithValue("@refdate", RefDate.DBValue);
+          else
+            cmd.Parameters.AddWithValue("@refdate", DBNull.Value);
+          cmd.Parameters.AddWithValue("@comments", Comments);
 
           try
           {
@@ -191,29 +319,44 @@ namespace Bitz.Cargo.Business.Billing
           }
         }
       }
-
+      this.UpdateBillingStatus(this.Status, false);
     }
 
     #endregion
 
     #region Child Update
 
-    protected void Child_Update(SingleCriteria<int> parentId)
+    protected void Child_Update(Criteria criteria)
     {
       using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"UPDATE paymentetail SET 
+          cmd.CommandText = @"UPDATE paymentdetail SET 
                                 bill = @bill,
                                 partialpayment = @partialpayment,
                                 amountdue = @amountdue,
-                                amountpaid = @amountpaid
-                              WHERE paymentetail = @id";
+                                amountpaid = @amountpaid,
+                                paymenttype = @paymenttype,
+                                bank = @bank,
+                                branch = @branch,
+                                refno = @refno,
+                                refdate = @refdate,
+                                comments = @comments
+                              WHERE paymentdetail = @id";
           cmd.Parameters.AddWithValue("@bill", Bill.Id);
           cmd.Parameters.AddWithValue("@partialpayment", PartialPayment);
           cmd.Parameters.AddWithValue("@amountdue", AmountDue);
           cmd.Parameters.AddWithValue("@amountpaid", AmountPaid);
+          cmd.Parameters.AddWithValue("@paymenttype", PaymentType);
+          cmd.Parameters.AddWithValue("@bank", BankName);
+          cmd.Parameters.AddWithValue("@branch", BankBranch);
+          cmd.Parameters.AddWithValue("@refno", RefNo);
+          if (RefDate != null)
+            cmd.Parameters.AddWithValue("@refdate", RefDate.DBValue);
+          else
+            cmd.Parameters.AddWithValue("@refdate", DBNull.Value);
+          cmd.Parameters.AddWithValue("@comments", Comments);
           cmd.Parameters.AddWithValue("@id", this.Id);
           try
           {
@@ -225,7 +368,7 @@ namespace Bitz.Cargo.Business.Billing
           }
         }
       }
-
+      this.UpdateBillingStatus(this.Status,false);
     }
 
     #endregion
@@ -234,6 +377,7 @@ namespace Bitz.Cargo.Business.Billing
 
     protected void Child_DeleteSelf()
     {
+      this.UpdateBillingStatus(0,true);
       using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
       {
         using (var cmd = ctx.Connection.CreateCommand())
@@ -251,7 +395,6 @@ namespace Bitz.Cargo.Business.Billing
           }
         }
       }
-
     }
 
     #endregion
@@ -259,6 +402,44 @@ namespace Bitz.Cargo.Business.Billing
     #endregion
 
     #region Methods
+
+    #region UpdateBillingStatus
+
+    protected void UpdateBillingStatus(int? status, bool isdelete)
+    {
+      if (this.AmountDue > 0 && (isdelete || status == CargoConstants.PaymentStatus.Approved.Id)) {
+        using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
+        {
+          using (var cmd = ctx.Connection.CreateCommand())
+          {
+            cmd.CommandText = @"UPDATE bill SET status = @status
+                                WHERE bill = @bill";
+            if (isdelete)
+            {
+              cmd.Parameters.AddWithValue("@status", CargoConstants.BillStatus.Draft);
+            }
+            else
+            {
+              if ((this.PartialPayment + this.AmountPaid) >= this.AmountDue)
+                cmd.Parameters.AddWithValue("@status", CargoConstants.BillStatus.FullyPaid.Id);
+              else
+                cmd.Parameters.AddWithValue("@status", CargoConstants.BillStatus.PartiallyPaid.Id);
+            }
+            cmd.Parameters.AddWithValue("@bill", this.Bill.Id);
+            try
+            {
+              cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+              throw;
+            }
+          }
+        }
+      }
+    }
+
+    #endregion
 
     #endregion
   }
@@ -292,7 +473,8 @@ namespace Bitz.Cargo.Business.Billing
         {
           cmd.CommandText = string.Format(@"
                               SELECT pd.paymentdetail,pd.payment,pd.bill,pd.partialpayment,pd.amountdue,pd.amountpaid,
-                                  b.bill as {0}bill,b.billno AS {0}billno,b.billdate as {0}billdate
+                                  pd.paymenttype,pd.bank,pd.branch,pd.refno,pd.refdate,pd.comments,
+                                  b.bill as {0}bill,b.billno AS {0}billno,b.billdate as {0}billdate,b.totalbill as {0}totalbill
                               FROM paymentdetail pd
                               INNER JOIN bill b ON pd.bill = b.bill
                               WHERE pd.payment = @id", "Bill");

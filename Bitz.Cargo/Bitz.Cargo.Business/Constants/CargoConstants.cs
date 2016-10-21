@@ -90,15 +90,17 @@ namespace Bitz.Cargo.Business.Constants
     {
       private static List<CoreConstants.IdValue> _BillStatus = new List<CoreConstants.IdValue>();
 
-      public static CoreConstants.IdValue Draft { get { return _BillStatus[0]; } }
-      public static CoreConstants.IdValue PartiallyPaid { get { return _BillStatus[1]; } }
-      public static CoreConstants.IdValue FullyPaid { get { return _BillStatus[2]; } }
+      public static CoreConstants.IdValue All { get { return _BillStatus[0]; } }
+      public static CoreConstants.IdValue Draft { get { return _BillStatus[1]; } }
+      public static CoreConstants.IdValue PartiallyPaid { get { return _BillStatus[2]; } }
+      public static CoreConstants.IdValue FullyPaid { get { return _BillStatus[3]; } }
 
       static BillStatus()
       {
-        _BillStatus.Add(new CoreConstants.IdValue(0, "Draft"));
-        _BillStatus.Add(new CoreConstants.IdValue(1, "Partially Paid"));
-        _BillStatus.Add(new CoreConstants.IdValue(2, "Fully Paid"));
+        _BillStatus.Add(new CoreConstants.IdValue(0, "ALL"));
+        _BillStatus.Add(new CoreConstants.IdValue(1, "Draft"));
+        _BillStatus.Add(new CoreConstants.IdValue(2, "Partially Paid"));
+        _BillStatus.Add(new CoreConstants.IdValue(3, "Fully Paid"));
       }
 
       public static List<CoreConstants.IdValue> Items
@@ -155,5 +157,29 @@ namespace Bitz.Cargo.Business.Constants
 
     #endregion
 
+    #region PaymentTypes
+
+    public class PaymentTypes
+    {
+      private static List<CoreConstants.IdValue> _PaymentTypes = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue Cash { get { return _PaymentTypes[0]; } }
+      public static CoreConstants.IdValue Check { get { return _PaymentTypes[1]; } }
+      public static CoreConstants.IdValue Online { get { return _PaymentTypes[2]; } }
+
+      static PaymentTypes()
+      {
+        _PaymentTypes.Add(new CoreConstants.IdValue(0, "Cash"));
+        _PaymentTypes.Add(new CoreConstants.IdValue(1, "Check"));
+        _PaymentTypes.Add(new CoreConstants.IdValue(2, "Online"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _PaymentTypes; }
+      }
+    }
+
+    #endregion
   }
 }

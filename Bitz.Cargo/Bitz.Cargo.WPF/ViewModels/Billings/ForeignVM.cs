@@ -37,6 +37,7 @@ namespace Bitz.Cargo.ViewModels.Billings
       this.CommandAddItem = new DelegateCommand<object>(CommandAddItemExecute);
       this.CommandRemoveItem = new DelegateCommand<object>(CommandRemoveItemExecute);
 
+      this.CommandOpenPayment = new DelegateCommand<object>(CommandOpenPaymentExecute);
     }
 
     public override void Initialise(int? id)
@@ -58,6 +59,7 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       base.OnModelChanged(oldValue, newValue);
       newValue.ChildChanged += newValue_ChildChanged;
+      OnPropertyChanged("TotalAmountPaid");
     }
 
     void newValue_ChildChanged(object sender, Csla.Core.ChildChangedEventArgs e)
@@ -104,6 +106,27 @@ namespace Bitz.Cargo.ViewModels.Billings
       get
       {
         return CargoConstants.WeightRates.Items;
+      }
+    }
+
+    #endregion
+
+    #region SelectedPayment
+
+    public PaymentInfo SelectedPayment { get; set; }
+
+    #endregion
+
+    #region TotalAmountPaid
+
+    public decimal TotalAmountPaid
+    {
+      get
+      {
+        if (this.Model == null) return 0;
+        if (this.Model.Payments == null) return 0;
+
+        return this.Model.Payments.Sum(x => x.AmountPaid);
       }
     }
 
@@ -212,6 +235,23 @@ namespace Bitz.Cargo.ViewModels.Billings
         {
           this.Model.BillItems.Remove(this.SelectedItem);
         }
+      }
+    }
+
+    #endregion
+
+    #region CommandOpenPayment
+    public ICommand CommandOpenPayment
+    {
+      get;
+      private set;
+    }
+
+    public void CommandOpenPaymentExecute(object parameter)
+    {
+      if (SelectedPayment != null)
+      {
+        NavigationManager.Show(UserInterfaces.Cargo.Payment, new object[] { this.SelectedPayment.Id });
       }
     }
 

@@ -189,14 +189,32 @@
         </Grid>
       </TabItem>
       <TabItem Header="Payment History">
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Model.Payments}" Background="#f3f3f3">
-          <DataGrid.Columns>
-            <DataGridTextColumn Header="Bill No" Width="150"/>
-            <DataGridTextColumn Header="Bill Date" Width="150"/>
-            <DataGridTextColumn Header="Amount Paid" Width="150"/>
-            <DataGridTextColumn Header="Entered By" Width="*"/>
-          </DataGrid.Columns>
-        </DataGrid>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <DataGrid Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Model.Payments}" CanUserAddRows="False"
+                  AlternatingRowBackground="#FFECF5FF" SelectedItem="{Binding SelectedPayment,Mode=TwoWay}">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Bill No" Width="150" Binding="{Binding PaymentNo}"/>
+              <DataGridTextColumn Header="Bill Date" Width="150" Binding="{Binding PaymentDate}"/>
+              <DataGridTextColumn Header="Amount Paid" Width="150" Binding="{Binding AmountPaid,StringFormat={}{0:N2}}"/>
+              <DataGridTextColumn Header="Status" Width="150" Binding="{Binding Status.Value}"/>
+              <!--<DataGridTemplateColumn Header="....." Width="120">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <Button Content="Show Details" Command="{Binding CommandOpenPayment,Source={StaticResource ViewModel}}"/>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+          </DataGrid>
+          <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="8,2">
+            <TextBlock Text="TOTAL AMOUNT PAID :" FontSize="14"/>
+            <TextBlock Text="{Binding TotalAmountPaid,StringFormat={}{0:N2}}" Margin="8,0"  FontSize="16" FontWeight="Bold" Foreground="Red"/>
+          </StackPanel>
+        </Grid>
       </TabItem>
     </TabControl>
   </Grid>

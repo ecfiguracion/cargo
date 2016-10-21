@@ -205,7 +205,7 @@ namespace Bitz.Core.ViewModel
         public virtual void CommandBackExecute(object parameter)
         {
           var isproceed = true;
-          if (base.IsDirty) { 
+          if (base.IsDirty && !this.IsReadOnly) { 
             var result = ModernDialog.ShowMessage("Uncommitted changes will be lost, are you sure you want to proceed?",
               "Close", MessageBoxButton.YesNo,AppCache.MainWindow);
             isproceed = result == MessageBoxResult.Yes;

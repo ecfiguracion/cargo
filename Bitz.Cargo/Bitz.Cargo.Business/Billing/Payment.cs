@@ -94,9 +94,9 @@ namespace Bitz.Cargo.Business.Billing
     {
       get 
       {
-        var status = CargoConstants.BillStatus.Items.SingleOrDefault(x => x.Id == GetProperty(_Status));
+        var status = CargoConstants.PaymentStatus.Items.SingleOrDefault(x => x.Id == GetProperty(_Status));
         if (status == null)
-          return CargoConstants.BillStatus.Draft;
+          return CargoConstants.PaymentStatus.Draft;
         return status;
       }
       set 
@@ -152,6 +152,24 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region TotalAmountPaid
+
+    public static readonly PropertyInfo<decimal?> _TotalAmountPaid = RegisterProperty<decimal?>(c => c.TotalAmountPaid);
+    public decimal? TotalAmountPaid
+    {
+      get { return GetProperty(_TotalAmountPaid); }
+      set 
+      { 
+        SetProperty(_TotalAmountPaid, value);
+        if (value.HasValue)
+        {
+          BusinessRules.CheckRules(_ORNumber);
+        }
+      }
+    }
+
+    #endregion
+
     #endregion
 
     #region One To Many Properties
@@ -175,22 +193,40 @@ namespace Bitz.Cargo.Business.Billing
     {
       base.AddBusinessRules();
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_PaymentDate));
-      BusinessRules.AddRule(new ConsigneeRequired { PrimaryProperty = _Consignee });
+      BusinessRules.AddRule(new EntryRequired { PrimaryProperty = _Consignee });
+      BusinessRules.AddRule(new EntryRequired { PrimaryProperty = _ORNumber });
     }
 
-    #region ConsigneeRequired
-    private class ConsigneeRequired : Csla.Rules.BusinessRule
+    #region EntryRequired
+    private class EntryRequired : Csla.Rules.BusinessRule
     {
       protected override void Execute(Csla.Rules.RuleContext context)
       {
         var target = (Payment)context.Target;
-        if (target.Consignee == null)
+        if (PrimaryProperty.Name == "Consignee")
         {
-          context.AddErrorResult("Consignee is required.");
+          if (target.Consignee == null)
+          {
+            context.AddErrorResult("Consignee is required.");
+          }
+        }
+
+        if (PrimaryProperty.Name == "ORNumber")
+        {
+          if (target.PaymentDetails != null)
+          {
+            var totalamountdue = target.PaymentDetails.Sum(x => x.AmountDue);
+            var totalamountpaid = target.PaymentDetails.Sum(x => x.AmountPaid);
+            if (target.ORNumber.Length == 0 && totalamountpaid > 0 && (totalamountpaid >= totalamountdue))
+            {
+              context.AddErrorResult("OR Number is required.");
+            }
+          }
         }
       }
     }
     #endregion
+
 
     #endregion
 
@@ -264,6 +300,7 @@ namespace Bitz.Cargo.Business.Billing
         }
       }
       LoadProperty(_PaymentDetails, PaymentDetails.Get(new SingleCriteria<int>(this.Id)));
+      LoadProperty(_TotalAmountPaid, this.PaymentDetails.Sum(x => x.AmountPaid));
     }
 
     #endregion
@@ -301,7 +338,8 @@ namespace Bitz.Cargo.Business.Billing
           }
         }
       }
-      Csla.DataPortal.UpdateChild(ReadProperty(_PaymentDetails), new SingleCriteria<int>(this.Id));
+      this.UpdatePaymentStatus();
+      Csla.DataPortal.UpdateChild(ReadProperty(_PaymentDetails), new PaymentDetail.Criteria() { Id = this.Id } );
     }
 
     #endregion
@@ -346,8 +384,23 @@ namespace Bitz.Cargo.Business.Billing
           }
         }
       }
-      Csla.DataPortal.UpdateChild(ReadProperty(_PaymentDetails), new SingleCriteria<int>(this.Id));
+      this.UpdatePaymentStatus();
+      Csla.DataPortal.UpdateChild(ReadProperty(_PaymentDetails),new PaymentDetail.Criteria(){ Id = this.Id });
     }
+
+    #endregion
+
+    #region UpdatePaymentStatus
+
+    public void UpdatePaymentStatus()
+    {
+      if (this.Status.Id != CargoConstants.PaymentStatus.Approved.Id) return;
+      foreach (var detail in this.PaymentDetails)
+      {
+        detail.Status = this.Status.Id;
+      }
+    }
+
 
     #endregion
 

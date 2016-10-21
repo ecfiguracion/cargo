@@ -266,7 +266,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
           else
             cmd.Parameters.AddWithValue("@billtype", DBNull.Value);
 
-          if (criteria.Status != null)
+          if (criteria.Status != null && criteria.Status > 0)
             cmd.Parameters.AddWithValue("@status", criteria.Status);
           else
             cmd.Parameters.AddWithValue("@status", DBNull.Value);

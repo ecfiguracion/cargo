@@ -116,6 +116,7 @@ namespace Bitz.Core.Application
 
       public static CoreConstants.UserInterface BillSelectDialog { get { return FindById(1423); } }
 
+      public static CoreConstants.UserInterface PaymentDetailsDialog { get { return FindById(1424); } }
 
       public static void Initialise()
       {
@@ -158,6 +159,7 @@ namespace Bitz.Core.Application
 
         Items.Add(new CoreConstants.UserInterface(1423, "Select SOA", "Bitz.Cargo.Views.Dialogs.BillSelectDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
 
+        Items.Add(new CoreConstants.UserInterface(1424, "Payment Details", "Bitz.Cargo.Views.Dialogs.PaymentDetailsDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
 
       }
     }

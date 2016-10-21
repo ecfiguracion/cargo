@@ -1,6 +1,7 @@
 ﻿using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.Constants;
 using Bitz.Core.Constants;
+using Bitz.Core.Shell;
 using Bitz.Core.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
       var criteria = new BillInfos.Criteria();
       criteria.BillType = CargoConstants.BillingType.Foreign.Id;
-      criteria.Status = CargoConstants.BillStatus.Draft.Id;
+      criteria.Status = CargoConstants.BillStatus.All.Id;
 
       this.Criteria = criteria;
      
@@ -44,6 +45,22 @@ namespace Bitz.Cargo.ViewModels.Billings
     #endregion
 
     #region Commands
+
+    public override void CommandRemoveExecute(object parameter)
+    {
+      if (this.SelectedItem != null)
+      {
+        var item = this.SelectedItem as BillInfo;
+        if (item.Status.Id != CargoConstants.BillStatus.Draft.Id)
+        {
+          NavigationManager.ShowMessage("Remove", "Only DRAFT bills are allowed to be removed.", System.Windows.MessageBoxButton.OK);
+        }
+        else
+        {
+          base.CommandRemoveExecute(parameter);
+        }
+      }
+    }
 
     #endregion
 
