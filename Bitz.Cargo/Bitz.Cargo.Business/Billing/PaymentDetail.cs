@@ -420,7 +420,7 @@ namespace Bitz.Cargo.Business.Billing
             }
             else
             {
-              if ((this.PartialPayment + this.AmountPaid) >= this.AmountDue)
+              if (this.AmountPaid >= this.AmountDue)
                 cmd.Parameters.AddWithValue("@status", CargoConstants.BillStatus.FullyPaid.Id);
               else
                 cmd.Parameters.AddWithValue("@status", CargoConstants.BillStatus.PartiallyPaid.Id);

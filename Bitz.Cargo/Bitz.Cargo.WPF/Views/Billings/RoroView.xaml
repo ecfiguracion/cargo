@@ -111,7 +111,7 @@
             <Button Content="Remove Item" Width="120" Margin="4,0" Command="{Binding CommandRemoveItem}"/>
           </StackPanel>
           <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Model.BillItems}" AlternatingRowBackground="#FFECF5FF"
-                    CanUserAddRows="False" RowHeaderWidth="0" RowDetailsVisibilityMode="Visible">
+                    CanUserAddRows="False" RowHeaderWidth="0" RowDetailsVisibilityMode="Visible" SelectedItem="{Binding SelectedItem,Mode=TwoWay}">
             <DataGrid.Columns>
               <DataGridTemplateColumn Header="Quantity" Width="120">
                 <DataGridTemplateColumn.CellTemplate>
