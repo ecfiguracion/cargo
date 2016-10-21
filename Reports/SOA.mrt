@@ -544,10 +544,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
           <Components isList="true" count="9">
             <Text16 Ref="39" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.08,1.2,0.2</ClientRectangle>
+              <ClientRectangle>0,0.12,2.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12</Font>
-              <Guid>9d1b4eb5e1e5421e89181593a1844e1a</Guid>
+              <Guid>c25ef6f0c7cf4be295461115a59b770e</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
               <Page isRef="5" />
@@ -558,10 +559,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
             </Text16>
             <Text17 Ref="40" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>3.08,0.08,0.9,0.2</ClientRectangle>
+              <ClientRectangle>2.9,0.12,2.5,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12</Font>
-              <Guid>8e8e5eb6492c408080821aba9570bbbf</Guid>
+              <Guid>783b2113c5d3449f9a3669f848543e2c</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text17</Name>
               <Page isRef="5" />
@@ -572,10 +574,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
             </Text17>
             <Text19 Ref="41" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5.6,0.08,1.2,0.2</ClientRectangle>
+              <ClientRectangle>5.4,0.12,2.2,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12</Font>
-              <Guid>0864c73aeaf64d839c5be934a31a6852</Guid>
+              <Guid>2738bb0476ce4b0c8cb846beb6ffc725</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
               <Page isRef="5" />
@@ -586,10 +589,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
             </Text19>
             <Text27 Ref="42" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.58,2.1,0.2</ClientRectangle>
+              <ClientRectangle>0,0.62,2.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12,Bold</Font>
-              <Guid>deae38322aa6478bb030c7e1cebcc915</Guid>
+              <Guid>139c4fc839424cf78a42dc4be5aee7f1</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text27</Name>
               <Page isRef="5" />
@@ -600,10 +604,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
             </Text27>
             <Text39 Ref="43" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>3.08,0.58,1.5,0.2</ClientRectangle>
+              <ClientRectangle>2.9,0.62,2.5,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12,Bold</Font>
-              <Guid>d2defc5a0d6945298007fee1377d6ecb</Guid>
+              <Guid>024de4e2e656477094cfa934b77d31cd</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text39</Name>
               <Page isRef="5" />
@@ -614,10 +619,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
             </Text39>
             <Text40 Ref="44" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5.6,0.58,1.9,0.2</ClientRectangle>
+              <ClientRectangle>5.4,0.62,2.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12,Bold</Font>
-              <Guid>0e08b5cd6fc448d68cf281594dd14e39</Guid>
+              <Guid>f2b1cbc3cb464e08978b8f276336d968</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text40</Name>
               <Page isRef="5" />
@@ -628,10 +634,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
             </Text40>
             <Text52 Ref="45" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.78,1.6,0.2</ClientRectangle>
+              <ClientRectangle>0,0.82,2.9,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12,Italic</Font>
-              <Guid>ac35b1a2f7a54db6ae8b238a6e0dc3a4</Guid>
+              <Guid>fd1cc42b114747c792969909f762b153</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text52</Name>
               <Page isRef="5" />
@@ -642,10 +649,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
             </Text52>
             <Text53 Ref="46" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>3.1,0.78,1.2,0.2</ClientRectangle>
+              <ClientRectangle>2.9,0.82,2.5,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12,Italic</Font>
-              <Guid>debd5a89bac24528b9381924eb97387f</Guid>
+              <Guid>a415797fe9f7474d8aed5b0eca0c895e</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text53</Name>
               <Page isRef="5" />
@@ -656,10 +664,11 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
             </Text53>
             <Text54 Ref="47" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5.6,0.78,1.5,0.2</ClientRectangle>
+              <ClientRectangle>5.4,0.82,2.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
+              <Editable>True</Editable>
               <Font>Times New Roman,12,Italic</Font>
-              <Guid>9ea9cfd0fce24a4c9fc6abfa1af91d84</Guid>
+              <Guid>9d3d0a679f5d442c8cbfc9a59e94bce1</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text54</Name>
               <Page isRef="5" />
@@ -1586,10 +1595,10 @@ WHERE billitem.bill = '{pId}'		</SqlCommand>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>10/18/2016 8:54:27 AM</ReportChanged>
+  <ReportChanged>10/18/2016 9:33:10 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\Others\cargo\Reports\SOA.mrt</ReportFile>
-  <ReportGuid>3285c613cfb647f6802b28d34c80c0d3</ReportGuid>
+  <ReportGuid>bc4e23e743d64c7b922cf9a5bf698952</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

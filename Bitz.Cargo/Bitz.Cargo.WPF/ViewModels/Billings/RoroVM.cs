@@ -212,6 +212,7 @@ namespace Bitz.Cargo.ViewModels.Billings
         if (result == MessageBoxResult.Yes)
         {
           this.Model.BillItems.Remove(this.SelectedItem);
+          ComputeTotalBill();
         }
       }
     }
@@ -224,7 +225,7 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       if (!this.Model.IsNew)
       {
-        ReportHelper.Print(Reports.Cargo.StatementOfAccount, this.Model.Id);
+        ReportHelper.Print(Reports.Cargo.StatementOfAccountRoro, this.Model.Id);
       }
     }
     #endregion

@@ -30,9 +30,12 @@ namespace Bitz.Core.Application
     public static class Cargo
     {
       public static CoreConstants.Report StatementOfAccount { get { return FindById(1100); } }
+      public static CoreConstants.Report StatementOfAccountRoro { get { return FindById(1101); } }
+
       public static void Initialise()
       {
         Items.Add(new CoreConstants.Report(1100, "BL0001", "Statement of Account", "Print statement of accounts.", "SOA.DLL"));
+        Items.Add(new CoreConstants.Report(1101, "BL0002", "Statement of Account - Roro", "Print RORO statement of accounts.", "SOARoro.DLL"));
       }
     }
 

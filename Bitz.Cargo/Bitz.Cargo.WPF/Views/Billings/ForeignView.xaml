@@ -128,7 +128,7 @@
                   <DataTemplate>
                     <TextBox Text="{Binding UnitCount,Mode=TwoWay,
                                     ValidatesOnDataErrors=True,
-                                    UpdateSourceTrigger=LostFocus}" 
+                                    UpdateSourceTrigger=PropertyChanged}" 
                                     Background="Transparent" BorderBrush="Transparent"/>
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
