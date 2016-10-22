@@ -111,9 +111,8 @@ WHERE roro.bill = '{pId}'		</SqlCommand>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
-              <ClientRectangle>0,0,1.2,4.6</ClientRectangle>
+              <ClientRectangle>0,0,1.2,1.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <DockStyle>Left</DockStyle>
               <File>C:\Development\Others\TPCC\CargoHandling\Assets\Logo.png</File>
               <GrowToHeight>True</GrowToHeight>
               <Guid>ccb59bd8e26442a488d873c010979110</Guid>
@@ -1033,7 +1032,7 @@ WHERE roro.bill = '{pId}'		</SqlCommand>
   <ReportChanged>10/18/2016 9:29:32 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\Others\cargo\Reports\SOARoro.mrt</ReportFile>
-  <ReportGuid>8e97dd87e7cf4cd597f5c25203439f8b</ReportGuid>
+  <ReportGuid>975dd361a663489eb325160573f20703</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
