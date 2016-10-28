@@ -12,7 +12,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <TextBlock Text="Plase enter your credentials here..." FontSize="14" FontWeight="Bold"/>
+    <TextBlock Text="Please enter your credentials here..." FontSize="14" FontWeight="Bold"/>
     
     <Grid Grid.Row="1" VerticalAlignment="Center">
       <Grid.RowDefinitions>
