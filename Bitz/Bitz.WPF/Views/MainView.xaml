@@ -30,6 +30,11 @@
             <mui:Link DisplayName="Disbursements" />
           </mui:LinkGroup.Links>
         </mui:LinkGroup>
+        <mui:LinkGroup DisplayName="Report">
+          <mui:LinkGroup.Links>
+            <mui:Link DisplayName="Report Manager" />
+          </mui:LinkGroup.Links>
+        </mui:LinkGroup>        
         <mui:LinkGroup DisplayName="Settings">
           <mui:LinkGroup.Links>
             <mui:Link DisplayName="References" />

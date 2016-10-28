@@ -62,6 +62,24 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region ORNumber
+
+    public static readonly PropertyInfo<string> _ORNumber = RegisterProperty<string>(c => c.ORNumber, "OR Number");
+    public string ORNumber
+    {
+      get { return GetProperty(_ORNumber); }
+      set 
+      { 
+        SetProperty(_ORNumber, value);
+        if (string.IsNullOrEmpty(value))
+          this.Status = CargoConstants.BillStatus.Draft;
+        else
+          this.Status = CargoConstants.BillStatus.FullyPaid;
+      }
+    }
+
+    #endregion
+
     #region Consignee
 
     public static readonly PropertyInfo<BaseContactInfo> _Consignee = RegisterProperty<BaseContactInfo>(c => c.Consignee);
@@ -306,7 +324,7 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = string.Format(@"
-                            SELECT b.bill,b.billtype,b.billno,b.billdate,b.consignee,b.billingaddress,
+                            SELECT b.bill,b.billtype,b.billno,b.billdate,b.ornumber,b.consignee,b.billingaddress,
 	                            c.contact AS {0}contact,c.code AS {0}code,c.name AS {0}name,
 	                            v.contact AS {1}contact,v.code AS {1}code,v.name AS {1}name,
 	                            b.billofladingno,b.voyageno,b.totalbill,b.duedate,b.status,
@@ -326,6 +344,7 @@ namespace Bitz.Cargo.Business.Billing
               LoadProperty(_BillType, dr.GetInt32("billtype"));
               LoadProperty(_BillNo, dr.GetString("billno"));
               LoadProperty(_BillDate, dr.GetSmartDate("billdate"));
+              LoadProperty(_ORNumber, dr.GetString("ornumber"));
               LoadProperty(_Consignee, BaseContactInfo.Get(dr, _Consignee.Name));
               LoadProperty(_BillingAddress, dr.GetString("billingaddress"));
               LoadProperty(_Vessel, BaseContactInfo.Get(dr, _Vessel.Name));
@@ -355,15 +374,16 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO bill(billtype,billno,billdate,consignee,billingaddress,vessel,billofladingno,voyageno,
+          cmd.CommandText = @"INSERT INTO bill(billtype,billno,billdate,ornumber,consignee,billingaddress,vessel,billofladingno,voyageno,
                                                totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated)
-                              VALUES (@billtype,@billno,@billdate,@consignee,@billingaddress,@vessel,@billofladingno,@voyageno,
+                              VALUES (@billtype,@billno,@billdate,@ornumber,@consignee,@billingaddress,@vessel,@billofladingno,@voyageno,
                                                @totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated)
                               SELECT SCOPE_IDENTITY()";
           LoadProperty(_BillNo, "ROR" + DateTime.Now.ToString("yyMMdd-HHmmss"));
           cmd.Parameters.AddWithValue("@billtype", BillType);
           cmd.Parameters.AddWithValue("@billno", BillNo);
           cmd.Parameters.AddWithValue("@billdate", BillDate.DBValue);
+          cmd.Parameters.AddWithValue("@ornumber", ORNumber);
           cmd.Parameters.AddWithValue("@consignee", Consignee.Id);
           cmd.Parameters.AddWithValue("@billingaddress", BillingAddress);
           cmd.Parameters.AddWithValue("@vessel", Vessel.Id);
@@ -402,6 +422,7 @@ namespace Bitz.Cargo.Business.Billing
         {
           cmd.CommandText = @"UPDATE bill SET
                                      billdate = @billdate,
+                                     ornumber = @ornumber,
                                      consignee = @consignee,
                                      billingaddress = @billingaddress,
                                      vessel = @vessel,
@@ -414,6 +435,7 @@ namespace Bitz.Cargo.Business.Billing
                                      dateupdated = @dateupdated
                               WHERE bill = @id";
           cmd.Parameters.AddWithValue("@billdate", BillDate.DBValue);
+          cmd.Parameters.AddWithValue("@ornumber", ORNumber);
           cmd.Parameters.AddWithValue("@consignee", Consignee.Id);
           cmd.Parameters.AddWithValue("@billingaddress", BillingAddress);
           cmd.Parameters.AddWithValue("@vessel", Vessel.Id);

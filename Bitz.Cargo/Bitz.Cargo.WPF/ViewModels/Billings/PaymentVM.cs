@@ -214,7 +214,7 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       if (!this.Model.IsNew)
       {
-        ReportHelper.Print(Reports.Cargo.StatementOfAccount, this.Model.Id);
+        ReportHelper.Print(Reports.Cargo.RPT0001, this.Model.Id);
       }
     }
     #endregion

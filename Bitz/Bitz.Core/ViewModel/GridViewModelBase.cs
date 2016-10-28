@@ -261,8 +261,8 @@ namespace Bitz.Core.ViewModel
           {
             CommandRemoveRow.Execute(tablename, keycolumn, keycolumnvalue, (o, e) =>
             {
-              if (e.Error != null) ;
-              this.Refresh();
+              if (e.Error != null)
+                this.Refresh();
             });          
           }
         }

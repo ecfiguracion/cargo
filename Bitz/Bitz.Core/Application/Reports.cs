@@ -29,13 +29,15 @@ namespace Bitz.Core.Application
 
     public static class Cargo
     {
-      public static CoreConstants.Report StatementOfAccount { get { return FindById(1100); } }
-      public static CoreConstants.Report StatementOfAccountRoro { get { return FindById(1101); } }
+      public static CoreConstants.Report RPT0001 { get { return FindById(1100); } }
+      public static CoreConstants.Report RPT0002 { get { return FindById(1101); } }
+      public static CoreConstants.Report RPT0003 { get { return FindById(1102); } }
 
       public static void Initialise()
       {
-        Items.Add(new CoreConstants.Report(1100, "BL0001", "Statement of Account", "Print statement of accounts.", "SOA.DLL"));
-        Items.Add(new CoreConstants.Report(1101, "BL0002", "Statement of Account - Roro", "Print RORO statement of accounts.", "SOARoro.DLL"));
+        Items.Add(new CoreConstants.Report(1100, "RPT0001", "Statement of Account", "Print statement of accounts.", "RPT0001.DLL"));
+        Items.Add(new CoreConstants.Report(1101, "RPT0002", "Statement of Account - Roro", "Print RORO statement of accounts.", "RPT0002.DLL"));
+        Items.Add(new CoreConstants.Report(1102, "RPT0003", "PPA Due", "Print PPA Dues by date range", "RPT0003.DLL",UserInterfaces.Reports.RPT0003View));
       }
     }
 
@@ -75,6 +77,23 @@ namespace Bitz.Core.Application
         }
       }
       return report;
+    }
+
+    #endregion
+
+    #region Get
+
+    public static List<CoreConstants.Report> Get(string name)
+    {
+      var reports = new List<CoreConstants.Report>();
+      foreach (var item in Items)
+      {
+        if (item.UserInterface != null && item.Name.Contains(name))
+        {
+          reports.Add(item);
+        }
+      }
+      return reports;
     }
 
     #endregion

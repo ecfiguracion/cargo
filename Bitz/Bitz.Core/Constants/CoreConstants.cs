@@ -112,25 +112,25 @@ namespace Bitz.Core.Constants
 
       public UserInterface(int id, string name, string page, CoreConstants.Module module, CoreConstants.PageType pagetype)
       {
-        this.AssignUIValue(id, name, name, page, module, pagetype, null);
+        this.Initialise(id, name, name, page, module, pagetype, null);
       }
 
       public UserInterface(int id, string name,string display, string page, CoreConstants.Module module, CoreConstants.PageType pagetype)
       {
-        this.AssignUIValue(id, name,display, page, module, pagetype, null);
+        this.Initialise(id, name,display, page, module, pagetype, null);
       }
 
       public UserInterface(int id, string name, string page, CoreConstants.Module module, CoreConstants.PageType pagetype, CoreConstants.UserInterface linkUI)
       {
-        this.AssignUIValue(id, name, name, page, module, pagetype, linkUI);
+        this.Initialise(id, name, name, page, module, pagetype, linkUI);
       }
 
       public UserInterface(int id, string name,string display, string page, CoreConstants.Module module, CoreConstants.PageType pagetype, CoreConstants.UserInterface linkUI)
       {
-        this.AssignUIValue(id, name,display, page, module, pagetype, linkUI);
+        this.Initialise(id, name,display, page, module, pagetype, linkUI);
       }
 
-      private void AssignUIValue(int id, string name,string display, string page, CoreConstants.Module module, CoreConstants.PageType pagetype, CoreConstants.UserInterface linkUI)
+      private void Initialise(int id, string name,string display, string page, CoreConstants.Module module, CoreConstants.PageType pagetype, CoreConstants.UserInterface linkUI)
       {
         this.Id = id;
         this.Name = name;
@@ -158,14 +158,26 @@ namespace Bitz.Core.Constants
       public string Name { get; set; }
       public string Description { get; set; }
       public string Assembly { get; set; }
+      public UserInterface UserInterface { get; set; }
 
-      public Report(int id, string code, string name, string description,string assembly)
+      public Report(int id, string code, string name, string description, string assembly)
+      {
+        this.Initialise(id, code, name, description, assembly, null);
+      }
+
+      public Report(int id, string code, string name, string description,string assembly,UserInterface userinterface)
+      {
+        this.Initialise(id, code, name, description, assembly, userinterface);
+      }
+
+      private void Initialise(int id, string code, string name, string description, string assembly, UserInterface userinterface)
       {
         this.Id = id;
         this.Code = code;
         this.Name = name;
         this.Description = description;
         this.Assembly = assembly;
+        this.UserInterface = userinterface;
       }
     }
 

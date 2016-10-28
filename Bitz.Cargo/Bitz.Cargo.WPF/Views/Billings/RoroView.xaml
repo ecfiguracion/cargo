@@ -31,6 +31,7 @@
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
@@ -50,10 +51,12 @@
 
       <Label Grid.Row="2" Grid.Column="0" Margin="4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Consignee" />
       <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-        <TextBox Grid.Row="2" Grid.Column="1" Margin="4,2" Height="24" HorizontalAlignment="Stretch" Width="250" Foreground="Black"
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="4,2" Height="24" HorizontalAlignment="Stretch" Width="220" Foreground="Black"
                  Text="{Binding Model.Consignee,Mode=OneWay,ValidatesOnDataErrors=True}" IsReadOnly="True"/>
         <mui:ModernButton IconData="F1 M 42.5,22C 49.4036,22 55,27.5964 55,34.5C 55,41.4036 49.4036,47 42.5,47C 40.1356,47 37.9245,46.3435 36,45.2426L 26.9749,54.2678C 25.8033,55.4393 23.9038,55.4393 22.7322,54.2678C 21.5607,53.0962 21.5607,51.1967 22.7322,50.0251L 31.7971,40.961C 30.6565,39.0755 30,36.8644 30,34.5C 30,27.5964 35.5964,22 42.5,22 Z M 42.5,26C 37.8056,26 34,29.8056 34,34.5C 34,39.1944 37.8056,43 42.5,43C 47.1944,43 51,39.1944 51,34.5C 51,29.8056 47.1944,26 42.5,26 Z " 
                             Command="{Binding CommandSelectConsignee}"/>
+        <mui:ModernButton IconData="F1 M 51.5487,37.9814L 56.814,41.0534L 50.3383,48.7636L 50.3383,48.8841L 60.0205,46.9565L 60.0205,53.0403L 50.2777,51.414L 50.2777,51.5344L 56.814,59.0037L 51.4882,62.0757L 47.978,52.7994L 47.8569,52.7994L 44.4072,62.0757L 39.2025,59.0037L 45.6782,51.4742L 45.6177,51.3537L 36.1159,53.0403L 36.1159,46.9565L 45.5571,48.8841L 45.5571,48.7636L 39.2025,41.1137L 44.5888,37.9814L 47.9174,47.3179L 48.0385,47.3179L 51.5487,37.9814 Z M 20,17L 43.25,17L 56,29.75L 56,39L 52,36.75L 52,34L 39,34L 39,21L 24,21L 24,55L 41,55L 37.5,59L 20,59L 20,17 Z M 43,22.25L 43,30L 50.75,30L 43,22.25 Z  " 
+                            Command="{Binding CommandNewConsignee}"/>
 
       </StackPanel>
 
@@ -61,27 +64,30 @@
       <TextBox Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Margin="4,2" Width="250" HorizontalAlignment="Left"
                Text="{Binding Model.BillingAddress,Mode=TwoWay,ValidatesOnDataErrors=True}"/>
 
-      <Label Grid.Row="0" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Bill of Lading No." />
-      <TextBox Grid.Row="0" Grid.Column="3" Margin="4" Width="250" HorizontalAlignment="Left" Text="{Binding Model.BillOfLadingNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+      <Label Grid.Row="0" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="OR Number" />
+      <TextBox Grid.Row="0" Grid.Column="3" Margin="4" Width="250" HorizontalAlignment="Left" Text="{Binding Model.ORNumber,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+      
+      <Label Grid.Row="1" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Bill of Lading No." />
+      <TextBox Grid.Row="1" Grid.Column="3" Margin="4" Width="250" HorizontalAlignment="Left" Text="{Binding Model.BillOfLadingNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
-      <Label  Grid.Row="1" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Vessel" />
-      <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" Margin="4,2">
+      <Label  Grid.Row="2" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Vessel" />
+      <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" Margin="4,2">
         <TextBox Height="24" HorizontalAlignment="Stretch" Width="250" Text="{Binding Model.Vessel,Mode=OneWay,ValidatesOnDataErrors=True}" IsReadOnly="True" Foreground="Black"/>
         <mui:ModernButton IconData="F1 M 42.5,22C 49.4036,22 55,27.5964 55,34.5C 55,41.4036 49.4036,47 42.5,47C 40.1356,47 37.9245,46.3435 36,45.2426L 26.9749,54.2678C 25.8033,55.4393 23.9038,55.4393 22.7322,54.2678C 21.5607,53.0962 21.5607,51.1967 22.7322,50.0251L 31.7971,40.961C 30.6565,39.0755 30,36.8644 30,34.5C 30,27.5964 35.5964,22 42.5,22 Z M 42.5,26C 37.8056,26 34,29.8056 34,34.5C 34,39.1944 37.8056,43 42.5,43C 47.1944,43 51,39.1944 51,34.5C 51,29.8056 47.1944,26 42.5,26 Z " 
                             Command="{Binding CommandSelectVessel}"/>
       </StackPanel>
 
-      <Label Grid.Row="3" Grid.Column="2"  Margin="32,2,4,2" HorizontalAlignment="Left" Content="Due Date" />
-      <TextBox Grid.Row="3" Grid.Column="3"  Margin="4,2" Height="25" Width="150" HorizontalAlignment="Left"  
+      <Label Grid.Row="4" Grid.Column="2"  Margin="32,2,4,2" HorizontalAlignment="Left" Content="Due Date" />
+      <TextBox Grid.Row="4" Grid.Column="3"  Margin="4,2" Height="25" Width="150" HorizontalAlignment="Left"  
                Text="{Binding Model.DueDate,Mode=OneWay}" IsReadOnly="True" Foreground="Black"/>
 
-      <Label Grid.Row="4" Grid.Column="2"  Margin="32,2,4,2" HorizontalAlignment="Left" Content="User" />
-      <TextBox Grid.Row="4" Grid.Column="3"  Margin="4,2" Height="25" Width="250" HorizontalAlignment="Left"  
+      <Label Grid.Row="5" Grid.Column="2"  Margin="32,2,4,2" HorizontalAlignment="Left" Content="User" />
+      <TextBox Grid.Row="5" Grid.Column="3"  Margin="4,2" Height="25" Width="250" HorizontalAlignment="Left"  
                Text="TPCC ADMIN" IsReadOnly="True" Foreground="Black"/>
 
 
-      <Label Grid.Row="2" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Voyage No." />
-      <TextBox Grid.Row="2" Grid.Column="3" Margin="4,2" Width="250" HorizontalAlignment="Left" Text="{Binding Model.VoyageNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+      <Label Grid.Row="3" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Voyage No." />
+      <TextBox Grid.Row="3" Grid.Column="3" Margin="4,2" Width="250" HorizontalAlignment="Left" Text="{Binding Model.VoyageNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
       <Border Grid.Row="0" Grid.Column="5" Margin="16,0" Grid.RowSpan="4" Width="250" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
         <StackPanel>

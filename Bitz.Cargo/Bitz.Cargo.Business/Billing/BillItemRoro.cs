@@ -103,6 +103,17 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region IsTaxable
+
+    public static readonly PropertyInfo<bool> _IsTaxable = RegisterProperty<bool>(c => c.IsTaxable);
+    public bool IsTaxable
+    {
+      get { return GetProperty(_IsTaxable); }
+      set { SetProperty(_IsTaxable, value); }
+    }
+
+    #endregion
+
     #region Total
 
     public static readonly PropertyInfo<decimal> _Total = RegisterProperty<decimal>(c => c.Total);
@@ -169,6 +180,7 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_Uom, dr.GetInt32("uom"));
       LoadProperty(_Cargo, BaseItemInfo.Get(dr, _Cargo.Name));
       LoadProperty(_Rate, dr.GetDecimal("rate"));
+      LoadProperty(_IsTaxable, dr.GetBoolean("istaxable"));
       LoadProperty(_Total, this.Quantity * this.Rate);
     }
 
@@ -182,14 +194,15 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO BillItemRoro(bill,cargo,quantity,uom,rate)
-                              VALUES (@bill,@cargo,@quantity,@uom,@rate)
+          cmd.CommandText = @"INSERT INTO BillItemRoro(bill,cargo,quantity,uom,rate,istaxable)
+                              VALUES (@bill,@cargo,@quantity,@uom,@rate,@istaxable)
                             SELECT SCOPE_IDENTITY()";
           cmd.Parameters.AddWithValue("@bill", parentId.Value);
           cmd.Parameters.AddWithValue("@cargo", Cargo.Id);
           cmd.Parameters.AddWithValue("@quantity", Quantity);
           cmd.Parameters.AddWithValue("@uom", Uom);
           cmd.Parameters.AddWithValue("@rate", Rate);
+          cmd.Parameters.AddWithValue("@istaxable", IsTaxable);
 
           try
           {
@@ -219,12 +232,14 @@ namespace Bitz.Cargo.Business.Billing
                                 cargo = @cargo,
                                 quantity = @quantity,
                                 uom = @uom,
-                                rate = @rate
+                                rate = @rate,
+                                istaxable = @istaxable
                               WHERE BillItemRoro = @id";
           cmd.Parameters.AddWithValue("@cargo", Cargo.Id);
           cmd.Parameters.AddWithValue("@quantity", Quantity);
           cmd.Parameters.AddWithValue("@uom", Uom);
           cmd.Parameters.AddWithValue("@rate", Rate);
+          cmd.Parameters.AddWithValue("@istaxable", IsTaxable);
           cmd.Parameters.AddWithValue("@id", this.Id);
           try
           {
@@ -325,7 +340,7 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = string.Format(@"
-                              SELECT bi.billitemroro,bi.bill,bi.cargo,bi.quantity,bi.uom,bi.rate,
+                              SELECT bi.billitemroro,bi.bill,bi.cargo,bi.quantity,bi.uom,bi.rate,bi.istaxable,
                                   i.item as {0}item,i.itemcode as {0}itemcode,i.itemname as {0}itemname    
                               FROM billitemroro bi
                               INNER JOIN item i ON bi.cargo = i.item

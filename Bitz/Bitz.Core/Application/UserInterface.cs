@@ -35,10 +35,12 @@ namespace Bitz.Core.Application
     public static class Bitz
     {
       public static CoreConstants.UserInterface ContactSelectDialog { get { return FindById(1100); } }
+      public static CoreConstants.UserInterface ReportManager { get { return FindById(1101); } }
 
       public static void Initialise()
       {
         Items.Add(new CoreConstants.UserInterface(1100, "Select Entity", "Bitz.Views.Dialogs.SelectContactDialogView", Modules.Bitz, CoreConstants.PageType.Dialog));
+        Items.Add(new CoreConstants.UserInterface(1101, "Report Manager", "Bitz.Views.Report.ReportManagerView", Modules.Bitz, CoreConstants.PageType.Page));
       }
     }
 
@@ -64,9 +66,11 @@ namespace Bitz.Core.Application
 
     public static class Reports
     {
+      public static CoreConstants.UserInterface RPT0003View { get { return FindById(1300); } }
+
       public static void Initialise()
       {
-
+        Items.Add(new CoreConstants.UserInterface(1300, "RPT-0003 PPA Due", "Bitz.Reports.Views.RPT0003View", Modules.Reports, CoreConstants.PageType.Dialog));
       }
     }
 
@@ -118,6 +122,8 @@ namespace Bitz.Core.Application
 
       public static CoreConstants.UserInterface PaymentDetailsDialog { get { return FindById(1424); } }
 
+      public static CoreConstants.UserInterface ConsigneeDialog { get { return FindById(1425); } }
+
       public static void Initialise()
       {
         Items.Add(new CoreConstants.UserInterface(1400, "Billings", "Bitz.Cargo.Views.BillingMainView", Modules.Cargo, CoreConstants.PageType.Page));
@@ -160,7 +166,7 @@ namespace Bitz.Core.Application
         Items.Add(new CoreConstants.UserInterface(1423, "Select SOA", "Bitz.Cargo.Views.Dialogs.BillSelectDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
 
         Items.Add(new CoreConstants.UserInterface(1424, "Payment Details", "Bitz.Cargo.Views.Dialogs.PaymentDetailsDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
-
+        Items.Add(new CoreConstants.UserInterface(1425, "Consignee", "Bitz.Cargo.Views.Dialogs.ConsigneeDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
       }
     }
 

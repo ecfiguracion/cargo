@@ -139,6 +139,16 @@ namespace Bitz.Business.Contacts.Infos
     [Serializable]
     public class Criteria : CriteriaBase<Criteria>
     {
+      #region Id
+      private static PropertyInfo<int?> _Id = RegisterProperty<int?>(c => c.Id);
+
+      public int? Id
+      {
+        get { return ReadProperty(_Id); }
+        set { LoadProperty(_Id, value); }
+      }
+      #endregion //Id
+
       #region SearchText
       private static PropertyInfo<string> _SearchText = RegisterProperty<string>(c => c.SearchText);
 
@@ -195,10 +205,16 @@ namespace Bitz.Business.Contacts.Infos
           cmd.CommandText = @"SELECT c.contact,c.code,c.name,ca.addressname as address
                               FROM contact c
                               LEFT JOIN contactaddress ca ON c.contact = ca.contact
-                              WHERE (c.contacttype = @contacttype OR @contacttype IS NULL)
+                              WHERE (c.contact = @id OR @id IS NULL) 
+                              AND (c.contacttype = @contacttype OR @contacttype IS NULL)
                               AND (c.contact = @contact OR @contact IS NULL)
                               AND (c.code LIKE @SearchText OR name LIKE @SearchText)        
                               ORDER BY c.name";
+
+          if (criteria.Id != null)
+            cmd.Parameters.AddWithValue("@id", criteria.Id);
+          else
+            cmd.Parameters.AddWithValue("@id", DBNull.Value);
 
           if (criteria.ContactType != null)
             cmd.Parameters.AddWithValue("@contacttype", criteria.ContactType);
@@ -208,6 +224,7 @@ namespace Bitz.Business.Contacts.Infos
             cmd.Parameters.AddWithValue("@contact", criteria.Contact);
           else
             cmd.Parameters.AddWithValue("@contact", DBNull.Value);
+
           cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
 
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))

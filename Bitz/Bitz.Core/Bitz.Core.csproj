@@ -98,6 +98,9 @@
     <Compile Include="Controls\Toolbars\DialogToolbar.xaml.cs">
       <DependentUpon>DialogToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Toolbars\PrintToolbar.xaml.cs">
+      <DependentUpon>PrintToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Toolbars\ListToolbar.xaml.cs">
       <DependentUpon>ListToolbar.xaml</DependentUpon>
     </Compile>
@@ -111,9 +114,10 @@
     <Compile Include="Shell\NavigationManager.cs" />
     <Compile Include="Utilities\ConfigHelper.cs" />
     <Compile Include="Utilities\ReportHelper.cs" />
+    <Compile Include="ViewModel\ReportViewModelBase.cs" />
     <Compile Include="ViewModel\IViewModel.cs" />
     <Compile Include="ViewModel\IViewModelBase.cs" />
-    <Compile Include="ViewModel\ListViewModelBase.cs" />
+    <Compile Include="ViewModel\GridViewModelBase.cs" />
     <Compile Include="ViewModel\MUIContentLoader.cs" />
     <Compile Include="ViewModel\DialogViewModelBase.cs" />
     <Compile Include="ViewModel\PageViewModelBase.cs" />
@@ -138,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Toolbars\DialogToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Toolbars\PrintToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

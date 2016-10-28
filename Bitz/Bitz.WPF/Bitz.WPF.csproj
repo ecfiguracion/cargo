@@ -79,8 +79,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\Dialogs\SelectContactDialogVM.cs" />
+    <Compile Include="ViewModels\Report\ReportManagerVM.cs" />
     <Compile Include="Views\Dialogs\SelectContactDialogView.xaml.cs">
       <DependentUpon>SelectContactDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Report\ReportManagerView.xaml.cs">
+      <DependentUpon>ReportManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Security\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -101,6 +105,10 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Report\ReportManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Security\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

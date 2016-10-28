@@ -33,6 +33,7 @@ namespace Bitz.Cargo.ViewModels.Billings
       if (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv") return;
 
       this.CommandSelectConsignee = new DelegateCommand<object>(CommandSelectConsigneeExecute);
+      this.CommandNewConsignee = new DelegateCommand<object>(CommandNewConsigneeExecute);
       this.CommandSelectVessel = new DelegateCommand<object>(CommandSelectVesselExecute);
 
       this.CommandAddItem = new DelegateCommand<object>(CommandAddItemExecute);
@@ -140,6 +141,21 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #endregion
 
+    #region CommandNewConsignee
+    public ICommand CommandNewConsignee
+    {
+      get;
+      private set;
+    }
+
+    public void CommandNewConsigneeExecute(object parameter)
+    {
+      EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Subscribe(SelectedConsigneeResult);
+      NavigationManager.Show(UserInterfaces.Cargo.ConsigneeDialog);
+    }
+
+    #endregion
+
     #region CommandSelectVessel
     public ICommand CommandSelectVessel
     {
@@ -225,7 +241,7 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       if (!this.Model.IsNew)
       {
-        ReportHelper.Print(Reports.Cargo.StatementOfAccountRoro, this.Model.Id);
+        ReportHelper.Print(Reports.Cargo.RPT0002, this.Model.Id);
       }
     }
     #endregion

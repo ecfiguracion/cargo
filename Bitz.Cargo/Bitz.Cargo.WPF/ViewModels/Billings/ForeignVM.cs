@@ -209,6 +209,7 @@ namespace Bitz.Cargo.ViewModels.Billings
           var billitem = BillItem.New();
           billitem.Cargo = item;
           billitem.WeightUsed = CargoConstants.WeightRates.MetricTons.Id;
+          billitem.IsTaxable = true;
           this.Model.BillItems.Add(billitem);
         } else
         {
@@ -264,7 +265,7 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       if (!this.Model.IsNew)
       {
-        ReportHelper.Print(Reports.Cargo.StatementOfAccount, this.Model.Id);
+        ReportHelper.Print(Reports.Cargo.RPT0001, this.Model.Id);
       }
     }
     #endregion
@@ -328,7 +329,7 @@ namespace Bitz.Cargo.ViewModels.Billings
 
         totalbill = Math.Round(ratetotal * (decimal)1.12, 2, MidpointRounding.AwayFromZero);
 
-        if (this.Model.WTaxRate > 0)
+        if (this.Model.WTaxRate > 0 && item.IsTaxable)
         {
           wtaxtotal = Math.Round(ratetotal * (this.Model.WTaxRate / 100), 2, MidpointRounding.AwayFromZero);
           totalbill -= wtaxtotal;

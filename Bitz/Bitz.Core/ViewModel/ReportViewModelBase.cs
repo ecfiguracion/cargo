@@ -18,14 +18,13 @@ using System.Xml.Linq;
 
 namespace Bitz.Core.ViewModel
 {
-  public abstract class DialogViewModelBase<TModel> : ViewModelBase<TModel>,IViewModelBase
+  public abstract class ReportViewModelBase<TModel> : ViewModelBase<TModel>,IViewModelBase
   {
         #region Constructor
-    public DialogViewModelBase()
+    public ReportViewModelBase()
             : base()
         {
-          this.CommandSelect = new DelegateCommand<object>(CommandSelectExecute);
-          this.CommandRefresh = new DelegateCommand<object>(CommandRefreshExecute);
+          this.CommandRun = new DelegateCommand<object>(CommandRunExecute);
           this.CommandCancel = new DelegateCommand<object>(CommandCancelExecute);
         }
         #endregion
@@ -34,7 +33,12 @@ namespace Bitz.Core.ViewModel
 
         public virtual void Initialise()
         {
-           
+
+        }
+
+        public virtual void Initialise(CoreConstants.Report report)
+        {
+          this.Report = report;
         }
 
         #endregion
@@ -93,39 +97,27 @@ namespace Bitz.Core.ViewModel
 
         #endregion
 
-        #region CanSelect
-
-        public virtual bool CanSelect
-        {
-          get
-          {
-            return SelectedItem != null;
-          }
-        }
-
-        #endregion
-
         #region View
         public ModernDialog View { get; set; }
         #endregion
 
-        #region Criteria
+        #region Parameters
 
-        public virtual object Criteria { get; set; }
+        public string Parameters { get; set; }
 
         #endregion
 
-        #region SelectedItem
+        #region Report
 
-        private object _SelectedItem;
+        private CoreConstants.Report _Report;
 
-        public object SelectedItem
+        public CoreConstants.Report Report
         {
-          get { return _SelectedItem; }
+          get { return _Report; }
           set
           {
-            _SelectedItem = value;
-            OnPropertyChanged("CanSelect");
+            _Report = value;
+            OnPropertyChanged("Report");
           }
         }
 
@@ -135,33 +127,16 @@ namespace Bitz.Core.ViewModel
 
         #region Command
 
-        #region CommandSelect
-        public ICommand CommandSelect
+        #region CommandRun
+        public ICommand CommandRun
         {
           get;
           private set;
         }
 
-        public virtual void CommandSelectExecute(object parameter)
+        public virtual void CommandRunExecute(object parameter)
         {
-          if (SelectedItem != null)
-          {
-            EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Publish(this.SelectedItem);
-            View.Close();
-          }
-        }
-        #endregion
-
-        #region CommandRefresh
-        public ICommand CommandRefresh
-        {
-            get;
-            private set;
-        }
-
-        public virtual void CommandRefreshExecute(object parameter)
-        {
-          this.Refresh();
+          ReportHelper.Print(this.Report.Assembly, this.Parameters);
         }
         #endregion
 
@@ -176,7 +151,6 @@ namespace Bitz.Core.ViewModel
         {
           if (this.View != null)
           {
-            EventAggregator.GetEvent<CommonEvents.DialogResultEvent>().Publish(null);
             View.Close();
           }
         }

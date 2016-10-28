@@ -160,6 +160,16 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region IsTaxable
+
+    public static readonly PropertyInfo<bool> _IsTaxable = RegisterProperty<bool>(c => c.IsTaxable);
+    public bool IsTaxable
+    {
+      get { return GetProperty(_IsTaxable); }
+      set { SetProperty(_IsTaxable, value); }
+    }
+
+    #endregion
 
     #endregion
 
@@ -266,6 +276,7 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_ArrastreRate, dr.GetDecimal("arrastrerate"));
       LoadProperty(_ArrastreConst, dr.GetDecimal("arrastreconst"));
       LoadProperty(_PremiumRate, dr.GetDecimal("premiumrate"));
+      LoadProperty(_IsTaxable, dr.GetBoolean("istaxable"));
     }
 
     #endregion
@@ -279,9 +290,9 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = @"INSERT INTO billitem(bill,cargo,unitcount,uom,weightused,stevedoringrate,
-                                  stevedoringconst,arrastrerate,arrastreconst,premiumrate,qtyconversion)
+                                  stevedoringconst,arrastrerate,arrastreconst,premiumrate,qtyconversion,istaxable)
                               VALUES (@bill,@cargo,@unitcount,@uom,@weightused,@stevedoringrate,
-                                  @stevedoringconst,@arrastrerate,@arrastreconst,@premiumrate,@qtyconversion)
+                                  @stevedoringconst,@arrastrerate,@arrastreconst,@premiumrate,@qtyconversion,@istaxable)
                             SELECT SCOPE_IDENTITY()";
 
           cmd.Parameters.AddWithValue("@bill", parentId.Value);
@@ -295,6 +306,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@arrastrerate", ArrastreRate);
           cmd.Parameters.AddWithValue("@arrastreconst", ArrastreConst);
           cmd.Parameters.AddWithValue("@premiumrate", PremiumRate);
+          cmd.Parameters.AddWithValue("@istaxable", IsTaxable);
 
           try
           {
@@ -330,7 +342,8 @@ namespace Bitz.Cargo.Business.Billing
                                 stevedoringconst = @stevedoringconst,
                                 arrastrerate = @arrastrerate,
                                 arrastreconst = @arrastreconst,
-                                premiumrate = @premiumrate
+                                premiumrate = @premiumrate,
+                                istaxable = @istaxable
                               WHERE billitem = @id";
           cmd.Parameters.AddWithValue("@cargo", Cargo.Id);
           cmd.Parameters.AddWithValue("@unitcount", UnitCount);
@@ -342,6 +355,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@arrastrerate", ArrastreRate);
           cmd.Parameters.AddWithValue("@arrastreconst", ArrastreConst);
           cmd.Parameters.AddWithValue("@premiumrate", PremiumRate);
+          cmd.Parameters.AddWithValue("@istaxable", IsTaxable);
           cmd.Parameters.AddWithValue("@id", this.Id);
           try
           {
@@ -507,7 +521,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.CommandText = string.Format(@"
                               SELECT bi.billitem,bi.bill,bi.cargo,bi.unitcount,bi.uom,bi.weightused,bi.stevedoringrate,
                                   bi.stevedoringconst,bi.arrastrerate,bi.arrastreconst,bi.premiumrate,bi.qtyconversion,
-                                  i.item as {0}item,i.itemcode as {0}itemcode,i.itemname as {0}itemname    
+                                  i.item as {0}item,i.itemcode as {0}itemcode,i.itemname as {0}itemname,bi.istaxable    
                               FROM billitem bi
                               INNER JOIN item i ON bi.cargo = i.item
                               WHERE bi.bill = @id", "Cargo");

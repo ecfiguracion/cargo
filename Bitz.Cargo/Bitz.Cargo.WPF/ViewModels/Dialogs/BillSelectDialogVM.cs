@@ -41,6 +41,7 @@ namespace Bitz.Cargo.ViewModels.Dialogs
     public override void Refresh()
     {
       MobileList<int> billtypes = new MobileList<int>();
+      billtypes.Add(CargoConstants.BillingType.Roro.Id);
       billtypes.Add(CargoConstants.BillingType.Foreign.Id);
       billtypes.Add(CargoConstants.BillingType.Domestic.Id);
 
