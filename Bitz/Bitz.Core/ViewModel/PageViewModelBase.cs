@@ -24,9 +24,10 @@ namespace Bitz.Core.ViewModel
             : base()
         {
             this.CommandSave = new DelegateCommand<object>(CommandSaveExecute);
-            this.CommandCancel = new DelegateCommand<object>(CommandCancelExecute);
+            this.CommandUndo = new DelegateCommand<object>(CommandUndoExecute);
             this.CommandPrint = new DelegateCommand<object>(CommandPrintExecute);
             this.CommandBack = new DelegateCommand<object>(CommandBackExecute);
+            this.CommandCancel = new DelegateCommand<object>(CommandCancelExecute);
         }
         #endregion
 
@@ -91,6 +92,18 @@ namespace Bitz.Core.ViewModel
         {
           get
           {
+            var isdirty = base.IsDirty;
+            return !isdirty;
+          }
+        }
+        #endregion
+
+        #region CanCancelDocument
+        public virtual bool CanCancelDocument
+        {
+          get
+          {
+            if (IsReadOnly) return false;
             var isdirty = base.IsDirty;
             return !isdirty;
           }
@@ -170,14 +183,14 @@ namespace Bitz.Core.ViewModel
         }
         #endregion
 
-        #region CommandCancel
-        public ICommand CommandCancel
+        #region CommandUndo
+        public ICommand CommandUndo
         {
             get;
             private set;
         }
 
-        public virtual void CommandCancelExecute(object parameter)
+        public virtual void CommandUndoExecute(object parameter)
         {
             base.DoCancel();
         }
@@ -220,6 +233,18 @@ namespace Bitz.Core.ViewModel
               NavigationManager.Show(parentUI);
             }
           }
+        }
+        #endregion
+
+        #region CommandCancel
+        public ICommand CommandCancel
+        {
+          get;
+          private set;
+        }
+
+        public virtual void CommandCancelExecute(object parameter)
+        {
         }
         #endregion
 

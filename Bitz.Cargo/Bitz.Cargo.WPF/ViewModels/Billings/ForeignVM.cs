@@ -58,6 +58,8 @@ namespace Bitz.Cargo.ViewModels.Billings
     protected override void OnModelChanged(Foreign oldValue, Foreign newValue)
     {
       base.OnModelChanged(oldValue, newValue);
+      OnPropertyChanged("CanCancelDocument");
+      this.IsReadOnly = this.Model.Status.Id != CargoConstants.BillStatus.Draft.Id;
       newValue.ChildChanged += newValue_ChildChanged;
       OnPropertyChanged("TotalAmountPaid");
     }
@@ -67,7 +69,7 @@ namespace Bitz.Cargo.ViewModels.Billings
       if (e.PropertyChangedArgs != null)
       {
         if (this.Model.BillItems.IsValid && (e.PropertyChangedArgs.PropertyName == "UnitCount" || e.PropertyChangedArgs.PropertyName == "Uom" ||
-          e.PropertyChangedArgs.PropertyName == "WeightUsed"))
+          e.PropertyChangedArgs.PropertyName == "WeightUsed" || e.PropertyChangedArgs.PropertyName == "IsTaxable"))
         {
           this.ComputeTotalBill();
         }
@@ -130,6 +132,17 @@ namespace Bitz.Cargo.ViewModels.Billings
       }
     }
 
+    #endregion
+
+    #region CanCancelDocument
+    public override bool CanCancelDocument
+    {
+      get
+      {
+        if (this.Model == null) return false;
+        return this.Model.Status.Id == CargoConstants.BillStatus.Draft.Id;
+      }
+    }
     #endregion
 
     #endregion
@@ -266,6 +279,17 @@ namespace Bitz.Cargo.ViewModels.Billings
       if (!this.Model.IsNew)
       {
         ReportHelper.Print(Reports.Cargo.RPT0001, this.Model.Id);
+      }
+    }
+    #endregion
+
+    #region CommandCancel
+    public override void CommandCancelExecute(object parameter)
+    {
+      var result = NavigationManager.ShowMessage("Cancel", "Marking this document 'CANCELLED' will make this document uneditable. \n\nAre you sure you want to proceed?", MessageBoxButton.YesNo);
+      if (result == MessageBoxResult.Yes)
+      {
+        this.Model.Status = CargoConstants.BillStatus.Cancelled;
       }
     }
     #endregion

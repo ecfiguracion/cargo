@@ -89,6 +89,9 @@
     <Compile Include="Controls\DataPager.xaml.cs">
       <DependentUpon>DataPager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Toolbars\SettingsToolbar.xaml.cs">
+      <DependentUpon>SettingsToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Toolbars\BasicToolbar2.xaml.cs">
       <DependentUpon>BasicToolbar2.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
     <Page Include="Controls\DataPager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Toolbars\SettingsToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Toolbars\BasicToolbar2.xaml">
       <Generator>MSBuild:Compile</Generator>

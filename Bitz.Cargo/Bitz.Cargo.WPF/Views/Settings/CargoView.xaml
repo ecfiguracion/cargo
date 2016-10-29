@@ -22,7 +22,7 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <toolbar:BasicToolbar />
+    <toolbar:SettingsToolbar />
     <Grid Grid.Row="1">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>

@@ -94,6 +94,7 @@ namespace Bitz.Cargo.Business.Constants
       public static CoreConstants.IdValue Draft { get { return _BillStatus[1]; } }
       public static CoreConstants.IdValue PartiallyPaid { get { return _BillStatus[2]; } }
       public static CoreConstants.IdValue FullyPaid { get { return _BillStatus[3]; } }
+      public static CoreConstants.IdValue Cancelled { get { return _BillStatus[4]; } }
 
       static BillStatus()
       {
@@ -101,6 +102,7 @@ namespace Bitz.Cargo.Business.Constants
         _BillStatus.Add(new CoreConstants.IdValue(1, "Draft"));
         _BillStatus.Add(new CoreConstants.IdValue(2, "Partially Paid"));
         _BillStatus.Add(new CoreConstants.IdValue(3, "Fully Paid"));
+        _BillStatus.Add(new CoreConstants.IdValue(4, "Cancelled"));
       }
 
       public static List<CoreConstants.IdValue> Items
