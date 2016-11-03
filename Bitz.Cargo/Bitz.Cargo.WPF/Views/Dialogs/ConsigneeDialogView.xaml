@@ -43,7 +43,7 @@
     <TextBox Grid.Row="2" Grid.Column="1" Margin="4,2" Width="500" Height="80" HorizontalAlignment="Left" 
             Text="{Binding Model.Address.AddressName,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
-    <StackPanel Grid.Row="6" VerticalAlignment="Bottom" Orientation="Horizontal">
+    <StackPanel Grid.Row="6" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Orientation="Horizontal">
       <Button Content="Save" Command="{Binding CommandOk}" Width="100" Margin="4"/>
       <Button Content="Cancel" Command="{Binding CommandCancel}" Width="100" Margin="4"/>
     </StackPanel>

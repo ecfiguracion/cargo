@@ -1,7 +1,7 @@
-﻿using Bitz.Business.Contacts.Infos;
+﻿using Bitz.Business.Contacts;
+using Bitz.Business.Contacts.Infos;
 using Bitz.Cargo.Business.Billing;
 using Bitz.Cargo.Business.Billing.Infos;
-using Bitz.Cargo.Business.CargoReferences;
 using Bitz.Cargo.Business.Constants;
 using Bitz.Cargo.Business.Items.Infos;
 using Bitz.Core.Constants;
@@ -36,18 +36,12 @@ namespace Bitz.Cargo.ViewModels.Dialogs
 
     #region Events
 
-    protected override void OnModelChanged(Consignee oldValue, Consignee newValue)
+    protected override void OnSaved()
     {
-      base.OnModelChanged(oldValue, newValue);
-      this.Model.Saved += Model_Saved;
-      OnPropertyChanged("Model");
-    }
-
-    void Model_Saved(object sender, Csla.Core.SavedEventArgs e)
-    {
-      BaseContactInfos.Get(new BaseContactInfos.Criteria() { Id = this.Model.Id }, (oo, ee) =>
+      base.OnSaved();
+      BaseContactInfos.Get(new BaseContactInfos.Criteria() { Id = this.Model.Contact.Id }, (oo, ee) =>
       {
-        if (ee.Error != null) throw e.Error;
+        if (ee.Error != null) throw ee.Error;
 
         BaseContactInfo contact = null;
         if (ee.Object.Count > 0)
