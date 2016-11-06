@@ -59,9 +59,21 @@ namespace Bitz.Cargo.ViewModels.Billings
     protected override void OnModelChanged(Roro oldValue, Roro newValue)
     {
       base.OnModelChanged(oldValue, newValue);
-      this.IsReadOnly = this.Model.Status.Id != CargoConstants.BillStatus.Draft.Id;
       OnPropertyChanged("CanCancelDocument");
+      this.IsReadOnly = this.Model.Status.Id != CargoConstants.BillStatus.Draft.Id;
       newValue.ChildChanged += newValue_ChildChanged;
+    }
+
+    protected override void OnSaved()
+    {
+      base.OnSaved();
+      this.IsReadOnly = this.Model.Status.Id != CargoConstants.BillStatus.Draft.Id;
+    }
+
+    public override void CommandUndoExecute(object parameter)
+    {
+      base.CommandUndoExecute(parameter);
+      OnPropertyChanged("CanCancelDocument");
     }
 
     void newValue_ChildChanged(object sender, Csla.Core.ChildChangedEventArgs e)
@@ -120,7 +132,9 @@ namespace Bitz.Cargo.ViewModels.Billings
       get
       {
         if (this.Model == null) return false;
-        return this.Model.Status.Id == CargoConstants.BillStatus.Draft.Id;
+        return this.Model.Status.Id != CargoConstants.BillStatus.Draft.Id
+          && this.Model.Status.Id != CargoConstants.BillStatus.Cancelled.Id
+          && !this.Model.IsDirty;
       }
     }
     #endregion
@@ -266,7 +280,9 @@ namespace Bitz.Cargo.ViewModels.Billings
       var result = NavigationManager.ShowMessage("Cancel", "Marking this document 'CANCELLED' will make this document uneditable. \n\nAre you sure you want to proceed?", MessageBoxButton.YesNo);
       if (result == MessageBoxResult.Yes)
       {
+        this.IsReadOnly = false;
         this.Model.Status = CargoConstants.BillStatus.Cancelled;
+        OnPropertyChanged("CanCancelDocument");
       }
     }
     #endregion
