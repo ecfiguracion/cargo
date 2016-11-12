@@ -19,6 +19,8 @@ namespace Bitz.Cargo.Business.Constants
       public static CoreConstants.IdValue Domestic { get { return _BillingType[1]; } }
       public static CoreConstants.IdValue Roro { get { return _BillingType[2]; } }
       public static CoreConstants.IdValue WalkIn { get { return _BillingType[3]; } }
+      public static CoreConstants.IdValue Mooring { get { return _BillingType[4]; } }
+      public static CoreConstants.IdValue Porterage { get { return _BillingType[5]; } }
 
       static BillingType()
       {
@@ -26,6 +28,8 @@ namespace Bitz.Cargo.Business.Constants
         _BillingType.Add(new CoreConstants.IdValue(2, "DOMESTIC"));
         _BillingType.Add(new CoreConstants.IdValue(3, "RORO"));
         _BillingType.Add(new CoreConstants.IdValue(4, "WALKIN"));
+        _BillingType.Add(new CoreConstants.IdValue(5, "MOORING/UNMOORING"));
+        _BillingType.Add(new CoreConstants.IdValue(6, "PORTERAGE"));
       }
 
       public static List<CoreConstants.IdValue> Items

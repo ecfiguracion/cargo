@@ -256,7 +256,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
             cmd.CommandText += @" AND (b.billno LIKE @SearchText 
                                   OR c.name LIKE @SearchText 
                                   OR v.name LIKE @SearchText 
-                                  OR c.voyageno LIKE @SearchText)";
+                                  OR b.voyageno LIKE @SearchText)";
 
             cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
           }

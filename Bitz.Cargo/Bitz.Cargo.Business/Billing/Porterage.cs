@@ -1,5 +1,4 @@
 ﻿using Bitz.Business.Contacts.Infos;
-using Bitz.Cargo.Business.Billing.Infos;
 using Bitz.Cargo.Business.Constants;
 using Bitz.Core.Constants;
 using Bitz.Core.Utilities;
@@ -15,7 +14,7 @@ using System.Threading.Tasks;
 namespace Bitz.Cargo.Business.Billing
 {
   [Serializable]
-  public class Foreign : BusinessBase<Foreign>
+  public class Porterage : BusinessBase<Porterage>
   {
     #region One To One Properties
 
@@ -63,17 +62,31 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region ORNumber
+
+    public static readonly PropertyInfo<string> _ORNumber = RegisterProperty<string>(c => c.ORNumber, "OR Number");
+    public string ORNumber
+    {
+      get { return GetProperty(_ORNumber); }
+      set 
+      { 
+        SetProperty(_ORNumber, value);
+        if (string.IsNullOrEmpty(value))
+          this.Status = CargoConstants.BillStatus.Draft;
+        else
+          this.Status = CargoConstants.BillStatus.FullyPaid;
+      }
+    }
+
+    #endregion
+
     #region Consignee
 
     public static readonly PropertyInfo<BaseContactInfo> _Consignee = RegisterProperty<BaseContactInfo>(c => c.Consignee);
     public BaseContactInfo Consignee
     {
       get { return GetProperty(_Consignee); }
-      set 
-      { 
-        SetProperty(_Consignee, value);
-        this.GetWTaxRate();
-      }
+      set { SetProperty(_Consignee, value); }
     }
 
     #endregion
@@ -122,17 +135,6 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region WTaxRate
-
-    public static readonly PropertyInfo<decimal> _WTaxRate = RegisterProperty<decimal>(c => c.WTaxRate);
-    public decimal WTaxRate
-    {
-      get { return GetProperty(_WTaxRate); }
-      set { SetProperty(_WTaxRate, value); }
-    }
-
-    #endregion
-
     #region TotalBill
 
     public static readonly PropertyInfo<decimal> _TotalBill = RegisterProperty<decimal>(c => c.TotalBill);
@@ -160,16 +162,16 @@ namespace Bitz.Cargo.Business.Billing
     public static readonly PropertyInfo<int> _Status = RegisterProperty<int>(c => c.Status);
     public CoreConstants.IdValue Status
     {
-      get 
+      get
       {
         var status = CargoConstants.BillStatus.Items.SingleOrDefault(x => x.Id == GetProperty(_Status));
         if (status == null)
           return CargoConstants.BillStatus.Draft;
         return status;
       }
-      set 
+      set
       {
-        SetProperty(_Status, value.Id); 
+        SetProperty(_Status, value.Id);
       }
     }
 
@@ -220,39 +222,17 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
-    #region IsIncludePayeeBankAccount
-
-    public static readonly PropertyInfo<bool> _IsIncludePayeeBankAccount = RegisterProperty<bool>(c => c.IsIncludePayeeBankAccount);
-    public bool IsIncludePayeeBankAccount
-    {
-      get { return GetProperty(_IsIncludePayeeBankAccount); }
-      set { SetProperty(_IsIncludePayeeBankAccount, value); }
-    }
-
-    #endregion
-
     #endregion
 
     #region One To Many Properties
 
     #region BillItems
 
-    public static readonly PropertyInfo<BillItems> _BillItems = RegisterProperty<BillItems>(c => c.BillItems);
-    public BillItems BillItems
+    public static readonly PropertyInfo<BillItemPorterages> _BillItems = RegisterProperty<BillItemPorterages>(c => c.BillItems);
+    public BillItemPorterages BillItems
     {
       get { return GetProperty(_BillItems); }
       set { SetProperty(_BillItems, value); }
-    }
-
-    #endregion
-
-    #region Payments
-
-    public static readonly PropertyInfo<PaymentInfos> _Payments = RegisterProperty<PaymentInfos>(c => c.Payments);
-    public PaymentInfos Payments
-    {
-      get { return GetProperty(_Payments); }
-      set { SetProperty(_Payments, value); }
     }
 
     #endregion
@@ -274,7 +254,7 @@ namespace Bitz.Cargo.Business.Billing
     {
       protected override void Execute(Csla.Rules.RuleContext context)
       {
-        var target = (Foreign)context.Target;
+        var target = (Porterage)context.Target;
         if (target.Consignee == null)
         {
           context.AddErrorResult("Consignee is required.");
@@ -288,7 +268,7 @@ namespace Bitz.Cargo.Business.Billing
     {
       protected override void Execute(Csla.Rules.RuleContext context)
       {
-        var target = (Foreign)context.Target;
+        var target = (Porterage)context.Target;
         if (target.Vessel == null)
         {
           context.AddErrorResult("Vessel is required.");
@@ -301,14 +281,14 @@ namespace Bitz.Cargo.Business.Billing
 
     #region Factory Methods
 
-    public static void Get(int id, EventHandler<DataPortalResult<Foreign>> completed)
+    public static void Get(int id, EventHandler<DataPortalResult<Porterage>> completed)
     {
-      DataPortal<Foreign> dp = new DataPortal<Foreign>();
+      DataPortal<Porterage> dp = new DataPortal<Porterage>();
       dp.FetchCompleted += completed;
       dp.BeginFetch(id);
     }
 
-    public static void New(EventHandler<DataPortalResult<Foreign>> completed)
+    public static void New(EventHandler<DataPortalResult<Porterage>> completed)
     {
       Csla.DataPortal.BeginCreate(completed);
     }
@@ -324,13 +304,12 @@ namespace Bitz.Cargo.Business.Billing
       base.DataPortal_Create();
       LoadProperty(_BillNo, "[Auto-Number]");
       LoadProperty(_BillDate, DateTime.Now);
-      LoadProperty(_DueDate,new SmartDate(new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.DaysInMonth(DateTime.Now.Year,DateTime.Now.Month))));
-      LoadProperty(_BillType, CargoConstants.BillingType.Foreign.Id);
+      LoadProperty(_DueDate, new SmartDate(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))));
+      LoadProperty(_BillType, CargoConstants.BillingType.Porterage.Id);
       LoadProperty(_CreatedBy, 1);
       LoadProperty(_DateCreated, DateTime.Now);
       LoadProperty(_Status, CargoConstants.BillStatus.Draft.Id);
-      LoadProperty(_IsIncludePayeeBankAccount, false);
-      LoadProperty(_BillItems, BillItems.New());
+      LoadProperty(_BillItems, BillItemPorterages.New());
       this.BusinessRules.CheckRules();
     }
 
@@ -345,17 +324,17 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = string.Format(@"
-                            SELECT b.bill,b.billtype,b.billno,b.billdate,b.consignee,b.billingaddress,
+                            SELECT b.bill,b.billtype,b.billno,b.billdate,b.ornumber,b.consignee,b.billingaddress,
 	                            c.contact AS {0}contact,c.code AS {0}code,c.name AS {0}name,
 	                            v.contact AS {1}contact,v.code AS {1}code,v.name AS {1}name,
-	                            b.billofladingno,b.voyageno,b.wtaxrate,b.totalbill,b.duedate,b.status,
-	                            billofladingno,b.createdby,b.datecreated,b.updatedby,b.dateupdated,b.isincludebank
+	                            b.billofladingno,b.voyageno,b.totalbill,b.duedate,b.status,
+	                            billofladingno,b.createdby,b.datecreated,b.updatedby,b.dateupdated
                             FROM bill b
                             LEFT JOIN contact c ON b.consignee = c.contact
                             LEFT JOIN contactaddress cca ON c.contact = cca.contact
                             LEFT JOIN contact v ON b.vessel = v.contact
                             LEFT JOIN contactaddress vca ON v.contact = vca.contact
-                            WHERE b.bill = @id", _Consignee.Name,_Vessel.Name);            
+                            WHERE b.bill = @id", _Consignee.Name, _Vessel.Name);
           cmd.Parameters.AddWithValue("@id", id);
           using (var dr = new SafeDataReader(cmd.ExecuteReader()))
           {
@@ -365,26 +344,24 @@ namespace Bitz.Cargo.Business.Billing
               LoadProperty(_BillType, dr.GetInt32("billtype"));
               LoadProperty(_BillNo, dr.GetString("billno"));
               LoadProperty(_BillDate, dr.GetSmartDate("billdate"));
+              LoadProperty(_ORNumber, dr.GetString("ornumber"));
               LoadProperty(_Consignee, BaseContactInfo.Get(dr, _Consignee.Name));
               LoadProperty(_BillingAddress, dr.GetString("billingaddress"));
               LoadProperty(_Vessel, BaseContactInfo.Get(dr, _Vessel.Name));
               LoadProperty(_BillOfLadingNo, dr.GetString("BillOfLadingNo"));
               LoadProperty(_VoyageNo, dr.GetString("voyageno"));
-              LoadProperty(_WTaxRate, dr.GetDecimal("wtaxrate"));
               LoadProperty(_TotalBill, dr.GetDecimal("totalbill"));
               LoadProperty(_DueDate, dr.GetSmartDate("duedate"));
-              LoadProperty(_Status,dr.GetInt32("status"));
+              LoadProperty(_Status, dr.GetInt32("status"));
               LoadProperty(_CreatedBy, dr.GetInt32("createdby"));
               LoadProperty(_DateCreated, dr.GetSmartDate("datecreated"));
               LoadProperty(_UpdatedBy, dr.GetInt32("updatedby"));
               LoadProperty(_DateUpdated, dr.GetSmartDate("dateupdated"));
-              LoadProperty(_IsIncludePayeeBankAccount, dr.GetBoolean("isincludebank"));
             }
           }
         }
       }
-      LoadProperty(_BillItems, BillItems.Get(new SingleCriteria<int>(this.Id)));
-      LoadProperty(_Payments, PaymentInfos.Get(new PaymentInfos.Criteria() { BillId = this.Id, Status = CargoConstants.PaymentStatus.Approved.Id }));
+      LoadProperty(_BillItems, BillItemPorterages.Get(new SingleCriteria<int>(this.Id)));
     }
 
     #endregion
@@ -397,21 +374,21 @@ namespace Bitz.Cargo.Business.Billing
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"INSERT INTO bill(billtype,billno,billdate,consignee,billingaddress,vessel,billofladingno,voyageno,
-                                               wtaxrate,totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated,isincludebank)
-                              VALUES (@billtype,@billno,@billdate,@consignee,@billingaddress,@vessel,@billofladingno,@voyageno,
-                                               @wtaxrate,@totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated,@isincludebank)
+          cmd.CommandText = @"INSERT INTO bill(billtype,billno,billdate,ornumber,consignee,billingaddress,vessel,billofladingno,voyageno,
+                                               totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated)
+                              VALUES (@billtype,@billno,@billdate,@ornumber,@consignee,@billingaddress,@vessel,@billofladingno,@voyageno,
+                                               @totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated)
                               SELECT SCOPE_IDENTITY()";
-          LoadProperty(_BillNo, "FOR" + DateTime.Now.ToString("yyMMdd-HHmmss"));
+          LoadProperty(_BillNo, "POR" + DateTime.Now.ToString("yyMMdd-HHmmss"));
           cmd.Parameters.AddWithValue("@billtype", BillType);
           cmd.Parameters.AddWithValue("@billno", BillNo);
           cmd.Parameters.AddWithValue("@billdate", BillDate.DBValue);
+          cmd.Parameters.AddWithValue("@ornumber", ORNumber);
           cmd.Parameters.AddWithValue("@consignee", Consignee.Id);
           cmd.Parameters.AddWithValue("@billingaddress", BillingAddress);
           cmd.Parameters.AddWithValue("@vessel", Vessel.Id);
           cmd.Parameters.AddWithValue("@billofladingno", BillOfLadingNo);
           cmd.Parameters.AddWithValue("@voyageno", VoyageNo);
-          cmd.Parameters.AddWithValue("@wtaxrate", WTaxRate);
           cmd.Parameters.AddWithValue("@totalbill", TotalBill);
           cmd.Parameters.AddWithValue("@duedate", DueDate.DBValue);
           cmd.Parameters.AddWithValue("@status", Status.Id);
@@ -419,7 +396,6 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@datecreated", DateCreated.DBValue);
           cmd.Parameters.AddWithValue("@updatedby", UpdatedBy);
           cmd.Parameters.AddWithValue("@dateupdated", DateUpdated.DBValue);
-          cmd.Parameters.AddWithValue("@isincludebank", IsIncludePayeeBankAccount);
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
@@ -446,32 +422,30 @@ namespace Bitz.Cargo.Business.Billing
         {
           cmd.CommandText = @"UPDATE bill SET
                                      billdate = @billdate,
+                                     ornumber = @ornumber,
                                      consignee = @consignee,
                                      billingaddress = @billingaddress,
                                      vessel = @vessel,
                                      billofladingno = @billofladingno,
                                      voyageno = @voyageno,
-                                     wtaxrate = @wtaxrate,
                                      totalbill = @totalbill,
                                      duedate = @duedate,
                                      status = @status,
                                      updatedby = @updatedby,
-                                     dateupdated = @dateupdated,
-                                     isincludebank = @isincludebank
+                                     dateupdated = @dateupdated
                               WHERE bill = @id";
           cmd.Parameters.AddWithValue("@billdate", BillDate.DBValue);
+          cmd.Parameters.AddWithValue("@ornumber", ORNumber);
           cmd.Parameters.AddWithValue("@consignee", Consignee.Id);
           cmd.Parameters.AddWithValue("@billingaddress", BillingAddress);
           cmd.Parameters.AddWithValue("@vessel", Vessel.Id);
           cmd.Parameters.AddWithValue("@billofladingno", BillOfLadingNo);
           cmd.Parameters.AddWithValue("@voyageno", VoyageNo);
-          cmd.Parameters.AddWithValue("@wtaxrate", WTaxRate);
           cmd.Parameters.AddWithValue("@totalbill", TotalBill);
           cmd.Parameters.AddWithValue("@duedate", DueDate.DBValue);
           cmd.Parameters.AddWithValue("@status", Status.Id);
           cmd.Parameters.AddWithValue("@updatedby", UpdatedBy);
           cmd.Parameters.AddWithValue("@dateupdated", DateUpdated.DBValue);
-          cmd.Parameters.AddWithValue("@isincludebank", IsIncludePayeeBankAccount);
           cmd.Parameters.AddWithValue("@id", this.Id);
 
           try
@@ -488,33 +462,6 @@ namespace Bitz.Cargo.Business.Billing
     }
 
     #endregion
-
-    #endregion
-
-    #region Methods
-
-    private void GetWTaxRate()
-    {
-      if (this.Consignee == null) return;
-
-      using (var ctx = ConnectionManager<SqlConnection>.GetManager(ConfigHelper.GetDatabase(), false))
-      {
-        using (var cmd = ctx.Connection.CreateCommand())
-        {
-          cmd.CommandText = @"SELECT wtaxrate
-                              FROM consignee
-                              WHERE contact = @id";
-          cmd.Parameters.AddWithValue("@id", this.Consignee.Id);
-          using (var dr = new SafeDataReader(cmd.ExecuteReader()))
-          {
-            if (dr.Read())
-            {
-              this.WTaxRate = dr.GetDecimal("wtaxrate");
-            }
-          }
-        }
-      }
-    }
 
     #endregion
   }

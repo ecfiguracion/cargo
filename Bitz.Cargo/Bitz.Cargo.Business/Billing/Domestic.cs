@@ -220,6 +220,16 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region IsIncludePayeeBankAccount
+
+    public static readonly PropertyInfo<bool> _IsIncludePayeeBankAccount = RegisterProperty<bool>(c => c.IsIncludePayeeBankAccount);
+    public bool IsIncludePayeeBankAccount
+    {
+      get { return GetProperty(_IsIncludePayeeBankAccount); }
+      set { SetProperty(_IsIncludePayeeBankAccount, value); }
+    }
+    #endregion
+
     #endregion
 
     #region One To Many Properties
@@ -318,6 +328,7 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_CreatedBy, 1);
       LoadProperty(_DateCreated, DateTime.Now);
       LoadProperty(_Status, CargoConstants.BillStatus.Draft.Id);
+      LoadProperty(_IsIncludePayeeBankAccount, false);
       LoadProperty(_BillItems, BillItems.New());
       this.BusinessRules.CheckRules();
     }
@@ -337,7 +348,7 @@ namespace Bitz.Cargo.Business.Billing
 	                            c.contact AS {0}contact,c.code AS {0}code,c.name AS {0}name,
 	                            v.contact AS {1}contact,v.code AS {1}code,v.name AS {1}name,
 	                            b.billofladingno,b.voyageno,b.wtaxrate,b.totalbill,b.duedate,b.status,
-	                            billofladingno,b.createdby,b.datecreated,b.updatedby,b.dateupdated
+	                            billofladingno,b.createdby,b.datecreated,b.updatedby,b.dateupdated,b.isincludebank
                             FROM bill b
                             LEFT JOIN contact c ON b.consignee = c.contact
                             LEFT JOIN contactaddress cca ON c.contact = cca.contact
@@ -366,6 +377,7 @@ namespace Bitz.Cargo.Business.Billing
               LoadProperty(_DateCreated, dr.GetSmartDate("datecreated"));
               LoadProperty(_UpdatedBy, dr.GetInt32("updatedby"));
               LoadProperty(_DateUpdated, dr.GetSmartDate("dateupdated"));
+              LoadProperty(_IsIncludePayeeBankAccount, dr.GetBoolean("isincludebank"));
             }
           }
         }
@@ -385,9 +397,9 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = @"INSERT INTO bill(billtype,billno,billdate,consignee,billingaddress,vessel,billofladingno,voyageno,
-                                      wtaxrate,totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated)
+                                      wtaxrate,totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated,isincludebank)
                               VALUES (@billtype,@billno,@billdate,@consignee,@billingaddress,@vessel,@billofladingno,@voyageno,
-                                      @wtaxrate,@totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated)
+                                      @wtaxrate,@totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated,@isincludebank)
                               SELECT SCOPE_IDENTITY()";
           LoadProperty(_BillNo, "DOM"+DateTime.Now.ToString("yyMMdd-HHmmss"));
           cmd.Parameters.AddWithValue("@billtype", BillType);
@@ -406,6 +418,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@datecreated", DateCreated.DBValue);
           cmd.Parameters.AddWithValue("@updatedby", UpdatedBy);
           cmd.Parameters.AddWithValue("@dateupdated", DateUpdated.DBValue);
+          cmd.Parameters.AddWithValue("@isincludebank", IsIncludePayeeBankAccount);
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
@@ -442,7 +455,8 @@ namespace Bitz.Cargo.Business.Billing
                                      duedate = @duedate,
                                      status = @status,
                                      updatedby = @updatedby,
-                                     dateupdated = @dateupdated
+                                     dateupdated = @dateupdated,
+                                     isincludebank = @isincludebank
                               WHERE bill = @id";
           cmd.Parameters.AddWithValue("@billdate", BillDate.DBValue);
           cmd.Parameters.AddWithValue("@consignee", Consignee.Id);
@@ -456,6 +470,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@status", Status.Id);
           cmd.Parameters.AddWithValue("@updatedby", UpdatedBy);
           cmd.Parameters.AddWithValue("@dateupdated", DateUpdated.DBValue);
+          cmd.Parameters.AddWithValue("@isincludebank", IsIncludePayeeBankAccount);
           cmd.Parameters.AddWithValue("@id", this.Id);
 
           try

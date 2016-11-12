@@ -98,6 +98,13 @@
           <TextBlock Text="{Binding Model.TotalBill,StringFormat={}{0:n2},Mode=TwoWay}" FontSize="24" FontWeight="Bold" Foreground="Red" Margin="8,0" HorizontalAlignment="Center" />
         </StackPanel>
       </Border>
+      <CheckBox Grid.Row="4"
+                Grid.Column="5"
+                Margin="8,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Model.IsIncludePayeeBankAccount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Content="Include Payee's Bank Account" />
     </Grid>
     <TabControl Grid.Row="2" Margin="0,4,0,0">
       <TabItem Header="Cargo and Rates">

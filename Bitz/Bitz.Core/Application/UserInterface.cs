@@ -124,6 +124,12 @@ namespace Bitz.Core.Application
 
       public static CoreConstants.UserInterface ConsigneeDialog { get { return FindById(1425); } }
 
+      public static CoreConstants.UserInterface MooringBill { get { return FindById(1426); } }
+      public static CoreConstants.UserInterface MooringBills { get { return FindById(1427); } }
+
+      public static CoreConstants.UserInterface PorterageBill { get { return FindById(1428); } }
+      public static CoreConstants.UserInterface PorterageBills { get { return FindById(1429); } }
+
       public static void Initialise()
       {
         Items.Add(new CoreConstants.UserInterface(1400, "Billings", "Bitz.Cargo.Views.BillingMainView", Modules.Cargo, CoreConstants.PageType.Page));
@@ -167,6 +173,12 @@ namespace Bitz.Core.Application
 
         Items.Add(new CoreConstants.UserInterface(1424, "Payment Details", "Bitz.Cargo.Views.Dialogs.PaymentDetailsDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
         Items.Add(new CoreConstants.UserInterface(1425, "Consignee", "Bitz.Cargo.Views.Dialogs.ConsigneeDialogView", Modules.Cargo, CoreConstants.PageType.Dialog));
+
+        Items.Add(new CoreConstants.UserInterface(1426, "Mooring", "Mooring/Unmooring", "Bitz.Cargo.Views.Billings.MooringView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1427, "Mooring", "Moorings/Unmoorings", "Bitz.Cargo.Views.Billings.MooringsView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.MooringBill));
+
+        Items.Add(new CoreConstants.UserInterface(1428, "Porterage", "Porterage", "Bitz.Cargo.Views.Billings.PorterageView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1429, "Porterage", "Porterages", "Bitz.Cargo.Views.Billings.PorteragesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.PorterageBill));
       }
     }
 

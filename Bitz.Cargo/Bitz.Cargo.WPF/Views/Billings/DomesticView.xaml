@@ -83,7 +83,7 @@
       <Label Grid.Row="2" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Voyage No." />
       <TextBox Grid.Row="2" Grid.Column="3" Margin="4,2" Width="250" HorizontalAlignment="Left" Text="{Binding Model.VoyageNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
 
-      <Border Grid.Row="0" Grid.Column="5" Margin="16,0" Grid.RowSpan="4" Width="250" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
+      <Border Grid.Row="0" Grid.Column="5" Margin="8,0" Grid.RowSpan="4" Width="250" BorderBrush="LightGray" BorderThickness="1"  HorizontalAlignment="Left">
         <StackPanel>
           <Border Background="LightGray">
             <TextBlock Text="Status" FontSize="12" FontWeight="Bold" Margin="8,4" Background="LightGray" HorizontalAlignment="Center"/>
@@ -98,6 +98,13 @@
           <TextBlock Text="{Binding Model.TotalBill,StringFormat={}{0:n2},Mode=TwoWay}" FontSize="24" FontWeight="Bold" Foreground="Red" Margin="8,0" HorizontalAlignment="Center" />
         </StackPanel>
       </Border>
+      <CheckBox Grid.Row="4"
+                Grid.Column="5"
+                Margin="8,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Model.IsIncludePayeeBankAccount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Content="Include Payee's Bank Account" />
     </Grid>
     <TabControl Grid.Row="2" Margin="0,4,0,0">
       <TabItem Header="Cargo and Rates">

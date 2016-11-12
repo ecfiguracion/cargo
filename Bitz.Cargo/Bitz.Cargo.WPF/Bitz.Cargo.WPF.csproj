@@ -70,11 +70,15 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BillingMainVM.cs" />
+    <Compile Include="ViewModels\Billings\PorteragesVM.cs" />
+    <Compile Include="ViewModels\Billings\PorterageVM.cs" />
     <Compile Include="ViewModels\Billings\PaymentsVM.cs" />
     <Compile Include="ViewModels\Billings\DomesticsVM.cs" />
     <Compile Include="ViewModels\Billings\DomesticVM.cs" />
     <Compile Include="ViewModels\Billings\ForeignsVM.cs" />
     <Compile Include="ViewModels\Billings\PaymentVM.cs" />
+    <Compile Include="ViewModels\Billings\MooringVM.cs" />
+    <Compile Include="ViewModels\Billings\MooringsVM.cs" />
     <Compile Include="ViewModels\Billings\WalkInsVM.cs" />
     <Compile Include="ViewModels\Billings\WalkInVM.cs" />
     <Compile Include="ViewModels\Billings\RoroVM.cs" />
@@ -102,11 +106,23 @@
     <Compile Include="Views\Billings\DomesticsView.xaml.cs">
       <DependentUpon>DomesticsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Billings\PorterageView.xaml.cs">
+      <DependentUpon>PorterageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Billings\PorteragesView.xaml.cs">
+      <DependentUpon>PorteragesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Billings\PaymentsView.xaml.cs">
       <DependentUpon>PaymentsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Billings\PaymentView.xaml.cs">
       <DependentUpon>PaymentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Billings\MooringView.xaml.cs">
+      <DependentUpon>MooringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Billings\MooringsView.xaml.cs">
+      <DependentUpon>MooringsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Billings\WalkInsView.xaml.cs">
       <DependentUpon>WalkInsView.xaml</DependentUpon>
@@ -200,11 +216,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Billings\PorterageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Billings\PorteragesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Billings\PaymentsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Billings\PaymentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Billings\MooringView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Billings\MooringsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
