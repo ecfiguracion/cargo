@@ -311,7 +311,7 @@ namespace Bitz.Cargo.ViewModels.Billings
       {
         totalbill += Math.Round((int)item.Quantity * item.Rate, 2, MidpointRounding.AwayFromZero);
       }
-      this.Model.TotalBill = Math.Round(totalbill * (decimal)1.12, 2, MidpointRounding.AwayFromZero);
+      this.Model.TotalBill = totalbill; // Math.Round(totalbill * (decimal)1.12, 2, MidpointRounding.AwayFromZero);
     }
     #endregion
 

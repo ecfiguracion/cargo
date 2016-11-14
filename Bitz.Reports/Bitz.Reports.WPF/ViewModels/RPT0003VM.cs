@@ -1,4 +1,5 @@
 ﻿using Bitz.Core.ViewModel;
+using Csla;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Bitz.Reports.ViewModels
   {
     public RPT0003VM()
     {
-
+      StartDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+      EndDate = StartDate.AddMonths(1).AddDays(-1);
     }
 
     #region Properties    
@@ -22,10 +24,23 @@ namespace Bitz.Reports.ViewModels
       get
       {
         XElement xml = new XElement("Parameters",
-            new XElement("date", DateTime.Now.ToShortDateString())
+            new XElement("startdate", StartDate.Date.ToString("yyyy-MM-dd")),
+            new XElement("enddate", EndDate.Date.ToString("yyyy-MM-dd"))
         );
         return xml.ToString();
       }
+    }
+
+    public DateTime StartDate
+    {
+      get;
+      set;
+    }
+
+    public DateTime EndDate
+    {
+      get;
+      set;
     }
 
     #endregion

@@ -62,7 +62,7 @@ namespace Bitz.Cargo.Business.Billing
         SetProperty(_Quantity, value);
         if (value.HasValue && this.Rate > 0)
         {
-          this.Total = (decimal)value * this.Rate;
+          this.Total = ((decimal)value * this.Rate) / (decimal)1.12;
         }
       }
     }
@@ -80,7 +80,7 @@ namespace Bitz.Cargo.Business.Billing
         SetProperty(_Rate, value);
         if (this.Quantity.HasValue && this.Rate > 0)
         {
-          this.Total = (decimal)this.Quantity * value;
+          this.Total = ((decimal)this.Quantity * value) / (decimal)1.12;
         }
       }
     }
@@ -151,7 +151,7 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_Quantity, dr.GetInt32("Quantity"));
       LoadProperty(_Rate, dr.GetDecimal("rate"));
       LoadProperty(_Remarks, dr.GetString("remarks"));
-      LoadProperty(_Total, this.Quantity * this.Rate);
+      LoadProperty(_Total, (decimal)(Quantity * Rate) / (decimal)1.12);
     }
 
     #endregion

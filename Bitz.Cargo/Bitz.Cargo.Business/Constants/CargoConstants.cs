@@ -163,6 +163,29 @@ namespace Bitz.Cargo.Business.Constants
 
     #endregion
 
+    #region MooringTypes
+
+    public class MooringType
+    {
+      private static List<CoreConstants.IdValue> _MooringType = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue Domestic { get { return _MooringType[0]; } }
+      public static CoreConstants.IdValue Foreign { get { return _MooringType[1]; } }
+
+      static MooringType()
+      {
+        _MooringType.Add(new CoreConstants.IdValue(1, "Domestic"));
+        _MooringType.Add(new CoreConstants.IdValue(2, "Foreign"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _MooringType; }
+      }
+    }
+
+    #endregion
+
     #region PaymentTypes
 
     public class PaymentTypes

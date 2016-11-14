@@ -136,7 +136,7 @@ namespace Bitz.Core.ViewModel
 
         public virtual void CommandRunExecute(object parameter)
         {
-          ReportHelper.Print(this.Report.Assembly, this.Parameters);
+          ReportHelper.Print(this.Report.Assembly, parameter.ToString());
         }
         #endregion
 

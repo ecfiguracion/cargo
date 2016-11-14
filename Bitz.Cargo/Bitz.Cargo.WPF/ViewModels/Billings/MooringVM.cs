@@ -126,6 +126,17 @@ namespace Bitz.Cargo.ViewModels.Billings
 
     #endregion
 
+    #region MooringTypes
+
+    public List<CoreConstants.IdValue> MooringTypes
+    {
+      get
+      {
+        return CargoConstants.MooringType.Items;
+      }
+    }
+
+    #endregion
     #region CanCancelDocument
     public override bool CanCancelDocument
     {

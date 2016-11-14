@@ -222,6 +222,27 @@ namespace Bitz.Cargo.Business.Billing
 
     #endregion
 
+    #region BillMooringType
+
+    public static readonly PropertyInfo<int> _BillMooringType = RegisterProperty<int>(c => c.BillMooringType);
+    public CoreConstants.IdValue BillMooringType
+    {
+      get
+      {
+        var type = CargoConstants.MooringType.Items.SingleOrDefault(x => x.Id == GetProperty(_BillMooringType));
+        if (type == null)
+          return CargoConstants.MooringType.Domestic;
+
+        return type;
+      }
+      set
+      {
+        SetProperty(_BillMooringType, value.Id);
+      }
+    }
+
+    #endregion
+
     #endregion
 
     #region One To Many Properties
@@ -309,6 +330,7 @@ namespace Bitz.Cargo.Business.Billing
       LoadProperty(_CreatedBy, 1);
       LoadProperty(_DateCreated, DateTime.Now);
       LoadProperty(_Status, CargoConstants.BillStatus.Draft.Id);
+      LoadProperty(_BillMooringType, CargoConstants.MooringType.Domestic.Id);
       LoadProperty(_BillItems, BillItemMoorings.New());
       this.BusinessRules.CheckRules();
     }
@@ -328,7 +350,7 @@ namespace Bitz.Cargo.Business.Billing
 	                            c.contact AS {0}contact,c.code AS {0}code,c.name AS {0}name,
 	                            v.contact AS {1}contact,v.code AS {1}code,v.name AS {1}name,
 	                            b.billofladingno,b.voyageno,b.totalbill,b.duedate,b.status,
-	                            billofladingno,b.createdby,b.datecreated,b.updatedby,b.dateupdated
+	                            billofladingno,b.createdby,b.datecreated,b.updatedby,b.dateupdated,b.mooringtype
                             FROM bill b
                             LEFT JOIN contact c ON b.consignee = c.contact
                             LEFT JOIN contactaddress cca ON c.contact = cca.contact
@@ -357,6 +379,7 @@ namespace Bitz.Cargo.Business.Billing
               LoadProperty(_DateCreated, dr.GetSmartDate("datecreated"));
               LoadProperty(_UpdatedBy, dr.GetInt32("updatedby"));
               LoadProperty(_DateUpdated, dr.GetSmartDate("dateupdated"));
+              LoadProperty(_BillMooringType, dr.GetInt32("mooringtype"));
             }
           }
         }
@@ -375,9 +398,9 @@ namespace Bitz.Cargo.Business.Billing
         using (var cmd = ctx.Connection.CreateCommand())
         {
           cmd.CommandText = @"INSERT INTO bill(billtype,billno,billdate,ornumber,consignee,billingaddress,vessel,billofladingno,voyageno,
-                                               totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated)
+                                               totalbill,duedate,status,createdby,datecreated,updatedby,dateupdated,mooringtype)
                               VALUES (@billtype,@billno,@billdate,@ornumber,@consignee,@billingaddress,@vessel,@billofladingno,@voyageno,
-                                               @totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated)
+                                               @totalbill,@duedate,@status,@createdby,@datecreated,@updatedby,@dateupdated,@mooringtype)
                               SELECT SCOPE_IDENTITY()";
           LoadProperty(_BillNo, "MOR" + DateTime.Now.ToString("yyMMdd-HHmmss"));
           cmd.Parameters.AddWithValue("@billtype", BillType);
@@ -396,6 +419,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@datecreated", DateCreated.DBValue);
           cmd.Parameters.AddWithValue("@updatedby", UpdatedBy);
           cmd.Parameters.AddWithValue("@dateupdated", DateUpdated.DBValue);
+          cmd.Parameters.AddWithValue("@mooringtype", BillMooringType.Id);
           try
           {
             int identity = Convert.ToInt32(cmd.ExecuteScalar());
@@ -432,7 +456,8 @@ namespace Bitz.Cargo.Business.Billing
                                      duedate = @duedate,
                                      status = @status,
                                      updatedby = @updatedby,
-                                     dateupdated = @dateupdated
+                                     dateupdated = @dateupdated,
+                                     mooringtype = @mooringtype
                               WHERE bill = @id";
           cmd.Parameters.AddWithValue("@billdate", BillDate.DBValue);
           cmd.Parameters.AddWithValue("@ornumber", ORNumber);
@@ -446,6 +471,7 @@ namespace Bitz.Cargo.Business.Billing
           cmd.Parameters.AddWithValue("@status", Status.Id);
           cmd.Parameters.AddWithValue("@updatedby", UpdatedBy);
           cmd.Parameters.AddWithValue("@dateupdated", DateUpdated.DBValue);
+          cmd.Parameters.AddWithValue("@mooringtype", BillMooringType.Id);
           cmd.Parameters.AddWithValue("@id", this.Id);
 
           try

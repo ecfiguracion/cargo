@@ -8,7 +8,7 @@
                   mc:Ignorable="d" 
                   MinWidth="800" MinHeight="500"
                   d:DesignHeight="300" d:DesignWidth="300"
-                  Title="RPT0003">
+                  Title="RPT0003 - PPA Due">
   <mui:ModernDialog.InputBindings>
     <KeyBinding Key="Escape" Command="{Binding CommandCancel}"/>
   </mui:ModernDialog.InputBindings>
@@ -25,7 +25,34 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    
+
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
+      <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Label Content="Start Date"
+               Margin="8" />
+        <DatePicker Width="140" Grid.Column="2" Margin="8"
+                    HorizontalAlignment="Left"
+                    SelectedDate="{Binding StartDate,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+        <Label Content="End Date"
+               Grid.Row="1"
+               Margin="8" />
+        <DatePicker Width="140"
+                    HorizontalAlignment="Left"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="8"
+                    SelectedDate="{Binding EndDate,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+      </Grid>
+    </StackPanel>
+
     <StackPanel Grid.Row="1" Orientation="Horizontal">
       <Button Content="Preview" Width="100" Command="{Binding CommandRun}"/>
       <Button Content="Cancel" Width="100" Command="{Binding CommandCancel}" Margin="8,0,0,0"/>
