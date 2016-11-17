@@ -88,7 +88,7 @@ namespace Bitz.Core.Application
       var reports = new List<CoreConstants.Report>();
       foreach (var item in Items)
       {
-        if (item.UserInterface != null && item.Name.Contains(name))
+        if (item.UserInterface != null && (item.Name.ToLower().Contains(name.ToLower()) || item.Code.ToLower().Contains(name.ToLower()) || item.Description.ToLower().Contains(name.ToLower())))
         {
           reports.Add(item);
         }
