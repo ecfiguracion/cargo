@@ -132,7 +132,7 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       get
       {
-        return CargoConstants.MooringType.Items;
+        return CargoConstants.MooringType.Items.FindAll(x => x.Id > 0);
       }
     }
 

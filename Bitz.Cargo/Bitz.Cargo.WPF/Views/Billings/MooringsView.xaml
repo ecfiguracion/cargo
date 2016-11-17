@@ -28,16 +28,29 @@
     <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Bottom">
       <StackPanel Orientation="Horizontal">
         <TextBlock Text="Search" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
-        <TextBox Text="{Binding Criteria.SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="150" Margin="8,4">
+        <TextBox Text="{Binding Criteria.SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="120" Margin="8,4">
           <TextBox.InputBindings>
             <KeyBinding Gesture="Enter" Command="{Binding CommandRefresh}"/>
           </TextBox.InputBindings>
         </TextBox>
       </StackPanel>
       <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
-        <TextBlock Text="Status" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
-        <ComboBox  Width="180" Margin="8,4" ItemsSource="{Binding Statuses}" DisplayMemberPath="Value" SelectedValuePath="Id"
-                   SelectedValue="{Binding Criteria.Status,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Text="Type" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
+        <ComboBox  Width="120" Margin="8,4" ItemsSource="{Binding MooringTypes}" DisplayMemberPath="Value" SelectedValuePath="Id"
+                   SelectedValue="{Binding Criteria.MooringType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal"
+                  Margin="12,0,0,0">
+        <TextBlock Text="Status"
+                   VerticalAlignment="Center"
+                   Margin="8,4,0,4"
+                   FontWeight="Bold" />
+        <ComboBox  Width="120"
+                   Margin="8,4"
+                   ItemsSource="{Binding Statuses}"
+                   DisplayMemberPath="Value"
+                   SelectedValuePath="Id"
+                   SelectedValue="{Binding Criteria.Status,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
       </StackPanel>
     </StackPanel>
 
@@ -57,20 +70,25 @@
         <mui:DataGridTextColumn Header="Reference Number"
                                 Width="150"
                                 Binding="{Binding BillNo}" />
+        <mui:DataGridTextColumn Header="Type"
+                                Width="80"
+                                Binding="{Binding MooringType.Value}" />
         <mui:DataGridTextColumn Header="Date"
-                                Width="150"
+                                Width="100"
                                 Binding="{Binding BillDate}" />
         <mui:DataGridTextColumn Header="Consignee"
-                                Width="*"
+                                Width="1.5*"
+                                MinWidth="150"
                                 Binding="{Binding Consignee}" />
         <mui:DataGridTextColumn Header="Vessel"
                                 Width="*"
+                                MinWidth="100"
                                 Binding="{Binding Vessel}" />
         <mui:DataGridTextColumn Header="Voyage No."
-                                Width="150"
+                                Width="110"
                                 Binding="{Binding VoyageNo}" />
         <mui:DataGridTextColumn Header="Status"
-                                Width="150"
+                                Width="120"
                                 Binding="{Binding Status.Value}" />
       </DataGrid.Columns>
     </DataGrid>

@@ -169,11 +169,13 @@ namespace Bitz.Cargo.Business.Constants
     {
       private static List<CoreConstants.IdValue> _MooringType = new List<CoreConstants.IdValue>();
 
-      public static CoreConstants.IdValue Domestic { get { return _MooringType[0]; } }
-      public static CoreConstants.IdValue Foreign { get { return _MooringType[1]; } }
+      public static CoreConstants.IdValue All { get { return _MooringType[0]; } }
+      public static CoreConstants.IdValue Domestic { get { return _MooringType[1]; } }
+      public static CoreConstants.IdValue Foreign { get { return _MooringType[2]; } }
 
       static MooringType()
       {
+        _MooringType.Add(new CoreConstants.IdValue(0, "ALL"));
         _MooringType.Add(new CoreConstants.IdValue(1, "Domestic"));
         _MooringType.Add(new CoreConstants.IdValue(2, "Foreign"));
       }

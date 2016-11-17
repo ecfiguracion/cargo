@@ -4,7 +4,7 @@
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         Style="{StaticResource BlankWindow}"
         Title=""  WindowState="Maximized">
-  <Grid Margin="10,0">
+  <Grid Margin="10,-20,10,0">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*"/>

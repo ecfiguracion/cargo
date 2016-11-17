@@ -23,6 +23,7 @@ namespace Bitz.Cargo.ViewModels.Billings
       var criteria = new BillInfos.Criteria();
       criteria.BillType = CargoConstants.BillingType.Mooring.Id;
       criteria.Status = CargoConstants.BillStatus.All.Id;
+      criteria.MooringType = CargoConstants.MooringType.All.Id;
 
       this.Criteria = criteria;
 
@@ -38,6 +39,14 @@ namespace Bitz.Cargo.ViewModels.Billings
       get
       {
         return CargoConstants.BillStatus.Items;
+      }
+    }
+
+    public List<CoreConstants.IdValue> MooringTypes
+    {
+      get
+      {
+        return CargoConstants.MooringType.Items;
       }
     }
 

@@ -94,6 +94,19 @@ namespace Bitz.Cargo.Business.Billing.Infos
 
     #endregion
 
+    #region MooringType
+
+    public static readonly PropertyInfo<int> _MooringType = RegisterProperty<int>(c => c.MooringType);
+    public CoreConstants.IdValue MooringType
+    {
+      get
+      {
+        return CargoConstants.MooringType.Items.SingleOrDefault(x => x.Id == GetProperty(_MooringType));
+      }
+    }
+
+    #endregion
+
     #endregion
 
     #region One To Many Properties
@@ -131,6 +144,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
       LoadProperty(_Vessel, dr.GetString("vessel"));
       LoadProperty(_VoyageNo, dr.GetString("voyageno"));
       LoadProperty(_Status, dr.GetInt32("status"));
+      LoadProperty(_MooringType, dr.GetInt32("mooringtype"));
     }
 
     #endregion
@@ -190,6 +204,17 @@ namespace Bitz.Cargo.Business.Billing.Infos
 
       #endregion
 
+      #region MooringType
+
+      public static readonly PropertyInfo<int?> _MooringType = RegisterProperty<int?>(c => c.MooringType);
+      public int? MooringType
+      {
+        get { return ReadProperty(_MooringType); }
+        set { LoadProperty(_MooringType, value); }
+      }
+
+      #endregion
+
       #region StartDate
 
       public static readonly PropertyInfo<SmartDate> _StartDate = RegisterProperty<SmartDate>(c => c.StartDate);
@@ -245,12 +270,13 @@ namespace Bitz.Cargo.Business.Billing.Infos
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT b.bill,b.billno,b.billdate,c.name as consignee,v.name as vessel,b.voyageno,b.status
+          cmd.CommandText = @"SELECT b.bill,b.billno,b.billdate,c.name as consignee,v.name as vessel,b.voyageno,b.status,b.mooringtype
                               FROM bill b
                               LEFT JOIN contact c ON b.consignee = c.contact
                               LEFT JOIN contact v ON b.vessel = v.contact
                               WHERE (b.billtype = @billtype OR @billtype IS NULL)
-                              AND (b.status = @status OR @status IS NULL)";
+                              AND (b.status = @status OR @status IS NULL)
+                              AND (b.mooringtype = @mooringtype OR @mooringtype IS NULL)";
           if (!string.IsNullOrEmpty(criteria.SearchText))
           {
             cmd.CommandText += @" AND (b.billno LIKE @SearchText 
@@ -277,6 +303,11 @@ namespace Bitz.Cargo.Business.Billing.Infos
             cmd.Parameters.AddWithValue("@fromDate", criteria.StartDate.Date);
             cmd.Parameters.AddWithValue("@toDate", criteria.EndDate.Date.AddDays(1));
           }
+
+          if (criteria.MooringType != null && criteria.MooringType > 0)
+            cmd.Parameters.AddWithValue("@mooringtype", criteria.MooringType);
+          else
+            cmd.Parameters.AddWithValue("@mooringtype", DBNull.Value);
 
           //Apply paging
           if (criteria.PageSize > 0)
