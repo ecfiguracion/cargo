@@ -150,15 +150,15 @@ namespace Bitz.Cargo.ViewModels.Billings
     }
     #endregion
 
-    #region CanPrint
-    public override bool CanPrint
-    {
-      get
-      {
-        return false;
-      }
-    }
-    #endregion
+    //#region CanPrint
+    //public override bool CanPrint
+    //{
+    //  get
+    //  {
+    //    return false;
+    //  }
+    //}
+    //#endregion
 
     #endregion
 
@@ -290,7 +290,7 @@ namespace Bitz.Cargo.ViewModels.Billings
     {
       if (!this.Model.IsNew)
       {
-        ReportHelper.Print(Reports.Cargo.RPT0002, this.Model.Id);
+        ReportHelper.Print(Reports.Cargo.RPT0004, this.Model.Id);
       }
     }
     #endregion

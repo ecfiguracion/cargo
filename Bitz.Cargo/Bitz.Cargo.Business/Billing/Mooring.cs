@@ -57,7 +57,11 @@ namespace Bitz.Cargo.Business.Billing
     public SmartDate BillDate
     {
       get { return GetProperty(_BillDate); }
-      set { SetProperty(_BillDate, value); }
+      set
+      {
+        SetProperty(_BillDate, value);
+        DueDate = new SmartDate(new DateTime(value.Date.Year, value.Date.Month, DateTime.DaysInMonth(value.Date.Year, value.Date.Month)));
+      }
     }
 
     #endregion

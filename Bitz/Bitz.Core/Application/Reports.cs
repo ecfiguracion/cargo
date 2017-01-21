@@ -32,12 +32,16 @@ namespace Bitz.Core.Application
       public static CoreConstants.Report RPT0001 { get { return FindById(1100); } }
       public static CoreConstants.Report RPT0002 { get { return FindById(1101); } }
       public static CoreConstants.Report RPT0003 { get { return FindById(1102); } }
+      public static CoreConstants.Report RPT0004 { get { return FindById(1103); } }
+      public static CoreConstants.Report RPT0005 { get { return FindById(1104); } }
 
       public static void Initialise()
       {
         Items.Add(new CoreConstants.Report(1100, "RPT0001", "Statement of Account", "Print statement of accounts.", "RPT0001.DLL"));
         Items.Add(new CoreConstants.Report(1101, "RPT0002", "Statement of Account - Roro", "Print RORO statement of accounts.", "RPT0002.DLL"));
-        Items.Add(new CoreConstants.Report(1102, "RPT0003", "PPA Due", "Print PPA Dues by date range", "RPT0003.DLL",UserInterfaces.Reports.RPT0003View));
+        Items.Add(new CoreConstants.Report(1102, "RPT0003", "PPA Due", "Print PPA Dues by date range", "RPT0003.DLL", UserInterfaces.Reports.RPT0003View));
+        Items.Add(new CoreConstants.Report(1103, "RPT0004", "Statement of Account - Mooring/Unmooring", "Print Mooring/Unmooring statement of accounts.", "RPT0004.DLL"));
+        Items.Add(new CoreConstants.Report(1104, "RPT0005", "Statement of Account - Porterage", "Print Porterage statement of accounts.", "RPT0005.DLL"));
       }
     }
 
