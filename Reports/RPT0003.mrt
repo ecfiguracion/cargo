@@ -76,17 +76,17 @@ SELECT bill.bill,
 	billamount.stevedoringamount,
 	billamount.premiumamount,
 	billamount.totalamount,
-	CASE bill.mooringtype
-	WHEN NULL THEN
-		CASE WHEN bill.billtype = 2 THEN 0.20 * billamount.totalamount
+	CASE COALESCE(bill.mooringtype, 0)
+	WHEN 0 THEN
+		CASE WHEN bill.billtype = 1 THEN 0.20 * billamount.totalamount
 		ELSE 0.10 * billamount.totalamount
 		END
 	WHEN 2 THEN 0.20 * billamount.totalamount
 	ELSE 0.10 * billamount.totalamount
 	END AS ppashare,
-	CASE bill.mooringtype
-	WHEN NULL THEN
-		CASE WHEN bill.billtype = 2 THEN 0.20 * billamount.totalamount * 0.12
+	CASE COALESCE(bill.mooringtype, 0)
+	WHEN 0 THEN
+		CASE WHEN bill.billtype = 1 THEN 0.20 * billamount.totalamount * 0.12
 		ELSE 0.10 * billamount.totalamount * 0.12
 		END
 	WHEN 2 THEN 0.20 * billamount.totalamount * 0.12
@@ -117,17 +117,17 @@ SELECT bill.bill,
 	0 AS stevedoringamount,
 	0 AS premiumamount,
 	billamountroro.totalamount,
-	CASE bill.mooringtype
-	WHEN NULL THEN
-		CASE WHEN bill.billtype = 2 THEN 0.20 * billamountroro.totalamount
+	CASE COALESCE(bill.mooringtype, 0)
+	WHEN 0 THEN
+		CASE WHEN bill.billtype = 1 THEN 0.20 * billamountroro.totalamount
 		ELSE 0.10 * billamountroro.totalamount
 		END
 	WHEN 2 THEN 0.20 * billamountroro.totalamount
 	ELSE 0.10 * billamountroro.totalamount
 	END AS ppashare,
-	CASE bill.mooringtype
-	WHEN NULL THEN
-		CASE WHEN bill.billtype = 2 THEN 0.20 * billamountroro.totalamount * 0.12
+	CASE COALESCE(bill.mooringtype, 0)
+	WHEN 0 THEN
+		CASE WHEN bill.billtype = 1 THEN 0.20 * billamountroro.totalamount * 0.12
 		ELSE 0.10 * billamountroro.totalamount * 0.12
 		END
 	WHEN 2 THEN 0.20 * billamountroro.totalamount * 0.12
@@ -156,17 +156,17 @@ SELECT bill.bill,
 	0 AS stevedoringamount,
 	0 AS premiumamount,
 	billamountmoor.totalamount,
-	CASE bill.mooringtype
-	WHEN NULL THEN
-		CASE WHEN bill.billtype = 2 THEN 0.20 * billamountmoor.totalamount
+	CASE COALESCE(bill.mooringtype, 0)
+	WHEN 0 THEN
+		CASE WHEN bill.billtype = 1 THEN 0.20 * billamountmoor.totalamount
 		ELSE 0.10 * billamountmoor.totalamount
 		END
 	WHEN 2 THEN 0.20 * billamountmoor.totalamount
 	ELSE 0.10 * billamountmoor.totalamount
 	END AS ppashare,
-	CASE bill.mooringtype
-	WHEN NULL THEN
-		CASE WHEN bill.billtype = 2 THEN 0.20 * billamountmoor.totalamount * 0.12
+	CASE COALESCE(bill.mooringtype, 0)
+	WHEN 0 THEN
+		CASE WHEN bill.billtype = 1 THEN 0.20 * billamountmoor.totalamount * 0.12
 		ELSE 0.10 * billamountmoor.totalamount * 0.12
 		END
 	WHEN 2 THEN 0.20 * billamountmoor.totalamount * 0.12
@@ -195,17 +195,17 @@ SELECT bill.bill,
 	0 AS stevedoringamount,
 	0 AS premiumamount,
 	billamountport.totalamount,
-	CASE bill.mooringtype
-	WHEN NULL THEN
-		CASE WHEN bill.billtype = 2 THEN 0.20 * billamountport.totalamount
+	CASE COALESCE(bill.mooringtype, 0)
+	WHEN 0 THEN
+		CASE WHEN bill.billtype = 1 THEN 0.20 * billamountport.totalamount
 		ELSE 0.10 * billamountport.totalamount
 		END
 	WHEN 2 THEN 0.20 * billamountport.totalamount
 	ELSE 0.10 * billamountport.totalamount
 	END AS ppashare,
-	CASE bill.mooringtype
-	WHEN NULL THEN
-		CASE WHEN bill.billtype = 2 THEN 0.20 * billamountport.totalamount * 0.12
+	CASE COALESCE(bill.mooringtype, 0)
+	WHEN 0 THEN
+		CASE WHEN bill.billtype = 1 THEN 0.20 * billamountport.totalamount * 0.12
 		ELSE 0.10 * billamountport.totalamount * 0.12
 		END
 	WHEN 2 THEN 0.20 * billamountport.totalamount * 0.12
@@ -318,7 +318,6 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Font>Times New Roman,12</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>017c8bd3d5e140469829928881250390</Guid>
-              <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text17</Name>
               <OnlyText>True</OnlyText>
@@ -338,7 +337,6 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Font>Times New Roman,12</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>1444cae05c8d48ac8d7e274636d26cae</Guid>
-              <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
               <OnlyText>True</OnlyText>
@@ -377,7 +375,6 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Font>Times New Roman,12,Bold</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>9da1348e2c1b496792be3642b0636426</Guid>
-              <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text39</Name>
               <OnlyText>True</OnlyText>
@@ -397,7 +394,6 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Font>Times New Roman,12,Bold</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>dc71ceb87a45450ea1e475baf6eb9e54</Guid>
-              <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text40</Name>
               <OnlyText>True</OnlyText>
@@ -436,7 +432,6 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Font>Times New Roman,12,Italic</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>8c1fe9e591e341e0a0c6178411031ad2</Guid>
-              <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text53</Name>
               <OnlyText>True</OnlyText>
@@ -456,7 +451,6 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Font>Times New Roman,12,Italic</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>b28787ce5a764a8fa7c62b1c0513a36a</Guid>
-              <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text54</Name>
               <OnlyText>True</OnlyText>
@@ -1525,7 +1519,7 @@ DUES</Text>
               <Name>Text46</Name>
               <Page isRef="4" />
               <Parent isRef="110" />
-              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 2, dsPayment.arrastreamount, null)) }</Text>
+              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 1, dsPayment.arrastreamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -1542,7 +1536,7 @@ DUES</Text>
               <Name>Text57</Name>
               <Page isRef="4" />
               <Parent isRef="110" />
-              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 2, dsPayment.arrastreamount, null)) }</Text>
+              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 1, dsPayment.arrastreamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -1558,7 +1552,7 @@ DUES</Text>
               <Name>Text50</Name>
               <Page isRef="4" />
               <Parent isRef="110" />
-              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 2, dsPayment.premiumamount, null)) }</Text>
+              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 1, dsPayment.premiumamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -1575,7 +1569,7 @@ DUES</Text>
               <Name>Text58</Name>
               <Page isRef="4" />
               <Parent isRef="110" />
-              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 2, dsPayment.premiumamount, null)) }</Text>
+              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 1, dsPayment.premiumamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -1591,7 +1585,7 @@ DUES</Text>
               <Name>Text48</Name>
               <Page isRef="4" />
               <Parent isRef="110" />
-              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 2, dsPayment.stevedoringamount, null)) }</Text>
+              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 1, dsPayment.stevedoringamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -1608,7 +1602,7 @@ DUES</Text>
               <Name>Text59</Name>
               <Page isRef="4" />
               <Parent isRef="110" />
-              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 2, dsPayment.stevedoringamount, null)) }</Text>
+              <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 1, dsPayment.stevedoringamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -1707,12 +1701,13 @@ DUES</Text>
               <ClientRectangle>10.1,0,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Microsoft Sans Serif,6</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text71</Name>
               <Page isRef="4" />
               <Parent isRef="110" />
-              <Text>{ Format("{0:N2}", IIF(dsPayment.mooringtype == 1 || dsPayment.billtype != 2, dsPayment.ppashare, null)) }
+              <Text>{ Format("{0:N2}", IIF(dsPayment.mooringtype == 1 || dsPayment.billtype != 1, dsPayment.ppashare, null)) }
 </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
@@ -1724,12 +1719,13 @@ DUES</Text>
               <Conditions isList="true" count="0" />
               <Font>Microsoft Sans Serif,6</Font>
               <Guid>777447d132a64beaad3792855994593c</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text72</Name>
               <Page isRef="4" />
               <Parent isRef="110" />
-              <Text>{ Format("{0:N2}", IIF(dsPayment.mooringtype == 2 || dsPayment.billtype == 2, dsPayment.ppashare, null)) }
+              <Text>{ Format("{0:N2}", IIF(dsPayment.mooringtype == 2 || dsPayment.billtype == 1, dsPayment.ppashare, null)) }
 </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
@@ -2113,7 +2109,7 @@ DUES</Text>
               <Name>Text49</Name>
               <Page isRef="4" />
               <Parent isRef="173" />
-              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.arrastreamount, dsPayment.billtype == 2)) }</Text>
+              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.arrastreamount, dsPayment.billtype == 1)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -2130,7 +2126,7 @@ DUES</Text>
               <Name>Text51</Name>
               <Page isRef="4" />
               <Parent isRef="173" />
-              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.premiumamount, dsPayment.billtype != 2)) }</Text>
+              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.premiumamount, dsPayment.billtype != 1)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -2147,7 +2143,7 @@ DUES</Text>
               <Name>Text56</Name>
               <Page isRef="4" />
               <Parent isRef="173" />
-              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.premiumamount, dsPayment.billtype == 2)) }</Text>
+              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.premiumamount, dsPayment.billtype == 1)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -2164,7 +2160,7 @@ DUES</Text>
               <Name>Text60</Name>
               <Page isRef="4" />
               <Parent isRef="173" />
-              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.stevedoringamount, dsPayment.billtype != 2)) }</Text>
+              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.stevedoringamount, dsPayment.billtype != 1)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -2181,7 +2177,7 @@ DUES</Text>
               <Name>Text61</Name>
               <Page isRef="4" />
               <Parent isRef="173" />
-              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.stevedoringamount, dsPayment.billtype == 2)) }</Text>
+              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.stevedoringamount, dsPayment.billtype == 1)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -2215,7 +2211,7 @@ DUES</Text>
               <Name>Text47</Name>
               <Page isRef="4" />
               <Parent isRef="173" />
-              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.arrastreamount, dsPayment.billtype != 2)) }</Text>
+              <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.arrastreamount, dsPayment.billtype != 1)) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -2294,12 +2290,13 @@ DUES</Text>
               <Conditions isList="true" count="0" />
               <Font>Microsoft Sans Serif,6</Font>
               <Guid>531ebfb832024f22b9ef9f16f78a815f</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text73</Name>
               <Page isRef="4" />
               <Parent isRef="173" />
-              <Text>{SumIf(DataBand1,dsPayment.ppashare,dsPayment.mooringtype == 1 || dsPayment.billtype != 2)}
+              <Text>{ Format("{0:N2}", SumIf(DataBand1,dsPayment.ppashare,dsPayment.mooringtype == 1 || dsPayment.billtype != 1)) }
 </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
@@ -2311,12 +2308,13 @@ DUES</Text>
               <Conditions isList="true" count="0" />
               <Font>Microsoft Sans Serif,6</Font>
               <Guid>f927b1d3b78542a4b4963236728da39e</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text74</Name>
               <Page isRef="4" />
               <Parent isRef="173" />
-              <Text>{SumIf(DataBand1,dsPayment.ppashare,dsPayment.mooringtype == 2 || dsPayment.billtype == 2)}
+              <Text>{ Format("{0:N2}", SumIf(DataBand1,dsPayment.ppashare,dsPayment.mooringtype == 2 || dsPayment.billtype == 1)) }
 </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
@@ -3443,10 +3441,10 @@ DUES</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/30/2017 9:24:15 AM</ReportChanged>
+  <ReportChanged>1/30/2017 2:15:38 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\Others\cargo\Reports\RPT0003.mrt</ReportFile>
-  <ReportGuid>ac31e7c2fafd47638b037cccec5448ce</ReportGuid>
+  <ReportGuid>4412cc21a6c24bc4ae1b46c40ed0fc01</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
