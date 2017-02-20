@@ -319,7 +319,7 @@ namespace Bitz.Cargo.ViewModels.Billings
       decimal totalbill = 0;
       foreach (var item in this.Model.BillItems)
       {
-        totalbill += Math.Round((int)item.Quantity * item.Rate, 2, MidpointRounding.AwayFromZero);
+        totalbill += Math.Round((decimal)item.Quantity * item.Rate, 2, MidpointRounding.AwayFromZero);
       }
       this.Model.TotalBill = Math.Round(totalbill * (decimal)1.12, 2, MidpointRounding.AwayFromZero);
     }

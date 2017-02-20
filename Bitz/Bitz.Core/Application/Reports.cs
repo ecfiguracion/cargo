@@ -39,7 +39,7 @@ namespace Bitz.Core.Application
       {
         Items.Add(new CoreConstants.Report(1100, "RPT0001", "Statement of Account", "Print statement of accounts.", "RPT0001.DLL"));
         Items.Add(new CoreConstants.Report(1101, "RPT0002", "Statement of Account - Roro", "Print RORO statement of accounts.", "RPT0002.DLL"));
-        Items.Add(new CoreConstants.Report(1102, "RPT0003", "PPA Due", "Print PPA Dues by date range", "RPT0003.DLL", UserInterfaces.Reports.RPT0003View));
+        Items.Add(new CoreConstants.Report(1102, "RPT0003", "PPA Due - Summary of Gross Revenue", "Print Summary of Gross Revenue by date range", "RPT0003.DLL", UserInterfaces.Reports.RPT0003View));
         Items.Add(new CoreConstants.Report(1103, "RPT0004", "Statement of Account - Mooring/Unmooring", "Print Mooring/Unmooring statement of accounts.", "RPT0004.DLL"));
         Items.Add(new CoreConstants.Report(1104, "RPT0005", "Statement of Account - Porterage", "Print Porterage statement of accounts.", "RPT0005.DLL"));
       }

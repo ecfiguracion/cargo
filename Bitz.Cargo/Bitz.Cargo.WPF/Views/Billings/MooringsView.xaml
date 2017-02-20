@@ -84,8 +84,11 @@
                                 Width="*"
                                 MinWidth="100"
                                 Binding="{Binding Vessel}" />
-        <mui:DataGridTextColumn Header="Voyage No."
-                                Width="110"
+        <mui:DataGridTextColumn Header="OR No."
+                                Width="100"
+                                Binding="{Binding ORNumber}" />
+        <mui:DataGridTextColumn Header="Voyage No"
+                                Width="105"
                                 Binding="{Binding VoyageNo}" />
         <mui:DataGridTextColumn Header="Status"
                                 Width="120"

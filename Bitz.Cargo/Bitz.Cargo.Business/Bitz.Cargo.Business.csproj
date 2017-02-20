@@ -64,6 +64,7 @@
     <Compile Include="CargoReferences\Infos\UnitOfMeasureInfo.cs" />
     <Compile Include="CargoReferences\UnitOfMeasure.cs" />
     <Compile Include="CargoReferences\Vessel.cs" />
+    <Compile Include="Commands\CommandUniqueORNumber.cs" />
     <Compile Include="Constants\CargoConstants.cs" />
     <Compile Include="Items\Infos\BaseItemInfo.cs" />
     <Compile Include="Items\Infos\ItemInfo.cs" />

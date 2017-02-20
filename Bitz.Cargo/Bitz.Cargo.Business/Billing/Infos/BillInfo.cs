@@ -81,6 +81,16 @@ namespace Bitz.Cargo.Business.Billing.Infos
 
     #endregion
 
+    #region ORNumber
+
+    public static readonly PropertyInfo<string> _ORNumber = RegisterProperty<string>(c => c.ORNumber);
+    public string ORNumber
+    {
+      get { return GetProperty(_ORNumber); }
+    }
+
+    #endregion
+
     #region Status
 
     public static readonly PropertyInfo<int> _Status = RegisterProperty<int>(c => c.Status);
@@ -143,6 +153,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
       LoadProperty(_Consignee, dr.GetString("consignee"));
       LoadProperty(_Vessel, dr.GetString("vessel"));
       LoadProperty(_VoyageNo, dr.GetString("voyageno"));
+      LoadProperty(_ORNumber, dr.GetString("ornumber"));
       LoadProperty(_Status, dr.GetInt32("status"));
       LoadProperty(_MooringType, dr.GetInt32("mooringtype"));
     }
@@ -270,7 +281,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT b.bill,b.billno,b.billdate,c.name as consignee,v.name as vessel,b.voyageno,b.status,b.mooringtype
+          cmd.CommandText = @"SELECT b.bill,b.billno,b.billdate,c.name as consignee,v.name as vessel,b.voyageno,b.ornumber,b.status,b.mooringtype
                               FROM bill b
                               LEFT JOIN contact c ON b.consignee = c.contact
                               LEFT JOIN contact v ON b.vessel = v.contact
@@ -282,7 +293,8 @@ namespace Bitz.Cargo.Business.Billing.Infos
             cmd.CommandText += @" AND (b.billno LIKE @SearchText 
                                   OR c.name LIKE @SearchText 
                                   OR v.name LIKE @SearchText 
-                                  OR b.voyageno LIKE @SearchText)";
+                                  OR b.voyageno LIKE @SearchText 
+                                  OR b.ornumber LIKE @SearchText)";
 
             cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
           }

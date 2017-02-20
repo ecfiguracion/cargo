@@ -58,7 +58,7 @@
                                 Width="150"
                                 Binding="{Binding BillNo}" />
         <mui:DataGridTextColumn Header="Date"
-                                Width="150"
+                                Width="100"
                                 Binding="{Binding BillDate}" />
         <mui:DataGridTextColumn Header="Consignee"
                                 Width="*"
@@ -66,8 +66,11 @@
         <mui:DataGridTextColumn Header="Vessel"
                                 Width="*"
                                 Binding="{Binding Vessel}" />
-        <mui:DataGridTextColumn Header="Voyage No."
-                                Width="150"
+        <mui:DataGridTextColumn Header="OR No."
+                                Width="100"
+                                Binding="{Binding ORNumber}" />
+        <mui:DataGridTextColumn Header="Voyage No"
+                                Width="105"
                                 Binding="{Binding VoyageNo}" />
         <mui:DataGridTextColumn Header="Status"
                                 Width="150"

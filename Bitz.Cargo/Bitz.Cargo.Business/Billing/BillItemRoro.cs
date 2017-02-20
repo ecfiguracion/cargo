@@ -69,8 +69,8 @@ namespace Bitz.Cargo.Business.Billing
 
     #region Quantity
 
-    public static readonly PropertyInfo<int?> _Quantity = RegisterProperty<int?>(c => c.Quantity);
-    public int? Quantity
+    public static readonly PropertyInfo<decimal?> _Quantity = RegisterProperty<decimal?>(c => c.Quantity);
+    public decimal? Quantity
     {
       get { return GetProperty(_Quantity); }
       set 
@@ -176,7 +176,7 @@ namespace Bitz.Cargo.Business.Billing
     {
       LoadProperty(_Id, dr.GetInt32("billitemroro"));
       LoadProperty(_Bill, dr.GetInt32("bill"));
-      LoadProperty(_Quantity, dr.GetInt32("Quantity"));
+      LoadProperty(_Quantity, dr.GetDecimal("Quantity"));
       LoadProperty(_Uom, dr.GetInt32("uom"));
       LoadProperty(_Cargo, BaseItemInfo.Get(dr, _Cargo.Name));
       LoadProperty(_Rate, dr.GetDecimal("rate"));

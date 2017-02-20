@@ -70,7 +70,7 @@ namespace Bitz.Core.Application
 
       public static void Initialise()
       {
-        Items.Add(new CoreConstants.UserInterface(1300, "RPT-0003 PPA Due", "Bitz.Reports.Views.RPT0003View", Modules.Reports, CoreConstants.PageType.Dialog));
+        Items.Add(new CoreConstants.UserInterface(1300, "RPT-0003 Summary of Gross Revenue", "Bitz.Reports.Views.RPT0003View", Modules.Reports, CoreConstants.PageType.Dialog));
       }
     }
 

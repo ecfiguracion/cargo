@@ -1,4 +1,5 @@
 ﻿using Bitz.Business.Contacts.Infos;
+using Bitz.Cargo.Business.Commands;
 using Bitz.Cargo.Business.Constants;
 using Bitz.Core.Constants;
 using Bitz.Core.Utilities;
@@ -249,8 +250,10 @@ namespace Bitz.Cargo.Business.Billing
     {
       base.AddBusinessRules();
       BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_BillDate));
+      BusinessRules.AddRule(new Csla.Rules.CommonRules.Required(_ORNumber));
       BusinessRules.AddRule(new ConsigneeRequired { PrimaryProperty = _Consignee });
       BusinessRules.AddRule(new VesselRequired { PrimaryProperty = _Vessel });
+      BusinessRules.AddRule(new ORNumberUnique { PrimaryProperty = _ORNumber });
     }
 
     #region ConsigneeRequired
@@ -277,6 +280,38 @@ namespace Bitz.Cargo.Business.Billing
         {
           context.AddErrorResult("Vessel is required.");
         }
+      }
+    }
+    #endregion
+
+    #region ORNumberUnique
+    private class ORNumberUnique : Csla.Rules.BusinessRule
+    {
+      protected override void Execute(Csla.Rules.RuleContext context)
+      {
+        var target = (Roro)context.Target;
+
+        if (!string.IsNullOrEmpty(target.ORNumber)) //&& target.Status.Id != CargoConstants.BillStatus.FullyPaid.Id
+        {
+          CommandUniqueORNumber.Execute(target.Id, target.ORNumber, (o, e) =>
+          {
+            if (e.Error != null)
+            {
+              context.AddErrorResult(e.Error.Message, true);
+            }
+            else
+            {
+              if (!e.Object.IsValid)
+              {
+                context.AddErrorResult("ORNumber already exists.");
+              }
+            }
+            context.Complete();
+            target.OnUnknownPropertyChanged();
+          });
+        }
+        else
+          context.Complete();
       }
     }
     #endregion

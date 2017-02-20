@@ -65,7 +65,7 @@
                Text="{Binding Model.BillingAddress,Mode=TwoWay,ValidatesOnDataErrors=True}"/>
 
       <Label Grid.Row="0" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="OR Number" />
-      <TextBox Grid.Row="0" Grid.Column="3" Margin="4" Width="250" HorizontalAlignment="Left" Text="{Binding Model.ORNumber,Mode=TwoWay,ValidatesOnDataErrors=True}" />
+      <TextBox Grid.Row="0" Grid.Column="3" Margin="4" Width="250" HorizontalAlignment="Left" Text="{Binding Model.ORNumber,Mode=TwoWay,ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True,UpdateSourceTrigger=LostFocus}" />
       
       <Label Grid.Row="1" Grid.Column="2" Margin="32,2,4,2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Bill of Lading No." />
       <TextBox Grid.Row="1" Grid.Column="3" Margin="4" Width="250" HorizontalAlignment="Left" Text="{Binding Model.BillOfLadingNo,Mode=TwoWay,ValidatesOnDataErrors=True}" />
@@ -124,7 +124,7 @@
                   <DataTemplate>
                     <TextBox Text="{Binding Quantity,Mode=TwoWay,
                                     ValidatesOnDataErrors=True,
-                                    UpdateSourceTrigger=PropertyChanged}" 
+                                    UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:n2}}" 
                                     Background="Transparent" BorderBrush="Transparent"/>
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
