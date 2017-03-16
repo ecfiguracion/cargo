@@ -67,11 +67,14 @@ namespace Bitz.Core.Application
     public static class Reports
     {
       public static CoreConstants.UserInterface RPT0003View { get { return FindById(1300); } }
+      public static CoreConstants.UserInterface RPT0006View { get { return FindById(1301); } }
 
       public static void Initialise()
       {
-        Items.Add(new CoreConstants.UserInterface(1300, "RPT-0003 Summary of Gross Revenue", "Bitz.Reports.Views.RPT0003View", Modules.Reports, CoreConstants.PageType.Dialog));
+        Items.Add(new CoreConstants.UserInterface(1300, "RPT-0003 Schedule of Gross Revenue", "Bitz.Reports.Views.RPT0003View", Modules.Reports, CoreConstants.PageType.Dialog));
+        Items.Add(new CoreConstants.UserInterface(1301, "RPT-0006 Summary of Gross Revenue", "Bitz.Reports.Views.RPT0006View", Modules.Reports, CoreConstants.PageType.Dialog));
       }
+
     }
 
     #endregion

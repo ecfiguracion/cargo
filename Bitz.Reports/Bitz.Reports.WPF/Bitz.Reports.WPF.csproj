@@ -68,7 +68,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\RPT0006VM.cs" />
     <Compile Include="ViewModels\RPT0003VM.cs" />
+    <Compile Include="Views\RPT0006View.xaml.cs">
+      <DependentUpon>RPT0006View.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RPT0003View.xaml.cs">
       <DependentUpon>RPT0003View.xaml</DependentUpon>
     </Compile>
@@ -84,6 +88,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\RPT0006View.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\RPT0003View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
