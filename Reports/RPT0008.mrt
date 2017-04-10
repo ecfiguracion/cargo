@@ -196,7 +196,7 @@ SELECT
 		INNER JOIN bill on bill.bill = billitem.bill
 		INNER JOIN paymentdetail on paymentdetail.bill = bill.bill
 		INNER JOIN payment on payment.payment = paymentdetail.payment
-	WHERE DATEADD(dd, DATEDIFF(dd, 0, payment.paymentdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.duedate), 0) = DATEADD(dd, DATEDIFF(dd, 0, '{startdate}'), -1)
 		AND (bill.status &lt;&gt; 3 OR LEN(COALESCE(payment.ornumber, '')) = 0)
 	GROUP BY bill.billtype
 )	
@@ -1408,7 +1408,7 @@ or to be Remitted</Text>
               <Name>Text36</Name>
               <Page isRef="4" />
               <Parent isRef="81" />
-              <Text>{dsPayment.Reference}</Text>
+              <Text>{ IIF(dsPayment.totalamount &gt; 0, dsPayment.Reference, null) }</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="111" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
@@ -3123,10 +3123,10 @@ or to be Remitted</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>3/19/2017 10:28:51 PM</ReportChanged>
+  <ReportChanged>3/20/2017 10:37:58 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>G:\Users\Local\AAB\Development\cargo\Reports\RPT0008.mrt</ReportFile>
-  <ReportGuid>9847e330420445248676e9a111965293</ReportGuid>
+  <ReportGuid>a2f57a990614497e92a1ae89f4cc1030</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
