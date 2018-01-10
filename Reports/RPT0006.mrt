@@ -226,7 +226,7 @@ SELECT datepaid,
               <Name>Text80</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <Text>{Format("{0:MMM.dd,yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM.dd,yyyy}", DateTime.Parse(enddate))}</Text>
+              <Text>{Format("{0:MMM. dd, yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM. dd, yyyy}", DateTime.Parse(enddate))}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="8" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd-yyyy</StringFormat>
@@ -238,7 +238,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.1,0.5,0.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>2f1475462a744978953ddb803939767b</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -258,7 +258,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.5,0.5,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>3ad3022d08e84e31bb4612f20888ba1f</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -279,7 +279,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>1.5,0.5,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>cfe1b72e1953487b8d0b6f4f31e17bdf</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -300,7 +300,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>2.3,0.5,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>1d20bdf128b146038a5e99d2f0be3193</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -320,7 +320,7 @@ SELECT datepaid,
               <Brush>Transparent</Brush>
               <ClientRectangle>3.1,0.5,3.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>dcec79b6d03b4cb38849f6a04364697d</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -338,7 +338,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>3.9,0.7,1.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>909e2aa49c4845b2a56a29593f603b20</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -357,7 +357,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>3.1,0.7,0.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>1509d6ca4ead46f7a1250d1e3ca3392e</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -378,7 +378,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>3.9,0.9,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>6f5f34d07895465680caed03ebe6e5b1</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -398,7 +398,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>4.7,0.9,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>cfd1734fdf6049d0baca7e91ad1deb17</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -418,7 +418,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>5.5,0.7,0.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>d3650d7be3d043099a24c2ef27ff85a4</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -439,7 +439,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>6.3,0.7,0.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>d2edbe2c999b4e4698cd80534a6894f5</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -460,7 +460,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>7.1,0.7,0.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>02c4f3889da74b2e9c7cfc417774112f</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -481,7 +481,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>7.9,0.9,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>b97b5f7f378047b7a1ac342cc4ca8d61</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -501,7 +501,7 @@ SELECT datepaid,
               <CanGrow>True</CanGrow>
               <ClientRectangle>8.7,0.9,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>399cd0fa797a4c4496d7e9386a3e8924</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -520,7 +520,7 @@ SELECT datepaid,
               <Brush>Transparent</Brush>
               <ClientRectangle>6.3,0.5,1.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>6843a97815f8463f84c3070d9f44d83f</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -537,7 +537,7 @@ SELECT datepaid,
               <Brush>Transparent</Brush>
               <ClientRectangle>7.9,0.5,1.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>c79452caf8c84941abaff4a2f6ca51e1</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -556,7 +556,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>9.5,0.5,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>82c81cf08ca745e1aacb1c9af5b66aca</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -575,7 +575,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>10.3,0.7,0.7,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>a44967906c0f430ab8b47d3d3eee75bc</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -597,7 +597,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>11,0.7,0.7,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>55c7c53db39c4c82a44af655abc0154a</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -618,7 +618,7 @@ UNMOORING</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>10.3,0.5,1.4,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>58c9fba162d940a98f824ae5a72ee7ca</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -636,7 +636,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>11.7,0.5,0.5,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>8bc0b160f97c4f37913af02f1b1e0a41</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -656,7 +656,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>12.2,0.5,0.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>8a3722069ca8418ba09e7caf70d4b621</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1040,7 +1040,7 @@ DUES</Text>
               <Name>Text77</Name>
               <Page isRef="4" />
               <Parent isRef="80" />
-              <Text>{Format("{0:MMM.dd,yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM.dd,yyyy}", DateTime.Parse(enddate))}</Text>
+              <Text>{Format("{0:MMM. dd, yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM. dd, yyyy}", DateTime.Parse(enddate))}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="83" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd-yyyy</StringFormat>
@@ -1146,7 +1146,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.1,1.7,0.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>8e76c72cfd2145bb99647339f74ca3a0</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1166,7 +1166,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.5,1.7,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>812237e59860412780bdfd840a68bdce</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1187,7 +1187,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>1.5,1.7,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>93cb2856e51a42f49fea2daf3102ca43</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1208,7 +1208,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>2.3,1.7,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>5c2d766bd1954f858cd893250f88b952</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1228,7 +1228,7 @@ DUES</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>3.1,1.7,3.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>96b4b164112c4137a733362dae30f6fd</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -1246,7 +1246,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>3.9,1.9,1.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>ab9f795827904eb4b62ed62cbf874bfc</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -1265,7 +1265,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>3.1,1.9,0.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>da66867f52354766afa2ac3f53638a67</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1286,7 +1286,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>3.9,2.1,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>936098830c31449aa8be565340c11b22</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1306,7 +1306,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>4.7,2.1,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>1989556f10c94fdeb173cf1ea77f9342</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1326,7 +1326,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>5.5,1.9,0.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>2a50f3a561ef4252b989a1b2bb34aa32</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1347,7 +1347,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>6.3,1.9,0.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>82deb50c005740968da742f46eddc871</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1368,7 +1368,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>7.1,1.9,0.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>fd95ed44c15a457091ed93f87bb11cf5</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1389,7 +1389,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>7.9,2.1,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>9d7064785b554248aabc31d6e4ac4875</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1409,7 +1409,7 @@ DUES</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>8.7,2.1,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>91810c533ab04bce8ea4bbd911f3aae0</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1428,7 +1428,7 @@ DUES</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>6.3,1.7,1.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>b8e2bf71183045cfa23cd02c0aedc84d</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -1445,7 +1445,7 @@ DUES</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>7.9,1.7,1.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>3cc0ebc5e51d4ee9a2891ed3acec2d3a</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -1464,7 +1464,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>9.5,1.7,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>968c8d8c2f7e4ad4a4ef82aecaf36ee4</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1483,7 +1483,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>10.3,1.9,0.7,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>57dfb83588d84f3b845088f20281acc8</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1505,7 +1505,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>11,1.9,0.7,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>3e4057c32bff49369f56048e646bcb83</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1524,9 +1524,9 @@ UNMOORING</Text>
             </Text30>
             <Text31 Ref="109" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.1,1.7,1.6,0.2</ClientRectangle>
+              <ClientRectangle>10.3,1.7,1.4,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <Guid>729058fbd54f4564a42879fb3ccbd66a</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -1544,7 +1544,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>11.7,1.7,0.5,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>72a45493787644a4a81382e515172629</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1564,7 +1564,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>12.2,1.7,0.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,8.25,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>9134f0efdbb04d759c7f7170fcde99ca</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -4382,10 +4382,10 @@ DUES</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>3/16/2017 12:20:58 AM</ReportChanged>
+  <ReportChanged>11/4/2017 11:08:17 AM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
-  <ReportFile>C:\Development\Others\cargo\Reports\RPT0006.mrt</ReportFile>
-  <ReportGuid>abdba8863d134ab2a6d7bd2b38bbc1ee</ReportGuid>
+  <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0006.mrt</ReportFile>
+  <ReportGuid>671707c9ace64d1aa518c087996ad0ee</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

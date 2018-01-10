@@ -270,7 +270,7 @@ SELECT 2 AS Id,
               <Name>Text77</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <Text>{Format("{0:MMM.dd,yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM.dd,yyyy}", DateTime.Parse(enddate))}</Text>
+              <Text>{Format("{0:MMM. dd, yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM. dd, yyyy}", DateTime.Parse(enddate))}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="7" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd-yyyy</StringFormat>
@@ -321,6 +321,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>A service provider of the Philippine Ports Authority</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text4>
             <Text3 Ref="11" type="Text" isKey="true">
@@ -337,6 +338,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text3>
             <Text2 Ref="12" type="Text" isKey="true">
@@ -353,6 +355,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>Pier Site, Tabaco City 4511, Philippines</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text2>
             <Text1 Ref="13" type="Text" isKey="true">
@@ -369,6 +372,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>TABACO PORT CARGO CORPORATION</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text1>
             <Text15 Ref="14" type="Text" isKey="true">
@@ -3088,10 +3092,10 @@ Due</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>3/20/2017 10:33:36 PM</ReportChanged>
+  <ReportChanged>11/4/2017 11:09:36 AM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
-  <ReportFile>C:\Downloads\RPT0007.mrt</ReportFile>
-  <ReportGuid>ddf0c52598bc4d2991849d8c6d2f8dc4</ReportGuid>
+  <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0007.mrt</ReportFile>
+  <ReportGuid>dd46b865abda43d6a9b627bb01b49347</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

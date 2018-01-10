@@ -285,6 +285,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="5" />
               <Text>A service provider of the Philippine Ports Authority</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text4>
             <Text3 Ref="9" type="Text" isKey="true">
@@ -301,6 +302,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="5" />
               <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text3>
             <Text2 Ref="10" type="Text" isKey="true">
@@ -317,6 +319,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="5" />
               <Text>Pier Site, Tabaco City 4511, Philippines</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text2>
             <Text1 Ref="11" type="Text" isKey="true">
@@ -333,6 +336,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="5" />
               <Text>TABACO PORT CARGO CORPORATION</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text1>
             <HorizontalLinePrimitive1 Ref="12" type="HorizontalLinePrimitive" isKey="true">
@@ -379,7 +383,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,0.5,0.3,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>8e76c72cfd2145bb99647339f74ca3a0</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -399,7 +403,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.5,0.5,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>7dc5f9f83c9e4fa2a269808a50927bf6</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -420,7 +424,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>2.1,0.5,0.9,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>6036e58bda5a4f70ab100a579ea98f16</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -441,7 +445,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>3,0.5,0.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>812237e59860412780bdfd840a68bdce</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -462,7 +466,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>3.4,0.5,0.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>93cb2856e51a42f49fea2daf3102ca43</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -483,7 +487,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>4.1,0.5,0.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>5c2d766bd1954f858cd893250f88b952</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -503,7 +507,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Brush>Transparent</Brush>
               <ClientRectangle>4.7,0.5,2.4,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <Guid>96b4b164112c4137a733362dae30f6fd</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -513,6 +517,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="18" />
               <Text>ARRASTRE</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text15>
@@ -521,7 +526,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>5.3,0.7,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <Guid>ab9f795827904eb4b62ed62cbf874bfc</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -532,6 +537,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>25% PREMIUM</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text18>
@@ -540,7 +546,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>4.7,0.7,0.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>da66867f52354766afa2ac3f53638a67</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -561,7 +567,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>5.3,0.9,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>936098830c31449aa8be565340c11b22</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -573,6 +579,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>DOMESTIC</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text13>
@@ -581,7 +588,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>5.9,0.9,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>1989556f10c94fdeb173cf1ea77f9342</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -593,6 +600,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>FOREIGN</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text14>
@@ -601,7 +609,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>6.5,0.7,0.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>2a50f3a561ef4252b989a1b2bb34aa32</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -622,7 +630,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>7.1,0.7,0.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>82deb50c005740968da742f46eddc871</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -643,7 +651,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>7.7,0.7,0.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>fd95ed44c15a457091ed93f87bb11cf5</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -664,7 +672,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>8.3,0.9,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>9d7064785b554248aabc31d6e4ac4875</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -676,6 +684,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>DOMESTIC</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
@@ -684,7 +693,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <CanGrow>True</CanGrow>
               <ClientRectangle>8.9,0.9,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>91810c533ab04bce8ea4bbd911f3aae0</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -696,6 +705,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>FOREIGN</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text24>
@@ -703,7 +713,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Brush>Transparent</Brush>
               <ClientRectangle>7.1,0.5,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <Guid>b8e2bf71183045cfa23cd02c0aedc84d</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -713,6 +723,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="18" />
               <Text>STEVEDORING</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text25>
@@ -720,7 +731,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Brush>Transparent</Brush>
               <ClientRectangle>8.3,0.5,1.2,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <Guid>3cc0ebc5e51d4ee9a2891ed3acec2d3a</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -731,6 +742,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>MOORING
 UNMOORING</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text26>
@@ -739,7 +751,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>9.5,0.5,0.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>968c8d8c2f7e4ad4a4ef82aecaf36ee4</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -750,6 +762,7 @@ UNMOORING</Text>
               <Parent isRef="18" />
               <Text>TOTAL</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text28>
@@ -758,7 +771,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>10.2,0.7,0.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>57dfb83588d84f3b845088f20281acc8</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -780,7 +793,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>10.8,0.7,0.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>3e4057c32bff49369f56048e646bcb83</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -801,7 +814,7 @@ UNMOORING</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>10.2,0.5,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <Guid>729058fbd54f4564a42879fb3ccbd66a</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -811,6 +824,7 @@ UNMOORING</Text>
               <Parent isRef="18" />
               <Text>PPA SHARE</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text31>
@@ -819,7 +833,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>11.4,0.5,0.5,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>72a45493787644a4a81382e515172629</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -831,6 +845,7 @@ UNMOORING</Text>
               <Text>VAT
 (12%)</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text32>
@@ -839,7 +854,7 @@ UNMOORING</Text>
               <CanGrow>True</CanGrow>
               <ClientRectangle>11.9,0.5,0.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,6.75,Regular,Point,False,0</Font>
+              <Font>Arial Narrow,8.25,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>9134f0efdbb04d759c7f7170fcde99ca</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -851,6 +866,7 @@ UNMOORING</Text>
               <Text>PPA
 DUES</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text33>
@@ -884,6 +900,7 @@ DUES</Text>
               <Parent isRef="18" />
               <Text>Schedule of Gross Revenue</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text37>
             <Text38 Ref="46" type="Text" isKey="true">
@@ -912,11 +929,12 @@ DUES</Text>
               <Name>Text77</Name>
               <Page isRef="4" />
               <Parent isRef="18" />
-              <Text>{Format("{0:MMM.dd,yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM.dd,yyyy}", DateTime.Parse(enddate))}</Text>
+              <Text>{Format("{0:MMM. dd, yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM. dd, yyyy}", DateTime.Parse(enddate))}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="48" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd-yyyy</StringFormat>
               </TextFormat>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text77>
             <StartPointPrimitive1 Ref="49" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
@@ -3474,10 +3492,10 @@ DUES</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>3/16/2017 12:07:19 AM</ReportChanged>
+  <ReportChanged>11/4/2017 11:33:14 AM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
-  <ReportFile>C:\Development\Others\cargo\Reports\RPT0003.mrt</ReportFile>
-  <ReportGuid>f9ab8a99c3e34cd8a8da666864939100</ReportGuid>
+  <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0003.mrt</ReportFile>
+  <ReportGuid>b0ca8437526140d198f71796c676494b</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
