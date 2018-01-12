@@ -23,6 +23,7 @@ namespace Bitz.Core.ViewModel
     public PageViewModelBase()
             : base()
         {
+            this.CommandNew = new DelegateCommand<object>(CommandNewExecute);
             this.CommandSave = new DelegateCommand<object>(CommandSaveExecute);
             this.CommandUndo = new DelegateCommand<object>(CommandUndoExecute);
             this.CommandPrint = new DelegateCommand<object>(CommandPrintExecute);
@@ -60,6 +61,18 @@ namespace Bitz.Core.ViewModel
         #region Properties
 
         #region Can Properties
+
+        #region CanAdd
+
+        public virtual bool CanAdd
+        {
+          get
+          {
+            return !IsReadOnly;
+          }
+        }
+
+        #endregion
 
         #region CanSave
         private bool _CanSave = false;
@@ -169,6 +182,19 @@ namespace Bitz.Core.ViewModel
         #endregion
 
         #region Command
+
+        #region CommandNew
+        public ICommand CommandNew
+        {
+          get;
+          private set;
+        }
+
+        public virtual void CommandNewExecute(object parameter)
+        {
+          BeginRefresh("New");
+        }
+        #endregion
 
         #region CommandSave
         public ICommand CommandSave
