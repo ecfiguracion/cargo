@@ -40,42 +40,42 @@ SELECT
 	DATEADD(MONTH, DATEDIFF(MONTH, 0, payment.paymentdate), 0) AS datepaid,
 	0 AS porterageincomeamount,
 	CASE WHEN bill.billtype = 1 THEN
-		SUM(ROUND((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END, 2))
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
 		ELSE 0 END AS foreignarrastreamount,
 	CASE WHEN bill.billtype &lt;&gt; 1 THEN
-		SUM(ROUND((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END, 2))
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
 		ELSE 0 END AS domesticarrastreamount,
 	CASE WHEN bill.billtype = 1 THEN
-		SUM(ROUND((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END, 2))
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END), 2)
 		ELSE 0 END AS foreignstevedoringamount,
 	CASE WHEN bill.billtype &lt;&gt; 1 THEN
-		SUM(ROUND((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END, 2))
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END), 2)
 		ELSE 0 END AS domesticstevedoringamount,
 	CASE WHEN bill.billtype = 1 THEN
-		SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) 
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) 
 		ELSE 0 END AS foreignpremiumamount,
 	CASE WHEN bill.billtype &lt;&gt; 1 THEN
-		SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) 
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) 
 		ELSE 0 END AS domesticpremiumamount,
 	0 AS domesticmooringamount,
 	0 AS foreignmooringamount,
-	SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+	ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
 		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
 		((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) AS totalamount,
+		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) AS totalamount,
 	CASE WHEN bill.billtype = 1 THEN
-		SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
 			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
 			((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) * 0.20
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100) * 0.20, 2)
 		ELSE 0 END AS foreignppashareamount,
 	CASE WHEN bill.billtype &lt;&gt; 1 THEN
-		SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
 			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
 			((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) * 0.10
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100) * 0.10, 2)
 		ELSE 0 END AS domesticppashareamount
 	FROM billitem
 		INNER JOIN bill on bill.bill = billitem.bill
@@ -89,16 +89,16 @@ SELECT
 	DATEADD(MONTH, DATEDIFF(MONTH, 0, bill.billdate), 0) AS datepaid,
 	0 AS porterageincomeamount,
 	0 AS foreignarrastreamount,
-	SUM(ROUND(rate * quantity, 2)) as domesticarrastreamount,
+	ROUND(SUM(rate * quantity), 2) as domesticarrastreamount,
 	0 AS foreignstevedoringamount,
 	0 AS domesticstevedoringamount,
 	0 AS foreignpremiumamount,
 	0 AS domesticpremiumamount,
 	0 AS domesticmooringamount,
 	0 AS foreignmooringamount,
-	SUM(ROUND(rate * quantity, 2)) as totalamount,
+	ROUND(SUM(rate * quantity), 2) as totalamount,
 	0 AS foreignppashareamount,
-	SUM(ROUND(rate * quantity, 2)) * 0.10 as domesticppashareamount
+	ROUND(SUM(rate * quantity), 2) * 0.10 as domesticppashareamount
 	FROM billitemroro
 	INNER JOIN bill on bill.bill = billitemroro.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
@@ -115,17 +115,17 @@ SELECT
 	0 AS foreignpremiumamount,
 	0 AS domesticpremiumamount,
 	CASE WHEN bill.mooringtype = 1 THEN 
-		SUM(ROUND(rate * quantity, 2))
+		ROUND(SUM(rate * quantity), 2)
 	ELSE 0 END AS domesticmooring,
 	CASE WHEN bill.mooringtype &lt;&gt; 1 THEN 
-		SUM(ROUND(rate * quantity, 2))
+		ROUND(SUM(rate * quantity), 2)
 	ELSE 0 END AS foreignmooring,
-	SUM(ROUND(rate * quantity, 2)) as totalamount,
+	ROUND(SUM(rate * quantity), 2) as totalamount,
 	CASE WHEN bill.mooringtype &lt;&gt; 1 THEN 
-		SUM(ROUND(rate * quantity, 2)) * 0.20
+		ROUND(SUM(rate * quantity), 2) * 0.20
 	ELSE 0 END AS foreignppashareamount,
 	CASE WHEN bill.mooringtype = 1 THEN 
-		SUM(ROUND(rate * quantity, 2)) * 0.10
+		ROUND(SUM(rate * quantity), 2) * 0.10
 	ELSE 0 END AS domesticppashareamount
 	FROM billitemmooring
 		INNER JOIN bill on bill.bill = billitemmooring.bill
@@ -135,7 +135,7 @@ SELECT
 UNION
 SELECT 
 	DATEADD(MONTH, DATEDIFF(MONTH, 0, bill.billdate), 0) AS datepaid,
-	SUM(ROUND(rate * quantity / 1.12, 2)) as porterageincomeamount,
+	ROUND(SUM(rate * quantity / 1.12), 2) as porterageincomeamount,
 	0 AS foreignarrastreamount,
 	0 AS domesticarrastreamount,
 	0 AS foreignstevedoringamount,
@@ -144,9 +144,9 @@ SELECT
 	0 AS domesticpremiumamount,
 	0 AS domesticmooringamount,
 	0 AS foreignmooringamount,
-	SUM(ROUND(ROUND(rate * quantity / 1.12, 2), 2)) as totalamount,
+	ROUND(SUM(ROUND(rate * quantity / 1.12, 2)), 2) as totalamount,
 	0 AS foreignppashareamount,
-	SUM(ROUND(ROUND(rate * quantity / 1.12, 2), 2)) * 0.10 as domesticppashareamount
+	ROUND(SUM(ROUND(rate * quantity / 1.12, 2)) * 0.10, 2) as domesticppashareamount
 	FROM billitemporterage
 	INNER JOIN bill on bill.bill = billitemporterage.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
@@ -157,40 +157,40 @@ amountreceivable AS (
 SELECT 
 	DATEADD(MONTH, 1, DATEADD(MONTH, DATEDIFF(MONTH, 0, getdate()), 0)) AS datepaid,
 	CASE WHEN bill.billtype = 1 THEN
-		SUM(ROUND((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END, 2))
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
 		ELSE 0 END AS foreignarrastreamount,
 	CASE WHEN bill.billtype &lt;&gt; 1 THEN
-		SUM(ROUND((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END, 2))
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
 		ELSE 0 END AS domesticarrastreamount,
 	CASE WHEN bill.billtype = 1 THEN
-		SUM(ROUND((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END, 2))
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END), 2)
 		ELSE 0 END AS foreignstevedoringamount,
 	CASE WHEN bill.billtype &lt;&gt; 1 THEN
-		SUM(ROUND((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END, 2))
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END), 2)
 		ELSE 0 END AS domesticstevedoringamount,
 	CASE WHEN bill.billtype = 1 THEN
-		SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) 
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) 
 		ELSE 0 END AS foreignpremiumamount,
 	CASE WHEN bill.billtype &lt;&gt; 1 THEN
-		SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) 
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) 
 		ELSE 0 END AS domesticpremiumamount,
-	SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+	ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
 		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
 		((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) AS totalamount,
+		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) AS totalamount,
 	CASE WHEN bill.billtype = 1 THEN
-		SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
 			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
 			((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) * 0.20
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100) * 0.20, 2)
 		ELSE 0 END AS foreignppashareamount,
 	CASE WHEN bill.billtype &lt;&gt; 1 THEN
-		SUM(ROUND(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
 			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
 			((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
-			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100, 2)) * 0.10
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100) * 0.10, 2)
 		ELSE 0 END AS domesticppashareamount
 	FROM billitem
 		INNER JOIN bill on bill.bill = billitem.bill
@@ -241,8 +241,8 @@ SELECT 2 AS Id,
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="2">
-      <value>,startdate,startdate,System.String,_x0032_017-02-01,False,False</value>
-      <value>,enddate,enddate,System.String,_x0032_017-02-28,False,False</value>
+      <value>,startdate,startdate,System.String,_x0032_016-11-01,False,False</value>
+      <value>,enddate,enddate,System.String,_x0032_016-11-30,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -3092,10 +3092,10 @@ Due</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>11/4/2017 11:09:36 AM</ReportChanged>
+  <ReportChanged>1/15/2018 8:54:53 AM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0007.mrt</ReportFile>
-  <ReportGuid>dd46b865abda43d6a9b627bb01b49347</ReportGuid>
+  <ReportGuid>c052716ca71e4e8cbe742ab21cc858b9</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
