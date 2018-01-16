@@ -275,7 +275,7 @@ SELECT 2 AS Id,
               <TextFormat Ref="7" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd-yyyy</StringFormat>
               </TextFormat>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text77>
             <Image1 Ref="8" type="Image" isKey="true">
@@ -321,7 +321,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>A service provider of the Philippine Ports Authority</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text4>
             <Text3 Ref="11" type="Text" isKey="true">
@@ -338,7 +338,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text3>
             <Text2 Ref="12" type="Text" isKey="true">
@@ -355,7 +355,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>Pier Site, Tabaco City 4511, Philippines</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text2>
             <Text1 Ref="13" type="Text" isKey="true">
@@ -372,7 +372,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>TABACO PORT CARGO CORPORATION</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text1>
             <Text15 Ref="14" type="Text" isKey="true">
@@ -389,7 +389,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>ARRASTRE</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text15>
@@ -410,7 +410,7 @@ SELECT 2 AS Id,
               <Text>Domestic</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text11>
@@ -431,7 +431,7 @@ SELECT 2 AS Id,
               <Text>Foreign</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text20>
@@ -452,7 +452,7 @@ SELECT 2 AS Id,
               <Text>Domestic</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text21>
@@ -473,7 +473,7 @@ SELECT 2 AS Id,
               <Text>Foreign</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text22>
@@ -491,7 +491,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>STEVEDORING</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text25>
@@ -509,7 +509,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>MOORING/UNMOORING</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text26>
@@ -531,7 +531,7 @@ SELECT 2 AS Id,
 Gross Income
 </Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text28>
@@ -553,7 +553,7 @@ Gross Income
 10%</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text29>
@@ -575,7 +575,7 @@ Gross Income
 20%</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text30>
@@ -594,7 +594,7 @@ Gross Income
               <Text>Total Gov't Share Remitted
 or to be Remitted</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text31>
@@ -615,7 +615,7 @@ or to be Remitted</Text>
               <Text>VAT
 12%</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text32>
@@ -635,7 +635,7 @@ or to be Remitted</Text>
               <Parent isRef="5" />
               <Text>TOTAL</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text33>
@@ -652,7 +652,7 @@ or to be Remitted</Text>
               <Parent isRef="5" />
               <Text>SUMMARY OF MONTHLY GROSS INCOME REPORT</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text37>
             <Text6 Ref="28" type="Text" isKey="true">
@@ -672,7 +672,7 @@ or to be Remitted</Text>
               <Text>Domestic</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text6>
@@ -693,7 +693,7 @@ or to be Remitted</Text>
               <Text>Foreign</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text9>
@@ -711,7 +711,7 @@ or to be Remitted</Text>
               <Parent isRef="5" />
               <Text>25% PREMIUM</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text10>
@@ -729,7 +729,7 @@ or to be Remitted</Text>
               <Parent isRef="5" />
               <Text>PORTERAGE</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text12>
@@ -747,7 +747,7 @@ or to be Remitted</Text>
               <Parent isRef="5" />
               <Text>Income</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text35>
@@ -768,7 +768,7 @@ or to be Remitted</Text>
               <Text>Domestic</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
@@ -789,7 +789,7 @@ or to be Remitted</Text>
               <Text>Foreign</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text24>
@@ -807,7 +807,7 @@ or to be Remitted</Text>
               <Parent isRef="5" />
               <Text>G R O S S    I N C O M E</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text62>
@@ -1124,6 +1124,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text46>
@@ -1146,6 +1147,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text57>
@@ -1167,6 +1169,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text50>
@@ -1189,6 +1192,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text58>
@@ -1210,6 +1214,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text48>
@@ -1232,6 +1237,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text59>
@@ -1254,6 +1260,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text63>
@@ -1276,6 +1283,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text67>
@@ -1298,6 +1306,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text69>
@@ -1320,6 +1329,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text55>
@@ -1342,6 +1352,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text71>
@@ -1364,6 +1375,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text72>
@@ -1386,6 +1398,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text75>
@@ -1409,6 +1422,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text65>
@@ -1430,6 +1444,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text36>
@@ -1693,6 +1708,7 @@ or to be Remitted</Text>
               <TextFormat Ref="146" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd</StringFormat>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text5>
@@ -1715,6 +1731,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text7>
@@ -1737,6 +1754,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text8>
@@ -1759,6 +1777,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text34>
@@ -1781,6 +1800,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text41>
@@ -1803,6 +1823,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text42>
@@ -1825,6 +1846,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text43>
@@ -1847,6 +1869,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text44>
@@ -1869,6 +1892,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text45>
@@ -1891,6 +1915,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text47>
@@ -1913,6 +1938,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text49>
@@ -1935,6 +1961,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text51>
@@ -1957,6 +1984,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text56>
@@ -1979,6 +2007,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text60>
@@ -2001,6 +2030,7 @@ or to be Remitted</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text61>
@@ -2296,6 +2326,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>Prepared by :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text16>
             <Text17 Ref="218" type="Text" isKey="true">
@@ -2313,6 +2344,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>Certified Correct :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text17>
             <Text19 Ref="219" type="Text" isKey="true">
@@ -2330,6 +2362,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>Approved :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text19>
             <Text27 Ref="220" type="Text" isKey="true">
@@ -2347,6 +2380,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>ALMA B. BONAGUA</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text27>
             <Text39 Ref="221" type="Text" isKey="true">
@@ -2364,6 +2398,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>MA. ANA B. BAROMA</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text39>
             <Text40 Ref="222" type="Text" isKey="true">
@@ -2381,6 +2416,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>CESAR LUIS A. MORAN</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text40>
             <Text52 Ref="223" type="Text" isKey="true">
@@ -2398,6 +2434,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>Accounting Clerk</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text52>
             <Text53 Ref="224" type="Text" isKey="true">
@@ -2415,6 +2452,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>Accounting Consultant</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text53>
             <Text54 Ref="225" type="Text" isKey="true">
@@ -2432,6 +2470,7 @@ or to be Remitted</Text>
               <Parent isRef="216" />
               <Text>Office Manager</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text54>
           </Components>
@@ -3142,7 +3181,7 @@ or to be Remitted</Text>
   <ReportChanged>11/4/2017 11:31:42 AM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0008.mrt</ReportFile>
-  <ReportGuid>fb83e72e3247426e87f758b57e138999</ReportGuid>
+  <ReportGuid>863893059c5f40129dbc860a45598270</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

@@ -284,7 +284,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="5" />
               <Text>A service provider of the Philippine Ports Authority</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text4>
             <Text3 Ref="9" type="Text" isKey="true">
@@ -301,7 +301,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="5" />
               <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text3>
             <Text2 Ref="10" type="Text" isKey="true">
@@ -318,7 +318,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="5" />
               <Text>Pier Site, Tabaco City 4511, Philippines</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text2>
             <Text1 Ref="11" type="Text" isKey="true">
@@ -335,7 +335,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="5" />
               <Text>TABACO PORT CARGO CORPORATION</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text1>
             <HorizontalLinePrimitive1 Ref="12" type="HorizontalLinePrimitive" isKey="true">
@@ -394,7 +394,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>DATE</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <VertAlignment>Center</VertAlignment>
             </Text6>
             <Text7 Ref="20" type="Text" isKey="true">
@@ -414,7 +414,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>PARTICULARS / CONSIGNEE</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text7>
@@ -435,7 +435,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>NAME OF VESSEL</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text8>
@@ -456,7 +456,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>OR No.</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text9>
@@ -477,7 +477,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>COLLECTIONS OF A/R</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text10>
@@ -498,7 +498,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>PORT INCOME</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text12>
@@ -516,7 +516,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="18" />
               <Text>ARRASTRE</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text15>
@@ -536,7 +536,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>25% PREMIUM</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text18>
@@ -557,7 +557,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>DOMESTIC</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text11>
@@ -578,7 +578,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>DOMESTIC</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text13>
@@ -599,7 +599,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>FOREIGN</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text14>
@@ -620,7 +620,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>FOREIGN</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text20>
@@ -641,7 +641,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>DOMESTIC</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text21>
@@ -662,7 +662,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>FOREIGN</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text22>
@@ -683,7 +683,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>DOMESTIC</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
@@ -704,7 +704,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>FOREIGN</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text24>
@@ -722,7 +722,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Parent isRef="18" />
               <Text>STEVEDORING</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text25>
@@ -741,7 +741,7 @@ ORDER BY datepaid, ornumber</SqlCommand>
               <Text>MOORING
 UNMOORING</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text26>
@@ -761,7 +761,7 @@ UNMOORING</Text>
               <Parent isRef="18" />
               <Text>TOTAL</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text28>
@@ -783,7 +783,7 @@ UNMOORING</Text>
 (10%)</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text29>
@@ -805,7 +805,7 @@ UNMOORING</Text>
 (20%)</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text30>
@@ -823,7 +823,7 @@ UNMOORING</Text>
               <Parent isRef="18" />
               <Text>PPA SHARE</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text31>
@@ -844,7 +844,7 @@ UNMOORING</Text>
               <Text>VAT
 (12%)</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text32>
@@ -865,7 +865,7 @@ UNMOORING</Text>
               <Text>PPA
 DUES</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text33>
@@ -899,7 +899,7 @@ DUES</Text>
               <Parent isRef="18" />
               <Text>Schedule of Gross Revenue</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text37>
             <Text38 Ref="46" type="Text" isKey="true">
@@ -933,7 +933,7 @@ DUES</Text>
               <TextFormat Ref="48" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd-yyyy</StringFormat>
               </TextFormat>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text77>
             <StartPointPrimitive1 Ref="49" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
@@ -1293,6 +1293,7 @@ DUES</Text>
               <TextFormat Ref="101" type="CustomFormat" isKey="true">
                 <StringFormat>MM-dd</StringFormat>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text36>
@@ -1310,6 +1311,7 @@ DUES</Text>
               <Text>{dsPayment.consigneename}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <TextQuality>Typographic</TextQuality>
               <VertAlignment>Center</VertAlignment>
             </Text43>
             <Text44 Ref="103" type="Text" isKey="true">
@@ -1326,6 +1328,7 @@ DUES</Text>
               <Text>{dsPayment.vesselname}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <TextQuality>Typographic</TextQuality>
               <VertAlignment>Center</VertAlignment>
             </Text44>
             <Text45 Ref="104" type="Text" isKey="true">
@@ -1340,6 +1343,7 @@ DUES</Text>
               <Parent isRef="99" />
               <Text>{dsPayment.ornumber}</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <VertAlignment>Center</VertAlignment>
             </Text45>
             <Text46 Ref="105" type="Text" isKey="true">
@@ -1356,6 +1360,7 @@ DUES</Text>
               <Parent isRef="99" />
               <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 1, dsPayment.arrastreamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text46>
@@ -1374,6 +1379,7 @@ DUES</Text>
               <Parent isRef="99" />
               <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 1, dsPayment.arrastreamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text57>
@@ -1391,6 +1397,7 @@ DUES</Text>
               <Parent isRef="99" />
               <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 1, dsPayment.premiumamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text50>
@@ -1409,6 +1416,7 @@ DUES</Text>
               <Parent isRef="99" />
               <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 1, dsPayment.premiumamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text58>
@@ -1426,6 +1434,7 @@ DUES</Text>
               <Parent isRef="99" />
               <Text>{ Format("{0:N2}", IIF(dsPayment.billtype != 1, dsPayment.stevedoringamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text48>
@@ -1444,6 +1453,7 @@ DUES</Text>
               <Parent isRef="99" />
               <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 1, dsPayment.stevedoringamount, null)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text59>
@@ -1462,6 +1472,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", dsPayment.vatamount) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text55>
@@ -1481,6 +1492,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", dsPayment.totalamount) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text63>
@@ -1500,6 +1512,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", IIF(dsPayment.billtype == 6, dsPayment.totalamount, null)) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text65>
@@ -1519,6 +1532,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", IIF(dsPayment.mooringtype == 1, dsPayment.totalamount, null)) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text67>
@@ -1538,6 +1552,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", IIF(dsPayment.mooringtype == 2, dsPayment.totalamount, null)) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text69>
@@ -1556,6 +1571,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", IIF(dsPayment.mooringtype == 1 || (dsPayment.billtype != 1 &amp;&amp; dsPayment.mooringtype == 0), dsPayment.ppashare, null)) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text71>
@@ -1575,6 +1591,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", IIF(dsPayment.mooringtype == 2 || (dsPayment.billtype == 1 &amp;&amp; dsPayment.mooringtype == 0), dsPayment.ppashare, null)) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text72>
@@ -1594,6 +1611,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", dsPayment.vatamount + dsPayment.ppashare) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text75>
@@ -1929,6 +1947,7 @@ DUES</Text>
               <TextFormat Ref="164" type="CustomFormat" isKey="true">
                 <StringFormat>MM-dd-yyyy</StringFormat>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text41>
@@ -1948,6 +1967,7 @@ DUES</Text>
               <Text>SUB TOTALS</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text42>
@@ -1966,6 +1986,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.arrastreamount, dsPayment.billtype == 1)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text49>
@@ -1984,6 +2005,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.premiumamount, dsPayment.billtype != 1)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text51>
@@ -2002,6 +2024,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.premiumamount, dsPayment.billtype == 1)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text56>
@@ -2020,6 +2043,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.stevedoringamount, dsPayment.billtype != 1)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text60>
@@ -2038,6 +2062,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.stevedoringamount, dsPayment.billtype == 1)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text61>
@@ -2056,6 +2081,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", Sum(DataBand1, dsPayment.vatamount)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text62>
@@ -2074,6 +2100,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", SumIf(DataBand1, dsPayment.arrastreamount, dsPayment.billtype != 1)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text47>
@@ -2092,6 +2119,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", Sum(DataBand1, dsPayment.totalamount)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text64>
@@ -2110,6 +2138,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{SumIf(DataBand1,dsPayment.totalamount,dsPayment.billtype == 6)}</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text66>
@@ -2128,6 +2157,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{SumIf(DataBand1,dsPayment.totalamount,dsPayment.mooringtype == 1)}</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text68>
@@ -2146,6 +2176,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{SumIf(DataBand1,dsPayment.totalamount,dsPayment.mooringtype == 2)}</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text70>
@@ -2165,6 +2196,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", SumIf(DataBand1,dsPayment.ppashare,dsPayment.mooringtype == 1 || (dsPayment.billtype != 1 &amp;&amp; dsPayment.mooringtype == 0))) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text73>
@@ -2184,6 +2216,7 @@ DUES</Text>
               <Text>{ Format("{0:N2}", SumIf(DataBand1,dsPayment.ppashare,dsPayment.mooringtype == 2 || (dsPayment.billtype == 1 &amp;&amp; dsPayment.mooringtype == 0))) }
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text74>
@@ -2202,6 +2235,7 @@ DUES</Text>
               <Parent isRef="162" />
               <Text>{ Format("{0:N2}", Sum(DataBand1, dsPayment.vatamount + dsPayment.ppashare)) }</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text76>
@@ -2499,6 +2533,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>Prepared by :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text16>
             <Text17 Ref="222" type="Text" isKey="true">
@@ -2518,6 +2553,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>Certified Correct :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text17>
             <Text19 Ref="223" type="Text" isKey="true">
@@ -2537,6 +2573,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>Approved :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text19>
             <Text27 Ref="224" type="Text" isKey="true">
@@ -2556,6 +2593,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>ALMA B. BONAGUA</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text27>
             <Text39 Ref="225" type="Text" isKey="true">
@@ -2575,6 +2613,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>MA. ANA B. BAROMA</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text39>
             <Text40 Ref="226" type="Text" isKey="true">
@@ -2594,6 +2633,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>CESAR LUIS A. MORAN</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text40>
             <Text52 Ref="227" type="Text" isKey="true">
@@ -2613,6 +2653,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>Accounting Clerk</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text52>
             <Text53 Ref="228" type="Text" isKey="true">
@@ -2632,6 +2673,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>Accounting Consultant</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text53>
             <Text54 Ref="229" type="Text" isKey="true">
@@ -2651,6 +2693,7 @@ DUES</Text>
               <Parent isRef="220" />
               <Text>Office Manager</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text54>
           </Components>
@@ -3491,10 +3534,10 @@ DUES</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/15/2018 9:25:13 PM</ReportChanged>
+  <ReportChanged>1/16/2018 2:59:54 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0003.mrt</ReportFile>
-  <ReportGuid>29b42428e6f145dcb74cab001a669571</ReportGuid>
+  <ReportGuid>5fe186fd167c46439fa3976e51fa622a</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

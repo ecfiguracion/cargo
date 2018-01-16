@@ -275,6 +275,7 @@ SELECT 2 AS Id,
               <TextFormat Ref="7" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd-yyyy</StringFormat>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text77>
             <Image1 Ref="8" type="Image" isKey="true">
@@ -320,7 +321,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>A service provider of the Philippine Ports Authority</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text4>
             <Text3 Ref="11" type="Text" isKey="true">
@@ -337,7 +338,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text3>
             <Text2 Ref="12" type="Text" isKey="true">
@@ -354,7 +355,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>Pier Site, Tabaco City 4511, Philippines</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text2>
             <Text1 Ref="13" type="Text" isKey="true">
@@ -371,7 +372,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>TABACO PORT CARGO CORPORATION</Text>
               <TextBrush>Black</TextBrush>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text1>
             <Text15 Ref="14" type="Text" isKey="true">
@@ -388,6 +389,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>ARRASTRE</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text15>
@@ -408,7 +410,7 @@ SELECT 2 AS Id,
               <Text>Domestic</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text11>
@@ -429,7 +431,7 @@ SELECT 2 AS Id,
               <Text>Foreign</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text20>
@@ -450,7 +452,7 @@ SELECT 2 AS Id,
               <Text>Domestic</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text21>
@@ -471,7 +473,7 @@ SELECT 2 AS Id,
               <Text>Foreign</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text22>
@@ -489,6 +491,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>STEVEDORING</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text25>
@@ -506,6 +509,7 @@ SELECT 2 AS Id,
               <Parent isRef="5" />
               <Text>MOORING/UNMOORING</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text26>
@@ -527,6 +531,7 @@ SELECT 2 AS Id,
 Revenue
 </Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text28>
@@ -547,7 +552,7 @@ Revenue
               <Text>Dom. 10%</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text29>
@@ -568,7 +573,7 @@ Revenue
               <Text>For 20%</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text30>
@@ -586,6 +591,7 @@ Revenue
               <Parent isRef="5" />
               <Text>PPA SHARE</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text31>
@@ -605,6 +611,7 @@ Revenue
               <Parent isRef="5" />
               <Text>VAT</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text32>
@@ -625,6 +632,7 @@ Revenue
               <Text>PPA
 Due</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text33>
@@ -641,6 +649,7 @@ Due</Text>
               <Parent isRef="5" />
               <Text>ARRASTRE / STEVEDORING SUMMARY</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text37>
             <Text6 Ref="28" type="Text" isKey="true">
@@ -660,7 +669,7 @@ Due</Text>
               <Text>Domestic</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text6>
@@ -681,7 +690,7 @@ Due</Text>
               <Text>Foreign</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text9>
@@ -699,6 +708,7 @@ Due</Text>
               <Parent isRef="5" />
               <Text>25% PREMIUM</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text10>
@@ -716,6 +726,7 @@ Due</Text>
               <Parent isRef="5" />
               <Text>PORTERAGE</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text12>
@@ -733,6 +744,7 @@ Due</Text>
               <Parent isRef="5" />
               <Text>Income</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text35>
@@ -753,7 +765,7 @@ Due</Text>
               <Text>Domestic</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
@@ -774,7 +786,7 @@ Due</Text>
               <Text>Foreign</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <TextQuality>Wysiwyg</TextQuality>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text24>
@@ -1076,6 +1088,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text46>
@@ -1098,6 +1111,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text57>
@@ -1119,6 +1133,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text50>
@@ -1141,6 +1156,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text58>
@@ -1162,6 +1178,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text48>
@@ -1184,6 +1201,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text59>
@@ -1206,6 +1224,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text63>
@@ -1228,6 +1247,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text67>
@@ -1250,6 +1270,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text69>
@@ -1272,6 +1293,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text55>
@@ -1294,6 +1316,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text71>
@@ -1316,6 +1339,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text72>
@@ -1338,6 +1362,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text75>
@@ -1361,6 +1386,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text65>
@@ -1382,6 +1408,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text36>
@@ -1645,6 +1672,7 @@ Due</Text>
               <TextFormat Ref="142" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd</StringFormat>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text5>
@@ -1667,6 +1695,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text7>
@@ -1689,6 +1718,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text8>
@@ -1711,6 +1741,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text34>
@@ -1733,6 +1764,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text41>
@@ -1755,6 +1787,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text42>
@@ -1777,6 +1810,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text43>
@@ -1799,6 +1833,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text44>
@@ -1821,6 +1856,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text45>
@@ -1843,6 +1879,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text47>
@@ -1865,6 +1902,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text49>
@@ -1887,6 +1925,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text51>
@@ -1909,6 +1948,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text56>
@@ -1931,6 +1971,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text60>
@@ -1953,6 +1994,7 @@ Due</Text>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text61>
@@ -2248,6 +2290,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>Prepared by :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text16>
             <Text17 Ref="214" type="Text" isKey="true">
@@ -2265,6 +2308,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>Certified Correct :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text17>
             <Text19 Ref="215" type="Text" isKey="true">
@@ -2282,6 +2326,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>Approved :</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text19>
             <Text27 Ref="216" type="Text" isKey="true">
@@ -2299,6 +2344,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>ALMA B. BONAGUA</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text27>
             <Text39 Ref="217" type="Text" isKey="true">
@@ -2316,6 +2362,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>MA. ANA B. BAROMA</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text39>
             <Text40 Ref="218" type="Text" isKey="true">
@@ -2333,6 +2380,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>CESAR LUIS A. MORAN</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text40>
             <Text52 Ref="219" type="Text" isKey="true">
@@ -2350,6 +2398,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>Accounting Clerk</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text52>
             <Text53 Ref="220" type="Text" isKey="true">
@@ -2367,6 +2416,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>Accounting Consultant</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text53>
             <Text54 Ref="221" type="Text" isKey="true">
@@ -2384,6 +2434,7 @@ Due</Text>
               <Parent isRef="212" />
               <Text>Office Manager</Text>
               <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text54>
           </Components>
@@ -3091,10 +3142,10 @@ Due</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/15/2018 8:54:53 AM</ReportChanged>
+  <ReportChanged>1/16/2018 2:42:59 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0007.mrt</ReportFile>
-  <ReportGuid>c23280e07e154c74841b269c1492c62c</ReportGuid>
+  <ReportGuid>238e21e27ddf4808a7385d32a1b03708</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
