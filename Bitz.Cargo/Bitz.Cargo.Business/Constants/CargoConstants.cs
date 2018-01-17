@@ -117,6 +117,33 @@ namespace Bitz.Cargo.Business.Constants
 
     #endregion
 
+    #region RoroStatus
+
+    public class RoroStatus
+    {
+      private static List<CoreConstants.IdValue> _RoroStatus = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue All { get { return _RoroStatus[0]; } }
+      public static CoreConstants.IdValue Draft { get { return _RoroStatus[1]; } }
+      public static CoreConstants.IdValue Cancelled { get { return _RoroStatus[2]; } }
+      public static CoreConstants.IdValue Completed { get { return _RoroStatus[3]; } }
+
+      static RoroStatus()
+      {
+        _RoroStatus.Add(new CoreConstants.IdValue(0, "ALL"));
+        _RoroStatus.Add(new CoreConstants.IdValue(1, "Draft"));
+        _RoroStatus.Add(new CoreConstants.IdValue(2, "Cancelled"));
+        _RoroStatus.Add(new CoreConstants.IdValue(3, "Completed"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _RoroStatus; }
+      }
+    }
+
+    #endregion
+
     #region PaymentStatus
 
     public class PaymentStatus

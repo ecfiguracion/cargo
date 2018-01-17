@@ -1,0 +1,10 @@
+CREATE TABLE [dbo].[vehicle](
+	[vehicle] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](100) NOT NULL,
+	[plateno] [nvarchar](30) NOT NULL,
+ CONSTRAINT [PK_vehicle] PRIMARY KEY CLUSTERED 
+(
+	[vehicle] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
