@@ -139,6 +139,14 @@ namespace Bitz.Core.Application
       public static CoreConstants.UserInterface PorterageBill { get { return FindById(1428); } }
       public static CoreConstants.UserInterface PorterageBills { get { return FindById(1429); } }
 
+      public static CoreConstants.UserInterface VehicleType { get { return FindById(1430); } }
+      public static CoreConstants.UserInterface VehicleTypes { get { return FindById(1431); } }
+
+      public static CoreConstants.UserInterface FeesMain { get { return FindById(1432); } }
+
+      public static CoreConstants.UserInterface RoroTerminalFee { get { return FindById(1433); } }
+      public static CoreConstants.UserInterface RoroTerminalFees { get { return FindById(1434); } }
+
       public static void Initialise()
       {
         Items.Add(new CoreConstants.UserInterface(1400, "Billings", "Bitz.Cargo.Views.BillingMainView", Modules.Cargo, CoreConstants.PageType.Page));
@@ -188,6 +196,15 @@ namespace Bitz.Core.Application
 
         Items.Add(new CoreConstants.UserInterface(1428, "Porterage", "Porterage", "Bitz.Cargo.Views.Billings.PorterageView", Modules.Cargo, CoreConstants.PageType.ContentPage));
         Items.Add(new CoreConstants.UserInterface(1429, "Porterage", "Porterages", "Bitz.Cargo.Views.Billings.PorteragesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.PorterageBill));
+
+        Items.Add(new CoreConstants.UserInterface(1430, "Vehicle Type", "Vehicle Type", "Bitz.Cargo.Views.Settings.VehicleTypeView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1431, "Vehicle Types", "Vehicle Type", "Bitz.Cargo.Views.Settings.VehicleTypesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.VehicleType));
+
+        Items.Add(new CoreConstants.UserInterface(1432, "Fees", "Bitz.Cargo.Views.FeesMainView", Modules.Cargo, CoreConstants.PageType.Page));
+
+        Items.Add(new CoreConstants.UserInterface(1433, "Roro Terminal Fee", "Roro Terminal Fee", "Bitz.Cargo.Views.Fees.RoroTerminalFeeView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1434, "Roro Terminal Fees", "Roro Terminal Fees", "Bitz.Cargo.Views.Fees.RoroTerminalFeesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.RoroTerminalFee));
+
       }
     }
 

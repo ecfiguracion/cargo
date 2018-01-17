@@ -27,6 +27,7 @@ namespace Bitz.Views.Security
 
       // define the dialog buttons
       this.Buttons = null;
+      this.xUsername.Focus();
     }
 
     private void xLoginButton_Click(object sender, RoutedEventArgs e)

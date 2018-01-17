@@ -28,8 +28,8 @@
       <TextBlock Grid.Row="0" Grid.Column="0" Text="Username" VerticalAlignment="Center" FontSize="16"/>
       <TextBlock Grid.Row="1" Grid.Column="0" Text="Password" VerticalAlignment="Center" FontSize="16"/>
 
-      <TextBox Grid.Row="0" Grid.Column="1" Width="300" Margin="10,5" FontSize="16" x:Name="xUsername"/>
-      <TextBox Grid.Row="1" Grid.Column="1" Width="300" Margin="10,5" FontSize="16" x:Name="xPassword"/>
+      <TextBox Grid.Row="0" Grid.Column="1" Width="300" Height="30" Padding="2px" Margin="10,5" x:Name="xUsername"/>
+      <TextBox Grid.Row="1" Grid.Column="1" Width="300" Height="30" Padding="2px" Margin="10,5" x:Name="xPassword"/>
       
       <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,20,0,0">
         <Button Width="100" Height="35" x:Name="xLoginButton" Click="xLoginButton_Click">Login</Button>

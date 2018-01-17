@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fees\VehicleFeeItem.cs" />
+    <Compile Include="Fees\VehicleFee.cs" />
+    <Compile Include="Fees\Infos\VehicleFeeInfo.cs" />
     <Compile Include="Billing\BillItemPorterage.cs" />
     <Compile Include="Billing\BillItemMooring.cs" />
     <Compile Include="Billing\Infos\PaymentInfo.cs" />
@@ -61,7 +64,9 @@
     <Compile Include="Billing\WalkIn.cs" />
     <Compile Include="Billing\Roro.cs" />
     <Compile Include="CargoReferences\Consignee.cs" />
+    <Compile Include="CargoReferences\Infos\VehicleTypeInfo.cs" />
     <Compile Include="CargoReferences\Infos\UnitOfMeasureInfo.cs" />
+    <Compile Include="CargoReferences\VehicleType.cs" />
     <Compile Include="CargoReferences\UnitOfMeasure.cs" />
     <Compile Include="CargoReferences\Vessel.cs" />
     <Compile Include="Commands\CommandUniqueORNumber.cs" />

@@ -17,15 +17,15 @@
     
     <mui:ModernMenu Grid.Row="0" x:Name="Menu" SelectedLink="{Binding SelectedLink,Mode=TwoWay}">
       <mui:ModernMenu.LinkGroups>
-        <mui:LinkGroup DisplayName="Home">
+        <!--<mui:LinkGroup DisplayName="Home">
           <mui:LinkGroup.Links>
             <mui:Link DisplayName="Dashboard" />
           </mui:LinkGroup.Links>
-        </mui:LinkGroup>
+        </mui:LinkGroup>-->
         <mui:LinkGroup DisplayName="Transactions">
           <mui:LinkGroup.Links>
             <mui:Link DisplayName="Billings" />
-            <mui:Link DisplayName="RRTF" />
+            <mui:Link DisplayName="Fees" />
             <mui:Link DisplayName="Payroll" />
             <mui:Link DisplayName="Disbursements" />
           </mui:LinkGroup.Links>
