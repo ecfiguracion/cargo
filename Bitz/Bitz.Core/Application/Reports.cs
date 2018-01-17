@@ -37,6 +37,7 @@ namespace Bitz.Core.Application
       public static CoreConstants.Report RPT0006 { get { return FindById(1105); } }
       public static CoreConstants.Report RPT0007 { get { return FindById(1106); } }
       public static CoreConstants.Report RPT0008 { get { return FindById(1107); } }
+      public static CoreConstants.Report RPT0009 { get { return FindById(1108); } }
 
       public static void Initialise()
       {
@@ -48,6 +49,7 @@ namespace Bitz.Core.Application
         Items.Add(new CoreConstants.Report(1105, "RPT0006", "PPA Due - Summary of Gross Revenue", "Print Summary of Gross Revenue by date range", "RPT0006.DLL", UserInterfaces.Reports.RPT0006View));
         Items.Add(new CoreConstants.Report(1106, "RPT0007", "PPA Due - Arrastre / Stevedoring Summary", "Print Arrastre / Stevedoring Summary by date range", "RPT0007.DLL", UserInterfaces.Reports.RPT0007View));
         Items.Add(new CoreConstants.Report(1107, "RPT0008", "PPA Due - Summary of Monthly Gross Income Report", "Print Summary of Monthly Gross Income Report by date range", "RPT0008.DLL", UserInterfaces.Reports.RPT0008View));
+        Items.Add(new CoreConstants.Report(1108, "RPT0009", "PPA Due - Summary of Gross Income Report", "Print Summary of Gross Income Report", "RPT0009.DLL", UserInterfaces.Reports.RPT0009View));
       }
     }
 

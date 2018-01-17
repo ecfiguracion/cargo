@@ -70,6 +70,7 @@ namespace Bitz.Core.Application
       public static CoreConstants.UserInterface RPT0006View { get { return FindById(1301); } }
       public static CoreConstants.UserInterface RPT0007View { get { return FindById(1302); } }
       public static CoreConstants.UserInterface RPT0008View { get { return FindById(1303); } }
+      public static CoreConstants.UserInterface RPT0009View { get { return FindById(1304); } }
 
       public static void Initialise()
       {
@@ -77,6 +78,7 @@ namespace Bitz.Core.Application
         Items.Add(new CoreConstants.UserInterface(1301, "RPT-0006 Summary of Gross Revenue", "Bitz.Reports.Views.RPT0006View", Modules.Reports, CoreConstants.PageType.Dialog));
         Items.Add(new CoreConstants.UserInterface(1302, "RPT-0007 Arrastre / Stevedoring Summary", "Bitz.Reports.Views.RPT0007View", Modules.Reports, CoreConstants.PageType.Dialog));
         Items.Add(new CoreConstants.UserInterface(1303, "RPT-0008 Summary of Monthly Gross Income Report", "Bitz.Reports.Views.RPT0008View", Modules.Reports, CoreConstants.PageType.Dialog));
+        Items.Add(new CoreConstants.UserInterface(1304, "RPT-0009 Summary of Gross Income Report", "Bitz.Reports.Views.RPT0009View", Modules.Reports, CoreConstants.PageType.Dialog));
       }
 
     }
