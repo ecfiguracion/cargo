@@ -138,7 +138,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Name>Text77</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <Text>{Format("{0:MMM. dd, yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM. dd, yyyy}", DateTime.Parse(enddate))}</Text>
+              <Text>For the period covered: {Format("{0:MMM. dd, yyyy}", DateTime.Parse(startdate)) + Format(" - {0:MMM. dd, yyyy}", DateTime.Parse(enddate))}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="11" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd-yyyy</StringFormat>
@@ -933,7 +933,7 @@ group by v.date,v.ppatotal</SqlCommand>
             </Text29>
             <Text30 Ref="88" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>0.1,0.4,1.4,0.2</ClientRectangle>
+              <ClientRectangle>0.1,0.4,1.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,9.75,Bold</Font>
               <Guid>117eeef4d65743c48717fa0eb38ae61c</Guid>
@@ -950,7 +950,7 @@ group by v.date,v.ppatotal</SqlCommand>
             <Text31 Ref="89" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>1.6,0.4,1.1,0.2</ClientRectangle>
+              <ClientRectangle>1.9,0.4,1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8,Bold</Font>
               <Guid>25eee9e89ffd4ba9b874e687d2a34401</Guid>
@@ -959,7 +959,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Name>Text31</Name>
               <Page isRef="4" />
               <Parent isRef="71" />
-              <Text>{Sum(dsServiceFees.vehicletype1)}</Text>
+              <Text>{Sum(dsServiceFees.totalvehicles)}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="90" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
@@ -1216,7 +1216,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <ReferenceToGuid>ca106e5161a94a52ba5c86e9b333dca3</ReferenceToGuid>
             </EndPointPrimitive11>
             <HorizontalLinePrimitive7 Ref="114" type="HorizontalLinePrimitive" isKey="true">
-              <ClientRectangle>1.6,0.6,1.1,0.01</ClientRectangle>
+              <ClientRectangle>1.9,0.6,1.1,0.01</ClientRectangle>
               <Color>Black</Color>
               <EndCap Ref="115" type="Cap" isKey="true">
                 <Color>Black</Color>
@@ -1428,10 +1428,10 @@ group by v.date,v.ppatotal</SqlCommand>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/18/2018 3:59:53 PM</ReportChanged>
+  <ReportChanged>1/18/2018 4:02:12 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>D:\CODEHUB\DEVS\Cargo\Reports\RPT0011.mrt</ReportFile>
-  <ReportGuid>4cb215d4600c41c6bd5678d905a32399</ReportGuid>
+  <ReportGuid>4197f072d8954c8dbbbb438f49b213b2</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2010.1.700</ReportVersion>
