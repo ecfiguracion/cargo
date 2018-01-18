@@ -5,9 +5,8 @@
     <Databases isList="true" count="1">
       <cn Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlDatabase" isKey="true">
         <Alias>cn</Alias>
-        <ConnectionString>User ID=sysadm;Data Source=.\SQLExpress2014;Initial Catalog=cargo;Integrated Security=False;Password=sysadm</ConnectionString>
+        <ConnectionString>User ID=sysadm;Data Source=.\SQLExpress;Initial Catalog=cargo;Integrated Security=False;Password=sysadm</ConnectionString>
         <Name>cn</Name>
-        <PromptUserNameAndPassword>False</PromptUserNameAndPassword>
       </cn>
     </Databases>
     <DataSources isList="true" count="1">
@@ -589,8 +588,10 @@ group by v.date,v.ppatotal</SqlCommand>
               <Text>{dsServiceFees.totalvehicles}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="53" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <VertAlignment>Center</VertAlignment>
@@ -778,8 +779,10 @@ group by v.date,v.ppatotal</SqlCommand>
               <Text>{Sum(dsServiceFees.totalvehicles)}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="73" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <VertAlignment>Center</VertAlignment>
@@ -962,8 +965,10 @@ group by v.date,v.ppatotal</SqlCommand>
               <Text>{Sum(dsServiceFees.totalvehicles)}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="90" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <VertAlignment>Center</VertAlignment>
@@ -1428,13 +1433,13 @@ group by v.date,v.ppatotal</SqlCommand>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/18/2018 4:02:12 PM</ReportChanged>
+  <ReportChanged>1/18/2018 5:20:06 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
-  <ReportFile>D:\CODEHUB\DEVS\Cargo\Reports\RPT0011.mrt</ReportFile>
-  <ReportGuid>4197f072d8954c8dbbbb438f49b213b2</ReportGuid>
+  <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0011.mrt</ReportFile>
+  <ReportGuid>588b72f2480142b083f916960c51d3a2</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
-  <ReportVersion>2010.1.700</ReportVersion>
+  <ReportVersion>2011.1.919</ReportVersion>
   <Script>using System;
 using System.Drawing;
 using System.Windows.Forms;
