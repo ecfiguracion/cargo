@@ -223,7 +223,7 @@ namespace Bitz.Cargo.ViewModels.Fees
     {
       if (!this.Model.IsNew)
       {
-        ReportHelper.Print(Reports.Cargo.RPT0001, this.Model.Id);
+        ReportHelper.Print(Reports.Cargo.RPT0010, this.Model.Id);
       }
     }
     #endregion
