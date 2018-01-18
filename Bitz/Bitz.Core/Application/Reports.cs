@@ -43,13 +43,13 @@ namespace Bitz.Core.Application
       {
         Items.Add(new CoreConstants.Report(1100, "RPT0001", "Statement of Account", "Print statement of accounts.", "RPT0001.DLL"));
         Items.Add(new CoreConstants.Report(1101, "RPT0002", "Statement of Account - Roro", "Print RORO statement of accounts.", "RPT0002.DLL"));
-        Items.Add(new CoreConstants.Report(1102, "RPT0003", "PPA Due - Schedule of Gross Revenue", "Print Schedule of Gross Revenue by date range", "RPT0003.DLL", UserInterfaces.Reports.RPT0003View));
+        Items.Add(new CoreConstants.Report(1102, "RPT0003", "Schedule of Gross Revenue", "PPA Due - Schedule of Gross Revenue by date range", "RPT0003.DLL", UserInterfaces.Reports.RPT0003View));
         Items.Add(new CoreConstants.Report(1103, "RPT0004", "Statement of Account - Mooring/Unmooring", "Print Mooring/Unmooring statement of accounts.", "RPT0004.DLL"));
         Items.Add(new CoreConstants.Report(1104, "RPT0005", "Statement of Account - Porterage", "Print Porterage statement of accounts.", "RPT0005.DLL"));
-        Items.Add(new CoreConstants.Report(1105, "RPT0006", "PPA Due - Summary of Gross Revenue", "Print Summary of Gross Revenue by date range", "RPT0006.DLL", UserInterfaces.Reports.RPT0006View));
-        Items.Add(new CoreConstants.Report(1106, "RPT0007", "PPA Due - Arrastre / Stevedoring Summary", "Print Arrastre / Stevedoring Summary by date range", "RPT0007.DLL", UserInterfaces.Reports.RPT0007View));
-        Items.Add(new CoreConstants.Report(1107, "RPT0008", "PPA Due - Summary of Monthly Gross Income Report", "Print Summary of Monthly Gross Income Report by date range", "RPT0008.DLL", UserInterfaces.Reports.RPT0008View));
-        Items.Add(new CoreConstants.Report(1108, "RPT0009", "PPA Due - Summary of Gross Income Report", "Print Summary of Gross Income Report", "RPT0009.DLL", UserInterfaces.Reports.RPT0009View));
+        Items.Add(new CoreConstants.Report(1105, "RPT0006", "Summary of Gross Revenue", "PPA Due - Summary of Gross Revenue by date range", "RPT0006.DLL", UserInterfaces.Reports.RPT0006View));
+        Items.Add(new CoreConstants.Report(1106, "RPT0007", "Arrastre / Stevedoring Summary", "PPA Due - Arrastre / Stevedoring Summary by date range", "RPT0007.DLL", UserInterfaces.Reports.RPT0007View));
+        Items.Add(new CoreConstants.Report(1107, "RPT0008", "Summary of Monthly Gross Income Report", "PPA Due - Print Summary of Monthly Gross Income Report by date range", "RPT0008.DLL", UserInterfaces.Reports.RPT0008View));
+        Items.Add(new CoreConstants.Report(1108, "RPT0009", "Summary of Gross Income Report", "PPA Due - Summary of Gross Income Report by date range", "RPT0009.DLL", UserInterfaces.Reports.RPT0009View));
       }
     }
 
