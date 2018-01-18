@@ -39,6 +39,7 @@ namespace Bitz.Core.Application
       public static CoreConstants.Report RPT0008 { get { return FindById(1107); } }
       public static CoreConstants.Report RPT0009 { get { return FindById(1108); } }
       public static CoreConstants.Report RPT0010 { get { return FindById(1109); } }
+      public static CoreConstants.Report RPT0011 { get { return FindById(1110); } }
 
       public static void Initialise()
       {
@@ -52,6 +53,7 @@ namespace Bitz.Core.Application
         Items.Add(new CoreConstants.Report(1107, "RPT0008", "Summary of Monthly Gross Income Report", "PPA Due - Print Summary of Monthly Gross Income Report by date range", "RPT0008.DLL", UserInterfaces.Reports.RPT0008View));
         Items.Add(new CoreConstants.Report(1108, "RPT0009", "Summary of Gross Income Report", "PPA Due - Summary of Gross Income Report by date range", "RPT0009.DLL", UserInterfaces.Reports.RPT0009View));
         Items.Add(new CoreConstants.Report(1109, "RPT0010", "Roro Terminal Fee(s) - Reconciliation Report", "Strong Republic Nautical Highway(SRNH) Terminal Fee - Reconciliation Report", "RPT0010.DLL"));
+        Items.Add(new CoreConstants.Report(1110, "RPT0011", "Statement of Acccount - SRNH Service Fee", "SRNH Service Fee Summary Report by date range", "RPT0011.DLL", UserInterfaces.Reports.RPT0011View));
       }
     }
 

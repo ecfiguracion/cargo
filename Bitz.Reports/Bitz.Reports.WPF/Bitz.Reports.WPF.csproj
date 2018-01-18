@@ -72,6 +72,7 @@
     <Compile Include="ViewModels\RPT0007VM.cs" />
     <Compile Include="ViewModels\RPT0006VM.cs" />
     <Compile Include="ViewModels\RPT0003VM.cs" />
+    <Compile Include="ViewModels\RPT0011VM.cs" />
     <Compile Include="ViewModels\RPT0009VM.cs" />
     <Compile Include="Views\RPT0008View.xaml.cs">
       <DependentUpon>RPT0008View.xaml</DependentUpon>
@@ -84,6 +85,9 @@
     </Compile>
     <Compile Include="Views\RPT0003View.xaml.cs">
       <DependentUpon>RPT0003View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RPT0011View.xaml.cs">
+      <DependentUpon>RPT0011View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RPT0009View.xaml.cs">
       <DependentUpon>RPT0009View.xaml</DependentUpon>
@@ -115,6 +119,10 @@
     <Page Include="Views\RPT0003View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RPT0011View.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\RPT0009View.xaml">
       <SubType>Designer</SubType>
