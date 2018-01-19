@@ -26,18 +26,30 @@
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Bottom">
-      <StackPanel Orientation="Horizontal">
-        <TextBlock Text="Search" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
+      <StackPanel Orientation="Vertical">
+        <TextBlock Text="Search" VerticalAlignment="Center" Margin="8,4,0,0" FontWeight="Bold"/>
         <TextBox Text="{Binding Criteria.SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="150" Margin="8,4">
           <TextBox.InputBindings>
             <KeyBinding Gesture="Enter" Command="{Binding CommandRefresh}"/>
           </TextBox.InputBindings>
         </TextBox>
       </StackPanel>
-      <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
-        <TextBlock Text="Status" VerticalAlignment="Center" Margin="8,4,0,4" FontWeight="Bold"/>
-        <ComboBox  Width="180" Margin="8,4" ItemsSource="{Binding Statuses}" DisplayMemberPath="Value" SelectedValuePath="Id"
+      <StackPanel Orientation="Vertical" Margin="4,0,0,0">
+        <TextBlock Text="Date Range" VerticalAlignment="Center" Margin="8,4,0,0" FontWeight="Bold"/>
+        <StackPanel Orientation="Horizontal">
+          <DatePicker Grid.Row="1" Grid.Column="1" Margin="4,2" Width="100" HorizontalAlignment="Left"
+                      SelectedDate="{Binding Criteria.StartDate,Mode=TwoWay,ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" />
+          <DatePicker Grid.Row="1" Grid.Column="1" Margin="4,2" Width="100" HorizontalAlignment="Left"
+                      SelectedDate="{Binding Criteria.EndDate,Mode=TwoWay,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+      </StackPanel>
+      <StackPanel Orientation="Vertical" Margin="4,0,0,0">
+        <TextBlock Text="Status" VerticalAlignment="Center" Margin="8,4,0,0" FontWeight="Bold"/>
+        <ComboBox  Width="100" Margin="8,4" ItemsSource="{Binding Statuses}" DisplayMemberPath="Value" SelectedValuePath="Id"
                    SelectedValue="{Binding Criteria.Status,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+      </StackPanel>
+      <StackPanel Orientation="Vertical" Margin="4,0,0,0" VerticalAlignment="Bottom">
+        <CheckBox Margin="0,0,0,4" IsChecked="{Binding Criteria.ShowIsPaymentDue,UpdateSourceTrigger=PropertyChanged}">Show Overdue Payment</CheckBox>
       </StackPanel>
     </StackPanel>
 
@@ -56,25 +68,67 @@
       <DataGrid.Columns>
         <mui:DataGridTextColumn Header="Reference Number"
                                 Width="150"
-                                Binding="{Binding BillNo}" />
+                                Binding="{Binding BillNo}" >
+          <mui:DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell">
+              <Setter Property="Foreground" Value="{Binding ItemColor}"/>
+            </Style>
+          </mui:DataGridTextColumn.CellStyle>
+        </mui:DataGridTextColumn>
         <mui:DataGridTextColumn Header="Date"
                                 Width="100"
-                                Binding="{Binding BillDate}" />
+                                Binding="{Binding BillDate}" >
+          <mui:DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell">
+              <Setter Property="Foreground" Value="{Binding ItemColor}"/>
+            </Style>
+          </mui:DataGridTextColumn.CellStyle>
+        </mui:DataGridTextColumn>
         <mui:DataGridTextColumn Header="Consignee"
                                 Width="*"
-                                Binding="{Binding Consignee}" />
+                                Binding="{Binding Consignee}" >
+          <mui:DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell">
+              <Setter Property="Foreground" Value="{Binding ItemColor}"/>
+            </Style>
+          </mui:DataGridTextColumn.CellStyle>
+        </mui:DataGridTextColumn>
         <mui:DataGridTextColumn Header="Vessel"
                                 Width="*"
-                                Binding="{Binding Vessel}" />
+                                Binding="{Binding Vessel}" >
+          <mui:DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell">
+              <Setter Property="Foreground" Value="{Binding ItemColor}"/>
+            </Style>
+          </mui:DataGridTextColumn.CellStyle>
+        </mui:DataGridTextColumn>
         <mui:DataGridTextColumn Header="OR No."
                                 Width="100"
-                                Binding="{Binding ORNumber}" />
+                                Binding="{Binding ORNumber}" >
+          <mui:DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell">
+              <Setter Property="Foreground" Value="{Binding ItemColor}"/>
+            </Style>
+          </mui:DataGridTextColumn.CellStyle>
+        </mui:DataGridTextColumn>
         <mui:DataGridTextColumn Header="Voyage No"
                                 Width="105"
-                                Binding="{Binding VoyageNo}" />
+                                Binding="{Binding VoyageNo}" >
+          <mui:DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell">
+              <Setter Property="Foreground" Value="{Binding ItemColor}"/>
+            </Style>
+          </mui:DataGridTextColumn.CellStyle>
+        </mui:DataGridTextColumn>
         <mui:DataGridTextColumn Header="Status"
                                 Width="150"
-                                Binding="{Binding Status.Value}" />
+                                Binding="{Binding Status.Value}" >
+          <mui:DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell">
+              <Setter Property="Foreground" Value="{Binding ItemColor}"/>
+            </Style>
+          </mui:DataGridTextColumn.CellStyle>
+        </mui:DataGridTextColumn>
       </DataGrid.Columns>
     </DataGrid>
 

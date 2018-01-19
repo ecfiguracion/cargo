@@ -117,6 +117,41 @@ namespace Bitz.Cargo.Business.Billing.Infos
 
     #endregion
 
+    #region DueDate
+
+    public static readonly PropertyInfo<SmartDate> _DueDate = RegisterProperty<SmartDate>(c => c.DueDate);
+    public SmartDate DueDate
+    {
+      get { return GetProperty(_DueDate); }
+    }
+
+    #endregion
+
+    #region IsPaymentDue
+
+    public bool IsPaymentDue
+    {
+      get 
+      {
+        return (this.Status.Id == CargoConstants.BillStatus.Draft.Id || this.Status.Id == CargoConstants.BillStatus.PartiallyPaid.Id) &&
+            DateTime.Now.Date > this.DueDate.Date;
+      }
+    }
+
+    #endregion
+
+    #region ItemColor
+
+    public string ItemColor
+    {
+      get 
+      { 
+        return this.IsPaymentDue ? "Red" : "Black"; 
+      }
+    }
+
+    #endregion
+
     #endregion
 
     #region One To Many Properties
@@ -156,6 +191,7 @@ namespace Bitz.Cargo.Business.Billing.Infos
       LoadProperty(_ORNumber, dr.GetString("ornumber"));
       LoadProperty(_Status, dr.GetInt32("status"));
       LoadProperty(_MooringType, dr.GetInt32("mooringtype"));
+      LoadProperty(_DueDate, dr.GetSmartDate("duedate"));
     }
 
     #endregion
@@ -258,6 +294,17 @@ namespace Bitz.Cargo.Business.Billing.Infos
       }
       #endregion 
 
+      #region ShowIsPaymentDue
+
+      public static readonly PropertyInfo<bool> _ShowIsPaymentDue = RegisterProperty<bool>(c => c.ShowIsPaymentDue);
+      public bool ShowIsPaymentDue
+      {
+        get { return ReadProperty(_ShowIsPaymentDue); }
+        set { LoadProperty(_ShowIsPaymentDue, value); }
+      }
+
+      #endregion
+
     }
 
     #endregion
@@ -281,7 +328,8 @@ namespace Bitz.Cargo.Business.Billing.Infos
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"SELECT b.bill,b.billno,b.billdate,c.name as consignee,v.name as vessel,b.voyageno,b.ornumber,b.status,b.mooringtype
+          cmd.CommandText = @"SELECT b.bill,b.billno,b.billdate,c.name as consignee,v.name as vessel,b.voyageno,
+                                    b.ornumber,b.status,b.mooringtype,b.duedate
                               FROM bill b
                               LEFT JOIN contact c ON b.consignee = c.contact
                               LEFT JOIN contact v ON b.vessel = v.contact
@@ -299,24 +347,30 @@ namespace Bitz.Cargo.Business.Billing.Infos
             cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
           }
 
+          if (criteria.ShowIsPaymentDue)
+          {
+            cmd.CommandText += " AND (b.status IN (1,2) and @currentDate > b.duedate)";
+            cmd.Parameters.AddWithValue("@currentDate", DateTime.Now.Date);
+          }
+
           if (criteria.BillType != null)
             cmd.Parameters.AddWithValue("@billtype", criteria.BillType);
           else
             cmd.Parameters.AddWithValue("@billtype", DBNull.Value);
 
-          if (criteria.Status != null && criteria.Status > 0)
+          if (!criteria.ShowIsPaymentDue && criteria.Status != null && criteria.Status > 0)
             cmd.Parameters.AddWithValue("@status", criteria.Status);
           else
             cmd.Parameters.AddWithValue("@status", DBNull.Value);
 
-          if (criteria.StartDate != null && criteria.EndDate != null)
+          if (!criteria.ShowIsPaymentDue && criteria.StartDate != null && criteria.EndDate != null)
           {
-            cmd.CommandText += @" AND (b.billdate >= @fromDate AND b.billingdate < @toDate)";
+            cmd.CommandText += @" AND (b.billdate >= @fromDate AND b.billdate < @toDate)";
             cmd.Parameters.AddWithValue("@fromDate", criteria.StartDate.Date);
-            cmd.Parameters.AddWithValue("@toDate", criteria.EndDate.Date.AddDays(1));
+            cmd.Parameters.AddWithValue("@toDate", criteria.EndDate.Date.AddDays(1).Date);
           }
 
-          if (criteria.MooringType != null && criteria.MooringType > 0)
+          if (!criteria.ShowIsPaymentDue && criteria.MooringType != null && criteria.MooringType > 0)
             cmd.Parameters.AddWithValue("@mooringtype", criteria.MooringType);
           else
             cmd.Parameters.AddWithValue("@mooringtype", DBNull.Value);

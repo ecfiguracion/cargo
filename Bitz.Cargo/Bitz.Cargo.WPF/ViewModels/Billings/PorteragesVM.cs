@@ -23,6 +23,8 @@ namespace Bitz.Cargo.ViewModels.Billings
       var criteria = new BillInfos.Criteria();
       criteria.BillType = CargoConstants.BillingType.Porterage.Id;
       criteria.Status = CargoConstants.BillStatus.All.Id;
+      criteria.StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+      criteria.EndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
 
       this.Criteria = criteria;
 
