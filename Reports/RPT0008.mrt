@@ -3178,10 +3178,10 @@ or to be Remitted</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>11/4/2017 11:31:42 AM</ReportChanged>
+  <ReportChanged>1/20/2018 2:16:38 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0008.mrt</ReportFile>
-  <ReportGuid>863893059c5f40129dbc860a45598270</ReportGuid>
+  <ReportGuid>9d116c38fbc5489b92473ccf30686f20</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

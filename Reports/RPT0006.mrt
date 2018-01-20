@@ -37,7 +37,8 @@
         <Name>dsPayment</Name>
         <NameInSource>cn</NameInSource>
         <Parameters isList="true" count="0" />
-        <SqlCommand>WITH billamount AS (
+        <SqlCommand>--RPT0006
+WITH billamount AS (
 SELECT bill.bill,
 	payment.ornumber,
 	DATEADD(dd, DATEDIFF(dd, 0, payment.paymentdate), 0) AS datepaid,
@@ -86,7 +87,7 @@ SELECT bill.bill,
 		INNER JOIN paymentdetail on paymentdetail.bill = bill.bill
 		INNER JOIN payment on payment.payment = paymentdetail.payment
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, payment.paymentdate), 0) BETWEEN '{startdate}' AND '{enddate}'
-		AND DATEDIFF(mm, bill.billdate, bill.duedate) = 0
+		AND DATEDIFF(mm, bill.duedate, payment.paymentdate) = 0
 		AND bill.status = 3 AND LEN(payment.ornumber) &gt; 0
 	GROUP BY bill.bill, bill.billtype, payment.ornumber, payment.paymentdate
 UNION
@@ -109,7 +110,7 @@ SELECT bill.bill,
 	FROM billitemroro
 	INNER JOIN bill on bill.bill = billitemroro.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
-		AND DATEDIFF(mm, bill.billdate, bill.duedate) = 0
+		AND DATEDIFF(mm, bill.duedate, bill.billdate) = 0
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
 	GROUP BY bill.bill, bill.ornumber, bill.billdate
 UNION
@@ -140,7 +141,7 @@ SELECT bill.bill,
 	FROM billitemmooring
 		INNER JOIN bill on bill.bill = billitemmooring.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
-		AND DATEDIFF(mm, bill.billdate, bill.duedate) = 0
+		AND DATEDIFF(mm, bill.duedate, bill.billdate) = 0
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
 	GROUP BY bill.bill, bill.mooringtype, bill.ornumber, bill.billdate
 UNION
@@ -163,7 +164,7 @@ SELECT bill.bill,
 	FROM billitemporterage
 	INNER JOIN bill on bill.bill = billitemporterage.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
-		AND DATEDIFF(mm, bill.billdate, bill.duedate) = 0
+		AND DATEDIFF(mm, bill.duedate, bill.billdate) = 0
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
 	GROUP BY bill.bill, bill.ornumber, bill.billdate
 UNION
@@ -185,7 +186,7 @@ SELECT bill.bill,
 	0 as domesticppashareamount
 	FROM bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
-		AND DATEDIFF(mm, bill.billdate, bill.duedate) &gt; 0
+		AND DATEDIFF(mm, bill.duedate, bill.billdate) &gt; 0
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
 		AND NOT EXISTS (
 SELECT 1 FROM paymentdetail
@@ -214,7 +215,7 @@ SELECT bill.bill,
 	INNER JOIN paymentdetail on paymentdetail.bill = bill.bill
 		INNER JOIN payment on payment.payment = paymentdetail.payment
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, payment.paymentdate), 0) BETWEEN '{startdate}' AND '{enddate}'
-		AND DATEDIFF(mm, payment.paymentdate, bill.duedate) &gt; 0
+		AND DATEDIFF(mm, bill.duedate, payment.paymentdate) &gt; 0
 		AND bill.status = 3 AND LEN(payment.ornumber) &gt; 0
 	GROUP BY bill.bill, payment.ornumber, payment.paymentdate
 )
@@ -259,7 +260,7 @@ SELECT datepaid,
         <PageHeaderBand1 Ref="5" type="PageHeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <CanShrink>True</CanShrink>
-          <ClientRectangle>0,0.2,12.95,1.2</ClientRectangle>
+          <ClientRectangle>0,0.2,13.45,1.2</ClientRectangle>
           <Components isList="true" count="64">
             <Text79 Ref="6" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -1087,7 +1088,7 @@ DUES</Text>
         <ReportTitleBand1 Ref="80" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <CanShrink>True</CanShrink>
-          <ClientRectangle>0,1.8,12.95,2.5</ClientRectangle>
+          <ClientRectangle>0,1.8,13.45,2.5</ClientRectangle>
           <Components isList="true" count="72">
             <Text38 Ref="81" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -2040,7 +2041,7 @@ DUES</Text>
         <DataBand1 Ref="167" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,4.7,12.95,0.2</ClientRectangle>
+          <ClientRectangle>0,4.7,13.45,0.2</ClientRectangle>
           <Components isList="true" count="54">
             <Text36 Ref="168" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -2709,7 +2710,7 @@ DUES</Text>
         <ReportSummaryBand2 Ref="241" type="ReportSummaryBand" isKey="true">
           <Brush>Transparent</Brush>
           <CanShrink>True</CanShrink>
-          <ClientRectangle>0,5.3,12.95,0.3</ClientRectangle>
+          <ClientRectangle>0,5.3,13.45,0.3</ClientRectangle>
           <Components isList="true" count="53">
             <Text83 Ref="242" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -3368,7 +3369,7 @@ DUES</Text>
         </ReportSummaryBand2>
         <ReportSummaryBand1 Ref="316" type="ReportSummaryBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,6,12.95,1.1</ClientRectangle>
+          <ClientRectangle>0,6,13.45,1.1</ClientRectangle>
           <Components isList="true" count="9">
             <Text16 Ref="317" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -4534,7 +4535,7 @@ DUES</Text>
       <Name>Page1</Name>
       <Orientation>Landscape</Orientation>
       <PageHeight>8.5</PageHeight>
-      <PageWidth>13.5</PageWidth>
+      <PageWidth>14</PageWidth>
       <PaperSize>Legal</PaperSize>
       <PrintHeadersFootersFromPreviousPage>True</PrintHeadersFootersFromPreviousPage>
       <PrintOnPreviousPage>True</PrintOnPreviousPage>
@@ -4558,10 +4559,10 @@ DUES</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/18/2018 5:00:41 PM</ReportChanged>
+  <ReportChanged>1/20/2018 2:36:48 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0006.mrt</ReportFile>
-  <ReportGuid>09fc1d97221744ecb6e3cd244d8dff90</ReportGuid>
+  <ReportGuid>5aee4e4e25124ba6b580fb20fc1bea1b</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

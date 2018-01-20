@@ -35,9 +35,9 @@
         <Name>dsPayment</Name>
         <NameInSource>cn</NameInSource>
         <Parameters isList="true" count="0" />
-        <SqlCommand>WITH billamount AS (
+        <SqlCommand>--RPT0007.NEW
+WITH payments AS (
 SELECT 
-	DATEADD(MONTH, DATEDIFF(MONTH, 0, payment.paymentdate), 0) AS datepaid,
 	0 AS porterageincomeamount,
 	CASE WHEN bill.billtype = 1 THEN
 		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
@@ -83,10 +83,9 @@ SELECT
 		INNER JOIN payment on payment.payment = paymentdetail.payment
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, payment.paymentdate), 0) BETWEEN '{startdate}' AND '{enddate}'
 		AND bill.status = 3 AND LEN(payment.ornumber) &gt; 0
-	GROUP BY bill.billtype, DATEADD(MONTH, DATEDIFF(MONTH, 0, payment.paymentdate), 0)
+	GROUP BY billtype	
 UNION
 SELECT 
-	DATEADD(MONTH, DATEDIFF(MONTH, 0, bill.billdate), 0) AS datepaid,
 	0 AS porterageincomeamount,
 	0 AS foreignarrastreamount,
 	ROUND(SUM(rate * quantity), 2) as domesticarrastreamount,
@@ -103,10 +102,8 @@ SELECT
 	INNER JOIN bill on bill.bill = billitemroro.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
-	GROUP BY DATEADD(MONTH, DATEDIFF(MONTH, 0, bill.billdate), 0)
 UNION
 SELECT 
-	DATEADD(MONTH, DATEDIFF(MONTH, 0, bill.billdate), 0) AS datepaid,
 	0 AS porterageincomeamount,
 	0 AS foreignarrastreamount,
 	0 AS domesticarrastreamount,
@@ -131,10 +128,9 @@ SELECT
 		INNER JOIN bill on bill.bill = billitemmooring.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
-	GROUP BY bill.mooringtype, DATEADD(MONTH, DATEDIFF(MONTH, 0, bill.billdate), 0)
+	GROUP BY mooringtype	
 UNION
 SELECT 
-	DATEADD(MONTH, DATEDIFF(MONTH, 0, bill.billdate), 0) AS datepaid,
 	ROUND(SUM(rate * quantity / 1.12), 2) as porterageincomeamount,
 	0 AS foreignarrastreamount,
 	0 AS domesticarrastreamount,
@@ -151,11 +147,10 @@ SELECT
 	INNER JOIN bill on bill.bill = billitemporterage.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
-	GROUP BY DATEADD(MONTH, DATEDIFF(MONTH, 0, bill.billdate), 0)
 ),
-amountreceivable AS (
+receivables AS (
 SELECT 
-	DATEADD(MONTH, 1, DATEADD(MONTH, DATEDIFF(MONTH, 0, getdate()), 0)) AS datepaid,
+	0 AS porterageincomeamount,
 	CASE WHEN bill.billtype = 1 THEN
 		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
 		ELSE 0 END AS foreignarrastreamount,
@@ -176,6 +171,8 @@ SELECT
 		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
 			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) 
 		ELSE 0 END AS domesticpremiumamount,
+	0 AS domesticmooringamount,
+	0 AS foreignmooringamount,
 	ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
 		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
 		((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
@@ -194,12 +191,73 @@ SELECT
 		ELSE 0 END AS domesticppashareamount
 	FROM billitem
 		INNER JOIN bill on bill.bill = billitem.bill
-		INNER JOIN paymentdetail on paymentdetail.bill = bill.bill
-		INNER JOIN payment on payment.payment = paymentdetail.payment
-	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.duedate), 0) = DATEADD(dd, DATEDIFF(dd, 0, '{startdate}'), -1)
-		AND (bill.status &lt;&gt; 3 OR LEN(COALESCE(payment.ornumber, '')) = 0)
-	GROUP BY bill.billtype
-)	
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND bill.status &lt; 3
+	GROUP BY billtype	
+UNION
+SELECT 
+	0 AS porterageincomeamount,
+	0 AS foreignarrastreamount,
+	ROUND(SUM(rate * quantity), 2) as domesticarrastreamount,
+	0 AS foreignstevedoringamount,
+	0 AS domesticstevedoringamount,
+	0 AS foreignpremiumamount,
+	0 AS domesticpremiumamount,
+	0 AS domesticmooringamount,
+	0 AS foreignmooringamount,
+	ROUND(SUM(rate * quantity), 2) as totalamount,
+	0 AS foreignppashareamount,
+	ROUND(SUM(rate * quantity), 2) * 0.10 as domesticppashareamount
+	FROM billitemroro
+	INNER JOIN bill on bill.bill = billitemroro.bill
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND bill.status &lt; 3
+UNION
+SELECT 
+	0 AS porterageincomeamount,
+	0 AS foreignarrastreamount,
+	0 AS domesticarrastreamount,
+	0 AS foreignstevedoringamount,
+	0 AS domesticstevedoringamount,
+	0 AS foreignpremiumamount,
+	0 AS domesticpremiumamount,
+	CASE WHEN bill.mooringtype = 1 THEN 
+		ROUND(SUM(rate * quantity), 2)
+	ELSE 0 END AS domesticmooring,
+	CASE WHEN bill.mooringtype &lt;&gt; 1 THEN 
+		ROUND(SUM(rate * quantity), 2)
+	ELSE 0 END AS foreignmooring,
+	ROUND(SUM(rate * quantity), 2) as totalamount,
+	CASE WHEN bill.mooringtype &lt;&gt; 1 THEN 
+		ROUND(SUM(rate * quantity), 2) * 0.20
+	ELSE 0 END AS foreignppashareamount,
+	CASE WHEN bill.mooringtype = 1 THEN 
+		ROUND(SUM(rate * quantity), 2) * 0.10
+	ELSE 0 END AS domesticppashareamount
+	FROM billitemmooring
+		INNER JOIN bill on bill.bill = billitemmooring.bill
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND bill.status &lt; 3
+	GROUP BY mooringtype	
+UNION
+SELECT 
+	ROUND(SUM(rate * quantity / 1.12), 2) as porterageincomeamount,
+	0 AS foreignarrastreamount,
+	0 AS domesticarrastreamount,
+	0 AS foreignstevedoringamount,
+	0 AS domesticstevedoringamount,
+	0 AS foreignpremiumamount,
+	0 AS domesticpremiumamount,
+	0 AS domesticmooringamount,
+	0 AS foreignmooringamount,
+	ROUND(SUM(ROUND(rate * quantity / 1.12, 2)), 2) as totalamount,
+	0 AS foreignppashareamount,
+	ROUND(SUM(ROUND(rate * quantity / 1.12, 2)) * 0.10, 2) as domesticppashareamount
+	FROM billitemporterage
+	INNER JOIN bill on bill.bill = billitemporterage.bill
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND bill.status &lt; 3
+)		
 SELECT 1 AS Id,
 	'Current' AS Reference,
 	SUM(porterageincomeamount) AS porterageincomeamount,
@@ -216,25 +274,25 @@ SELECT 1 AS Id,
 	SUM(domesticppashareamount) AS domesticppashareamount,
 	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 0.12, 2) AS vatamount,
 	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 1.12, 2) AS ppashare
-	FROM billamount
+	FROM payments
 UNION
 SELECT 2 AS Id,
 	'A/R' AS Reference,
-	0 AS porterageincomeamount,
+	SUM(porterageincomeamount) AS porterageincomeamount,
 	SUM(foreignarrastreamount) AS foreignarrastreamount,
 	SUM(domesticarrastreamount) AS domesticarrastreamount,
 	SUM(foreignstevedoringamount) AS foreignstevedoringamount,
 	SUM(domesticstevedoringamount) AS domesticstevedoringamount,
 	SUM(foreignpremiumamount) AS foreignpremiumamount,
 	SUM(domesticpremiumamount) AS domesticpremiumamount,
-	0 AS domesticmooringamount,
-	0 AS foreignmooringamount,
+	SUM(domesticmooringamount) AS domesticmooringamount,
+	SUM(foreignmooringamount) AS foreignmooringamount,
 	SUM(totalamount) AS totalamount,
-	0 AS foreignppashareamount,
-	0 AS domesticppashareamount,
-	0 AS vatamount,
-	0 AS ppashare
-	FROM amountreceivable
+	SUM(foreignppashareamount) AS foreignppashareamount,
+	SUM(domesticppashareamount) AS domesticppashareamount,
+	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 0.12, 2) AS vatamount,
+	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 1.12, 2) AS ppashare
+	FROM receivables
 </SqlCommand>
       </dsPayment>
     </DataSources>
@@ -257,7 +315,7 @@ SELECT 2 AS Id,
         <ReportTitleBand1 Ref="5" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <CanShrink>True</CanShrink>
-          <ClientRectangle>0,0.2,12.95,2.4</ClientRectangle>
+          <ClientRectangle>0,0.2,14,2.4</ClientRectangle>
           <Components isList="true" count="62">
             <Text77 Ref="6" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -714,7 +772,7 @@ Due</Text>
             </Text10>
             <Text12 Ref="31" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>6.3,1.9,0.9,0.2</ClientRectangle>
+              <ClientRectangle>6.3,1.9,0.9,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,9.75,Regular,Point,False,0</Font>
               <Guid>430239a74c604115aacc8ffa405912fb</Guid>
@@ -724,31 +782,14 @@ Due</Text>
               <OnlyText>True</OnlyText>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <Text>PORTERAGE</Text>
+              <Text>PORTERAGE Income</Text>
               <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text12>
-            <Text35 Ref="32" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>6.3,2.1,0.9,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
-              <Guid>6c12ed5dedf04813b029575d9f42575a</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text35</Name>
-              <OnlyText>True</OnlyText>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Text>Income</Text>
-              <TextBrush>Black</TextBrush>
-              <TextQuality>Typographic</TextQuality>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text35>
-            <Text23 Ref="33" type="Text" isKey="true">
+            <Text23 Ref="32" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>7.2,2.1,0.8,0.2</ClientRectangle>
@@ -769,7 +810,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
-            <Text24 Ref="34" type="Text" isKey="true">
+            <Text24 Ref="33" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>8,2.1,0.8,0.2</ClientRectangle>
@@ -790,10 +831,10 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text24>
-            <HorizontalLinePrimitive1 Ref="35" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive1 Ref="34" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,1.1,12.9,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="36" type="Cap" isKey="true">
+              <EndCap Ref="35" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>b86c71b17e8a439cb7ead71e3cc852b1</Guid>
@@ -801,182 +842,182 @@ Due</Text>
               <Page isRef="4" />
               <Parent isRef="5" />
               <Size>4</Size>
-              <StartCap Ref="37" type="Cap" isKey="true">
+              <StartCap Ref="36" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive1>
-            <HorizontalLinePrimitive2 Ref="38" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive2 Ref="37" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,1.14,12.9,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="39" type="Cap" isKey="true">
+              <EndCap Ref="38" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>770cf4fce0344d489fe089d353cd8bf1</Guid>
               <Name>HorizontalLinePrimitive2</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <StartCap Ref="40" type="Cap" isKey="true">
+              <StartCap Ref="39" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive2>
-            <StartPointPrimitive1 Ref="41" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive1 Ref="40" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0.1,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive1</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>c30a55d8506542469f3f4079c7ea7f15</ReferenceToGuid>
             </StartPointPrimitive1>
-            <EndPointPrimitive1 Ref="42" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive1 Ref="41" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12.9,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive1</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>c30a55d8506542469f3f4079c7ea7f15</ReferenceToGuid>
             </EndPointPrimitive1>
-            <StartPointPrimitive10 Ref="43" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive10 Ref="42" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>2.7,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive10</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>bc43aec58c754bc5995424d254ee3d89</ReferenceToGuid>
             </StartPointPrimitive10>
-            <EndPointPrimitive10 Ref="44" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive10 Ref="43" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>2.7,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive10</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>bc43aec58c754bc5995424d254ee3d89</ReferenceToGuid>
             </EndPointPrimitive10>
-            <StartPointPrimitive23 Ref="45" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive23 Ref="44" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0.7,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive23</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>0c73b8094c4349e58ce3ea4e9bc3f428</ReferenceToGuid>
             </StartPointPrimitive23>
-            <EndPointPrimitive23 Ref="46" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive23 Ref="45" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>0.7,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive23</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>0c73b8094c4349e58ce3ea4e9bc3f428</ReferenceToGuid>
             </EndPointPrimitive23>
-            <StartPointPrimitive26 Ref="47" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive26 Ref="46" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>4.7,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive26</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>ff1ac4ccac3d4236893456a242123516</ReferenceToGuid>
             </StartPointPrimitive26>
-            <EndPointPrimitive26 Ref="48" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive26 Ref="47" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>4.7,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive26</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>ff1ac4ccac3d4236893456a242123516</ReferenceToGuid>
             </EndPointPrimitive26>
-            <StartPointPrimitive27 Ref="49" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive27 Ref="48" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>7.2,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive27</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>9a625bc5fc6149b6ba2fd9f5efa2b1f0</ReferenceToGuid>
             </StartPointPrimitive27>
-            <EndPointPrimitive27 Ref="50" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive27 Ref="49" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>7.2,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive27</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>9a625bc5fc6149b6ba2fd9f5efa2b1f0</ReferenceToGuid>
             </EndPointPrimitive27>
-            <StartPointPrimitive29 Ref="51" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive29 Ref="50" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>8,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive29</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>b9f22306c5d4438eb59d0c0d3572da13</ReferenceToGuid>
             </StartPointPrimitive29>
-            <EndPointPrimitive29 Ref="52" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive29 Ref="51" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>8,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive29</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>b9f22306c5d4438eb59d0c0d3572da13</ReferenceToGuid>
             </EndPointPrimitive29>
-            <StartPointPrimitive31 Ref="53" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive31 Ref="52" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>8.8,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive31</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>55eac4657958486bb0dbf9c30b0a0e68</ReferenceToGuid>
             </StartPointPrimitive31>
-            <EndPointPrimitive31 Ref="54" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive31 Ref="53" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>8.8,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive31</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>55eac4657958486bb0dbf9c30b0a0e68</ReferenceToGuid>
             </EndPointPrimitive31>
-            <StartPointPrimitive33 Ref="55" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive33 Ref="54" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>9.9,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive33</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>fe0fa391d94b4077ab0a838a5dda9461</ReferenceToGuid>
             </StartPointPrimitive33>
-            <EndPointPrimitive33 Ref="56" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive33 Ref="55" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>9.9,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive33</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>fe0fa391d94b4077ab0a838a5dda9461</ReferenceToGuid>
             </EndPointPrimitive33>
-            <StartPointPrimitive35 Ref="57" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive35 Ref="56" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>11.3,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive35</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>17a8414051c946198bb4a0632342f7f0</ReferenceToGuid>
             </StartPointPrimitive35>
-            <EndPointPrimitive35 Ref="58" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive35 Ref="57" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>11.3,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive35</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>17a8414051c946198bb4a0632342f7f0</ReferenceToGuid>
             </EndPointPrimitive35>
-            <StartPointPrimitive37 Ref="59" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive37 Ref="58" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>12,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive37</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>46bc490df9ed492585e34affaf0419d0</ReferenceToGuid>
             </StartPointPrimitive37>
-            <EndPointPrimitive37 Ref="60" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive37 Ref="59" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive37</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>46bc490df9ed492585e34affaf0419d0</ReferenceToGuid>
             </EndPointPrimitive37>
-            <StartPointPrimitive38 Ref="61" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive38 Ref="60" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>10.6,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive38</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>726f57c9b8ed4a3a94cb9a78b979ee2f</ReferenceToGuid>
             </StartPointPrimitive38>
-            <EndPointPrimitive38 Ref="62" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive38 Ref="61" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>10.6,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive38</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>726f57c9b8ed4a3a94cb9a78b979ee2f</ReferenceToGuid>
             </EndPointPrimitive38>
-            <HorizontalLinePrimitive3 Ref="63" type="HorizontalLinePrimitive" isKey="true">
-              <ClientRectangle>0.7,2.1,8.1,0.01</ClientRectangle>
+            <HorizontalLinePrimitive3 Ref="62" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>0.7,2.1,5.6,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="64" type="Cap" isKey="true">
+              <EndCap Ref="63" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>5723be2931a342258a098191b3293cb7</Guid>
@@ -984,14 +1025,14 @@ Due</Text>
               <Page isRef="4" />
               <Parent isRef="5" />
               <Size>2</Size>
-              <StartCap Ref="65" type="Cap" isKey="true">
+              <StartCap Ref="64" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive3>
-            <HorizontalLinePrimitive8 Ref="66" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive8 Ref="65" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>9.9,2.1,1.4,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="67" type="Cap" isKey="true">
+              <EndCap Ref="66" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>7ebecd399434471fbc49701b6de50f4e</Guid>
@@ -999,78 +1040,93 @@ Due</Text>
               <Page isRef="4" />
               <Parent isRef="5" />
               <Size>2</Size>
-              <StartCap Ref="68" type="Cap" isKey="true">
+              <StartCap Ref="67" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive8>
-            <StartPointPrimitive5 Ref="69" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive5 Ref="68" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>1.7,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive5</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>4b7cc971247c4247b3f1bba9c2e0b67e</ReferenceToGuid>
             </StartPointPrimitive5>
-            <EndPointPrimitive5 Ref="70" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive5 Ref="69" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>1.7,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive5</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>4b7cc971247c4247b3f1bba9c2e0b67e</ReferenceToGuid>
             </EndPointPrimitive5>
-            <StartPointPrimitive6 Ref="71" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive6 Ref="70" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>3.7,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive6</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>e2bc1835a4484d5b9cd16b117eb68f3a</ReferenceToGuid>
             </StartPointPrimitive6>
-            <EndPointPrimitive6 Ref="72" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive6 Ref="71" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>3.7,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive6</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>e2bc1835a4484d5b9cd16b117eb68f3a</ReferenceToGuid>
             </EndPointPrimitive6>
-            <StartPointPrimitive7 Ref="73" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive7 Ref="72" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>6.3,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive7</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>ff9965d7cf4b4ceda52b56617ef9c4b0</ReferenceToGuid>
             </StartPointPrimitive7>
-            <EndPointPrimitive7 Ref="74" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive7 Ref="73" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>6.3,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive7</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>ff9965d7cf4b4ceda52b56617ef9c4b0</ReferenceToGuid>
             </EndPointPrimitive7>
-            <StartPointPrimitive11 Ref="75" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive11 Ref="74" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>5.5,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive11</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>7ac77251e3004a889a20d6c8d1104172</ReferenceToGuid>
             </StartPointPrimitive11>
-            <EndPointPrimitive11 Ref="76" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive11 Ref="75" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>5.5,2.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive11</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
               <ReferenceToGuid>7ac77251e3004a889a20d6c8d1104172</ReferenceToGuid>
             </EndPointPrimitive11>
+            <HorizontalLinePrimitive5 Ref="76" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>7.2,2.1,1.6,0.01</ClientRectangle>
+              <Color>Black</Color>
+              <EndCap Ref="77" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Guid>58e9ae361e1b4500be68af63e453c7ce</Guid>
+              <Name>HorizontalLinePrimitive5</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Size>2</Size>
+              <StartCap Ref="78" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive5>
           </Components>
           <Conditions isList="true" count="0" />
           <Name>ReportTitleBand1</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
         </ReportTitleBand1>
-        <DataBand1 Ref="77" type="DataBand" isKey="true">
+        <DataBand1 Ref="79" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,3,12.95,0.6</ClientRectangle>
+          <ClientRectangle>0,3,14,0.6</ClientRectangle>
           <Components isList="true" count="47">
-            <Text46 Ref="78" type="Text" isKey="true">
+            <Text46 Ref="80" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.7,0,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1081,10 +1137,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text46</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.domesticarrastreamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="79" type="NumberFormat" isKey="true">
+              <TextFormat Ref="81" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1092,7 +1148,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text46>
-            <Text57 Ref="80" type="Text" isKey="true">
+            <Text57 Ref="82" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.7,0,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1104,10 +1160,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text57</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.foreignarrastreamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="81" type="NumberFormat" isKey="true">
+              <TextFormat Ref="83" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1115,7 +1171,7 @@ Due</Text>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text57>
-            <Text50 Ref="82" type="Text" isKey="true">
+            <Text50 Ref="84" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.7,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1126,10 +1182,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text50</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.domesticpremiumamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="83" type="NumberFormat" isKey="true">
+              <TextFormat Ref="85" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1137,7 +1193,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text50>
-            <Text58 Ref="84" type="Text" isKey="true">
+            <Text58 Ref="86" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.5,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1149,10 +1205,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text58</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.foreignpremiumamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="85" type="NumberFormat" isKey="true">
+              <TextFormat Ref="87" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1160,7 +1216,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text58>
-            <Text48 Ref="86" type="Text" isKey="true">
+            <Text48 Ref="88" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.7,0,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1171,10 +1227,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text48</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.domesticstevedoringamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="87" type="NumberFormat" isKey="true">
+              <TextFormat Ref="89" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1182,7 +1238,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text48>
-            <Text59 Ref="88" type="Text" isKey="true">
+            <Text59 Ref="90" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.7,0,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1194,10 +1250,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text59</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.foreignstevedoringamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="89" type="NumberFormat" isKey="true">
+              <TextFormat Ref="91" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1205,7 +1261,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text59>
-            <Text63 Ref="90" type="Text" isKey="true">
+            <Text63 Ref="92" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>8.8,0,1.1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1217,10 +1273,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text63</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.totalamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="91" type="NumberFormat" isKey="true">
+              <TextFormat Ref="93" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1228,7 +1284,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text63>
-            <Text67 Ref="92" type="Text" isKey="true">
+            <Text67 Ref="94" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>7.2,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1240,10 +1296,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text67</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.domesticmooringamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="93" type="NumberFormat" isKey="true">
+              <TextFormat Ref="95" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1251,7 +1307,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text67>
-            <Text69 Ref="94" type="Text" isKey="true">
+            <Text69 Ref="96" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>8,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1263,10 +1319,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text69</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.foreignmooringamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="95" type="NumberFormat" isKey="true">
+              <TextFormat Ref="97" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1274,7 +1330,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text69>
-            <Text55 Ref="96" type="Text" isKey="true">
+            <Text55 Ref="98" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>9.9,0,0.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1286,10 +1342,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text55</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.domesticppashareamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="97" type="NumberFormat" isKey="true">
+              <TextFormat Ref="99" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1297,7 +1353,7 @@ Due</Text>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text55>
-            <Text71 Ref="98" type="Text" isKey="true">
+            <Text71 Ref="100" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>10.6,0,0.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1309,10 +1365,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text71</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.foreignppashareamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="99" type="NumberFormat" isKey="true">
+              <TextFormat Ref="101" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1320,7 +1376,7 @@ Due</Text>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text71>
-            <Text72 Ref="100" type="Text" isKey="true">
+            <Text72 Ref="102" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.3,0,0.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1332,10 +1388,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text72</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.vatamount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="101" type="NumberFormat" isKey="true">
+              <TextFormat Ref="103" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1343,7 +1399,7 @@ Due</Text>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text72>
-            <Text75 Ref="102" type="Text" isKey="true">
+            <Text75 Ref="104" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>12,0,0.9,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1355,10 +1411,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text75</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{dsPayment.ppashare}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="103" type="NumberFormat" isKey="true">
+              <TextFormat Ref="105" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1366,7 +1422,7 @@ Due</Text>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text75>
-            <Text65 Ref="104" type="Text" isKey="true">
+            <Text65 Ref="106" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>6.3,0,0.9,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1378,11 +1434,11 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text65</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{Format("{0:N2}", dsPayment.porterageincomeamount)}
 </Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="105" type="NumberFormat" isKey="true">
+              <TextFormat Ref="107" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1390,7 +1446,7 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text65>
-            <Text36 Ref="106" type="Text" isKey="true">
+            <Text36 Ref="108" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,0,0.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1401,10 +1457,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text36</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <Text>{IIF(dsPayment.totalamount &gt; 0, dsPayment.Reference, null)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="107" type="NumberFormat" isKey="true">
+              <TextFormat Ref="109" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1412,228 +1468,228 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text36>
-            <StartPointPrimitive4 Ref="108" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive4 Ref="110" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive4</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>45b359fc8b3848afb4ad131c3cf0612b</ReferenceToGuid>
             </StartPointPrimitive4>
-            <StartPointPrimitive12 Ref="109" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive12 Ref="111" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>1.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive12</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>49722ab5cbf641b7a0668e85b837c42a</ReferenceToGuid>
             </StartPointPrimitive12>
-            <StartPointPrimitive9 Ref="110" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive9 Ref="112" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>2.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive9</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>d4493ffc12394833aae9bd51b4eb44a6</ReferenceToGuid>
             </StartPointPrimitive9>
-            <StartPointPrimitive13 Ref="111" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive13 Ref="113" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>3.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive13</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>629caf488f51467191cc52e6a2bdfb6c</ReferenceToGuid>
             </StartPointPrimitive13>
-            <StartPointPrimitive20 Ref="112" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive20 Ref="114" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>4.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive20</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>61f17c645c5644a398af21e863f5621d</ReferenceToGuid>
             </StartPointPrimitive20>
-            <StartPointPrimitive24 Ref="113" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive24 Ref="115" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>5.5,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive24</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>06880f7c87e64579b66e26e7cef47025</ReferenceToGuid>
             </StartPointPrimitive24>
-            <StartPointPrimitive21 Ref="114" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive21 Ref="116" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>6.3,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive21</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>247fcbd1606947e48aa007cd609e2c25</ReferenceToGuid>
             </StartPointPrimitive21>
-            <StartPointPrimitive18 Ref="115" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive18 Ref="117" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>7.2,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive18</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>1f030d772042448db0de6b1cce20b7ec</ReferenceToGuid>
             </StartPointPrimitive18>
-            <StartPointPrimitive25 Ref="116" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive25 Ref="118" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>8,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive25</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>5c2c0e67537f423ca0f48a0489dcc3a2</ReferenceToGuid>
             </StartPointPrimitive25>
-            <StartPointPrimitive28 Ref="117" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive28 Ref="119" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>8.8,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive28</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>110f92d85baa4139a19fc724b1b76e44</ReferenceToGuid>
             </StartPointPrimitive28>
-            <StartPointPrimitive30 Ref="118" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive30 Ref="120" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>9.9,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive30</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>b69c44f4d5ea49f48a4f2ff969e51009</ReferenceToGuid>
             </StartPointPrimitive30>
-            <EndPointPrimitive30 Ref="119" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive30 Ref="121" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>9.9,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive30</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>b69c44f4d5ea49f48a4f2ff969e51009</ReferenceToGuid>
             </EndPointPrimitive30>
-            <StartPointPrimitive34 Ref="120" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive34 Ref="122" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>10.6,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive34</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>51742709c82b48e689bfbda5a017cea5</ReferenceToGuid>
             </StartPointPrimitive34>
-            <StartPointPrimitive36 Ref="121" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive36 Ref="123" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>11.3,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive36</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>0ad433e6e48e4acd8e79b96395139da3</ReferenceToGuid>
             </StartPointPrimitive36>
-            <StartPointPrimitive40 Ref="122" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive40 Ref="124" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>12,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive40</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>0fb8525f9bc94b22ab0165a2b98d6c91</ReferenceToGuid>
             </StartPointPrimitive40>
-            <StartPointPrimitive2 Ref="123" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive2 Ref="125" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0.1,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive2</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>ad913154de3c47c68b0eda602854d58d</ReferenceToGuid>
             </StartPointPrimitive2>
-            <StartPointPrimitive3 Ref="124" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive3 Ref="126" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>12.9,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive3</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>d381e0dd43d14cc280316902ebe5b197</ReferenceToGuid>
             </StartPointPrimitive3>
-            <EndPointPrimitive21 Ref="125" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive21 Ref="127" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>6.3,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive21</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>247fcbd1606947e48aa007cd609e2c25</ReferenceToGuid>
             </EndPointPrimitive21>
-            <EndPointPrimitive24 Ref="126" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive24 Ref="128" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>5.5,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive24</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>06880f7c87e64579b66e26e7cef47025</ReferenceToGuid>
             </EndPointPrimitive24>
-            <EndPointPrimitive18 Ref="127" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive18 Ref="129" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>7.2,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive18</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>1f030d772042448db0de6b1cce20b7ec</ReferenceToGuid>
             </EndPointPrimitive18>
-            <EndPointPrimitive25 Ref="128" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive25 Ref="130" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>8,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive25</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>5c2c0e67537f423ca0f48a0489dcc3a2</ReferenceToGuid>
             </EndPointPrimitive25>
-            <EndPointPrimitive28 Ref="129" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive28 Ref="131" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>8.8,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive28</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>110f92d85baa4139a19fc724b1b76e44</ReferenceToGuid>
             </EndPointPrimitive28>
-            <EndPointPrimitive34 Ref="130" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive34 Ref="132" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>10.6,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive34</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>51742709c82b48e689bfbda5a017cea5</ReferenceToGuid>
             </EndPointPrimitive34>
-            <EndPointPrimitive36 Ref="131" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive36 Ref="133" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>11.3,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive36</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>0ad433e6e48e4acd8e79b96395139da3</ReferenceToGuid>
             </EndPointPrimitive36>
-            <EndPointPrimitive40 Ref="132" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive40 Ref="134" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive40</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>0fb8525f9bc94b22ab0165a2b98d6c91</ReferenceToGuid>
             </EndPointPrimitive40>
-            <EndPointPrimitive3 Ref="133" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive3 Ref="135" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12.9,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive3</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>d381e0dd43d14cc280316902ebe5b197</ReferenceToGuid>
             </EndPointPrimitive3>
-            <EndPointPrimitive4 Ref="134" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive4 Ref="136" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>0.7,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive4</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>45b359fc8b3848afb4ad131c3cf0612b</ReferenceToGuid>
             </EndPointPrimitive4>
-            <EndPointPrimitive12 Ref="135" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive12 Ref="137" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>1.7,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive12</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>49722ab5cbf641b7a0668e85b837c42a</ReferenceToGuid>
             </EndPointPrimitive12>
-            <EndPointPrimitive9 Ref="136" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive9 Ref="138" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>2.7,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive9</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>d4493ffc12394833aae9bd51b4eb44a6</ReferenceToGuid>
             </EndPointPrimitive9>
-            <EndPointPrimitive13 Ref="137" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive13 Ref="139" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>3.7,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive13</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>629caf488f51467191cc52e6a2bdfb6c</ReferenceToGuid>
             </EndPointPrimitive13>
-            <EndPointPrimitive20 Ref="138" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive20 Ref="140" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>4.7,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive20</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>61f17c645c5644a398af21e863f5621d</ReferenceToGuid>
             </EndPointPrimitive20>
-            <EndPointPrimitive2 Ref="139" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive2 Ref="141" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>0.1,0.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive2</Name>
               <Page isRef="4" />
-              <Parent isRef="77" />
+              <Parent isRef="79" />
               <ReferenceToGuid>ad913154de3c47c68b0eda602854d58d</ReferenceToGuid>
             </EndPointPrimitive2>
           </Components>
@@ -1650,12 +1706,12 @@ Due</Text>
           <PrintIfDetailEmpty>True</PrintIfDetailEmpty>
           <Sort isList="true" count="0" />
         </DataBand1>
-        <ReportSummaryBand2 Ref="140" type="ReportSummaryBand" isKey="true">
+        <ReportSummaryBand2 Ref="142" type="ReportSummaryBand" isKey="true">
           <Brush>Transparent</Brush>
           <CanShrink>True</CanShrink>
-          <ClientRectangle>0,4,12.95,0.3</ClientRectangle>
+          <ClientRectangle>0,4,14,0.3</ClientRectangle>
           <Components isList="true" count="50">
-            <Text5 Ref="141" type="Text" isKey="true">
+            <Text5 Ref="143" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,0,0.6,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1666,17 +1722,17 @@ Due</Text>
               <Name>Text5</Name>
               <OnlyText>True</OnlyText>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>TOTAL</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="142" type="CustomFormat" isKey="true">
+              <TextFormat Ref="144" type="CustomFormat" isKey="true">
                 <StringFormat>MMM-dd</StringFormat>
               </TextFormat>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text5>
-            <Text7 Ref="143" type="Text" isKey="true">
+            <Text7 Ref="145" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1688,10 +1744,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text7</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.domesticarrastreamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="144" type="NumberFormat" isKey="true">
+              <TextFormat Ref="146" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1699,7 +1755,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text7>
-            <Text8 Ref="145" type="Text" isKey="true">
+            <Text8 Ref="147" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1711,10 +1767,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text8</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.foreignarrastreamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="146" type="NumberFormat" isKey="true">
+              <TextFormat Ref="148" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1722,7 +1778,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text8>
-            <Text34 Ref="147" type="Text" isKey="true">
+            <Text34 Ref="149" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.7,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1734,10 +1790,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text34</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.domesticpremiumamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="148" type="NumberFormat" isKey="true">
+              <TextFormat Ref="150" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1745,7 +1801,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text34>
-            <Text41 Ref="149" type="Text" isKey="true">
+            <Text41 Ref="151" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.5,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1757,10 +1813,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text41</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.foreignpremiumamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="150" type="NumberFormat" isKey="true">
+              <TextFormat Ref="152" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1768,7 +1824,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text41>
-            <Text42 Ref="151" type="Text" isKey="true">
+            <Text42 Ref="153" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1780,10 +1836,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text42</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.domesticstevedoringamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="152" type="NumberFormat" isKey="true">
+              <TextFormat Ref="154" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1791,7 +1847,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text42>
-            <Text43 Ref="153" type="Text" isKey="true">
+            <Text43 Ref="155" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1803,10 +1859,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text43</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.foreignstevedoringamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="154" type="NumberFormat" isKey="true">
+              <TextFormat Ref="156" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1814,7 +1870,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text43>
-            <Text44 Ref="155" type="Text" isKey="true">
+            <Text44 Ref="157" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>8.8,0,1.1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1826,10 +1882,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text44</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.totalamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="156" type="NumberFormat" isKey="true">
+              <TextFormat Ref="158" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1837,7 +1893,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text44>
-            <Text45 Ref="157" type="Text" isKey="true">
+            <Text45 Ref="159" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>7.2,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1849,10 +1905,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text45</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.domesticmooringamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="158" type="NumberFormat" isKey="true">
+              <TextFormat Ref="160" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1860,7 +1916,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text45>
-            <Text47 Ref="159" type="Text" isKey="true">
+            <Text47 Ref="161" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>8,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1872,10 +1928,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text47</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.foreignmooringamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="160" type="NumberFormat" isKey="true">
+              <TextFormat Ref="162" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1883,7 +1939,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text47>
-            <Text49 Ref="161" type="Text" isKey="true">
+            <Text49 Ref="163" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>9.9,0,0.7,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1895,10 +1951,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text49</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.domesticppashareamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="162" type="NumberFormat" isKey="true">
+              <TextFormat Ref="164" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1906,7 +1962,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text49>
-            <Text51 Ref="163" type="Text" isKey="true">
+            <Text51 Ref="165" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>10.6,0,0.7,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1918,10 +1974,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text51</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.foreignppashareamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="164" type="NumberFormat" isKey="true">
+              <TextFormat Ref="166" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1929,7 +1985,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text51>
-            <Text56 Ref="165" type="Text" isKey="true">
+            <Text56 Ref="167" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.3,0,0.7,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1941,10 +1997,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text56</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.vatamount)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="166" type="NumberFormat" isKey="true">
+              <TextFormat Ref="168" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1952,7 +2008,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text56>
-            <Text60 Ref="167" type="Text" isKey="true">
+            <Text60 Ref="169" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>12,0,0.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1964,10 +2020,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text60</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Sum(DataBand1,dsPayment.ppashare)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="168" type="NumberFormat" isKey="true">
+              <TextFormat Ref="170" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1975,7 +2031,7 @@ Due</Text>
               <Type>Totals</Type>
               <VertAlignment>Center</VertAlignment>
             </Text60>
-            <Text61 Ref="169" type="Text" isKey="true">
+            <Text61 Ref="171" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>6.3,0,0.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1987,10 +2043,10 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text61</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <Text>{Format("{0:N2}", Sum(DataBand1,dsPayment.porterageincomeamount))}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="170" type="NumberFormat" isKey="true">
+              <TextFormat Ref="172" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
@@ -1998,270 +2054,270 @@ Due</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text61>
-            <HorizontalLinePrimitive13 Ref="171" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive13 Ref="173" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0.1,0,12.8,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="172" type="Cap" isKey="true">
+              <EndCap Ref="174" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>7d9ef20fc5fe49569b8df4e0497e5ce7</Guid>
               <Name>HorizontalLinePrimitive13</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
-              <StartCap Ref="173" type="Cap" isKey="true">
+              <Parent isRef="142" />
+              <StartCap Ref="175" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive13>
-            <HorizontalLinePrimitive14 Ref="174" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive14 Ref="176" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0.1,0.02,12.8,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="175" type="Cap" isKey="true">
+              <EndCap Ref="177" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>18070b7c907a4c9b9baa052d95043bca</Guid>
               <Name>HorizontalLinePrimitive14</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
-              <StartCap Ref="176" type="Cap" isKey="true">
+              <Parent isRef="142" />
+              <StartCap Ref="178" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive14>
-            <HorizontalLinePrimitive4 Ref="177" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive4 Ref="179" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0.1,0.3,12.8,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="178" type="Cap" isKey="true">
+              <EndCap Ref="180" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>246c9428f5954de587c97e210a91e43f</Guid>
               <Name>HorizontalLinePrimitive4</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
-              <StartCap Ref="179" type="Cap" isKey="true">
+              <Parent isRef="142" />
+              <StartCap Ref="181" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive4>
-            <StartPointPrimitive8 Ref="180" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive8 Ref="182" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive8</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>4361f0a991b24bd1bdaf859aeeca6e1e</ReferenceToGuid>
             </StartPointPrimitive8>
-            <EndPointPrimitive8 Ref="181" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive8 Ref="183" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>0.7,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive8</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>4361f0a991b24bd1bdaf859aeeca6e1e</ReferenceToGuid>
             </EndPointPrimitive8>
-            <StartPointPrimitive14 Ref="182" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive14 Ref="184" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>4.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive14</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>ac90b33b8b6e491ebd6ddc65dd0e4d7d</ReferenceToGuid>
             </StartPointPrimitive14>
-            <EndPointPrimitive14 Ref="183" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive14 Ref="185" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>4.7,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive14</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>ac90b33b8b6e491ebd6ddc65dd0e4d7d</ReferenceToGuid>
             </EndPointPrimitive14>
-            <StartPointPrimitive15 Ref="184" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive15 Ref="186" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>6.3,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive15</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>b606fbaf9f30407caff0d40bee47b4bd</ReferenceToGuid>
             </StartPointPrimitive15>
-            <EndPointPrimitive15 Ref="185" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive15 Ref="187" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>6.3,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive15</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>b606fbaf9f30407caff0d40bee47b4bd</ReferenceToGuid>
             </EndPointPrimitive15>
-            <StartPointPrimitive16 Ref="186" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive16 Ref="188" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>5.5,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive16</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>de9970b5b809450e839596ebac7b62ca</ReferenceToGuid>
             </StartPointPrimitive16>
-            <EndPointPrimitive16 Ref="187" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive16 Ref="189" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>5.5,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive16</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>de9970b5b809450e839596ebac7b62ca</ReferenceToGuid>
             </EndPointPrimitive16>
-            <StartPointPrimitive17 Ref="188" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive17 Ref="190" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>3.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive17</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>458ea1b8a62d4da287a01ad83d36a5c4</ReferenceToGuid>
             </StartPointPrimitive17>
-            <EndPointPrimitive17 Ref="189" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive17 Ref="191" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>3.7,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive17</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>458ea1b8a62d4da287a01ad83d36a5c4</ReferenceToGuid>
             </EndPointPrimitive17>
-            <StartPointPrimitive19 Ref="190" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive19 Ref="192" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>1.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive19</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>9a207ab6627b4dbfab370850fdf387b6</ReferenceToGuid>
             </StartPointPrimitive19>
-            <EndPointPrimitive19 Ref="191" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive19 Ref="193" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>1.7,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive19</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>9a207ab6627b4dbfab370850fdf387b6</ReferenceToGuid>
             </EndPointPrimitive19>
-            <StartPointPrimitive22 Ref="192" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive22 Ref="194" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>2.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive22</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>3a4afd6a095c40cbb5bd6677d67738b1</ReferenceToGuid>
             </StartPointPrimitive22>
-            <EndPointPrimitive22 Ref="193" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive22 Ref="195" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>2.7,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive22</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>3a4afd6a095c40cbb5bd6677d67738b1</ReferenceToGuid>
             </EndPointPrimitive22>
-            <StartPointPrimitive32 Ref="194" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive32 Ref="196" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>7.2,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive32</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>898879acca66459d904283d9704e6dce</ReferenceToGuid>
             </StartPointPrimitive32>
-            <EndPointPrimitive32 Ref="195" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive32 Ref="197" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>7.2,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive32</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>898879acca66459d904283d9704e6dce</ReferenceToGuid>
             </EndPointPrimitive32>
-            <StartPointPrimitive39 Ref="196" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive39 Ref="198" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>8,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive39</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>8594cd32ddfc4bdda225b8436c4f92a2</ReferenceToGuid>
             </StartPointPrimitive39>
-            <EndPointPrimitive39 Ref="197" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive39 Ref="199" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>8,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive39</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>8594cd32ddfc4bdda225b8436c4f92a2</ReferenceToGuid>
             </EndPointPrimitive39>
-            <StartPointPrimitive41 Ref="198" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive41 Ref="200" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>8.8,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive41</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>88f265d759aa49e8a25abd980ecd08a9</ReferenceToGuid>
             </StartPointPrimitive41>
-            <EndPointPrimitive41 Ref="199" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive41 Ref="201" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>8.8,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive41</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>88f265d759aa49e8a25abd980ecd08a9</ReferenceToGuid>
             </EndPointPrimitive41>
-            <StartPointPrimitive42 Ref="200" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive42 Ref="202" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>9.9,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive42</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>49008cf900754b139400e6398a70dfb5</ReferenceToGuid>
             </StartPointPrimitive42>
-            <EndPointPrimitive42 Ref="201" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive42 Ref="203" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>9.9,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive42</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>49008cf900754b139400e6398a70dfb5</ReferenceToGuid>
             </EndPointPrimitive42>
-            <StartPointPrimitive43 Ref="202" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive43 Ref="204" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>10.6,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive43</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>9580ee2038b84ca0b6b8a6abd79aa137</ReferenceToGuid>
             </StartPointPrimitive43>
-            <EndPointPrimitive43 Ref="203" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive43 Ref="205" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>10.6,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive43</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>9580ee2038b84ca0b6b8a6abd79aa137</ReferenceToGuid>
             </EndPointPrimitive43>
-            <StartPointPrimitive44 Ref="204" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive44 Ref="206" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>11.3,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive44</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>061c753125984b7c8680388e03c3d61b</ReferenceToGuid>
             </StartPointPrimitive44>
-            <EndPointPrimitive44 Ref="205" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive44 Ref="207" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>11.3,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive44</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>061c753125984b7c8680388e03c3d61b</ReferenceToGuid>
             </EndPointPrimitive44>
-            <StartPointPrimitive45 Ref="206" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive45 Ref="208" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>12,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive45</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>b3d94fdd8ce347698ca257dec089a476</ReferenceToGuid>
             </StartPointPrimitive45>
-            <EndPointPrimitive45 Ref="207" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive45 Ref="209" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive45</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>b3d94fdd8ce347698ca257dec089a476</ReferenceToGuid>
             </EndPointPrimitive45>
-            <StartPointPrimitive46 Ref="208" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive46 Ref="210" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0.1,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive46</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>f3016a5321e1414cb1d3777ddbff799e</ReferenceToGuid>
             </StartPointPrimitive46>
-            <EndPointPrimitive46 Ref="209" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive46 Ref="211" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>0.1,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive46</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>f3016a5321e1414cb1d3777ddbff799e</ReferenceToGuid>
             </EndPointPrimitive46>
-            <StartPointPrimitive47 Ref="210" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive47 Ref="212" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>12.9,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive47</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>7dc8a940e84c40f391dec6fde6940edc</ReferenceToGuid>
             </StartPointPrimitive47>
-            <EndPointPrimitive47 Ref="211" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive47 Ref="213" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12.9,0.3,0,0</ClientRectangle>
               <Name>EndPointPrimitive47</Name>
               <Page isRef="4" />
-              <Parent isRef="140" />
+              <Parent isRef="142" />
               <ReferenceToGuid>7dc8a940e84c40f391dec6fde6940edc</ReferenceToGuid>
             </EndPointPrimitive47>
           </Components>
@@ -2271,11 +2327,11 @@ Due</Text>
           <Parent isRef="4" />
           <SkipFirst>False</SkipFirst>
         </ReportSummaryBand2>
-        <ReportSummaryBand1 Ref="212" type="ReportSummaryBand" isKey="true">
+        <ReportSummaryBand1 Ref="214" type="ReportSummaryBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,4.7,12.95,1.1</ClientRectangle>
+          <ClientRectangle>0,4.7,14,1.1</ClientRectangle>
           <Components isList="true" count="9">
-            <Text16 Ref="213" type="Text" isKey="true">
+            <Text16 Ref="215" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2287,13 +2343,13 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>Prepared by :</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text16>
-            <Text17 Ref="214" type="Text" isKey="true">
+            <Text17 Ref="216" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2305,13 +2361,13 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text17</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>Certified Correct :</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text17>
-            <Text19 Ref="215" type="Text" isKey="true">
+            <Text19 Ref="217" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2323,13 +2379,13 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>Approved :</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text19>
-            <Text27 Ref="216" type="Text" isKey="true">
+            <Text27 Ref="218" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2341,13 +2397,13 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text27</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>ALMA B. BONAGUA</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text27>
-            <Text39 Ref="217" type="Text" isKey="true">
+            <Text39 Ref="219" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2359,13 +2415,13 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text39</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>MA. ANA B. BAROMA</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text39>
-            <Text40 Ref="218" type="Text" isKey="true">
+            <Text40 Ref="220" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2377,13 +2433,13 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text40</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>CESAR LUIS A. MORAN</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text40>
-            <Text52 Ref="219" type="Text" isKey="true">
+            <Text52 Ref="221" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2395,13 +2451,13 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text52</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>Accounting Clerk</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text52>
-            <Text53 Ref="220" type="Text" isKey="true">
+            <Text53 Ref="222" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2413,13 +2469,13 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text53</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>Accounting Consultant</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text53>
-            <Text54 Ref="221" type="Text" isKey="true">
+            <Text54 Ref="223" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -2431,7 +2487,7 @@ Due</Text>
               <Margins>0,0,0,0</Margins>
               <Name>Text54</Name>
               <Page isRef="4" />
-              <Parent isRef="212" />
+              <Parent isRef="214" />
               <Text>Office Manager</Text>
               <TextBrush>Black</TextBrush>
               <TextQuality>Typographic</TextQuality>
@@ -2444,7 +2500,7 @@ Due</Text>
           <Parent isRef="4" />
           <PrintAtBottom>True</PrintAtBottom>
         </ReportSummaryBand1>
-        <RectanglePrimitive1 Ref="222" type="RectanglePrimitive" isKey="true">
+        <RectanglePrimitive1 Ref="224" type="RectanglePrimitive" isKey="true">
           <ClientRectangle>0.1,2.1,12.8,0.4</ClientRectangle>
           <Color>Black</Color>
           <Guid>c30a55d8506542469f3f4079c7ea7f15</Guid>
@@ -2453,234 +2509,234 @@ Due</Text>
           <Parent isRef="4" />
           <Size>2</Size>
         </RectanglePrimitive1>
-        <VerticalLinePrimitive1 Ref="223" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive1 Ref="225" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>0.7,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="224" type="Cap" isKey="true">
+          <EndCap Ref="226" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>45b359fc8b3848afb4ad131c3cf0612b</Guid>
           <Name>VerticalLinePrimitive1</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="225" type="Cap" isKey="true">
+          <StartCap Ref="227" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive1>
-        <VerticalLinePrimitive17 Ref="226" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive17 Ref="228" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>4.7,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="227" type="Cap" isKey="true">
+          <EndCap Ref="229" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>61f17c645c5644a398af21e863f5621d</Guid>
           <Name>VerticalLinePrimitive17</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="228" type="Cap" isKey="true">
+          <StartCap Ref="230" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive17>
-        <VerticalLinePrimitive18 Ref="229" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive18 Ref="231" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>6.3,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="230" type="Cap" isKey="true">
+          <EndCap Ref="232" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>247fcbd1606947e48aa007cd609e2c25</Guid>
           <Name>VerticalLinePrimitive18</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="231" type="Cap" isKey="true">
+          <StartCap Ref="233" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive18>
-        <VerticalLinePrimitive21 Ref="232" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive21 Ref="234" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>5.5,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="233" type="Cap" isKey="true">
+          <EndCap Ref="235" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>06880f7c87e64579b66e26e7cef47025</Guid>
           <Name>VerticalLinePrimitive21</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="234" type="Cap" isKey="true">
+          <StartCap Ref="236" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive21>
-        <VerticalLinePrimitive10 Ref="235" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive10 Ref="237" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>3.7,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="236" type="Cap" isKey="true">
+          <EndCap Ref="238" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>629caf488f51467191cc52e6a2bdfb6c</Guid>
           <Name>VerticalLinePrimitive10</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="237" type="Cap" isKey="true">
+          <StartCap Ref="239" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive10>
-        <VerticalLinePrimitive9 Ref="238" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive9 Ref="240" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>1.7,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="239" type="Cap" isKey="true">
+          <EndCap Ref="241" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>49722ab5cbf641b7a0668e85b837c42a</Guid>
           <Name>VerticalLinePrimitive9</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="240" type="Cap" isKey="true">
+          <StartCap Ref="242" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive9>
-        <VerticalLinePrimitive6 Ref="241" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive6 Ref="243" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>2.7,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="242" type="Cap" isKey="true">
+          <EndCap Ref="244" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>d4493ffc12394833aae9bd51b4eb44a6</Guid>
           <Name>VerticalLinePrimitive6</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="243" type="Cap" isKey="true">
+          <StartCap Ref="245" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive6>
-        <VerticalLinePrimitive15 Ref="244" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive15 Ref="246" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>7.2,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="245" type="Cap" isKey="true">
+          <EndCap Ref="247" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>1f030d772042448db0de6b1cce20b7ec</Guid>
           <Name>VerticalLinePrimitive15</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="246" type="Cap" isKey="true">
+          <StartCap Ref="248" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive15>
-        <VerticalLinePrimitive22 Ref="247" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive22 Ref="249" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>8,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="248" type="Cap" isKey="true">
+          <EndCap Ref="250" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>5c2c0e67537f423ca0f48a0489dcc3a2</Guid>
           <Name>VerticalLinePrimitive22</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="249" type="Cap" isKey="true">
+          <StartCap Ref="251" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive22>
-        <VerticalLinePrimitive25 Ref="250" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive25 Ref="252" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>8.8,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="251" type="Cap" isKey="true">
+          <EndCap Ref="253" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>110f92d85baa4139a19fc724b1b76e44</Guid>
           <Name>VerticalLinePrimitive25</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="252" type="Cap" isKey="true">
+          <StartCap Ref="254" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive25>
-        <VerticalLinePrimitive27 Ref="253" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive27 Ref="255" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>9.9,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="254" type="Cap" isKey="true">
+          <EndCap Ref="256" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>b69c44f4d5ea49f48a4f2ff969e51009</Guid>
           <Name>VerticalLinePrimitive27</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="255" type="Cap" isKey="true">
+          <StartCap Ref="257" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive27>
-        <VerticalLinePrimitive31 Ref="256" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive31 Ref="258" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>10.6,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="257" type="Cap" isKey="true">
+          <EndCap Ref="259" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>51742709c82b48e689bfbda5a017cea5</Guid>
           <Name>VerticalLinePrimitive31</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="258" type="Cap" isKey="true">
+          <StartCap Ref="260" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive31>
-        <VerticalLinePrimitive33 Ref="259" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive33 Ref="261" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>11.3,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="260" type="Cap" isKey="true">
+          <EndCap Ref="262" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>0ad433e6e48e4acd8e79b96395139da3</Guid>
           <Name>VerticalLinePrimitive33</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="261" type="Cap" isKey="true">
+          <StartCap Ref="263" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive33>
-        <VerticalLinePrimitive37 Ref="262" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive37 Ref="264" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>12,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="263" type="Cap" isKey="true">
+          <EndCap Ref="265" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>0fb8525f9bc94b22ab0165a2b98d6c91</Guid>
           <Name>VerticalLinePrimitive37</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="264" type="Cap" isKey="true">
+          <StartCap Ref="266" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive37>
-        <VerticalLinePrimitive39 Ref="265" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive39 Ref="267" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>0.1,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="266" type="Cap" isKey="true">
+          <EndCap Ref="268" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>ad913154de3c47c68b0eda602854d58d</Guid>
           <Name>VerticalLinePrimitive39</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="267" type="Cap" isKey="true">
+          <StartCap Ref="269" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive39>
-        <VerticalLinePrimitive40 Ref="268" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive40 Ref="270" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>12.9,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="269" type="Cap" isKey="true">
+          <EndCap Ref="271" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>d381e0dd43d14cc280316902ebe5b197</Guid>
           <Name>VerticalLinePrimitive40</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="270" type="Cap" isKey="true">
+          <StartCap Ref="272" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive40>
-        <VerticalLinePrimitive20 Ref="271" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive20 Ref="273" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>2.7,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="272" type="Cap" isKey="true">
+          <EndCap Ref="274" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>bc43aec58c754bc5995424d254ee3d89</Guid>
@@ -2688,14 +2744,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="273" type="Cap" isKey="true">
+          <StartCap Ref="275" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive20>
-        <VerticalLinePrimitive14 Ref="274" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive14 Ref="276" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>0.7,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="275" type="Cap" isKey="true">
+          <EndCap Ref="277" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>0c73b8094c4349e58ce3ea4e9bc3f428</Guid>
@@ -2703,14 +2759,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="276" type="Cap" isKey="true">
+          <StartCap Ref="278" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive14>
-        <VerticalLinePrimitive16 Ref="277" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive16 Ref="279" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>4.7,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="278" type="Cap" isKey="true">
+          <EndCap Ref="280" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>ff1ac4ccac3d4236893456a242123516</Guid>
@@ -2718,14 +2774,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="279" type="Cap" isKey="true">
+          <StartCap Ref="281" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive16>
-        <VerticalLinePrimitive24 Ref="280" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive24 Ref="282" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>7.2,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="281" type="Cap" isKey="true">
+          <EndCap Ref="283" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>9a625bc5fc6149b6ba2fd9f5efa2b1f0</Guid>
@@ -2733,14 +2789,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="282" type="Cap" isKey="true">
+          <StartCap Ref="284" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive24>
-        <VerticalLinePrimitive26 Ref="283" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive26 Ref="285" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>8,2.3,0.01,0.2</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="284" type="Cap" isKey="true">
+          <EndCap Ref="286" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>b9f22306c5d4438eb59d0c0d3572da13</Guid>
@@ -2748,14 +2804,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="285" type="Cap" isKey="true">
+          <StartCap Ref="287" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive26>
-        <VerticalLinePrimitive28 Ref="286" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive28 Ref="288" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>8.8,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="287" type="Cap" isKey="true">
+          <EndCap Ref="289" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>55eac4657958486bb0dbf9c30b0a0e68</Guid>
@@ -2763,14 +2819,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="288" type="Cap" isKey="true">
+          <StartCap Ref="290" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive28>
-        <VerticalLinePrimitive30 Ref="289" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive30 Ref="291" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>9.9,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="290" type="Cap" isKey="true">
+          <EndCap Ref="292" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>fe0fa391d94b4077ab0a838a5dda9461</Guid>
@@ -2778,14 +2834,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="291" type="Cap" isKey="true">
+          <StartCap Ref="293" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive30>
-        <VerticalLinePrimitive34 Ref="292" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive34 Ref="294" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>11.3,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="293" type="Cap" isKey="true">
+          <EndCap Ref="295" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>17a8414051c946198bb4a0632342f7f0</Guid>
@@ -2793,14 +2849,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="294" type="Cap" isKey="true">
+          <StartCap Ref="296" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive34>
-        <VerticalLinePrimitive38 Ref="295" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive38 Ref="297" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>12,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="296" type="Cap" isKey="true">
+          <EndCap Ref="298" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>46bc490df9ed492585e34affaf0419d0</Guid>
@@ -2808,14 +2864,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="297" type="Cap" isKey="true">
+          <StartCap Ref="299" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive38>
-        <VerticalLinePrimitive32 Ref="298" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive32 Ref="300" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>10.6,2.3,0.01,0.2</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="299" type="Cap" isKey="true">
+          <EndCap Ref="301" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>726f57c9b8ed4a3a94cb9a78b979ee2f</Guid>
@@ -2823,14 +2879,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="300" type="Cap" isKey="true">
+          <StartCap Ref="302" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive32>
-        <VerticalLinePrimitive2 Ref="301" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive2 Ref="303" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>1.7,2.3,0.01,0.2</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="302" type="Cap" isKey="true">
+          <EndCap Ref="304" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>4b7cc971247c4247b3f1bba9c2e0b67e</Guid>
@@ -2838,14 +2894,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="303" type="Cap" isKey="true">
+          <StartCap Ref="305" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive2>
-        <VerticalLinePrimitive3 Ref="304" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive3 Ref="306" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>3.7,2.3,0.01,0.2</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="305" type="Cap" isKey="true">
+          <EndCap Ref="307" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>e2bc1835a4484d5b9cd16b117eb68f3a</Guid>
@@ -2853,14 +2909,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="306" type="Cap" isKey="true">
+          <StartCap Ref="308" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive3>
-        <VerticalLinePrimitive8 Ref="307" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive8 Ref="309" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>6.3,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="308" type="Cap" isKey="true">
+          <EndCap Ref="310" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>ff9965d7cf4b4ceda52b56617ef9c4b0</Guid>
@@ -2868,14 +2924,14 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="309" type="Cap" isKey="true">
+          <StartCap Ref="311" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive8>
-        <VerticalLinePrimitive11 Ref="310" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive11 Ref="312" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>5.5,2.3,0.01,0.2</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="311" type="Cap" isKey="true">
+          <EndCap Ref="313" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>7ac77251e3004a889a20d6c8d1104172</Guid>
@@ -2883,254 +2939,254 @@ Due</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="312" type="Cap" isKey="true">
+          <StartCap Ref="314" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive11>
-        <VerticalLinePrimitive4 Ref="313" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive4 Ref="315" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>0.7,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="314" type="Cap" isKey="true">
+          <EndCap Ref="316" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>4361f0a991b24bd1bdaf859aeeca6e1e</Guid>
           <Name>VerticalLinePrimitive4</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="315" type="Cap" isKey="true">
+          <StartCap Ref="317" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive4>
-        <VerticalLinePrimitive5 Ref="316" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive5 Ref="318" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>4.7,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="317" type="Cap" isKey="true">
+          <EndCap Ref="319" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>ac90b33b8b6e491ebd6ddc65dd0e4d7d</Guid>
           <Name>VerticalLinePrimitive5</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="318" type="Cap" isKey="true">
+          <StartCap Ref="320" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive5>
-        <VerticalLinePrimitive7 Ref="319" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive7 Ref="321" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>6.3,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="320" type="Cap" isKey="true">
+          <EndCap Ref="322" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>b606fbaf9f30407caff0d40bee47b4bd</Guid>
           <Name>VerticalLinePrimitive7</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="321" type="Cap" isKey="true">
+          <StartCap Ref="323" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive7>
-        <VerticalLinePrimitive12 Ref="322" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive12 Ref="324" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>5.5,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="323" type="Cap" isKey="true">
+          <EndCap Ref="325" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>de9970b5b809450e839596ebac7b62ca</Guid>
           <Name>VerticalLinePrimitive12</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="324" type="Cap" isKey="true">
+          <StartCap Ref="326" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive12>
-        <VerticalLinePrimitive13 Ref="325" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive13 Ref="327" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>3.7,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="326" type="Cap" isKey="true">
+          <EndCap Ref="328" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>458ea1b8a62d4da287a01ad83d36a5c4</Guid>
           <Name>VerticalLinePrimitive13</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="327" type="Cap" isKey="true">
+          <StartCap Ref="329" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive13>
-        <VerticalLinePrimitive19 Ref="328" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive19 Ref="330" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>1.7,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="329" type="Cap" isKey="true">
+          <EndCap Ref="331" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>9a207ab6627b4dbfab370850fdf387b6</Guid>
           <Name>VerticalLinePrimitive19</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="330" type="Cap" isKey="true">
+          <StartCap Ref="332" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive19>
-        <VerticalLinePrimitive23 Ref="331" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive23 Ref="333" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>2.7,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="332" type="Cap" isKey="true">
+          <EndCap Ref="334" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>3a4afd6a095c40cbb5bd6677d67738b1</Guid>
           <Name>VerticalLinePrimitive23</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="333" type="Cap" isKey="true">
+          <StartCap Ref="335" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive23>
-        <VerticalLinePrimitive29 Ref="334" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive29 Ref="336" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>7.2,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="335" type="Cap" isKey="true">
+          <EndCap Ref="337" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>898879acca66459d904283d9704e6dce</Guid>
           <Name>VerticalLinePrimitive29</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="336" type="Cap" isKey="true">
+          <StartCap Ref="338" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive29>
-        <VerticalLinePrimitive35 Ref="337" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive35 Ref="339" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>8,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="338" type="Cap" isKey="true">
+          <EndCap Ref="340" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>8594cd32ddfc4bdda225b8436c4f92a2</Guid>
           <Name>VerticalLinePrimitive35</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="339" type="Cap" isKey="true">
+          <StartCap Ref="341" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive35>
-        <VerticalLinePrimitive36 Ref="340" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive36 Ref="342" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>8.8,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="341" type="Cap" isKey="true">
+          <EndCap Ref="343" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>88f265d759aa49e8a25abd980ecd08a9</Guid>
           <Name>VerticalLinePrimitive36</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="342" type="Cap" isKey="true">
+          <StartCap Ref="344" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive36>
-        <VerticalLinePrimitive41 Ref="343" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive41 Ref="345" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>9.9,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="344" type="Cap" isKey="true">
+          <EndCap Ref="346" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>49008cf900754b139400e6398a70dfb5</Guid>
           <Name>VerticalLinePrimitive41</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="345" type="Cap" isKey="true">
+          <StartCap Ref="347" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive41>
-        <VerticalLinePrimitive42 Ref="346" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive42 Ref="348" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>10.6,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="347" type="Cap" isKey="true">
+          <EndCap Ref="349" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>9580ee2038b84ca0b6b8a6abd79aa137</Guid>
           <Name>VerticalLinePrimitive42</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="348" type="Cap" isKey="true">
+          <StartCap Ref="350" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive42>
-        <VerticalLinePrimitive43 Ref="349" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive43 Ref="351" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>11.3,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="350" type="Cap" isKey="true">
+          <EndCap Ref="352" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>061c753125984b7c8680388e03c3d61b</Guid>
           <Name>VerticalLinePrimitive43</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="351" type="Cap" isKey="true">
+          <StartCap Ref="353" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive43>
-        <VerticalLinePrimitive44 Ref="352" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive44 Ref="354" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>12,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="353" type="Cap" isKey="true">
+          <EndCap Ref="355" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>b3d94fdd8ce347698ca257dec089a476</Guid>
           <Name>VerticalLinePrimitive44</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="354" type="Cap" isKey="true">
+          <StartCap Ref="356" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive44>
-        <VerticalLinePrimitive45 Ref="355" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive45 Ref="357" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>0.1,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="356" type="Cap" isKey="true">
+          <EndCap Ref="358" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>f3016a5321e1414cb1d3777ddbff799e</Guid>
           <Name>VerticalLinePrimitive45</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="357" type="Cap" isKey="true">
+          <StartCap Ref="359" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive45>
-        <VerticalLinePrimitive46 Ref="358" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive46 Ref="360" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>12.9,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="359" type="Cap" isKey="true">
+          <EndCap Ref="361" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>7dc8a940e84c40f391dec6fde6940edc</Guid>
           <Name>VerticalLinePrimitive46</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="360" type="Cap" isKey="true">
+          <StartCap Ref="362" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive46>
       </Components>
       <Conditions isList="true" count="0" />
       <Guid>01d5104470fa435fb3ca644cb8304603</Guid>
-      <Margins>0.25,0.3,0.25,0.3</Margins>
+      <Margins>0,0,0,0</Margins>
       <Name>Page1</Name>
       <Orientation>Landscape</Orientation>
       <PageHeight>8.5</PageHeight>
-      <PageWidth>13.5</PageWidth>
+      <PageWidth>14</PageWidth>
       <PaperSize>Legal</PaperSize>
       <PrintHeadersFootersFromPreviousPage>True</PrintHeadersFootersFromPreviousPage>
       <PrintOnPreviousPage>True</PrintOnPreviousPage>
       <Report isRef="0" />
       <StretchToPrintArea>True</StretchToPrintArea>
-      <Watermark Ref="361" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="363" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="362" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="364" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -3142,10 +3198,10 @@ Due</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/16/2018 2:42:59 PM</ReportChanged>
+  <ReportChanged>1/20/2018 2:56:02 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0007.mrt</ReportFile>
-  <ReportGuid>238e21e27ddf4808a7385d32a1b03708</ReportGuid>
+  <ReportGuid>0ea717a351e94f7cbe6f5bccabbbea89</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

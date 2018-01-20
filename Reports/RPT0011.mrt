@@ -60,7 +60,7 @@ group by v.date,v.ppatotal</SqlCommand>
         <ReportTitleBand1 Ref="5" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <CanShrink>True</CanShrink>
-          <ClientRectangle>0,0.2,12.95,2.5</ClientRectangle>
+          <ClientRectangle>0,0.2,13.45,2.5</ClientRectangle>
           <Components isList="true" count="36">
             <Text1 Ref="6" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -556,7 +556,7 @@ group by v.date,v.ppatotal</SqlCommand>
         <DatadsServiceFees Ref="49" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,3.1,12.95,0.2</ClientRectangle>
+          <ClientRectangle>0,3.1,13.45,0.2</ClientRectangle>
           <Components isList="true" count="10">
             <DatadsServiceFees_date Ref="50" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -602,6 +602,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <ClientRectangle>2.1,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsServiceFees_vehicletype1</Name>
@@ -622,6 +623,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <ClientRectangle>3.3,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsServiceFees_vehicletype2</Name>
@@ -642,6 +644,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <ClientRectangle>4.5,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsServiceFees_vehicletype3</Name>
@@ -662,6 +665,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <ClientRectangle>5.7,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsServiceFees_vehicletype4</Name>
@@ -682,6 +686,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <ClientRectangle>6.9,0,1.1,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsServiceFees_subtotal</Name>
@@ -702,6 +707,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <ClientRectangle>8.1,0,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsServiceFees_tax</Name>
@@ -723,6 +729,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>fa8ff5edd61f40f1bb84c797939aef7c</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text5</Name>
@@ -762,7 +769,7 @@ group by v.date,v.ppatotal</SqlCommand>
         </DatadsServiceFees>
         <FooterBand1 Ref="71" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,3.7,12.95,2</ClientRectangle>
+          <ClientRectangle>0,3.7,13.45,2</ClientRectangle>
           <Components isList="true" count="32">
             <Text18 Ref="72" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -794,6 +801,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8,Bold</Font>
               <Guid>65ff91e7453e48daa44e7d356da15496</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text21</Name>
@@ -815,6 +823,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8,Bold</Font>
               <Guid>46946f72289f43ff8d2bee6d7db96222</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text22</Name>
@@ -836,6 +845,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8,Bold</Font>
               <Guid>73570a777e284609a5944a3b26735b38</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text23</Name>
@@ -857,6 +867,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8,Bold</Font>
               <Guid>14ae58df030c4573beffe786796b72f7</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text24</Name>
@@ -878,6 +889,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8,Bold</Font>
               <Guid>63e859d492784316ab16a090a9a5503a</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text26</Name>
@@ -899,6 +911,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8,Bold</Font>
               <Guid>0a09dcd8319a48af8b504195d19b0c9a</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text28</Name>
@@ -920,6 +933,7 @@ group by v.date,v.ppatotal</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8,Bold</Font>
               <Guid>4b1a1a1b51644b2b9316715e3d84202c</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text29</Name>
@@ -1409,7 +1423,7 @@ group by v.date,v.ppatotal</SqlCommand>
       <Name>Page1</Name>
       <Orientation>Landscape</Orientation>
       <PageHeight>8.5</PageHeight>
-      <PageWidth>13.5</PageWidth>
+      <PageWidth>14</PageWidth>
       <PaperSize>Legal</PaperSize>
       <PrintHeadersFootersFromPreviousPage>True</PrintHeadersFootersFromPreviousPage>
       <PrintOnPreviousPage>True</PrintOnPreviousPage>
@@ -1436,7 +1450,7 @@ group by v.date,v.ppatotal</SqlCommand>
   <ReportChanged>1/18/2018 5:20:06 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0011.mrt</ReportFile>
-  <ReportGuid>588b72f2480142b083f916960c51d3a2</ReportGuid>
+  <ReportGuid>0d5939ab5a5b4734827063dcbe870f03</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
