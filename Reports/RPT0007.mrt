@@ -3274,10 +3274,10 @@ Due</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/22/2018 5:19:10 PM</ReportChanged>
+  <ReportChanged>1/22/2018 9:43:08 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0007.mrt</ReportFile>
-  <ReportGuid>2c4befd8f2304b21b7b205b16e474bfd</ReportGuid>
+  <ReportGuid>ecc0c5ccce6245ebbb67e002e247bbd0</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

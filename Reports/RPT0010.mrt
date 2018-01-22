@@ -1584,9 +1584,8 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
       <LargeHeight>True</LargeHeight>
       <Margins>0.55,0.39,0.39,0.39</Margins>
       <Name>Page1</Name>
-      <PageHeight>11</PageHeight>
+      <PageHeight>13.5</PageHeight>
       <PageWidth>8.5</PageWidth>
-      <PaperSize>Letter</PaperSize>
       <Report isRef="0" />
       <StretchToPrintArea>True</StretchToPrintArea>
       <Watermark Ref="175" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
@@ -1610,7 +1609,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
   <ReportChanged>1/18/2018 3:32:04 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0010.mrt</ReportFile>
-  <ReportGuid>bceedcc03f2d457aba6fcd3b8267fcce</ReportGuid>
+  <ReportGuid>ace0565975ef43748ebb4703c1653d5a</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
