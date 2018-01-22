@@ -33,9 +33,12 @@
         <Name>dsPayment</Name>
         <NameInSource>cn</NameInSource>
         <Parameters isList="true" count="0" />
-        <SqlCommand>--RPT0009
+        <SqlCommand>--RPT0009.NEW
+--RPT0007.NEW
 WITH billamount AS (
-SELECT 
+SELECT bill.bill,
+	payment.ornumber,
+	DATEADD(dd, DATEDIFF(dd, 0, payment.paymentdate), 0) AS datepaid,
 	0 AS porterageincomeamount,
 	CASE WHEN bill.billtype = 1 THEN
 		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
@@ -80,11 +83,13 @@ SELECT
 		INNER JOIN paymentdetail on paymentdetail.bill = bill.bill
 		INNER JOIN payment on payment.payment = paymentdetail.payment
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, payment.paymentdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND DATEDIFF(mm, bill.duedate, payment.paymentdate) = 0
 		AND bill.status = 3 AND LEN(payment.ornumber) &gt; 0
-	GROUP BY bill.billtype
-	--GROUP BY bill.bill, bill.billtype, payment.ornumber, payment.paymentdate
+	GROUP BY bill.bill, bill.billtype, payment.ornumber, payment.paymentdate
 UNION
-SELECT 
+SELECT bill.bill,
+	bill.ornumber,
+	DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) AS datepaid,
 	0 AS porterageincomeamount,
 	0 AS foreignarrastreamount,
 	ROUND(SUM(rate * quantity), 2) as domesticarrastreamount,
@@ -96,14 +101,17 @@ SELECT
 	0 AS foreignmooringamount,
 	ROUND(SUM(rate * quantity), 2) as totalamount,
 	0 AS foreignppashareamount,
-	ROUND(SUM(rate * quantity), 2) * 0.10 as domesticppashareamount
+	ROUND(SUM(rate * quantity) * 0.10, 2) as domesticppashareamount
 	FROM billitemroro
 	INNER JOIN bill on bill.bill = billitemroro.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND DATEDIFF(mm, bill.duedate, bill.billdate) = 0
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
-	--GROUP BY bill.bill, bill.ornumber, bill.billdate
+	GROUP BY bill.bill, bill.ornumber, bill.billdate
 UNION
-SELECT 
+SELECT bill.bill,
+	bill.ornumber,
+	DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) AS datepaid,
 	0 AS porterageincomeamount,
 	0 AS foreignarrastreamount,
 	0 AS domesticarrastreamount,
@@ -119,19 +127,21 @@ SELECT
 	ELSE 0 END AS foreignmooring,
 	ROUND(SUM(rate * quantity), 2) as totalamount,
 	CASE WHEN bill.mooringtype &lt;&gt; 1 THEN 
-		ROUND(SUM(rate * quantity), 2) * 0.20
+		ROUND(SUM(rate * quantity) * 0.20, 2)
 	ELSE 0 END AS foreignppashareamount,
 	CASE WHEN bill.mooringtype = 1 THEN 
-		ROUND(SUM(rate * quantity), 2) * 0.10
+		ROUND(SUM(rate * quantity) * 0.10, 2)
 	ELSE 0 END AS domesticppashareamount
 	FROM billitemmooring
 		INNER JOIN bill on bill.bill = billitemmooring.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND DATEDIFF(mm, bill.duedate, bill.billdate) = 0
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
-	GROUP BY bill.mooringtype
-	--GROUP BY bill.bill, bill.mooringtype, bill.ornumber, bill.billdate
+	GROUP BY bill.bill, bill.mooringtype, bill.ornumber, bill.billdate
 UNION
-SELECT 
+SELECT bill.bill, 
+	bill.ornumber,
+	DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) AS datepaid,
 	ROUND(SUM(rate * quantity / 1.12), 2) as porterageincomeamount,
 	0 AS foreignarrastreamount,
 	0 AS domesticarrastreamount,
@@ -141,14 +151,134 @@ SELECT
 	0 AS domesticpremiumamount,
 	0 AS domesticmooringamount,
 	0 AS foreignmooringamount,
-	ROUND(SUM(ROUND(rate * quantity / 1.12, 2)), 2) as totalamount,
+	ROUND(SUM(rate * quantity / 1.12), 2) as totalamount,
 	0 AS foreignppashareamount,
-	ROUND(SUM(ROUND(rate * quantity / 1.12, 2)) * 0.10, 2) as domesticppashareamount
+	ROUND(SUM(rate * quantity / 1.12) * 0.10, 2) as domesticppashareamount
 	FROM billitemporterage
 	INNER JOIN bill on bill.bill = billitemporterage.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND DATEDIFF(mm, bill.duedate, bill.billdate) = 0
 		AND bill.status = 3 AND LEN(bill.ornumber) &gt; 0
-	--GROUP BY bill.bill, bill.ornumber, bill.billdate
+	GROUP BY bill.bill, bill.ornumber, bill.billdate
+UNION
+SELECT bill.bill,
+	bill.ornumber,
+	DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) AS datepaid,
+	0 AS porterageincomeamount,
+	CASE WHEN bill.billtype = 1 THEN
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
+		ELSE 0 END AS foreignarrastreamount,
+	CASE WHEN bill.billtype &lt;&gt; 1 THEN
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END), 2)
+		ELSE 0 END AS domesticarrastreamount,
+	CASE WHEN bill.billtype = 1 THEN
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END), 2)
+		ELSE 0 END AS foreignstevedoringamount,
+	CASE WHEN bill.billtype &lt;&gt; 1 THEN
+		ROUND(SUM((unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END), 2)
+		ELSE 0 END AS domesticstevedoringamount,
+	CASE WHEN bill.billtype = 1 THEN
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) 
+		ELSE 0 END AS foreignpremiumamount,
+	CASE WHEN bill.billtype &lt;&gt; 1 THEN
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) 
+		ELSE 0 END AS domesticpremiumamount,
+	0 AS domesticmooringamount,
+	0 AS foreignmooringamount,
+	ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
+		((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+		(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100), 2) AS totalamount,
+	CASE WHEN bill.billtype = 1 THEN
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
+			((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100) * 0.20, 2)
+		ELSE 0 END AS foreignppashareamount,
+	CASE WHEN bill.billtype &lt;&gt; 1 THEN
+		ROUND(SUM(((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) +
+			((unitcount * qtyconversion / 1000.0) * arrastrerate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE arrastreconst END +
+			(unitcount * qtyconversion / 1000.0) * stevedoringrate * CASE coalesce(weightused, 0) WHEN 0 THEN 1 ELSE stevedoringconst END) * billitem.premiumrate / 100) * 0.10, 2)
+		ELSE 0 END AS domesticppashareamount
+	FROM billitem
+		INNER JOIN bill on bill.bill = billitem.bill
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND bill.status &lt; 3
+	GROUP BY bill.bill, bill.billtype, bill.ornumber, bill.billdate	
+UNION
+SELECT bill.bill,
+	bill.ornumber,
+	DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) AS datepaid,
+	0 AS porterageincomeamount,
+	0 AS foreignarrastreamount,
+	ROUND(SUM(rate * quantity), 2) as domesticarrastreamount,
+	0 AS foreignstevedoringamount,
+	0 AS domesticstevedoringamount,
+	0 AS foreignpremiumamount,
+	0 AS domesticpremiumamount,
+	0 AS domesticmooringamount,
+	0 AS foreignmooringamount,
+	ROUND(SUM(rate * quantity), 2) as totalamount,
+	0 AS foreignppashareamount,
+	ROUND(SUM(rate * quantity) * 0.10, 2) as domesticppashareamount
+	FROM billitemroro
+	INNER JOIN bill on bill.bill = billitemroro.bill
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND bill.status &lt; 3
+	GROUP BY bill.bill, bill.ornumber, bill.billdate	
+UNION
+SELECT bill.bill,
+	bill.ornumber,
+	DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) AS datepaid,
+	0 AS porterageincomeamount,
+	0 AS foreignarrastreamount,
+	0 AS domesticarrastreamount,
+	0 AS foreignstevedoringamount,
+	0 AS domesticstevedoringamount,
+	0 AS foreignpremiumamount,
+	0 AS domesticpremiumamount,
+	CASE WHEN bill.mooringtype = 1 THEN 
+		ROUND(SUM(rate * quantity), 2)
+	ELSE 0 END AS domesticmooring,
+	CASE WHEN bill.mooringtype &lt;&gt; 1 THEN 
+		ROUND(SUM(rate * quantity), 2)
+	ELSE 0 END AS foreignmooring,
+	ROUND(SUM(rate * quantity), 2) as totalamount,
+	CASE WHEN bill.mooringtype &lt;&gt; 1 THEN 
+		ROUND(SUM((rate * quantity) * 0.20), 2)
+	ELSE 0 END AS foreignppashareamount,
+	CASE WHEN bill.mooringtype = 1 THEN 
+		ROUND(SUM((rate * quantity) * 0.10), 2)
+	ELSE 0 END AS domesticppashareamount
+	FROM billitemmooring
+		INNER JOIN bill on bill.bill = billitemmooring.bill
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND bill.status &lt; 3
+	GROUP BY bill.bill, mooringtype, bill.billtype, bill.ornumber, bill.billdate	
+UNION
+SELECT bill.bill,
+	bill.ornumber,
+	DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) AS datepaid,
+	ROUND(SUM(rate * quantity / 1.12), 2) as porterageincomeamount,
+	0 AS foreignarrastreamount,
+	0 AS domesticarrastreamount,
+	0 AS foreignstevedoringamount,
+	0 AS domesticstevedoringamount,
+	0 AS foreignpremiumamount,
+	0 AS domesticpremiumamount,
+	0 AS domesticmooringamount,
+	0 AS foreignmooringamount,
+	ROUND(SUM(rate * quantity / 1.12), 2) as totalamount,
+	0 AS foreignppashareamount,
+	ROUND(SUM((rate * quantity / 1.12) * 0.10), 2) as domesticppashareamount
+	FROM billitemporterage
+	INNER JOIN bill on bill.bill = billitemporterage.bill
+	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
+		AND bill.status &lt; 3
+	GROUP BY bill.bill, bill.ornumber, bill.billdate	
 )
 SELECT 
 	ROUND(SUM(porterageincomeamount),2) AS porterageincomeamount,
@@ -166,8 +296,7 @@ SELECT
 	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 0.12, 2) AS vatamount,
 	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 1.12, 2) AS ppashare
 	FROM billamount
-	--GROUP BY datepaid
-	</SqlCommand>
+</SqlCommand>
       </dsPayment>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -189,7 +318,7 @@ SELECT
         <DataBand1 Ref="5" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,0.2,13.45,0</ClientRectangle>
+          <ClientRectangle>0,0.2,12.95,0</ClientRectangle>
           <Components isList="true" count="0" />
           <Conditions isList="true" count="0" />
           <DataRelationName isNull="true" />
@@ -203,9 +332,77 @@ SELECT
         </DataBand1>
         <ReportSummaryBand1 Ref="6" type="ReportSummaryBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0.6,13.45,6.9</ClientRectangle>
-          <Components isList="true" count="64">
-            <Text5 Ref="7" type="Text" isKey="true">
+          <ClientRectangle>0,0.6,12.95,6.9</ClientRectangle>
+          <Components isList="true" count="65">
+            <Text1 Ref="7" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.3,12.9,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,14.25,Bold,Point,False,0</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>869552a0f5554968bdf370c0b0894d7b</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="4" />
+              <Parent isRef="6" />
+              <Text>TABACO PORT CARGO CORPORATION</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
+              <Type>Expression</Type>
+            </Text1>
+            <Text2 Ref="8" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.55,12.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,12,Regular,Point,False,0</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>e8290ad2250a4870955fda4483197e93</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="4" />
+              <Parent isRef="6" />
+              <Text>Pier Site, Tabaco City 4511, Philippines</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
+              <Type>Expression</Type>
+            </Text2>
+            <Text3 Ref="9" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.8,12.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,12,Regular,Point,False,0</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>ba7339fa436d4980b652493a1425b6f8</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="4" />
+              <Parent isRef="6" />
+              <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
+              <Type>Expression</Type>
+            </Text3>
+            <Text4 Ref="10" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.1,12.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold| Italic,Point,False,0</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>60131f3d9e8a4599b6b32565cb625660</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="4" />
+              <Parent isRef="6" />
+              <Text>A service provider of the Philippine Ports Authority</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Typographic</TextQuality>
+              <Type>Expression</Type>
+            </Text4>
+            <Text5 Ref="11" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.8,2.9,1.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -218,14 +415,14 @@ SELECT
               <Parent isRef="6" />
               <Text>{Round(Sum(DataBand1,dsPayment.domesticarrastreamount),2)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="8" type="NumberFormat" isKey="true">
+              <TextFormat Ref="12" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text5>
-            <Text7 Ref="9" type="Text" isKey="true">
+            <Text7 Ref="13" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.8,3.2,1.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -238,14 +435,14 @@ SELECT
               <Parent isRef="6" />
               <Text>{Round(Sum(DataBand1,dsPayment.domesticstevedoringamount),2)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="10" type="NumberFormat" isKey="true">
+              <TextFormat Ref="14" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text7>
-            <Text8 Ref="11" type="Text" isKey="true">
+            <Text8 Ref="15" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,2.9,2.6,0.2</ClientRectangle>
@@ -264,7 +461,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text8>
-            <Text14 Ref="12" type="Text" isKey="true">
+            <Text14 Ref="16" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,3.2,2.6,0.2</ClientRectangle>
@@ -283,7 +480,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text14>
-            <Text18 Ref="13" type="Text" isKey="true">
+            <Text18 Ref="17" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,3.5,2.6,0.2</ClientRectangle>
@@ -302,7 +499,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text18>
-            <Text20 Ref="14" type="Text" isKey="true">
+            <Text20 Ref="18" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,3.8,2.6,0.2</ClientRectangle>
@@ -321,7 +518,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text20>
-            <Text21 Ref="15" type="Text" isKey="true">
+            <Text21 Ref="19" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.9,4.1,1.9,0.2</ClientRectangle>
@@ -340,7 +537,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text21>
-            <Text22 Ref="16" type="Text" isKey="true">
+            <Text22 Ref="20" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,4.4,2.6,0.2</ClientRectangle>
@@ -359,7 +556,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text22>
-            <Text23 Ref="17" type="Text" isKey="true">
+            <Text23 Ref="21" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,4.7,2.6,0.2</ClientRectangle>
@@ -378,7 +575,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
-            <Text24 Ref="18" type="Text" isKey="true">
+            <Text24 Ref="22" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,5,2.6,0.2</ClientRectangle>
@@ -397,7 +594,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text24>
-            <Text25 Ref="19" type="Text" isKey="true">
+            <Text25 Ref="23" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0.2,5.3,2.6,0.2</ClientRectangle>
@@ -416,7 +613,7 @@ SELECT
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text25>
-            <Text37 Ref="20" type="Text" isKey="true">
+            <Text37 Ref="24" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,1.5,12.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -432,7 +629,7 @@ SELECT
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text37>
-            <Text9 Ref="21" type="Text" isKey="true">
+            <Text9 Ref="25" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>8.2,2.1,1.8,0.6</ClientRectangle>
@@ -453,7 +650,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text9>
-            <Text10 Ref="22" type="Text" isKey="true">
+            <Text10 Ref="26" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>10,2.1,2.9,0.6</ClientRectangle>
@@ -472,7 +669,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text10>
-            <Text12 Ref="23" type="Text" isKey="true">
+            <Text12 Ref="27" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>2.8,2.4,1.8,0.3</ClientRectangle>
@@ -492,7 +689,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text12>
-            <Text13 Ref="24" type="Text" isKey="true">
+            <Text13 Ref="28" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>4.6,2.1,1.8,0.6</ClientRectangle>
@@ -512,7 +709,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text13>
-            <Text15 Ref="25" type="Text" isKey="true">
+            <Text15 Ref="29" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>6.4,2.1,1.8,0.6</ClientRectangle>
@@ -532,7 +729,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text15>
-            <Text6 Ref="26" type="Text" isKey="true">
+            <Text6 Ref="30" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0,2.1,4.6,0.3</ClientRectangle>
@@ -552,7 +749,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text6>
-            <Text11 Ref="27" type="Text" isKey="true">
+            <Text11 Ref="31" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>0,2.4,2.8,0.3</ClientRectangle>
@@ -572,7 +769,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text11>
-            <Text26 Ref="28" type="Text" isKey="true">
+            <Text26 Ref="32" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.8,3.5,1.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -586,14 +783,14 @@ Government Share</Text>
               <Parent isRef="6" />
               <Text>{Round(Sum(DataBand1,dsPayment.foreignarrastreamount),2)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="29" type="NumberFormat" isKey="true">
+              <TextFormat Ref="33" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text26>
-            <Text28 Ref="30" type="Text" isKey="true">
+            <Text28 Ref="34" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.8,3.8,1.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -607,14 +804,14 @@ Government Share</Text>
               <Parent isRef="6" />
               <Text>{Round(Sum(DataBand1,dsPayment.foreignstevedoringamount),2)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="31" type="NumberFormat" isKey="true">
+              <TextFormat Ref="35" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text28>
-            <Text16 Ref="32" type="Text" isKey="true">
+            <Text16 Ref="36" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -632,7 +829,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text16>
-            <Text17 Ref="33" type="Text" isKey="true">
+            <Text17 Ref="37" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -650,7 +847,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text17>
-            <Text19 Ref="34" type="Text" isKey="true">
+            <Text19 Ref="38" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -668,7 +865,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text19>
-            <Text27 Ref="35" type="Text" isKey="true">
+            <Text27 Ref="39" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -686,7 +883,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text27>
-            <Text39 Ref="36" type="Text" isKey="true">
+            <Text39 Ref="40" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -704,7 +901,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text39>
-            <Text40 Ref="37" type="Text" isKey="true">
+            <Text40 Ref="41" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -722,7 +919,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text40>
-            <Text52 Ref="38" type="Text" isKey="true">
+            <Text52 Ref="42" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -740,7 +937,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text52>
-            <Text53 Ref="39" type="Text" isKey="true">
+            <Text53 Ref="43" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -758,7 +955,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text53>
-            <Text54 Ref="40" type="Text" isKey="true">
+            <Text54 Ref="44" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
@@ -776,7 +973,7 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text54>
-            <Text29 Ref="41" type="Text" isKey="true">
+            <Text29 Ref="45" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.8,4.4,1.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -790,14 +987,14 @@ Government Share</Text>
               <Parent isRef="6" />
               <Text>{Round(Sum(DataBand1,dsPayment.porterageincomeamount),2)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="42" type="NumberFormat" isKey="true">
+              <TextFormat Ref="46" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text29>
-            <Text30 Ref="43" type="Text" isKey="true">
+            <Text30 Ref="47" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.8,4.7,1.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -811,14 +1008,14 @@ Government Share</Text>
               <Parent isRef="6" />
               <Text>{Round(Sum(DataBand1,dsPayment.domesticmooringamount),2)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="44" type="NumberFormat" isKey="true">
+              <TextFormat Ref="48" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text30>
-            <Text31 Ref="45" type="Text" isKey="true">
+            <Text31 Ref="49" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2.8,5,1.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -832,14 +1029,14 @@ Government Share</Text>
               <Parent isRef="6" />
               <Text>{Round(Sum(DataBand1,dsPayment.foreignmooringamount),2)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="46" type="NumberFormat" isKey="true">
+              <TextFormat Ref="50" type="NumberFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
               </TextFormat>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text31>
-            <Text32 Ref="47" type="Text" isKey="true">
+            <Text32 Ref="51" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>8.3,4.1,1.7,0.2</ClientRectangle>
@@ -858,7 +1055,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text32>
-            <Text33 Ref="48" type="Text" isKey="true">
+            <Text33 Ref="52" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>8.3,4.4,1.7,0.2</ClientRectangle>
@@ -877,7 +1074,7 @@ Government Share</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text33>
-            <Image1 Ref="49" type="Image" isKey="true">
+            <Image1 Ref="53" type="Image" isKey="true">
               <AspectRatio>True</AspectRatio>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -893,7 +1090,7 @@ Government Share</Text>
               <Parent isRef="6" />
               <Smoothing>False</Smoothing>
             </Image1>
-            <Image2 Ref="50" type="Image" isKey="true">
+            <Image2 Ref="54" type="Image" isKey="true">
               <AspectRatio>True</AspectRatio>
               <Brush>Transparent</Brush>
               <ClientRectangle>10.9,0.55,2,0.45</ClientRectangle>
@@ -906,74 +1103,6 @@ Government Share</Text>
               <Parent isRef="6" />
               <Stretch>True</Stretch>
             </Image2>
-            <Text4 Ref="51" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,1.1,12.9,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Times New Roman,12,Bold| Italic,Point,False,0</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <Guid>60131f3d9e8a4599b6b32565cb625660</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text4</Name>
-              <Page isRef="4" />
-              <Parent isRef="6" />
-              <Text>A service provider of the Philippine Ports Authority</Text>
-              <TextBrush>Black</TextBrush>
-              <TextQuality>Typographic</TextQuality>
-              <Type>Expression</Type>
-            </Text4>
-            <Text3 Ref="52" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.8,12.9,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Tahoma,12,Regular,Point,False,0</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <Guid>ba7339fa436d4980b652493a1425b6f8</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text3</Name>
-              <Page isRef="4" />
-              <Parent isRef="6" />
-              <Text>(63) (052) 830-1747 • Telefax: (052) 487-5184</Text>
-              <TextBrush>Black</TextBrush>
-              <TextQuality>Typographic</TextQuality>
-              <Type>Expression</Type>
-            </Text3>
-            <Text2 Ref="53" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.55,12.9,0.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Tahoma,12,Regular,Point,False,0</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <Guid>e8290ad2250a4870955fda4483197e93</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text2</Name>
-              <Page isRef="4" />
-              <Parent isRef="6" />
-              <Text>Pier Site, Tabaco City 4511, Philippines</Text>
-              <TextBrush>Black</TextBrush>
-              <TextQuality>Typographic</TextQuality>
-              <Type>Expression</Type>
-            </Text2>
-            <Text1 Ref="54" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.3,12.9,0.3</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Tahoma,14.25,Bold,Point,False,0</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <Guid>869552a0f5554968bdf370c0b0894d7b</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text1</Name>
-              <Page isRef="4" />
-              <Parent isRef="6" />
-              <Text>TABACO PORT CARGO CORPORATION</Text>
-              <TextBrush>Black</TextBrush>
-              <TextQuality>Typographic</TextQuality>
-              <Type>Expression</Type>
-            </Text1>
             <Text34 Ref="55" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>10.9,4.1,1.7,0.2</ClientRectangle>
@@ -1035,38 +1164,52 @@ Government Share</Text>
               <TextQuality>Typographic</TextQuality>
               <Type>Expression</Type>
             </Text77>
-            <StartPointPrimitive12 Ref="61" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <Text79 Ref="61" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.5,0,0.4,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,6,Regular,Point,False,0</Font>
+              <Guid>83e7468fcd2346e1881af3468e7df362</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text79</Name>
+              <Page isRef="4" />
+              <Parent isRef="6" />
+              <Text>RPT0009</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text79>
+            <StartPointPrimitive12 Ref="62" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0,2.8,0,0</ClientRectangle>
               <Name>StartPointPrimitive12</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>8eda1a6c5a3d44ecadc1fd618cbbc4d3</ReferenceToGuid>
             </StartPointPrimitive12>
-            <EndPointPrimitive12 Ref="62" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive12 Ref="63" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>0,3.2,0,0</ClientRectangle>
               <Name>EndPointPrimitive12</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>8eda1a6c5a3d44ecadc1fd618cbbc4d3</ReferenceToGuid>
             </EndPointPrimitive12>
-            <StartPointPrimitive2 Ref="63" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive2 Ref="64" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>12.9,2.8,0,0</ClientRectangle>
               <Name>StartPointPrimitive2</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>204cee4b818b4f8e9e6afb90968afad4</ReferenceToGuid>
             </StartPointPrimitive2>
-            <EndPointPrimitive2 Ref="64" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive2 Ref="65" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12.9,3.2,0,0</ClientRectangle>
               <Name>EndPointPrimitive2</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>204cee4b818b4f8e9e6afb90968afad4</ReferenceToGuid>
             </EndPointPrimitive2>
-            <HorizontalLinePrimitive3 Ref="65" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive3 Ref="66" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,2.4,4.6,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="66" type="Cap" isKey="true">
+              <EndCap Ref="67" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>83e43d1394494416b3c53a2783f727f9</Guid>
@@ -1074,98 +1217,98 @@ Government Share</Text>
               <Page isRef="4" />
               <Parent isRef="6" />
               <Size>2</Size>
-              <StartCap Ref="67" type="Cap" isKey="true">
+              <StartCap Ref="68" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive3>
-            <StartPointPrimitive1 Ref="68" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive1 Ref="69" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive1</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>f8ca5894ec84408bb805afbc71246584</ReferenceToGuid>
             </StartPointPrimitive1>
-            <EndPointPrimitive1 Ref="69" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive1 Ref="70" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12.9,5.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive1</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>f8ca5894ec84408bb805afbc71246584</ReferenceToGuid>
             </EndPointPrimitive1>
-            <StartPointPrimitive3 Ref="70" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive3 Ref="71" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>2.8,2.4,0,0</ClientRectangle>
               <Name>StartPointPrimitive3</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>2cbdc04bdee849e6abb29c887e09724e</ReferenceToGuid>
             </StartPointPrimitive3>
-            <EndPointPrimitive3 Ref="71" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive3 Ref="72" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>2.8,5.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive3</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>2cbdc04bdee849e6abb29c887e09724e</ReferenceToGuid>
             </EndPointPrimitive3>
-            <StartPointPrimitive4 Ref="72" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive4 Ref="73" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>4.6,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive4</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>e36fd572d278434fb6a87ecfbf9a07f8</ReferenceToGuid>
             </StartPointPrimitive4>
-            <EndPointPrimitive4 Ref="73" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive4 Ref="74" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>4.6,5.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive4</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>e36fd572d278434fb6a87ecfbf9a07f8</ReferenceToGuid>
             </EndPointPrimitive4>
-            <StartPointPrimitive5 Ref="74" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive5 Ref="75" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>6.4,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive5</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>cbe865eb716848ca8e5485b9bf2f34d0</ReferenceToGuid>
             </StartPointPrimitive5>
-            <EndPointPrimitive5 Ref="75" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive5 Ref="76" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>6.4,5.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive5</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>cbe865eb716848ca8e5485b9bf2f34d0</ReferenceToGuid>
             </EndPointPrimitive5>
-            <StartPointPrimitive6 Ref="76" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive6 Ref="77" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>8.2,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive6</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>6f3434afc1134e09ac4fc6baa005c2de</ReferenceToGuid>
             </StartPointPrimitive6>
-            <EndPointPrimitive6 Ref="77" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive6 Ref="78" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>8.2,5.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive6</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>6f3434afc1134e09ac4fc6baa005c2de</ReferenceToGuid>
             </EndPointPrimitive6>
-            <StartPointPrimitive7 Ref="78" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+            <StartPointPrimitive7 Ref="79" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>10,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive7</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>4fd0eeb94632464aa88426716a26ef78</ReferenceToGuid>
             </StartPointPrimitive7>
-            <EndPointPrimitive7 Ref="79" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+            <EndPointPrimitive7 Ref="80" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>10,5.6,0,0</ClientRectangle>
               <Name>EndPointPrimitive7</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
               <ReferenceToGuid>4fd0eeb94632464aa88426716a26ef78</ReferenceToGuid>
             </EndPointPrimitive7>
-            <HorizontalLinePrimitive4 Ref="80" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive4 Ref="81" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,2.7,12.9,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="81" type="Cap" isKey="true">
+              <EndCap Ref="82" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>0ffc5d1f36f34fd6b79f122630d76115</Guid>
@@ -1173,14 +1316,14 @@ Government Share</Text>
               <Page isRef="4" />
               <Parent isRef="6" />
               <Size>2</Size>
-              <StartCap Ref="82" type="Cap" isKey="true">
+              <StartCap Ref="83" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive4>
-            <HorizontalLinePrimitive1 Ref="83" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive1 Ref="84" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,1.4,12.9,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="84" type="Cap" isKey="true">
+              <EndCap Ref="85" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>503a2a04e5b6416a88f1193ab67cfec8</Guid>
@@ -1188,21 +1331,21 @@ Government Share</Text>
               <Page isRef="4" />
               <Parent isRef="6" />
               <Size>4</Size>
-              <StartCap Ref="85" type="Cap" isKey="true">
+              <StartCap Ref="86" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive1>
-            <HorizontalLinePrimitive2 Ref="86" type="HorizontalLinePrimitive" isKey="true">
+            <HorizontalLinePrimitive2 Ref="87" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,1.44,12.9,0.01</ClientRectangle>
               <Color>Black</Color>
-              <EndCap Ref="87" type="Cap" isKey="true">
+              <EndCap Ref="88" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Guid>ad336fd8f7a046e684420f8cfb8deb14</Guid>
               <Name>HorizontalLinePrimitive2</Name>
               <Page isRef="4" />
               <Parent isRef="6" />
-              <StartCap Ref="88" type="Cap" isKey="true">
+              <StartCap Ref="89" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive2>
@@ -1212,35 +1355,35 @@ Government Share</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
         </ReportSummaryBand1>
-        <VerticalLinePrimitive39 Ref="89" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive39 Ref="90" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>0,3.4,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="90" type="Cap" isKey="true">
+          <EndCap Ref="91" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>8eda1a6c5a3d44ecadc1fd618cbbc4d3</Guid>
           <Name>VerticalLinePrimitive39</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="91" type="Cap" isKey="true">
+          <StartCap Ref="92" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive39>
-        <VerticalLinePrimitive1 Ref="92" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive1 Ref="93" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>12.9,3.4,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="93" type="Cap" isKey="true">
+          <EndCap Ref="94" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>204cee4b818b4f8e9e6afb90968afad4</Guid>
           <Name>VerticalLinePrimitive1</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <StartCap Ref="94" type="Cap" isKey="true">
+          <StartCap Ref="95" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive1>
-        <RectanglePrimitive1 Ref="95" type="RectanglePrimitive" isKey="true">
+        <RectanglePrimitive1 Ref="96" type="RectanglePrimitive" isKey="true">
           <ClientRectangle>0,2.7,12.9,3.5</ClientRectangle>
           <Color>Black</Color>
           <Guid>f8ca5894ec84408bb805afbc71246584</Guid>
@@ -1249,10 +1392,10 @@ Government Share</Text>
           <Parent isRef="4" />
           <Size>2</Size>
         </RectanglePrimitive1>
-        <VerticalLinePrimitive2 Ref="96" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive2 Ref="97" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>2.8,3,0.01,3.2</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="97" type="Cap" isKey="true">
+          <EndCap Ref="98" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>2cbdc04bdee849e6abb29c887e09724e</Guid>
@@ -1260,14 +1403,14 @@ Government Share</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="98" type="Cap" isKey="true">
+          <StartCap Ref="99" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive2>
-        <VerticalLinePrimitive4 Ref="99" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive4 Ref="100" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>4.6,2.7,0.01,3.5</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="100" type="Cap" isKey="true">
+          <EndCap Ref="101" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>e36fd572d278434fb6a87ecfbf9a07f8</Guid>
@@ -1275,14 +1418,14 @@ Government Share</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="101" type="Cap" isKey="true">
+          <StartCap Ref="102" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive4>
-        <VerticalLinePrimitive8 Ref="102" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive8 Ref="103" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>6.4,2.7,0.01,3.5</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="103" type="Cap" isKey="true">
+          <EndCap Ref="104" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>cbe865eb716848ca8e5485b9bf2f34d0</Guid>
@@ -1290,14 +1433,14 @@ Government Share</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="104" type="Cap" isKey="true">
+          <StartCap Ref="105" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive8>
-        <VerticalLinePrimitive11 Ref="105" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive11 Ref="106" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>8.2,2.7,0.01,3.5</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="106" type="Cap" isKey="true">
+          <EndCap Ref="107" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>6f3434afc1134e09ac4fc6baa005c2de</Guid>
@@ -1305,14 +1448,14 @@ Government Share</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="107" type="Cap" isKey="true">
+          <StartCap Ref="108" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive11>
-        <VerticalLinePrimitive12 Ref="108" type="VerticalLinePrimitive" isKey="true">
+        <VerticalLinePrimitive12 Ref="109" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>10,2.7,0.01,3.5</ClientRectangle>
           <Color>Black</Color>
-          <EndCap Ref="109" type="Cap" isKey="true">
+          <EndCap Ref="110" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>4fd0eeb94632464aa88426716a26ef78</Guid>
@@ -1320,30 +1463,29 @@ Government Share</Text>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Size>2</Size>
-          <StartCap Ref="110" type="Cap" isKey="true">
+          <StartCap Ref="111" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive12>
       </Components>
       <Conditions isList="true" count="0" />
       <Guid>01d5104470fa435fb3ca644cb8304603</Guid>
-      <Margins>0.25,0.3,0.25,0.3</Margins>
+      <Margins>0.25,0.1,0.25,0.3</Margins>
       <Name>Page1</Name>
       <Orientation>Landscape</Orientation>
       <PageHeight>8.5</PageHeight>
-      <PageWidth>14</PageWidth>
-      <PaperSize>Legal</PaperSize>
+      <PageWidth>13.3</PageWidth>
       <PrintHeadersFootersFromPreviousPage>True</PrintHeadersFootersFromPreviousPage>
       <PrintOnPreviousPage>True</PrintOnPreviousPage>
       <Report isRef="0" />
       <StretchToPrintArea>True</StretchToPrintArea>
-      <Watermark Ref="111" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="112" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="112" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="113" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -1355,10 +1497,10 @@ Government Share</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/19/2018 2:26:41 PM</ReportChanged>
+  <ReportChanged>1/22/2018 5:38:12 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0009.mrt</ReportFile>
-  <ReportGuid>2b8173efddd1431b9c08bcd9e761ef31</ReportGuid>
+  <ReportGuid>549881beac9b4ddeaa6c26b0e60108a0</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
