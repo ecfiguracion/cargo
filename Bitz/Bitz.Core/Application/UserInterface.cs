@@ -202,7 +202,7 @@ namespace Bitz.Core.Application
         Items.Add(new CoreConstants.UserInterface(1430, "Vehicle Type", "Vehicle Type", "Bitz.Cargo.Views.Settings.VehicleTypeView", Modules.Cargo, CoreConstants.PageType.ContentPage));
         Items.Add(new CoreConstants.UserInterface(1431, "Vehicle Types", "Vehicle Type", "Bitz.Cargo.Views.Settings.VehicleTypesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.VehicleType));
 
-        Items.Add(new CoreConstants.UserInterface(1432, "Fees", "Bitz.Cargo.Views.FeesMainView", Modules.Cargo, CoreConstants.PageType.Page));
+        Items.Add(new CoreConstants.UserInterface(1432, "Rrtf", "Bitz.Cargo.Views.FeesMainView", Modules.Cargo, CoreConstants.PageType.Page));
 
         Items.Add(new CoreConstants.UserInterface(1433, "Roro Terminal Fee", "Roro Terminal Fee", "Bitz.Cargo.Views.Fees.RoroTerminalFeeView", Modules.Cargo, CoreConstants.PageType.ContentPage));
         Items.Add(new CoreConstants.UserInterface(1434, "Roro Terminal Fees", "Roro Terminal Fees", "Bitz.Cargo.Views.Fees.RoroTerminalFeesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.RoroTerminalFee));

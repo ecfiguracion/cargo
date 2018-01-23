@@ -235,8 +235,8 @@ SELECT datepaid,
 	ROUND(SUM(arcollections),2) AS arcollections,
 	ROUND(SUM(foreignppashareamount),2) AS foreignppashareamount,
 	ROUND(SUM(domesticppashareamount),2) AS domesticppashareamount,
-	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 0.12, 2) AS vatamount,
-	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 1.12, 2) AS ppashare
+	SUM(ROUND((foreignppashareamount + domesticppashareamount) * 0.12, 2)) AS vatamount,
+	SUM(ROUND((foreignppashareamount + domesticppashareamount) * 1.12, 2)) AS ppashare
 	FROM billamount
 	GROUP BY datepaid</SqlCommand>
       </dsPayment>
@@ -4570,10 +4570,10 @@ DUES</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/22/2018 3:31:24 PM</ReportChanged>
+  <ReportChanged>1/23/2018 10:44:52 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0006.mrt</ReportFile>
-  <ReportGuid>861faaec8b534e49b4626342a67db177</ReportGuid>
+  <ReportGuid>acd51f2c29ac4fa4bd3f170c49e35578</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
