@@ -244,8 +244,8 @@ SELECT datepaid,
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="2">
-      <value>,startdate,startdate,System.String,_x0032_016-11-01,False,False</value>
-      <value>,enddate,enddate,System.String,_x0032_016-11-30,False,False</value>
+      <value>,startdate,startdate,System.String,_x0032_018-02-01,False,False</value>
+      <value>,enddate,enddate,System.String,_x0032_018-02-28,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -4570,10 +4570,10 @@ DUES</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/23/2018 10:44:52 PM</ReportChanged>
+  <ReportChanged>2/13/2018 1:10:23 AM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
-  <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0006.mrt</ReportFile>
-  <ReportGuid>acd51f2c29ac4fa4bd3f170c49e35578</ReportGuid>
+  <ReportFile>C:\Development\temp\cargo\Reports\RPT0006.mrt</ReportFile>
+  <ReportGuid>28f36d80a7c2472bab78d7944363716c</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>

@@ -102,7 +102,7 @@ SELECT bill.bill,
 	0 AS foreignmooringamount,
 	ROUND(SUM(rate * quantity), 2) as totalamount,
 	0 AS foreignppashareamount,
-	ROUND(SUM(rate * quantity) * 0.10, 2) as domesticppashareamount
+	ROUND(SUM((rate * quantity) * 0.10), 2) AS domesticppashareamount
 	FROM billitemroro
 	INNER JOIN bill on bill.bill = billitemroro.bill
 	WHERE DATEADD(dd, DATEDIFF(dd, 0, bill.billdate), 0) BETWEEN '{startdate}' AND '{enddate}'
@@ -335,8 +335,8 @@ SELECT 1 AS Id,
 	ROUND(SUM(totalamount),2) AS totalamount,
 	ROUND(SUM(foreignppashareamount),2) AS foreignppashareamount,
 	ROUND(SUM(domesticppashareamount),2) AS domesticppashareamount,
-	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 0.12, 2) AS vatamount,
-	ROUND(SUM(foreignppashareamount + domesticppashareamount) * 1.12, 2) AS ppashare
+	SUM(ROUND((foreignppashareamount + domesticppashareamount) * 0.12, 2)) AS vatamount,
+	SUM(ROUND((foreignppashareamount + domesticppashareamount) * 1.12, 2)) AS ppashare
 	FROM billamount
 UNION
 SELECT 2 AS Id,
@@ -362,8 +362,8 @@ SELECT 2 AS Id,
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="2">
-      <value>,startdate,startdate,System.String,_x0032_016-11-01,False,False</value>
-      <value>,enddate,enddate,System.String,_x0032_016-11-30,False,False</value>
+      <value>,startdate,startdate,System.String,_x0032_018-02-01,False,False</value>
+      <value>,enddate,enddate,System.String,_x0032_018-02-28,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -3274,10 +3274,10 @@ Due</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>1/22/2018 9:43:08 PM</ReportChanged>
+  <ReportChanged>2/13/2018 7:02:53 AM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
-  <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0007.mrt</ReportFile>
-  <ReportGuid>ecc0c5ccce6245ebbb67e002e247bbd0</ReportGuid>
+  <ReportFile>C:\Development\temp\cargo\Reports\RPT0007.mrt</ReportFile>
+  <ReportGuid>185ddaf1f8f14bb8ad68aa522b34e577</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
