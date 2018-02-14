@@ -362,7 +362,7 @@ SELECT 2 AS Id,
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="2">
-      <value>,startdate,startdate,System.String,_x0032_018-02-01,False,False</value>
+      <value>,startdate,startdate,System.String,_x0032_016-01-01,False,False</value>
       <value>,enddate,enddate,System.String,_x0032_018-02-28,False,False</value>
     </Variables>
   </Dictionary>
@@ -637,7 +637,7 @@ SELECT 2 AS Id,
             <Text28 Ref="21" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>8.8,1.9,1.1,0.4</ClientRectangle>
+              <ClientRectangle>8.8,1.9,0.9,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,9.75,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
@@ -659,7 +659,7 @@ Revenue
             <Text29 Ref="22" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>9.9,2.1,0.7,0.2</ClientRectangle>
+              <ClientRectangle>9.7,2.1,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,9.75,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
@@ -680,7 +680,7 @@ Revenue
             <Text30 Ref="23" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>10.6,2.1,0.7,0.2</ClientRectangle>
+              <ClientRectangle>10.5,2.1,0.8,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,9.75,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
@@ -700,7 +700,7 @@ Revenue
             </Text30>
             <Text31 Ref="24" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>9.9,1.9,1.4,0.2</ClientRectangle>
+              <ClientRectangle>9.7,1.9,1.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,9.75,Regular,Point,False,0</Font>
               <Guid>729058fbd54f4564a42879fb3ccbd66a</Guid>
@@ -1036,7 +1036,7 @@ Due</Text>
               <ReferenceToGuid>55eac4657958486bb0dbf9c30b0a0e68</ReferenceToGuid>
             </EndPointPrimitive31>
             <StartPointPrimitive33 Ref="55" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
-              <ClientRectangle>9.9,1.9,0,0</ClientRectangle>
+              <ClientRectangle>9.7,1.9,0,0</ClientRectangle>
               <Name>StartPointPrimitive33</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
@@ -1078,7 +1078,7 @@ Due</Text>
               <ReferenceToGuid>46bc490df9ed492585e34affaf0419d0</ReferenceToGuid>
             </EndPointPrimitive37>
             <StartPointPrimitive38 Ref="61" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
-              <ClientRectangle>10.6,2.1,0,0</ClientRectangle>
+              <ClientRectangle>10.5,2.1,0,0</ClientRectangle>
               <Name>StartPointPrimitive38</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
@@ -1107,7 +1107,7 @@ Due</Text>
               </StartCap>
             </HorizontalLinePrimitive3>
             <HorizontalLinePrimitive8 Ref="66" type="HorizontalLinePrimitive" isKey="true">
-              <ClientRectangle>9.9,2.1,1.4,0.01</ClientRectangle>
+              <ClientRectangle>9.7,2.1,1.6,0.01</ClientRectangle>
               <Color>Black</Color>
               <EndCap Ref="67" type="Cap" isKey="true">
                 <Color>Black</Color>
@@ -1207,7 +1207,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>0.7,0,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
@@ -1229,7 +1229,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>1.7,0,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>26051bc1bc2a4308a3b58c131008e47c</Guid>
               <HideZeros>True</HideZeros>
@@ -1252,7 +1252,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>4.7,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
@@ -1274,7 +1274,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>5.5,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>8583cd520edb4eaa9ccc723774e2fca1</Guid>
               <HideZeros>True</HideZeros>
@@ -1297,7 +1297,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>2.7,0,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
@@ -1319,7 +1319,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>3.7,0,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>2958f185b56b4e87ac7ee089da56b772</Guid>
               <HideZeros>True</HideZeros>
@@ -1340,9 +1340,9 @@ Due</Text>
             </Text59>
             <Text63 Ref="93" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.8,0,1.1,0.6</ClientRectangle>
+              <ClientRectangle>8.8,0,0.9,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>cdf26f14167a4e7fa4aa5753600fbf45</Guid>
               <HideZeros>True</HideZeros>
@@ -1365,7 +1365,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>7.2,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>47f92861f1b1416ca66fba1117ccbb4d</Guid>
               <HideZeros>True</HideZeros>
@@ -1388,7 +1388,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>8,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>c4898c7fe7be47ce8a8ff896c0808a42</Guid>
               <HideZeros>True</HideZeros>
@@ -1409,9 +1409,9 @@ Due</Text>
             </Text69>
             <Text55 Ref="99" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>9.9,0,0.7,0.6</ClientRectangle>
+              <ClientRectangle>9.7,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>a4b5e28b830e4689a3059ace299d776d</Guid>
               <HideZeros>True</HideZeros>
@@ -1432,9 +1432,9 @@ Due</Text>
             </Text55>
             <Text71 Ref="101" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.6,0,0.7,0.6</ClientRectangle>
+              <ClientRectangle>10.5,0,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>8228e1fc2e754804a0a0add5829a8902</Guid>
               <HideZeros>True</HideZeros>
@@ -1457,7 +1457,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>11.3,0,0.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>6bb90478cbcb4f11a8c5b11b9959e9e0</Guid>
               <HideZeros>True</HideZeros>
@@ -1480,7 +1480,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>12,0,0.9,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>be1ff5ac3db840d8b6219f44de0ce761</Guid>
               <HideZeros>True</HideZeros>
@@ -1503,7 +1503,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>6.3,0,0.9,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>30132de0c83741198c482617800b98d5</Guid>
               <HideZeros>True</HideZeros>
@@ -1527,7 +1527,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,0,0.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Regular,Point,False,0</Font>
+              <Font>Arial,9,Regular,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>a9e305b8dc514af1bbb51a760aac370f</Guid>
               <HideZeros>True</HideZeros>
@@ -1616,7 +1616,7 @@ Due</Text>
               <ReferenceToGuid>110f92d85baa4139a19fc724b1b76e44</ReferenceToGuid>
             </StartPointPrimitive28>
             <StartPointPrimitive30 Ref="121" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
-              <ClientRectangle>9.9,0,0,0</ClientRectangle>
+              <ClientRectangle>9.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive30</Name>
               <Page isRef="4" />
               <Parent isRef="80" />
@@ -1630,7 +1630,7 @@ Due</Text>
               <ReferenceToGuid>b69c44f4d5ea49f48a4f2ff969e51009</ReferenceToGuid>
             </EndPointPrimitive30>
             <StartPointPrimitive34 Ref="123" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
-              <ClientRectangle>10.6,0,0,0</ClientRectangle>
+              <ClientRectangle>10.5,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive34</Name>
               <Page isRef="4" />
               <Parent isRef="80" />
@@ -1792,7 +1792,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>0.1,0,0.6,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>cbeaae16d9374389a907324b68f1dc4d</Guid>
               <Margins>0,0,0,0</Margins>
@@ -1813,7 +1813,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>0.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>5109f05f22924362af9cb621dbdd40aa</Guid>
               <HideZeros>True</HideZeros>
@@ -1836,7 +1836,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>1.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>77f12320c4494c099942bce054890d43</Guid>
               <HideZeros>True</HideZeros>
@@ -1859,7 +1859,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>4.7,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>9f0e7892d477462f80b0e08270796fd5</Guid>
               <HideZeros>True</HideZeros>
@@ -1882,7 +1882,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>5.5,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>3cd01b2e437b485d8d18600013bba874</Guid>
               <HideZeros>True</HideZeros>
@@ -1905,7 +1905,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>2.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>b216c23280b84339b4cd733fae6b3b26</Guid>
               <HideZeros>True</HideZeros>
@@ -1928,7 +1928,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>3.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>3156c7c1354747deb1304e4a72e66f79</Guid>
               <HideZeros>True</HideZeros>
@@ -1949,9 +1949,9 @@ Due</Text>
             </Text43>
             <Text44 Ref="158" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.8,0,1.1,0.3</ClientRectangle>
+              <ClientRectangle>8.8,0,0.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>66dbf3a94bfb4ae2825ed887cafde9b8</Guid>
               <HideZeros>True</HideZeros>
@@ -1974,7 +1974,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>7.2,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>b4a374f3a5c3493aa57b0a3304fbb263</Guid>
               <HideZeros>True</HideZeros>
@@ -1997,7 +1997,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>8,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>78b6f3f55a2446c792b885362faf715a</Guid>
               <HideZeros>True</HideZeros>
@@ -2018,9 +2018,9 @@ Due</Text>
             </Text47>
             <Text49 Ref="164" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>9.9,0,0.7,0.3</ClientRectangle>
+              <ClientRectangle>9.7,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>b7900d3eb66f4e68bb93784bc1395e50</Guid>
               <HideZeros>True</HideZeros>
@@ -2041,9 +2041,9 @@ Due</Text>
             </Text49>
             <Text51 Ref="166" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.6,0,0.7,0.3</ClientRectangle>
+              <ClientRectangle>10.5,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>58ef5e6699c6425b8586dc16d14face6</Guid>
               <HideZeros>True</HideZeros>
@@ -2066,7 +2066,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>11.3,0,0.7,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>525987f399a04a8a839e04037a375e20</Guid>
               <HideZeros>True</HideZeros>
@@ -2089,7 +2089,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>12,0,0.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>7c4f893ca3ea4450bcb5bb9ee6a5c143</Guid>
               <HideZeros>True</HideZeros>
@@ -2112,7 +2112,7 @@ Due</Text>
               <Brush>Transparent</Brush>
               <ClientRectangle>6.3,0,0.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,0</Font>
+              <Font>Arial,9,Bold,Point,False,0</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>954a9cbdb6ea46b388ba41c1eb9dc2ff</Guid>
               <HideZeros>True</HideZeros>
@@ -2314,7 +2314,7 @@ Due</Text>
               <ReferenceToGuid>88f265d759aa49e8a25abd980ecd08a9</ReferenceToGuid>
             </EndPointPrimitive41>
             <StartPointPrimitive42 Ref="203" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
-              <ClientRectangle>9.9,0,0,0</ClientRectangle>
+              <ClientRectangle>9.7,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive42</Name>
               <Page isRef="4" />
               <Parent isRef="143" />
@@ -2328,7 +2328,7 @@ Due</Text>
               <ReferenceToGuid>49008cf900754b139400e6398a70dfb5</ReferenceToGuid>
             </EndPointPrimitive42>
             <StartPointPrimitive43 Ref="205" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
-              <ClientRectangle>10.6,0,0,0</ClientRectangle>
+              <ClientRectangle>10.5,0,0,0</ClientRectangle>
               <Name>StartPointPrimitive43</Name>
               <Page isRef="4" />
               <Parent isRef="143" />
@@ -2727,7 +2727,7 @@ Due</Text>
           </StartCap>
         </VerticalLinePrimitive25>
         <VerticalLinePrimitive27 Ref="256" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>9.9,3,0.01,0.6</ClientRectangle>
+          <ClientRectangle>9.7,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="257" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -2741,7 +2741,7 @@ Due</Text>
           </StartCap>
         </VerticalLinePrimitive27>
         <VerticalLinePrimitive31 Ref="259" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>10.6,3,0.01,0.6</ClientRectangle>
+          <ClientRectangle>10.5,3,0.01,0.6</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="260" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -2901,7 +2901,7 @@ Due</Text>
           </StartCap>
         </VerticalLinePrimitive28>
         <VerticalLinePrimitive30 Ref="292" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>9.9,2.1,0.01,0.4</ClientRectangle>
+          <ClientRectangle>9.7,2.1,0.01,0.4</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="293" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -2946,7 +2946,7 @@ Due</Text>
           </StartCap>
         </VerticalLinePrimitive38>
         <VerticalLinePrimitive32 Ref="301" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>10.6,2.3,0.01,0.2</ClientRectangle>
+          <ClientRectangle>10.5,2.3,0.01,0.2</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="302" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -3161,7 +3161,7 @@ Due</Text>
           </StartCap>
         </VerticalLinePrimitive36>
         <VerticalLinePrimitive41 Ref="346" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>9.9,4,0.01,0.3</ClientRectangle>
+          <ClientRectangle>9.7,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="347" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -3175,7 +3175,7 @@ Due</Text>
           </StartCap>
         </VerticalLinePrimitive41>
         <VerticalLinePrimitive42 Ref="349" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>10.6,4,0.01,0.3</ClientRectangle>
+          <ClientRectangle>10.5,4,0.01,0.3</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="350" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -3274,10 +3274,10 @@ Due</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>2/13/2018 7:02:53 AM</ReportChanged>
+  <ReportChanged>2/14/2018 10:21:35 AM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\cargo\Reports\RPT0007.mrt</ReportFile>
-  <ReportGuid>185ddaf1f8f14bb8ad68aa522b34e577</ReportGuid>
+  <ReportGuid>cac5a9c7d61f479983702be4ab147710</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
