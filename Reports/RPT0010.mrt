@@ -639,6 +639,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <ClientRectangle>5.2,0,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsRoroItem_vehicletype2</Name>
@@ -659,6 +660,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <ClientRectangle>6.8,0,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsRoroItem_vehicletype4</Name>
@@ -679,6 +681,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <ClientRectangle>6,0,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsRoroItem_vehicletype3</Name>
@@ -699,6 +702,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <ClientRectangle>4.4,0,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,8</Font>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>DatadsRoroItem_vehicletype1</Name>
@@ -740,6 +744,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Arial,8</Font>
               <Guid>06299ba4cdce4a819aa4963f4f017d1f</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text23</Name>
@@ -761,6 +766,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>2909c483a08142fab96e719bda63d7fe</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text24</Name>
@@ -782,6 +788,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>6df00a2c0f3d4434b74b439453d1aa46</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text25</Name>
@@ -803,6 +810,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>2b55c56c066a42c6ad41e1a3c78b54b6</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text26</Name>
@@ -838,6 +846,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8.25,Regular,Point,False,0</Font>
               <Guid>e38c3b03f836420a9833fcd3d91db661</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text29</Name>
@@ -859,6 +868,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>cc2aabe5295049e3b247c76b0f5afa87</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text30</Name>
@@ -880,6 +890,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>9e870260fd1c4124827d384a7a27e34b</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text31</Name>
@@ -901,6 +912,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>7e3443fb627548feb03fd38229e51b2b</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text32</Name>
@@ -992,6 +1004,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>9e3081aed6c44e3cb5ddc82d4afbb639</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text38</Name>
@@ -1027,6 +1040,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>90c9317feb9448d0b4250ecd1a467b9f</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text43</Name>
@@ -1062,6 +1076,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>a77d51f49e174279a957836bab4fd06e</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text45</Name>
@@ -1083,6 +1098,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <Guid>45c4d373c541423ca3fa504de35aba6e</Guid>
+              <HideZeros>True</HideZeros>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text46</Name>
@@ -1568,9 +1584,8 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
       <LargeHeight>True</LargeHeight>
       <Margins>0.55,0.39,0.39,0.39</Margins>
       <Name>Page1</Name>
-      <PageHeight>11</PageHeight>
+      <PageHeight>13.5</PageHeight>
       <PageWidth>8.5</PageWidth>
-      <PaperSize>Letter</PaperSize>
       <Report isRef="0" />
       <StretchToPrintArea>True</StretchToPrintArea>
       <Watermark Ref="175" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
@@ -1594,7 +1609,7 @@ WHERE v.vehiclefee = '{pId}'</SqlCommand>
   <ReportChanged>1/18/2018 3:32:04 PM</ReportChanged>
   <ReportCreated>9/2/2016 2:08:23 PM</ReportCreated>
   <ReportFile>C:\Development\temp\Others\cargo\Reports\RPT0010.mrt</ReportFile>
-  <ReportGuid>48bfa8317ccb4289bf44f55c2bb58485</ReportGuid>
+  <ReportGuid>ace0565975ef43748ebb4703c1653d5a</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2011.1.919</ReportVersion>
