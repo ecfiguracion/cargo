@@ -95,7 +95,7 @@ namespace Bitz.Cargo.ViewModels.Fees
     protected override void OnSaved()
     {
       base.OnSaved();
-      this.IsReadOnly = this.Model.Status.Id != CargoConstants.RoroStatus.Draft.Id;
+      this.IsReadOnly = this.Model.Status.Id != CargoConstants.StandardStatus.Draft.Id;
     }
 
     #endregion
@@ -235,7 +235,7 @@ namespace Bitz.Cargo.ViewModels.Fees
       if (result == MessageBoxResult.Yes)
       {
         this.IsReadOnly = false;
-        this.Model.Status = CargoConstants.RoroStatus.Cancelled;
+        this.Model.Status = CargoConstants.StandardStatus.Cancelled;
         OnPropertyChanged("CanCancelDocument");
       }
     }

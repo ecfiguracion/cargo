@@ -27,6 +27,8 @@ namespace Bitz.Cargo.ViewModels.Settings
       this.BillingMenu.Add(UserInterfaces.Cargo.UnitOfMeasures);
       this.BillingMenu.Add(UserInterfaces.Cargo.BankAccounts);
       this.BillingMenu.Add(UserInterfaces.Cargo.VehicleTypes);
+      this.BillingMenu.Add(UserInterfaces.Cargo.VoucherTypes);
+      this.BillingMenu.Add(UserInterfaces.Cargo.Signatories);
 
       this.SelectedMenu = this.BillingMenu[0];
     }

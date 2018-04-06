@@ -149,6 +149,17 @@ namespace Bitz.Core.Application
       public static CoreConstants.UserInterface RoroTerminalFee { get { return FindById(1433); } }
       public static CoreConstants.UserInterface RoroTerminalFees { get { return FindById(1434); } }
 
+      public static CoreConstants.UserInterface VoucherType { get { return FindById(1435); } }
+      public static CoreConstants.UserInterface VoucherTypes { get { return FindById(1436); } }
+
+      public static CoreConstants.UserInterface Signatory { get { return FindById(1437); } }
+      public static CoreConstants.UserInterface Signatories { get { return FindById(1438); } }
+
+      public static CoreConstants.UserInterface Disbursement { get { return FindById(1439); } }
+      public static CoreConstants.UserInterface Disbursements { get { return FindById(1440); } }
+
+      public static CoreConstants.UserInterface DisbursementMain { get { return FindById(1441); } }
+
       public static void Initialise()
       {
         Items.Add(new CoreConstants.UserInterface(1400, "Billings", "Bitz.Cargo.Views.BillingMainView", Modules.Cargo, CoreConstants.PageType.Page));
@@ -206,6 +217,17 @@ namespace Bitz.Core.Application
 
         Items.Add(new CoreConstants.UserInterface(1433, "Roro Terminal Fee", "Roro Terminal Fee", "Bitz.Cargo.Views.Fees.RoroTerminalFeeView", Modules.Cargo, CoreConstants.PageType.ContentPage));
         Items.Add(new CoreConstants.UserInterface(1434, "Roro Terminal Fees", "Roro Terminal Fees", "Bitz.Cargo.Views.Fees.RoroTerminalFeesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.RoroTerminalFee));
+
+        Items.Add(new CoreConstants.UserInterface(1435, "Voucher Type", "Voucher Type", "Bitz.Cargo.Views.Settings.VoucherTypeView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1436, "Voucher Types", "Voucher Type", "Bitz.Cargo.Views.Settings.VoucherTypesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.VoucherType));
+
+        Items.Add(new CoreConstants.UserInterface(1437, "Signatory", "Signatory", "Bitz.Cargo.Views.Settings.SignatoryView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1438, "Signatories", "Signatories", "Bitz.Cargo.Views.Settings.SignatoriesView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.Signatory));
+
+        Items.Add(new CoreConstants.UserInterface(1439, "Voucher", "Voucher", "Bitz.Cargo.Views.Disbursements.DisbursementView", Modules.Cargo, CoreConstants.PageType.ContentPage));
+        Items.Add(new CoreConstants.UserInterface(1440, "Vouchers", "Vouchers", "Bitz.Cargo.Views.Disbursements.DisbursementsView", Modules.Cargo, CoreConstants.PageType.ContentPage, Cargo.Disbursement));
+
+        Items.Add(new CoreConstants.UserInterface(1432, "Disbursements", "Bitz.Cargo.Views.DisbursementMainView", Modules.Cargo, CoreConstants.PageType.Page));
 
       }
     }

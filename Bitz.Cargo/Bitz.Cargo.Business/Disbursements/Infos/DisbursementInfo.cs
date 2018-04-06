@@ -1,4 +1,5 @@
-﻿using Bitz.Cargo.Business.Constants;
+﻿using Bitz.Cargo.Business.CargoReferences.Infos;
+using Bitz.Cargo.Business.Constants;
 using Bitz.Core.Constants;
 using Bitz.Core.Data;
 using Bitz.Core.Utilities;
@@ -11,13 +12,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bitz.Cargo.Business.Fees.Infos
+namespace Bitz.Cargo.Business.Disbursements.Infos
 {
-  #region VehicleFeeInfo
+  #region DisbursementInfo
 
   [Serializable]
-  [TableInfo(TableName = "vehiclefee", KeyColumn = "vehiclefee.vehiclefee")]
-  public class VehicleFeeInfo : ReadOnlyBase<VehicleFeeInfo>
+  [TableInfo(TableName = "disbursement", KeyColumn = "disbursement.disbursement")]
+  public class DisbursementInfo : ReadOnlyBase<DisbursementInfo>
   {
     #region One To One Properties
 
@@ -31,62 +32,52 @@ namespace Bitz.Cargo.Business.Fees.Infos
 
     #endregion
 
-    #region FeeNo
+    #region Type
 
-    public static readonly PropertyInfo<string> _FeeNo = RegisterProperty<string>(c => c.FeeNo);
-    public string FeeNo
+    public static readonly PropertyInfo<VoucherTypeInfo> _Type = RegisterProperty<VoucherTypeInfo>(c => c.Type, "Type");
+    public VoucherTypeInfo Type
     {
-      get { return GetProperty(_FeeNo); }
+      get { return GetProperty(_Type); }
     }
 
     #endregion
 
-    #region Date
+    #region DocumentNo
 
-    public static readonly PropertyInfo<DateTime> _Date = RegisterProperty<DateTime>(c => c.Date);
-    public DateTime Date
+    public static readonly PropertyInfo<string> _DocumentNo = RegisterProperty<string>(c => c.DocumentNo);
+    public string DocumentNo
     {
-      get { return GetProperty(_Date); }
+      get { return GetProperty(_DocumentNo); }
     }
 
     #endregion
 
-    #region TotalVehicles
+    #region DocumentDate
 
-    public static readonly PropertyInfo<int> _TotalVehicles = RegisterProperty<int>(c => c.TotalVehicles);
-    public int TotalVehicles
+    public static readonly PropertyInfo<SmartDate> _DocumentDate = RegisterProperty<SmartDate>(c => c.DocumentDate);
+    public SmartDate DocumentDate
     {
-      get { return GetProperty(_TotalVehicles); }
+      get { return GetProperty(_DocumentDate); }
     }
 
     #endregion
 
-    #region TotalServiceFees
+    #region ControlNumber
 
-    public static readonly PropertyInfo<decimal> _TotalServiceFees = RegisterProperty<decimal>(c => c.TotalServiceFees);
-    public decimal TotalServiceFees
+    public static readonly PropertyInfo<int> _ControlNumber = RegisterProperty<int>(c => c.ControlNumber);
+    public int ControlNumber
     {
-      get { return GetProperty(_TotalServiceFees); }
+      get { return GetProperty(_ControlNumber); }
     }
 
     #endregion
 
-    #region Tax
+    #region Recipient
 
-    public static readonly PropertyInfo<decimal> _Tax = RegisterProperty<decimal>(c => c.Tax);
-    public decimal Tax
+    public static readonly PropertyInfo<string> _Recipient = RegisterProperty<string>(c => c.Recipient);
+    public string Recipient
     {
-      get { return GetProperty(_Tax); }
-    }
-
-    #endregion
-
-    #region GrandTotal
-
-    public static readonly PropertyInfo<decimal> _GrandTotal = RegisterProperty<decimal>(c => c.GrandTotal);
-    public decimal GrandTotal
-    {
-      get { return GetProperty(_GrandTotal); }
+      get { return GetProperty(_Recipient); }
     }
 
     #endregion
@@ -112,14 +103,14 @@ namespace Bitz.Cargo.Business.Fees.Infos
 
     #region Factory Methods
 
-    public static VehicleFeeInfo Get(SafeDataReader dr)
+    public static DisbursementInfo Get(SafeDataReader dr)
     {
-      return Csla.DataPortal.FetchChild<VehicleFeeInfo>(dr);
+      return Csla.DataPortal.FetchChild<DisbursementInfo>(dr);
     }
 
-    public static void Delete(SingleCriteria<int> id, EventHandler<DataPortalResult<VehicleFeeInfo>> completed)
+    public static void Delete(SingleCriteria<int> id, EventHandler<DataPortalResult<DisbursementInfo>> completed)
     {
-      DataPortal<VehicleFeeInfo> dp = new DataPortal<VehicleFeeInfo>();
+      DataPortal<DisbursementInfo> dp = new DataPortal<DisbursementInfo>();
       dp.DeleteCompleted += completed;
       dp.BeginDelete(id);
     }
@@ -134,13 +125,13 @@ namespace Bitz.Cargo.Business.Fees.Infos
 
     private void Child_Fetch(SafeDataReader dr)
     {
-      LoadProperty(_Id, dr.GetInt32("vehiclefee"));
-      LoadProperty(_FeeNo, dr.GetString("feeno"));
-      LoadProperty(_Date, dr.GetSmartDate("date"));
-      LoadProperty(_TotalVehicles, dr.GetInt32("totalvehicles"));
-      LoadProperty(_TotalServiceFees, dr.GetDecimal("totalservicefees"));
-      LoadProperty(_Tax, dr.GetDecimal("tax"));
-      LoadProperty(_GrandTotal, dr.GetDecimal("grandtotal"));
+      LoadProperty(_Id, dr.GetInt32("disbursement"));
+      LoadProperty(_Type, VoucherTypeInfo.Get(dr, _Type.Name));
+      LoadProperty(_DocumentNo, dr.GetString("documentno"));
+      LoadProperty(_DocumentDate, dr.GetSmartDate("documentdate"));
+      LoadProperty(_Recipient, dr.GetString("recipient"));
+      LoadProperty(_ControlNumber, dr.GetInt32("controlnumber"));
+      LoadProperty(_Status, dr.GetInt32("status"));
     }
 
     #endregion
@@ -153,7 +144,7 @@ namespace Bitz.Cargo.Business.Fees.Infos
       {
         using (var cm = ctx.Connection.CreateCommand())
         {
-          cm.CommandText += @"DELETE FROM vehiclefee WHERE vehiclefee = @id";
+          cm.CommandText += @"DELETE FROM disbursement WHERE disbursement = @id";
           cm.Parameters.AddWithValue("@id", id.Value);
           cm.ExecuteNonQuery();
         }
@@ -169,10 +160,10 @@ namespace Bitz.Cargo.Business.Fees.Infos
 
   #endregion
 
-  #region VehicleFeeInfos
+  #region DisbursementInfos
 
   [Serializable]
-  public class VehicleFeeInfos : ReadOnlyListBase<VehicleFeeInfos, VehicleFeeInfo>
+  public class DisbursementInfos : ReadOnlyListBase<DisbursementInfos, DisbursementInfo>
   {
     #region Criteria
 
@@ -196,6 +187,17 @@ namespace Bitz.Cargo.Business.Fees.Infos
       {
         get { return ReadProperty(_Status); }
         set { LoadProperty(_Status, value); }
+      }
+
+      #endregion
+
+      #region Type
+
+      public static readonly PropertyInfo<int?> _Type = RegisterProperty<int?>(c => c.Type);
+      public int? Type
+      {
+        get { return ReadProperty(_Type); }
+        set { LoadProperty(_Type, value); }
       }
 
       #endregion
@@ -228,9 +230,9 @@ namespace Bitz.Cargo.Business.Fees.Infos
 
     #region Factory Methods
 
-    public static void Get(Criteria criteria, EventHandler<DataPortalResult<VehicleFeeInfos>> completed)
+    public static void Get(Criteria criteria, EventHandler<DataPortalResult<DisbursementInfos>> completed)
     {
-      DataPortal<VehicleFeeInfos> dp = new DataPortal<VehicleFeeInfos>();
+      DataPortal<DisbursementInfos> dp = new DataPortal<DisbursementInfos>();
       dp.FetchCompleted += completed;
       dp.BeginFetch(criteria);
     }
@@ -245,37 +247,38 @@ namespace Bitz.Cargo.Business.Fees.Infos
       {
         using (var cmd = ctx.Connection.CreateCommand())
         {
-          cmd.CommandText = @"select v.vehiclefee,feeno, date,COUNT(vi.vehicle) totalvehicles, SUM(vi.fee) as totalservicefees, 
-                                v.ppatotal - SUM(vi.fee) as tax, v.ppatotal as grandtotal
-                              from vehiclefee v
-                              left join vehiclefeeitem vi on v.vehiclefee = vi.vehiclefee
-                              where  (v.status = @status OR @status IS NULL)";
-
+          cmd.CommandText = string.Format(@"
+                                  SELECT d.disbursement,d.type,d.documentno,d.documentdate,d.status,
+                                    vt.vouchertype AS {0}vouchertype,vt.type AS {0}type,vt.name AS {0}name
+                                  FROM disbursement d
+                                  LEFT JOIN vouchertype vt ON d.type = vt.vouchertype
+                                  WHERE 1 = 1 ", "Type");
           if (!string.IsNullOrEmpty(criteria.SearchText))
           {
-            cmd.CommandText += @" AND (vi.invoiceno LIKE @SearchText)";
+            cmd.CommandText += @" AND (d.preparedby LIKE @SearchText 
+                                  OR d.approvedby LIKE @SearchText 
+                                  OR d.receivedby LIKE @SearchText 
+                                  OR d.documentno LIKE @SearchText)";
 
             cmd.Parameters.AddWithValue("@SearchText", "%" + criteria.SearchText + "%");
           }
 
-          if (criteria.Status != null && criteria.Status > 0)
-            cmd.Parameters.AddWithValue("@status", criteria.Status);
+          if (criteria.Type != null)
+            cmd.Parameters.AddWithValue("@type", criteria.Type);
           else
-            cmd.Parameters.AddWithValue("@status", DBNull.Value);
+            cmd.Parameters.AddWithValue("@type", DBNull.Value);
 
           if (criteria.StartDate != null && criteria.EndDate != null)
           {
-            cmd.CommandText += @" AND (v.date >= @fromDate AND v.date < @toDate)";
+            cmd.CommandText += @" AND (d.documentdate >= @fromDate AND d.documentdate < @toDate)";
             cmd.Parameters.AddWithValue("@fromDate", criteria.StartDate.Date);
-            cmd.Parameters.AddWithValue("@toDate", criteria.EndDate.Date.AddDays(1));
+            cmd.Parameters.AddWithValue("@toDate", criteria.EndDate.Date.AddDays(1).Date);
           }
-
-          cmd.CommandText += " GROUP BY v.vehiclefee,v.feeno,v.date,v.ppatotal";
 
           //Apply paging
           if (criteria.PageSize > 0)
           {
-            var sortby = "v.date DESC";
+            var sortby = "d.documentdate DESC";
             SQLHelper.AddSQLPaging(criteria, sortby, cmd);
           }
 
@@ -284,7 +287,7 @@ namespace Bitz.Cargo.Business.Fees.Infos
             IsReadOnly = false;
             while (dr.Read())
             {
-              this.Add(VehicleFeeInfo.Get(dr));
+              this.Add(DisbursementInfo.Get(dr));
             }
             IsReadOnly = true;
           }

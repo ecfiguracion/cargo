@@ -72,9 +72,9 @@ namespace Bitz.Cargo.Business.Billing
     {
       get
       {
-        var status = CargoConstants.RoroStatus.Items.SingleOrDefault(x => x.Id == GetProperty(_Status));
+        var status = CargoConstants.StandardStatus.Items.SingleOrDefault(x => x.Id == GetProperty(_Status));
         if (status == null)
-          return CargoConstants.RoroStatus.Draft;
+          return CargoConstants.StandardStatus.Draft;
         return status;
       }
       set
@@ -184,7 +184,7 @@ namespace Bitz.Cargo.Business.Billing
       base.DataPortal_Create();
       LoadProperty(_FeeNo, "[Auto-Number]");
       LoadProperty(_Date, DateTime.Now);
-      LoadProperty(_Status, CargoConstants.RoroStatus.Draft.Id);
+      LoadProperty(_Status, CargoConstants.StandardStatus.Draft.Id);
       LoadProperty(_VehicleFeeItems, VehicleFeeItems.New());
       this.BusinessRules.CheckRules();
     }

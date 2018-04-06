@@ -117,28 +117,28 @@ namespace Bitz.Cargo.Business.Constants
 
     #endregion
 
-    #region RoroStatus
+    #region StandardStatus
 
-    public class RoroStatus
+    public class StandardStatus
     {
-      private static List<CoreConstants.IdValue> _RoroStatus = new List<CoreConstants.IdValue>();
+      private static List<CoreConstants.IdValue> _StandardStatus = new List<CoreConstants.IdValue>();
 
-      public static CoreConstants.IdValue All { get { return _RoroStatus[0]; } }
-      public static CoreConstants.IdValue Draft { get { return _RoroStatus[1]; } }
-      public static CoreConstants.IdValue Cancelled { get { return _RoroStatus[2]; } }
-      public static CoreConstants.IdValue Completed { get { return _RoroStatus[3]; } }
+      public static CoreConstants.IdValue All { get { return _StandardStatus[0]; } }
+      public static CoreConstants.IdValue Draft { get { return _StandardStatus[1]; } }
+      public static CoreConstants.IdValue Cancelled { get { return _StandardStatus[2]; } }
+      public static CoreConstants.IdValue Completed { get { return _StandardStatus[3]; } }
 
-      static RoroStatus()
+      static StandardStatus()
       {
-        _RoroStatus.Add(new CoreConstants.IdValue(0, "ALL"));
-        _RoroStatus.Add(new CoreConstants.IdValue(1, "Draft"));
-        _RoroStatus.Add(new CoreConstants.IdValue(2, "Cancelled"));
-        _RoroStatus.Add(new CoreConstants.IdValue(3, "Completed"));
+        _StandardStatus.Add(new CoreConstants.IdValue(0, "ALL"));
+        _StandardStatus.Add(new CoreConstants.IdValue(1, "Draft"));
+        _StandardStatus.Add(new CoreConstants.IdValue(2, "Cancelled"));
+        _StandardStatus.Add(new CoreConstants.IdValue(3, "Completed"));
       }
 
       public static List<CoreConstants.IdValue> Items
       {
-        get { return _RoroStatus; }
+        get { return _StandardStatus; }
       }
     }
 
@@ -235,6 +235,29 @@ namespace Bitz.Cargo.Business.Constants
       public static List<CoreConstants.IdValue> Items
       {
         get { return _PaymentTypes; }
+      }
+    }
+
+    #endregion
+
+    #region SignatoryTypes
+
+    public class SignatoryTypes
+    {
+      private static List<CoreConstants.IdValue> _SignatoryTypes = new List<CoreConstants.IdValue>();
+
+      public static CoreConstants.IdValue Cash { get { return _SignatoryTypes[0]; } }
+      public static CoreConstants.IdValue Check { get { return _SignatoryTypes[1]; } }
+
+      static SignatoryTypes()
+      {
+        _SignatoryTypes.Add(new CoreConstants.IdValue(1, "Disbursement - Prepared By"));
+        _SignatoryTypes.Add(new CoreConstants.IdValue(2, "Disbursement - Approved By"));
+      }
+
+      public static List<CoreConstants.IdValue> Items
+      {
+        get { return _SignatoryTypes; }
       }
     }
 

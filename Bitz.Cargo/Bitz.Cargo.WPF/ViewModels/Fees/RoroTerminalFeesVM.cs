@@ -22,7 +22,7 @@ namespace Bitz.Cargo.ViewModels.Fees
       base.Initialise();
 
       var criteria = new VehicleFeeInfos.Criteria();
-      criteria.Status = CargoConstants.RoroStatus.All.Id;
+      criteria.Status = CargoConstants.StandardStatus.All.Id;
 
       this.Criteria = criteria;
 
@@ -37,7 +37,7 @@ namespace Bitz.Cargo.ViewModels.Fees
     {
       get
       {
-        return CargoConstants.RoroStatus.Items;
+        return CargoConstants.StandardStatus.Items;
       }
     }
 

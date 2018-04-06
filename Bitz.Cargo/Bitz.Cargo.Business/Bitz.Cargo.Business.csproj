@@ -45,6 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CargoReferences\Infos\SignatoriesInfo.cs" />
+    <Compile Include="CargoReferences\Infos\VoucherTypeInfo.cs" />
+    <Compile Include="CargoReferences\Signatory.cs" />
+    <Compile Include="CargoReferences\VoucherType.cs" />
+    <Compile Include="Disbursements\Disbursement.cs" />
+    <Compile Include="Disbursements\DisbursementItem.cs" />
+    <Compile Include="Disbursements\Infos\DisbursementInfo.cs" />
     <Compile Include="Fees\VehicleFeeItem.cs" />
     <Compile Include="Fees\VehicleFee.cs" />
     <Compile Include="Fees\Infos\VehicleFeeInfo.cs" />

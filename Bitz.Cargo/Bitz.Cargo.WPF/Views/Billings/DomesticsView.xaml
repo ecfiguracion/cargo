@@ -49,7 +49,7 @@
                    SelectedValue="{Binding Criteria.Status,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
       </StackPanel>
       <StackPanel Orientation="Vertical" Margin="4,0,0,0" VerticalAlignment="Bottom">
-        <CheckBox Margin="0,0,0,4" IsChecked="{Binding Criteria.ShowIsPaymentDue,UpdateSourceTrigger=PropertyChanged}">Show Overdue Payment</CheckBox>
+        <CheckBox Margin="0,0,0,4" IsChecked="{Binding Criteria.ShowIsPaymentDue,UpdateSourceTrigger=PropertyChanged}">Show Overdue</CheckBox>
       </StackPanel>      
     </StackPanel>
 
